@@ -1,0 +1,59 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "{{< fa solid chart-simple size=large >}} ethics 4 data science"
+  navbar:
+    lowercase: true
+    right:
+      - text: "{{< fa solid house size=large >}} home"
+        file: index.qmd
+      - text: "{{< fa solid book-open size=large >}} research"
+        file: research.qmd
+      - text: "{{< fa solid chalkboard size=large >}} teaching"
+        file: teaching.qmd
+      - text: "{{< fa solid code size=large >}} software"
+        file: software.qmd
+      - text: "{{< fa solid comment size=large >}} blog"
+        file: posts.qmd
+      - text: "{{< fa solid user size=large >}} about"
+        file: about.qmd
+  site-url: http://joshualoftus.com
+  open-graph:
+    title: "Joshua Loftus: Statistician and Data Scientist"
+    description: "Professional academic website and personal blog"
+  twitter-card:
+    creator: "@joftius"
+    title: "Joshua Loftus: Statistician and Data Scientist"
+    description: "Professional academic website and personal blog"
+    card-style: summary
+  google-analytics: "UA-114292497-1"
+  
+format:
+  html:
+    cookie_consent:
+      style: simple
+      type: express
+      palette: light
+      lang: en
+      cookies_policy: url
+    citations: false
+    theme: cosmo
+    css: styles.css
+    toc: true
+    
+collections:
+  research:
+    share: [twitter, linkedin]
+    categories: false
+  teaching:
+    share: [twitter, linkedin]
+    categories: false
+  creative_commons: CC BY
+
+editor: source
+execute: 
+  freeze: auto
+
+

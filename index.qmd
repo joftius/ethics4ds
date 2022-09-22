@@ -1,0 +1,5 @@
+---
+title: "ethics4ds"
+---
+
+This is a very new Quarto website <https://quarto.org/docs/websites>.
