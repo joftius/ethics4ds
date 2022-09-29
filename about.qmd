@@ -1,5 +1,6 @@
 ---
-title: "About"
+title: "Course information"
 ---
 
-About this site
+[Course guide listing](https://www.lse.ac.uk/resources/calendar2022-2023/courseGuides/ST/2022_ST313.htm)
+

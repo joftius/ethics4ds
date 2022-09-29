@@ -24,7 +24,6 @@ We begin by considering many examples within two broad themes: the replication c
 
 - [Redlining](https://en.wikipedia.org/wiki/Redlining), [Amazon’s same day delivery](https://www.bloomberg.com/graphics/2016-amazon-same-day/), and [car insurance premiums](https://www.propublica.org/article/minority-neighborhoods-higher-car-insurance-premiums-white-areas-same-risk)
 - [Guardian series on automating poverty](https://www.theguardian.com/technology/series/automating-poverty)
-(tbd)
 - [Racial bias in personalized medicine](https://www.science.org/doi/10.1126/science.aax2342)
 
 ### Philosophy / normative ethics
