@@ -7,28 +7,25 @@ website:
   navbar:
     lowercase: true
     right:
-      - text: "{{< fa solid house size=large >}} home"
-        file: index.qmd
-      - text: "{{< fa solid book-open size=large >}} research"
-        file: research.qmd
-      - text: "{{< fa solid chalkboard size=large >}} teaching"
-        file: teaching.qmd
-      - text: "{{< fa solid code size=large >}} software"
-        file: software.qmd
-      - text: "{{< fa solid comment size=large >}} blog"
-        file: posts.qmd
-      - text: "{{< fa solid user size=large >}} about"
-        file: about.qmd
-  site-url: http://joshualoftus.com
-  open-graph:
-    title: "Joshua Loftus: Statistician and Data Scientist"
-    description: "Professional academic website and personal blog"
-  twitter-card:
-    creator: "@joftius"
-    title: "Joshua Loftus: Statistician and Data Scientist"
-    description: "Professional academic website and personal blog"
-    card-style: summary
-  google-analytics: "UA-114292497-1"
+    - text: "references"
+      menu:
+      - text: "Bit by Bit"
+        href: https://www.bitbybitbook.com/en/1st-ed/ethics/
+      - text: "Fairness and Machine Learning"
+        href: https://fairmlbook.org/
+      - text: "Data Feminism"
+        href: https://data-feminism.mitpress.mit.edu/
+      - text: "RSS Guidelines"
+        href: https://rss.org.uk/RSS/media/News-and-publications/Publications/Reports%20and%20guides/A-Guide-for-Ethical-Data-Science-Final-Oct-2019.pdf
+      - text: "ASA Guidelines"
+        href: https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice
+      - text: "ACM Guidelines"
+        href: https://www.acm.org/code-of-ethics
+    - text: "{{< fa solid house size=large >}} content"
+      file: index.qmd
+    - text: "{{< fa solid user size=large >}} about"
+      file: about.qmd
+  site-url: http://ethics4ds.com
   
 format:
   html:

@@ -1,5 +1,7 @@
 ---
-title: "ethics4ds"
+title: "Weekly content"
+listing:
+  contents: weeks
+  type: table
 ---
 
-This is a very new Quarto website <https://quarto.org/docs/websites>.

@@ -1,10 +1,31 @@
 [
   {
+    "objectID": "weeks/01-introduction.html",
+    "href": "weeks/01-introduction.html",
+    "title": "Introduction, normative ethics, and causality",
+    "section": "",
+    "text": "We begin by considering many examples within two broad themes: the replication crisis in science and fairness and inequality in algorithmic or data-driven systems."
+  },
+  {
+    "objectID": "weeks/01-introduction.html#assigned-readings",
+    "href": "weeks/01-introduction.html#assigned-readings",
+    "title": "Introduction, normative ethics, and causality",
+    "section": "Assigned readings",
+    "text": "Assigned readings\n\nBook chapter"
+  },
+  {
+    "objectID": "weeks/01-introduction.html#additional-references",
+    "href": "weeks/01-introduction.html#additional-references",
+    "title": "Introduction, normative ethics, and causality",
+    "section": "Additional references",
+    "text": "Additional references\n\nReplication crisis\n\nWhy Most Published Research Findings Are False\nMany Analysts, One Dataset\nEstimating the reproducibility of psychological science Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time Survey on Reproducibility Crisis\n\n\n\n(Un)fair algorithms\n\nRedlining, Amazon’s same day delivery, and car insurance premiums\nGuardian series on automating poverty (tbd)\nRacial bias in personalized medicine\n\n\n\nPhilosophy / normative ethics\n\nWikipedia\nPodcast interview with William MacAskill\nBlog post on ethics and politics of AI"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "ethics4ds",
+    "title": "Weekly content",
     "section": "",
-    "text": "This is a very new Quarto website https://quarto.org/docs/websites."
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nIntroduction, normative ethics, and causality\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
