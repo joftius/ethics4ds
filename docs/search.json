@@ -18,7 +18,7 @@
     "href": "weeks/01-introduction.html#additional-references",
     "title": "Introduction, normative ethics, and causality",
     "section": "Additional references",
-    "text": "Additional references\n\nReplication crisis\n\nWhy Most Published Research Findings Are False\nMany Analysts, One Dataset\nEstimating the reproducibility of psychological science Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time Survey on Reproducibility Crisis\n\n\n\n(Un)fair algorithms\n\nRedlining, Amazon’s same day delivery, and car insurance premiums\nGuardian series on automating poverty\nRacial bias in personalized medicine\n\n\n\nPhilosophy / normative ethics\n\nWikipedia\nPodcast interview with William MacAskill\nBlog post on ethics and politics of AI"
+    "text": "Additional references\n\nReplication crisis\n\nWhy Most Published Research Findings Are False\nMany Analysts, One Dataset\nEstimating the reproducibility of psychological science\nLikelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time\nSurvey on Reproducibility Crisis\n\n\n\n(Un)fair algorithms\n\nRedlining, Amazon’s same day delivery, and car insurance premiums\nGuardian series on automating poverty\nRacial bias in personalized medicine\n\n\n\nPhilosophy / normative ethics\n\nWikipedia\nPodcast interview with William MacAskill\nBlog post on ethics and politics of AI\n\n\n\nGetting started with R\n\nRStudio blog post and some of the links there\nLSE Digital Skills Lab resources"
   },
   {
     "objectID": "index.html",
@@ -33,5 +33,12 @@
     "title": "Course information",
     "section": "",
     "text": "Course guide listing"
+  },
+  {
+    "objectID": "weeks/01-introduction.html#installing-r-and-rstudio",
+    "href": "weeks/01-introduction.html#installing-r-and-rstudio",
+    "title": "Introduction, normative ethics, and causality",
+    "section": "Installing R and RStudio",
+    "text": "Installing R and RStudio\nFirst install R and then install RStudio (this second step is highly recommended but not required, if you prefer another IDE and you’re sure you know what you’re doing). Finally, open RStudio and install the tidyverse set of packages by running the command\ninstall.packages(\"tidyverse\")\nNote: If you use a Mac or Linux-based computer you may want to install these using a package manager instead of downloading them from the websites linked above. Personally, on a Mac computer I use Homebrew (the link has instructions for how to install it) to install R and RStudio."
   }
 ]

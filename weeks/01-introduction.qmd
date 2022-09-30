@@ -10,6 +10,16 @@ We begin by considering many examples within two broad themes: the replication c
 
 - [Book chapter](https://joshualoftus.com/ms4ds/ethical-data-science.html)
 
+##  Installing `R` and `RStudio`
+
+First [install R](https://cran.r-project.org/) and then install [RStudio](https://www.rstudio.com/products/rstudio/download/) (this second step is highly recommended but not required, if you prefer another IDE and you're sure you know what you're doing). Finally, open RStudio and install the [tidyverse](https://www.tidyverse.org/packages/) set of packages by running the command
+
+```
+install.packages("tidyverse")
+```
+
+**Note**: If you use a Mac or Linux-based computer you may want to install these using a package manager instead of downloading them from the websites linked above. Personally, on a Mac computer I use [Homebrew](https://brew.sh/) (the link has instructions for how to install it) to [install R](https://formulae.brew.sh/cask/r) and [RStudio](https://formulae.brew.sh/cask/rstudio).
+
 ## Additional references
 
 ### Replication crisis
@@ -17,8 +27,8 @@ We begin by considering many examples within two broad themes: the replication c
 - [Why Most Published Research Findings Are False](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
 - [Many Analysts, One Dataset](https://journals.sagepub.com/doi/10.1177/2515245917747646)
 - [Estimating the reproducibility of psychological science](https://www.science.org/doi/10.1126/science.aac4716)
-[Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0132382)
-[Survey on Reproducibility Crisis](https://www.nature.com/articles/533452a)
+- [Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0132382)
+- [Survey on Reproducibility Crisis](https://www.nature.com/articles/533452a)
 
 ### (Un)fair algorithms
 
@@ -31,3 +41,8 @@ We begin by considering many examples within two broad themes: the replication c
 - [Wikipedia](https://en.wikipedia.org/wiki/Normative_ethics)
 - [Podcast interview with William MacAskill](https://conversationswithtyler.com/episodes/william-macaskill/)
 - [Blog post on ethics and politics of AI](https://blogs.lse.ac.uk/businessreview/2021/07/14/the-ethics-and-politics-of-artificial-intelligence/)
+
+### Getting started with `R`
+
+- [RStudio blog post](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R) and some of the links there
+- [LSE Digital Skills Lab resources](https://info.lse.ac.uk/current-students/digital-skills-lab/r)
