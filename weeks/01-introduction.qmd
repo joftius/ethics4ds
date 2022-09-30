@@ -1,16 +1,37 @@
 ---
-title: "Introduction, normative ethics, and causality"
+title: "Introduction and examples"
 ---
 
-## Introduction
+## Summary
 
-We begin by considering many examples within two broad themes: the replication crisis in science and fairness and inequality in algorithmic or data-driven systems. 
+We begin by considering examples within two broad themes: the replication crisis in science and fairness and inequality in algorithmic or data-driven systems.
 
-## Assigned readings
+## References
+
+### Assigned reading
 
 - [Book chapter](https://joshualoftus.com/ms4ds/ethical-data-science.html)
+- [Wikipedia: Replication crisis](https://en.wikipedia.org/wiki/Replication_crisis)
 
-##  Installing `R` and `RStudio`
+### Additional references
+
+#### Replication crisis
+
+- [Why Most Published Research Findings Are False](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
+- [Many Analysts, One Dataset](https://journals.sagepub.com/doi/10.1177/2515245917747646)
+- [Estimating the reproducibility of psychological science](https://www.science.org/doi/10.1126/science.aac4716)
+- [Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0132382)
+- [Survey on Reproducibility Crisis](https://www.nature.com/articles/533452a)
+
+#### (Un)fair algorithms
+
+- [Redlining](https://en.wikipedia.org/wiki/Redlining), [Amazon’s same day delivery](https://www.bloomberg.com/graphics/2016-amazon-same-day/), and [car insurance premiums](https://www.propublica.org/article/minority-neighborhoods-higher-car-insurance-premiums-white-areas-same-risk)
+- [Guardian series on automating poverty](https://www.theguardian.com/technology/series/automating-poverty)
+- [Racial bias in personalized medicine](https://www.science.org/doi/10.1126/science.aax2342)
+
+## Computer setup
+
+###  Installing `R` and `RStudio`
 
 First [install R](https://cran.r-project.org/) and then install [RStudio](https://www.rstudio.com/products/rstudio/download/) (this second step is highly recommended but not required, if you prefer another IDE and you're sure you know what you're doing). Finally, open RStudio and install the [tidyverse](https://www.tidyverse.org/packages/) set of packages by running the command
 
@@ -20,29 +41,78 @@ install.packages("tidyverse")
 
 **Note**: If you use a Mac or Linux-based computer you may want to install these using a package manager instead of downloading them from the websites linked above. Personally, on a Mac computer I use [Homebrew](https://brew.sh/) (the link has instructions for how to install it) to [install R](https://formulae.brew.sh/cask/r) and [RStudio](https://formulae.brew.sh/cask/rstudio).
 
-## Additional references
-
-### Replication crisis
-
-- [Why Most Published Research Findings Are False](https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.0020124)
-- [Many Analysts, One Dataset](https://journals.sagepub.com/doi/10.1177/2515245917747646)
-- [Estimating the reproducibility of psychological science](https://www.science.org/doi/10.1126/science.aac4716)
-- [Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0132382)
-- [Survey on Reproducibility Crisis](https://www.nature.com/articles/533452a)
-
-### (Un)fair algorithms
-
-- [Redlining](https://en.wikipedia.org/wiki/Redlining), [Amazon’s same day delivery](https://www.bloomberg.com/graphics/2016-amazon-same-day/), and [car insurance premiums](https://www.propublica.org/article/minority-neighborhoods-higher-car-insurance-premiums-white-areas-same-risk)
-- [Guardian series on automating poverty](https://www.theguardian.com/technology/series/automating-poverty)
-- [Racial bias in personalized medicine](https://www.science.org/doi/10.1126/science.aax2342)
-
-### Philosophy / normative ethics
-
-- [Wikipedia](https://en.wikipedia.org/wiki/Normative_ethics)
-- [Podcast interview with William MacAskill](https://conversationswithtyler.com/episodes/william-macaskill/)
-- [Blog post on ethics and politics of AI](https://blogs.lse.ac.uk/businessreview/2021/07/14/the-ethics-and-politics-of-artificial-intelligence/)
-
-### Getting started with `R`
+### Resources for learning `R`
 
 - [RStudio blog post](https://support.rstudio.com/hc/en-us/articles/201141096-Getting-Started-with-R) and some of the links there
 - [LSE Digital Skills Lab resources](https://info.lse.ac.uk/current-students/digital-skills-lab/r)
+
+
+## Notes
+
+We discussed Figure 1 from [The significance filter, the winner's curse and the need to shrink](https://arxiv.org/abs/2009.09440) and whether the [file-drawer effect](https://en.wikipedia.org/wiki/Publication_bias) helps to explain it.
+
+![](https://joshualoftus.com/posts/2020-12-21-concise-defense-of-statistical-significance/zscores.png)
+
+### Simulating many hypothesis tests
+
+We created a simple simulation to understand how this might happen.
+
+```{r sim_world, message=FALSE}
+library(ggplot2)
+library(dplyr)
+theme_set(theme_minimal())
+set.seed(1) # for reproducibility
+
+# Generate the simulated world
+N <- 5e4 # total hypotheses tested
+proportion_null <- .4
+signif_level <- qnorm(.975)
+is_null <- rbinom(N, 1, proportion_null)
+effect_size_nonnull <- .5
+simulated_world <- data.frame(is_null) |>
+  mutate(
+    zscore = rnorm(N, 
+                   mean = (1 - is_null) * effect_size_nonnull,
+                   sd = 1 + .1 * (1 - is_null)))
+head(simulated_world)
+```
+
+This creates `zscores` with `mean = 0` and `sd = 1` under the null and larger `mean` and `sd` values when `is_null` is false.
+
+#### Observed effect sizes when proportion `r proportion_null` are null
+
+```{r plot_world}
+simulated_world |>
+  ggplot(aes(x = zscore, fill = factor(is_null))) +
+  geom_density(alpha = .5) +
+  geom_vline(xintercept = c(-1, 1) * signif_level,
+             linetype = "dotted") +
+  scale_fill_viridis_d(option = "magma")
+```
+### Simulating publication bias
+
+But analysts don't know which hypotheses are null, so they could not create this plot or separate the `zscore` values into the null and nonnull cases. Instead, some analysts may choose to only publish the results that seem significant.
+
+```{r sim_phack}
+# Generate simulated published effects
+proportion_phack <- .9
+which_studies_phacked <- rbinom(N, 1, proportion_phack)
+simulated_publications <-
+  simulated_world |>
+  mutate(phacked = which_studies_phacked) |>
+  dplyr::filter(phacked == 0 | # not p-hacked OR
+                abs(zscore) > signif_level) # large enough
+nrow(simulated_publications)
+```
+
+#### Published `zscores` when proportion `r proportion_phack` are p-hacked
+
+```{r plot_phack}
+simulated_publications |>
+  ggplot(aes(zscore)) +
+  geom_histogram(bins = 50)
+```
+
+
+
+

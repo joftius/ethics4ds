@@ -2,9 +2,9 @@
   {
     "objectID": "weeks/01-introduction.html",
     "href": "weeks/01-introduction.html",
-    "title": "Introduction, normative ethics, and causality",
+    "title": "Introduction and examples",
     "section": "",
-    "text": "We begin by considering many examples within two broad themes: the replication crisis in science and fairness and inequality in algorithmic or data-driven systems."
+    "text": "We begin by considering examples within two broad themes: the replication crisis in science and fairness and inequality in algorithmic or data-driven systems."
   },
   {
     "objectID": "weeks/01-introduction.html#assigned-readings",
@@ -25,7 +25,7 @@
     "href": "index.html",
     "title": "Weekly content",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nIntroduction, normative ethics, and causality\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nEthical research conduct\n\n\n\n\n\n\nIntroduction and examples\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -40,5 +40,47 @@
     "title": "Introduction, normative ethics, and causality",
     "section": "Installing R and RStudio",
     "text": "Installing R and RStudio\nFirst install R and then install RStudio (this second step is highly recommended but not required, if you prefer another IDE and you’re sure you know what you’re doing). Finally, open RStudio and install the tidyverse set of packages by running the command\ninstall.packages(\"tidyverse\")\nNote: If you use a Mac or Linux-based computer you may want to install these using a package manager instead of downloading them from the websites linked above. Personally, on a Mac computer I use Homebrew (the link has instructions for how to install it) to install R and RStudio."
+  },
+  {
+    "objectID": "weeks/01-introduction.html#references",
+    "href": "weeks/01-introduction.html#references",
+    "title": "Introduction and examples",
+    "section": "References",
+    "text": "References\n\nAssigned reading\n\nBook chapter\nWikipedia: Replication crisis\n\n\n\nAdditional references\n\nReplication crisis\n\nWhy Most Published Research Findings Are False\nMany Analysts, One Dataset\nEstimating the reproducibility of psychological science\nLikelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time\nSurvey on Reproducibility Crisis\n\n\n\n(Un)fair algorithms\n\nRedlining, Amazon’s same day delivery, and car insurance premiums\nGuardian series on automating poverty\nRacial bias in personalized medicine"
+  },
+  {
+    "objectID": "weeks/01-introduction.html#computer-setup",
+    "href": "weeks/01-introduction.html#computer-setup",
+    "title": "Introduction and examples",
+    "section": "Computer setup",
+    "text": "Computer setup\n\nInstalling R and RStudio\nFirst install R and then install RStudio (this second step is highly recommended but not required, if you prefer another IDE and you’re sure you know what you’re doing). Finally, open RStudio and install the tidyverse set of packages by running the command\ninstall.packages(\"tidyverse\")\nNote: If you use a Mac or Linux-based computer you may want to install these using a package manager instead of downloading them from the websites linked above. Personally, on a Mac computer I use Homebrew (the link has instructions for how to install it) to install R and RStudio.\n\n\nResources for learning R\n\nRStudio blog post and some of the links there\nLSE Digital Skills Lab resources"
+  },
+  {
+    "objectID": "weeks/01-introduction.html#notes",
+    "href": "weeks/01-introduction.html#notes",
+    "title": "Introduction and examples",
+    "section": "Notes",
+    "text": "Notes\nWe discussed Figure 1 from The significance filter, the winner’s curse and the need to shrink and whether the file-drawer effect helps to explain it.\n\n\nSimulating many hypothesis tests\nWe created a simple simulation to understand how this might happen.\n\nlibrary(ggplot2)\nlibrary(dplyr)\ntheme_set(theme_minimal())\nset.seed(1) # for reproducibility\n\n# Generate the simulated world\nN <- 5e4 # total hypotheses tested\nproportion_null <- .4\nsignif_level <- qnorm(.975)\nis_null <- rbinom(N, 1, proportion_null)\neffect_size_nonnull <- .5\nsimulated_world <- data.frame(is_null) |>\n  mutate(\n    zscore = rnorm(N, \n                   mean = (1 - is_null) * effect_size_nonnull,\n                   sd = 1 + .1 * (1 - is_null)))\nhead(simulated_world)\n\n  is_null      zscore\n1       0  0.71621827\n2       0  0.03806304\n3       0  1.77959649\n4       1 -0.40575597\n5       0  1.31850857\n6       1  0.47661057\n\n\nThis creates zscores with mean = 0 and sd = 1 under the null and larger mean and sd values when is_null is false.\n\nObserved effect sizes when proportion 0.4 are null\n\nsimulated_world |>\n  ggplot(aes(x = zscore, fill = factor(is_null))) +\n  geom_density(alpha = .5) +\n  geom_vline(xintercept = c(-1, 1) * signif_level,\n             linetype = \"dotted\") +\n  scale_fill_viridis_d(option = \"magma\")\n\n\n\n\n\n\n\nSimulating publication bias\nBut analysts don’t know which hypotheses are null, so they could not create this plot or separate the zscore values into the null and nonnull cases. Instead, some analysts may choose to only publish the results that seem significant.\n\n# Generate simulated published effects\nproportion_phack <- .9\nwhich_studies_phacked <- rbinom(N, 1, proportion_phack)\nsimulated_publications <-\n  simulated_world |>\n  mutate(phacked = which_studies_phacked) |>\n  dplyr::filter(phacked == 0 | # not p-hacked OR\n                abs(zscore) > signif_level) # large enough\nnrow(simulated_publications)\n\n[1] 8768\n\n\n\nPublished zscores when proportion 0.9 are p-hacked\n\nsimulated_publications |>\n  ggplot(aes(zscore)) +\n  geom_histogram(bins = 50)"
+  },
+  {
+    "objectID": "weeks/02-research.html",
+    "href": "weeks/02-research.html",
+    "title": "Ethical research conduct",
+    "section": "",
+    "text": "Historical examples of harmful research, guidelines for ethical research, reproducible practices."
+  },
+  {
+    "objectID": "weeks/02-research.html#references",
+    "href": "weeks/02-research.html#references",
+    "title": "Ethical research conduct",
+    "section": "References",
+    "text": "References\n\nAssigned reading\n\nBook chapter\nWikipedia: Replication crisis\n\n\n\nAdditional references\n\nGood researchers\n\nBill Jenkins\n\n\n\nResearch hall of shame\n\nZimbardo, etc\nWansink, etc\n\n\n\nGuidelines"
+  },
+  {
+    "objectID": "weeks/02-research.html#notes",
+    "href": "weeks/02-research.html#notes",
+    "title": "Ethical research conduct",
+    "section": "Notes",
+    "text": "Notes"
   }
 ]

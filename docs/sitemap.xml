@@ -2,14 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://ethics4ds.com/weeks/01-introduction.html</loc>
-    <lastmod>2022-09-30T10:46:27.442Z</lastmod>
+    <lastmod>2022-09-30T14:34:53.992Z</lastmod>
   </url>
   <url>
     <loc>http://ethics4ds.com/index.html</loc>
-    <lastmod>2022-09-30T10:46:27.830Z</lastmod>
+    <lastmod>2022-09-30T14:34:54.453Z</lastmod>
   </url>
   <url>
     <loc>http://ethics4ds.com/about.html</loc>
     <lastmod>2022-09-29T13:46:57.410Z</lastmod>
+  </url>
+  <url>
+    <loc>http://ethics4ds.com/weeks/02-research.html</loc>
+    <lastmod>2022-09-30T14:34:05.681Z</lastmod>
   </url>
 </urlset>
