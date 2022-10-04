@@ -13,7 +13,7 @@ Vignettes about the history, philosophy, and profession of statistics.
 ### Assigned reading
 
 - [A Day in the Life of a Statistician](https://cjp1.github.io/cjp/phillips-statistician-day-in-life.pdf) (brief sketch written by a historian of science)
-- Wikipedia: [one](https://en.wikipedia.org/wiki/History_of_statistics), [two](https://en.wikipedia.org/wiki/History_of_probability), [three](https://en.wikipedia.org/wiki/Adolphe_Quetelet#Social_physics) articles to briefly scan
+- Wikipedia: [one](https://en.wikipedia.org/wiki/History_of_statistics), [two](https://en.wikipedia.org/wiki/History_of_probability), [three](https://en.wikipedia.org/wiki/Adolphe_Quetelet#Social_physics), [four](https://en.wikipedia.org/wiki/Merchants_of_Doubt) articles to briefly scan
 - At least one of:
   - [Surrogate Science: The Idol of a Universal Method for Scientific Inference](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.821.8442&rep=rep1&type=pdf)
   - [Cargo-cult statistics and scientific crisis](https://www.significancemagazine.com/2-uncategorised/593-cargo-cult-statistics-and-scientific-crisis)
