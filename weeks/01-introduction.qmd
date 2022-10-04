@@ -1,5 +1,8 @@
 ---
 title: "Introduction and examples"
+date: "September 26, 2022"
+author: "Joshua Loftus"
+image: "/weeks/01-introduction_files/figure-html/plot_phack-1.png"
 ---
 
 ## Summary
@@ -22,9 +25,12 @@ We begin by considering examples within two broad themes: the replication crisis
 - [Estimating the reproducibility of psychological science](https://www.science.org/doi/10.1126/science.aac4716)
 - [Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0132382)
 - [Survey on Reproducibility Crisis](https://www.nature.com/articles/533452a)
+- [p-Hacking in A/B Testing](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3204791)
+
 
 #### (Un)fair algorithms
 
+- [FairML book](https://fairmlbook.org/introduction.html) Chapter 1: Introduction
 - [Redlining](https://en.wikipedia.org/wiki/Redlining), [Amazon’s same day delivery](https://www.bloomberg.com/graphics/2016-amazon-same-day/), and [car insurance premiums](https://www.propublica.org/article/minority-neighborhoods-higher-car-insurance-premiums-white-areas-same-risk)
 - [Guardian series on automating poverty](https://www.theguardian.com/technology/series/automating-poverty)
 - [Racial bias in personalized medicine](https://www.science.org/doi/10.1126/science.aax2342)

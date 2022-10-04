@@ -2,6 +2,6 @@
 title: "Weekly content"
 listing:
   contents: weeks
-  type: table
+  sort: "date desc"
 ---
 

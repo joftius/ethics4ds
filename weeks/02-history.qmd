@@ -1,0 +1,152 @@
+---
+title: "What do we want from Statistics?"
+date: "October 3, 2022"
+author: "Joshua Loftus"
+---
+
+## Summary
+
+Vignettes about the history, philosophy, and profession of statistics.
+
+## References
+
+### Assigned reading
+
+- [A Day in the Life of a Statistician](https://cjp1.github.io/cjp/phillips-statistician-day-in-life.pdf) (brief sketch written by a historian of science)
+- Wikipedia: [one](https://en.wikipedia.org/wiki/History_of_statistics), [two](https://en.wikipedia.org/wiki/History_of_probability), [three](https://en.wikipedia.org/wiki/Adolphe_Quetelet#Social_physics) articles to briefly scan
+- At least one of:
+  - [Surrogate Science: The Idol of a Universal Method for Scientific Inference](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.821.8442&rep=rep1&type=pdf)
+  - [Cargo-cult statistics and scientific crisis](https://www.significancemagazine.com/2-uncategorised/593-cargo-cult-statistics-and-scientific-crisis)
+- At least one of:
+  - [The Role of the Statistician: Scientist or Shoe Clerk](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.951.2940&rep=rep1&type=pdf)
+  - [Statistical Criticism](https://muse.jhu.edu/article/793365/pdf) Sections 1-5
+
+
+Wikipedia pages can be briefly skimmed.
+
+### Additional references
+
+
+
+#### Statistical pluralism
+
+- [Statistical Modeling: The Two Cultures](https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures-with-comments-and-a/10.1214/ss/1009213726.full) by Leo Breiman (and comments by others)
+- [Conclusions vs Decisions](https://www.jstor.org/stable/1266451) by John W. Tukey
+- [Statistical Criticism](https://muse.jhu.edu/issue/44594) with commentary
+
+#### Good researchers
+
+- [Bill Jenkins](https://www.nature.com/articles/d41586-019-00900-9)
+
+#### Research hall of *shame*
+
+- [Sir Ronald A. Fisher FRS](https://statmodeling.stat.columbia.edu/2022/06/08/how-can-a-top-scientist-be-so-confidently-wrong-r-a-fisher-and-smoking-example/) (see this [history lecture](https://youtu.be/S9eiEJOPMOA) and [stats](https://www.cdc.gov/tobacco/data_statistics/fact_sheets/cessation/smoking-cessation-fast-facts/index.html) [about](https://www.cdc.gov/tobacco/data_statistics/fact_sheets/fast_facts/diseases-and-death.html) [smoking](https://www.cdc.gov/tobacco/data_statistics/fact_sheets/tobacco_industry/marketing/index.htm))
+- Zimbardo, etc
+- Wansink, etc
+
+
+## Notes
+
+
+### Excerpts from [The Pernicious Influence of Mathematics on Science](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.671.6470&rep=rep1&type=pdf#page=250)
+
+> I wish to confine myself to the negative aspects, leaving it to others to dwell
+on the amazing triumphs of the mathematical method; and also to comment
+not only on physical science but also on social science, in which the charac-
+teristic inadequacies which I wish to discuss are more readily apparent.
+>
+> Computer programmers often make a certain remark about comput-
+ing machines, which may perhaps be taken as a complaint: that computing
+machines, with a perfect lack of discrimination, will do any foolish thing they
+are told to do. The reason for this lies of course in the narrow fixation of the
+computing machine “intelligence” upon the basely typographical details of
+its own perceptions–its inability to be guided by any large context. In a psy-
+chological description of the computer intelligence, three related adjectives
+push themselves forward: single-mindedness, literal-mindedness, simple-
+mindedness. Recognizing this, we should at the same time recognize that this
+single-mindedness, literal-mindedness, simple-mindedness also characterizes
+theoretical mathematics, though to a lesser extent.
+>
+> It is a continual result of the fact that science tries to deal with reality that
+even the most precise sciences normally work with more or less ill-understood
+approximations toward which the scientist must maintain an appropriate
+skepticism. [...] This very healthy self-skepticism is foreign to the
+mathematical approach.
+>
+> [...] The mathematician turns the scientist’s theoretical assumptions, i.e.,
+convenient points of analytical emphasis, into axioms, and then takes these
+axioms literally. This brings with it the danger that he may also persuade the
+scientist to take these axioms literally. The question, central to the scientific
+investigation but intensely disturbing in the mathematical context–what hap-
+pens to all this if the axioms are relaxed–is thereby put into shadow.
+>
+> [...] Related to this deficiency of mathematics, and perhaps more productive of
+rueful consequence, is **the simple-mindedness of mathematics–its willingness,
+like that of a computing machine, to elaborate upon any idea, however
+absurd; to dress scientific brilliancies and scientific absurdities alike in the
+impressive uniform of formulae and theorems. Unfortunately however, an
+absurdity in uniform is far more persuasive than an absurdity unclad**. The
+very fact that a theory appears in mathematical form, that, for instance, a the-
+ory has provided the occasion for the application of a fixed-point theorem,
+or of a result about difference equations, somehow makes us more ready to
+take it seriously. And the mathematical-intellectual effort of applying the the-
+orem fixes in us the particular point of view of the theory with which we deal,
+making us blind to whatever appears neither as a dependent nor as an inde-
+pendent parameter in its mathematical formulation.
+>
+> The result, perhaps most common in the social sciences, is bad theory with
+a mathematical passport. [...]
+
+### Excerpts from [Cargo Cult Science](http://calteches.library.caltech.edu/51/2/CargoCult.pdf) [html version](https://calteches.library.caltech.edu/51/2/CargoCult.htm)
+
+> ... I think the educational and psychological studies I mentioned are examples of what I would like to call Cargo Cult Science.  In the South Seas there is a Cargo Cult of people.  During the war they saw airplanes land with lots of good materials, and they want the same thing to happen now.  So they’ve arranged to make things like runways, to put fires along the sides of the runways, to make a wooden hut for a man to sit in, with two wooden pieces on his head like headphones and bars of bamboo sticking out like antennas—he’s the controller—and they wait for the airplanes to land.  They’re doing everything right.  The form is perfect.  It looks exactly the way it looked before.  But it doesn’t work.  No airplanes land.  So I call these things Cargo Cult Science, because they follow all the apparent precepts and forms of scientific investigation, but they’re missing something essential, because the planes don’t land.
+> 
+> Now it behooves me, of course, to tell you what they’re missing.  But it would he just about as difficult to explain to the South Sea Islanders how they have to arrange things so that they get some wealth in their system.  It is not something simple like telling them how to improve the shapes of the earphones.  But there is one feature I notice that is generally missing in Cargo Cult Science.  That is the idea that we all hope you have learned in studying science in school—we never explicitly say what this is, but just hope that you catch on by all the examples of scientific investigation.  It is interesting, therefore, to bring it out now and speak of it explicitly.  It’s a kind of **scientific integrity, a principle of scientific thought that corresponds to a kind of utter honesty**—a kind of leaning over backwards.  For example, if you’re doing an experiment, you should report everything that you think might make it invalid—not only what you think is right about it: other causes that could possibly explain your results; and things you thought of that you’ve eliminated by some other experiment, and how they worked—to make sure the other fellow can tell they have been eliminated.
+> 
+> Details that could throw doubt on your interpretation must be given, if you know them.  You must do the best you can—if you know anything at all wrong, or possibly wrong—to explain it.  If you make a theory, for example, and advertise it, or put it out, then you must also put down all the facts that disagree with it, as well as those that agree with it.  There is also a more subtle problem.  When you have put a lot of ideas together to make an elaborate theory, you want to make sure, when explaining what it fits, that those things it fits are not just the things that gave you the idea for the theory; but that the finished theory makes something else come out right, in addition.
+>
+> In summary, the idea is to try to give all of the information to help others to judge the value of your contribution; not just the information that leads to judgment in one particular direction or another.
+>
+> The easiest way to explain this idea is to contrast it, for example, with advertising.  ...
+>
+> We’ve learned from experience that **the truth will out**.  Other experimenters will repeat your experiment and find out whether you were wrong or right.  Nature’s phenomena will agree or they’ll disagree with your theory.  And, although you may gain some temporary fame and excitement, you will not gain a good reputation as a scientist if you haven’t tried to be very careful in this kind of work.  And it’s this type of integrity, this kind of care not to fool yourself, that is missing to a large extent in much of the research in Cargo Cult Science.
+>
+> A great deal of their difficulty is, of course, the difficulty of the subject and the inapplicability of the scientific method to the subject.  Nevertheless, it should be remarked that this is not the only difficulty.  That’s why the planes don’t land—but they don’t land.
+>
+> We have learned a lot from experience about how to handle some of the ways we fool ourselves.  One example: Millikan measured the charge on an electron by an experiment with falling oil drops and got an answer which we now know not to be quite right.  It’s a little bit off, because he had the incorrect value for the viscosity of air.  It’s interesting to look at the history of measurements of the charge of the electron, after Millikan.  If you plot them as a function of time, you find that one is a little bigger than Millikan’s, and the next one’s a little bit bigger than that, and the next one’s a little bit bigger than that, until finally they settle down to a number which is higher.
+>
+> Why didn’t they discover that the new number was higher right away?  It’s a thing that scientists are ashamed of—this history—because it’s apparent that people did things like this: When they got a number that was too high above Millikan’s, they thought something must be wrong—and they would look for and find a reason why something might be wrong.  When they got a number closer to Millikan’s value they didn’t look so hard.  And so they eliminated the numbers that were too far off, and did other things like that.  We’ve learned those tricks nowadays, and now we don’t have that kind of a disease.
+>
+> But this long history of learning how to not fool ourselves—of having utter scientific integrity—is, I’m sorry to say, something that we haven’t specifically included in any particular course that I know of.  We just hope you’ve caught on by osmosis.
+>
+> **The first principle is that you must not fool yourself—and you are the easiest person to fool**.  So you have to be very careful about that.  After you’ve not fooled yourself, it’s easy not to fool other scientists.  You just have to be honest in a conventional way after that. 
+>
+> [...]
+>
+> One example of the principle is this: If you’ve made up your mind to test a theory, or you want to explain some idea, you should always decide to publish it whichever way it comes out.  If we only publish results of a certain kind, we can make the argument look good.  We must publish both kinds of result.  For example—let’s take advertising again—suppose some particular cigarette has some particular property, like low nicotine.  It’s published widely by the company that this means it is good for you—they don’t say, for instance, that the tars are a different proportion, or that something else is the matter with the cigarette.  In other words, publication probability depends upon the answer.  That should not be done.
+>
+> I say that’s also important in giving certain types of government advice. Supposing a senator asked you for advice about whether drilling a hole should be done in his state; and you decide it would he better in some other state.  If you don’t publish such a result, it seems to me you’re not giving scientific advice.  You’re being used.  If your answer happens to come out in the direction the government or the politicians like, they can use it as an argument in their favor; if it comes out the other way, they don’t publish it at all.  That’s not giving scientific advice.
+>
+> Other kinds of errors are more characteristic of poor science.  When I was at Cornell.  I often talked to the people in the psychology department.  One of the students told me she wanted to do an experiment that went something like this—I don’t remember it in detail, but it had been found by others that under certain circumstances, X, rats did something, A.  She was curious as to whether, if she changed the circumstances to Y, they would still do, A.  So her proposal was to do the experiment under circumstances Y and see if they still did A.
+>
+> I explained to her that it was necessary first to repeat in her laboratory the experiment of the other person—to do it under condition X to see if she could also get result A—and then change to Y and see if A changed.  Then she would know that the real difference was the thing she thought she had under control.
+>
+> She was very delighted with this new idea, and went to her professor.  And his reply was, no, you cannot do that, because the experiment has already been done and you would be wasting time.  This was in about 1935 or so, and it seems to have been the general policy then to not try to repeat psychological experiments, but only to change the conditions and see what happens.
+>
+> Nowadays there’s a certain danger of the same thing happening, even in the famous field of physics.  I was shocked to hear of an experiment done at the big accelerator at the National Accelerator Laboratory, where a person used deuterium.  In order to compare his heavy hydrogen results to what might happen to light hydrogen he had to use data from someone else’s experiment on light hydrogen, which was done on different apparatus.  When asked he said it was because he couldn’t get time on the program (because there’s so little time and it’s such expensive apparatus) to do the experiment with light hydrogen on this apparatus because there wouldn’t be any new result.  And so the men in charge of programs at NAL are so anxious for new results, in order to get more money to keep the thing going for public relations purposes, they are destroying—possibly—the value of the experiments themselves, which is the whole purpose of the thing.  **It is often hard for the experimenters there to complete their work as their scientific integrity demands**.
+>
+> All experiments in psychology are not of this type, however.  For example, there have been many experiments running rats through all kinds of mazes, and so on—with little clear result.  But in 1937 a man named Young did a very interesting one.  He had a long corridor with doors all along one side where the rats came in, and doors along the other side where the food was.  He wanted to see if he could train the rats to go in at the third door down from wherever he started them off.  No.  The rats went immediately to the door where the food had been the time before.
+>
+> The question was, how did the rats know, because the corridor was so beautifully built and so uniform, that this was the same door as before?  Obviously there was something about the door that was different from the other doors.  So he painted the doors very carefully, arranging the textures on the faces of the doors exactly the same.  Still the rats could tell.  Then he thought maybe the rats were smelling the food, so he used chemicals to change the smell after each run.  Still the rats could tell.  Then he realized the rats might be able to tell by seeing the lights and the arrangement in the laboratory like any commonsense person.  So he covered the corridor, and, still the rats could tell.
+>
+> He finally found that they could tell by the way the floor sounded when they ran over it.  And he could only fix that by putting his corridor in sand.  So he covered one after another of all possible clues and finally was able to fool the rats so that they had to learn to go in the third door.  If he relaxed any of his conditions, the rats could tell.
+>
+> Now, from a scientific standpoint, that is an A‑Number‑l experiment. That is the experiment that makes rat‑running experiments sensible, because it uncovers the clues that the rat is really using—not what you think it’s using.  And that is the experiment that tells exactly what conditions you have to use in order to be careful and control everything in an experiment with rat‑running.
+>
+> I looked into the subsequent history of this research.  The subsequent experiment, and the one after that, never referred to Mr. Young.  They never used any of his criteria of putting the corridor on sand, or being very careful.  They just went right on running rats in the same old way, and paid no attention to the great discoveries of Mr. Young, and his papers are not referred to, because he didn’t discover anything about the rats.  In fact, he discovered all the things you have to do to discover something about rats.  But not paying attention to experiments like that is a characteristic of Cargo Cult Science.
+>
+> Another example is the ESP experiments of Mr. Rhine, and other people.  As various people have made criticisms—and they themselves have made criticisms of their own experiments—they improve the techniques so that the effects are smaller, and smaller, and smaller until they gradually disappear.  All the parapsychologists are looking for some experiment that can be repeated—that you can do again and get the same effect—statistically, even.  They run a million rats—no, it’s people this time—they do a lot of things and get a certain statistical effect.  Next time they try it they don’t get it any more.  And now you find a man saying that it is an irrelevant demand to expect a repeatable experiment.  This is science?
+>
+>This man also speaks about a new institution, in a talk in which he was resigning as Director of the Institute of Parapsychology.  And, in telling people what to do next, he says that one of the things they have to do is be sure they only train students who have shown their ability to get PSI results to an acceptable extent—not to waste their time on those ambitious and interested students who get only chance results.  It is very dangerous to have such a policy in teaching—to teach students only how to get certain results, rather than how to do an experiment with scientific integrity.
+>
+> So I wish to you—I have no more time, so **I have just one wish for you—the good luck to be somewhere where you are free to maintain the kind of integrity I have described, and where you do not feel forced by a need to maintain your position in the organization, or financial support, or so on, to lose your integrity.  May you have that freedom**.  [...]
