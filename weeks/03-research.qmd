@@ -10,36 +10,24 @@ Historical examples of harmful research, guidelines for ethical research, reprod
 
 ## References
 
-- [From association to causation: some remarks on the history of statistics](https://projecteuclid.org/journals/statistical-science/volume-14/issue-3/From-association-to-causation--some-remarks-on-the-history/10.1214/ss/1009212409.full) (wait for causation?)
-- Wikipedia: History of [Health_effects_of_tobacco](https://en.wikipedia.org/wiki/Health_effects_of_tobacco#History)
-
 ### Assigned reading
 
-- Wikipedia: [Tuskegee Syphilis Study](https://en.wikipedia.org/wiki/Tuskegee_Syphilis_Study)
-- Wikipedia: [Belmont Report](https://en.wikipedia.org/wiki/Belmont_Report)
-- Wikipedia: History of [Health_effects_of_tobacco](https://en.wikipedia.org/wiki/Health_effects_of_tobacco#History)
+- At least two from the following ethical guidelines created by professional societies:
+  - [Royal Statistical Society](https://rss.org.uk/RSS/media/News-and-publications/Publications/Reports%20and%20guides/A-Guide-for-Ethical-Data-Science-Final-Oct-2019.pdf)
+  - [American Statistical Association](https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice)
+  - [Association for Computing Machinery](https://www.acm.org/code-of-ethics)
 
-Wikipedia pages can be briefly skimmed.
+Wikipedia pages to briefly skim:
+
+- [Tuskegee Syphilis Study](https://en.wikipedia.org/wiki/Tuskegee_Syphilis_Study) (read summary section at the top)
+- [Belmont Report](https://en.wikipedia.org/wiki/Belmont_Report) (read History section)
+- [Menlo Report](https://en.wikipedia.org/wiki/Menlo_Report) (read Implementation of the Principles section)
+
 
 ### Additional references
-
-#### Statistical pluralism
-
-- [Statistical Modeling: The Two Cultures](https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures-with-comments-and-a/10.1214/ss/1009213726.full) by Leo Breiman (and comments by others)
-- [Conclusions vs Decisions](https://www.jstor.org/stable/1266451) by John W. Tukey
-- [Statistical Criticism](https://muse.jhu.edu/issue/44594) by Bross (and responses by others)
 
 #### Good researchers
 
 - [Bill Jenkins](https://www.nature.com/articles/d41586-019-00900-9)
-
-#### Research hall of *shame*
-
-- [Sir Ronald A. Fisher FRS](https://statmodeling.stat.columbia.edu/2022/06/08/how-can-a-top-scientist-be-so-confidently-wrong-r-a-fisher-and-smoking-example/) (see this [history lecture](https://youtu.be/S9eiEJOPMOA) and [stats](https://www.cdc.gov/tobacco/data_statistics/fact_sheets/cessation/smoking-cessation-fast-facts/index.html) [about](https://www.cdc.gov/tobacco/data_statistics/fact_sheets/fast_facts/diseases-and-death.html) [smoking](https://www.cdc.gov/tobacco/data_statistics/fact_sheets/tobacco_industry/marketing/index.htm))
-- Zimbardo, etc
-- Wansink, etc
-
-
-#### Guidelines
 
 ## Notes
