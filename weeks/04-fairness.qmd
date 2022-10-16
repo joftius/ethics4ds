@@ -1,0 +1,24 @@
+---
+title: "Fairness and prediction"
+date: "October 16, 2022"
+author: "Joshua Loftus"
+---
+
+## Summary
+
+The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness.
+
+## References
+
+### Assigned reading
+
+- [FairML Book](https://fairmlbook.org/classification.html) Chapter 3 on Classification. It's OK to skip the proofs in the section called *Relationships between criteria*.
+- [ProPublica Machine Bias](https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing)
+
+
+### Additional references
+
+- [ProPublica COMPAS Methods Article](https://www.propublica.org/article/how-we-analyzed-the-compas-recidivism-algorithm)
+- [50 Years of Test (Un)fairness: Lessons for Machine Learning](https://dl.acm.org/doi/abs/10.1145/3287560.3287600)
+
+## Notes
