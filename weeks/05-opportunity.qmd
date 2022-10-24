@@ -1,0 +1,23 @@
+---
+title: "Motivations for different kinds of fairness"
+date: "October 22, 2022"
+author: "Joshua Loftus"
+---
+
+## Summary
+
+The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness.
+
+## References
+
+### Assigned reading
+
+- [Inherent Trade-Offs in the Fair Determination of Risk Scores](https://arxiv.org/abs/1609.05807) read Section 1 through the statement of Theorem 1.1, and also read the Conclusion (Section 5).
+- [FairML Book](https://fairmlbook.org/relative.html) Chapter 4 on *Relative notions of fairness*, beginning with the section on *Intentionality and indirect discrimination*.
+
+### Additional references
+
+- [Fair prediction with disparate impact: A study of bias in recidivism prediction instruments](https://arxiv.org/abs/1610.07524)
+- [FairML Book](https://fairmlbook.org/relative.html) the rest of Chapter 4.
+
+## Notes
