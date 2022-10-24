@@ -149,21 +149,21 @@
   {
     "objectID": "weeks/05-opportunity.html",
     "href": "weeks/05-opportunity.html",
-    "title": "Motivations for different kinds of fairness",
+    "title": "Motivations for types of fairness",
     "section": "",
     "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
   },
   {
     "objectID": "weeks/05-opportunity.html#references",
     "href": "weeks/05-opportunity.html#references",
-    "title": "Motivations for different kinds of fairness",
+    "title": "Motivations for types of fairness",
     "section": "References",
     "text": "References\n\nAssigned reading\n\nInherent Trade-Offs in the Fair Determination of Risk Scores read Section 1 through the statement of Theorem 1.1, and also read the Conclusion (Section 5).\nFairML Book Chapter 4 on Relative notions of fairness, beginning with the section on Intentionality and indirect discrimination.\n\n\n\nAdditional references\n\nFair prediction with disparate impact: A study of bias in recidivism prediction instruments\nFairML Book the rest of Chapter 4."
   },
   {
     "objectID": "weeks/05-opportunity.html#notes",
     "href": "weeks/05-opportunity.html#notes",
-    "title": "Motivations for different kinds of fairness",
+    "title": "Motivations for types of fairness",
     "section": "Notes",
     "text": "Notes"
   }

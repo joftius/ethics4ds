@@ -1,5 +1,5 @@
 ---
-title: "Motivations for different kinds of fairness"
+title: "Motivations for types of fairness"
 date: "October 22, 2022"
 author: "Joshua Loftus"
 ---
