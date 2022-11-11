@@ -25,7 +25,7 @@
     "href": "index.html",
     "title": "Weekly content",
     "section": "",
-    "text": "Oct 22, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOct 16, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOct 10, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOct 3, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSep 26, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\nNo matching items"
+    "text": "Oct 31, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOct 16, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOct 10, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOct 3, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSep 26, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -166,5 +166,40 @@
     "title": "Motivations for types of fairness",
     "section": "Notes",
     "text": "Notes"
+  },
+  {
+    "objectID": "pset1.html",
+    "href": "pset1.html",
+    "title": "Ethics4DS: Coursework 1",
+    "section": "",
+    "text": "Example application:\nA non-utilitarian aspect of this application:\n\n\n\n\n\nGuideline document: (choose one of ASA/RSS/ACM)\nAgreement\n\n\nquoted text\n\nReasoning:\n\nDisagreement\n\n\nquoted text\n\nReasoning:"
+  },
+  {
+    "objectID": "pset1.html#data-questions",
+    "href": "pset1.html#data-questions",
+    "title": "Ethics4DS: Coursework 1",
+    "section": "Data questions",
+    "text": "Data questions\n\nComputing fairness metrics\nUse the fairness package. Pick one of the example datasets in the package. Fit a predictive model using that dataset. Choose three different fairness metrics to compute using the predictions from that model. For each of these, compute the values in the fairness metric in two ways: (1) using standard R functions, e.g. arithmetic operations, and (2) using the fairness package functions. Check to see whether you get the same answer.\n\n# install.packages(\"fairness\")\nlibrary(fairness)\n\n\n# Predictive model\n\n\nFairness metric 1\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 2\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 3\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\n\nSimulating a response variable\nNow replace the outcome variable in the original dataset with a new variable that you generate. You can decide how to generate the new outcome. Your goal is to make this outcome result in all the fairness metrics you chose above indicating that the predictive model is fair.\n\n# n <- nrow(datasetname)\n# datasetname$outcomename <- somefunction(n, etc)\n\n\n# Predictive model\n\n\nFairness metric 1\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 2\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 3\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nConcluding thoughts\nDo any of the results above require some explanation? Briefly describe your conclusion here."
+  },
+  {
+    "objectID": "weeks/06-causality.html",
+    "href": "weeks/06-causality.html",
+    "title": "Causal models",
+    "section": "",
+    "text": "Causal models are useful for understanding different kinds of statistical relationships between two or more variables."
+  },
+  {
+    "objectID": "weeks/06-causality.html#references",
+    "href": "weeks/06-causality.html#references",
+    "title": "Causal models",
+    "section": "References",
+    "text": "References\n\nAssigned reading\n\nFairML Book Chapter 5 on Causality, at least to the section on Counterfactuals (about halfway through).\n\n\n\nAdditional references\n\nFairML Book the rest of Chapter 5.\nCausal Inference: The Mixtape Sections 1.1, 1.2, and 3.1 up to 3.1.3 (stop before 3.1.4)"
+  },
+  {
+    "objectID": "weeks/06-causality.html#notes",
+    "href": "weeks/06-causality.html#notes",
+    "title": "Causal models",
+    "section": "Notes",
+    "text": "Notes\n\nSimulating data based on DAGs\nNote: we can make nice graphs using the ggdag package to plot graphs.\n\nGraph: \\(X \\rightarrow Y\\)\nOriginal world\n\nlibrary(tidyverse)\ntheme_set(theme_minimal())\nset.seed(1)\nn <- 200\n# Step 1: Generate variables with no parents\nf_X <- function(noise) noise - 1\nnoise_X <- rnorm(n)\nX <- f_X(noise_X)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_Y <- function(x, noise) 3 * x + 2 * noise\nnoise_Y <- rnorm(n)\nY <- f_Y(X, noise_Y)\nqplot(X, Y)\n\n\n\n\nSample average of Y:\n\nmean(Y)\n\n[1] -2.812106\n\n\nWorld after intervention\nWe start by copying and pasting the original code, then we modify the program to change some variable. In this case we do an “atomic” intervention setting all \\(X\\) values to 1.\nSince the code is written in a way that any variables depending on \\(X\\) (in this graph \\(Y\\) does) are generated after \\(X\\), this intervention on \\(X\\) may change their distributions as well.\n\n# Step 1: Generate variables with no parents\nX <- 1\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_Y <- function(x, noise) 3 * x + 2 * noise\nnoise_Y <- rnorm(n)\nY <- f_Y(X, noise_Y)\nqplot(X, Y)\n\n\n\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.916346\n\n\nExplanation\nWith this simple data generating process we can see that \\(X \\sim N(-1, 1)\\) and \\((Y | X = x) \\sim N(3x, 4)\\). By linearity, \\(E[Y] = 3E[X] = -3\\) in the original world. But after the intervention \\(\\text{do}(X := 1)\\), we have \\(E[Y] = 3 E[1] = 3 \\cdot 1 = 3\\).\n\n\nGraph: \\(X \\leftarrow U \\rightarrow Y\\)\nOriginal world\n\nn <- 10000 # reduce sampling variability\n# Step 1: Generate variables with no parents\nU <- rnorm(n)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_X <- function(u, noise) 2 * u + 3 + noise\nnoise_X <- rnorm(n)\nX <- f_X(U, noise_X)\nf_Y <- function(u, noise) u^2 + noise^2\nnoise_Y <- rnorm(n)\nY <- f_Y(U, noise_Y)\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.030961\n\n\nWorld after intervention\nAn “atomic” intervention setting all X values to 1.\n\n# Step 1: Generate variables with no parents\nU <- rnorm(n)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nX <- 1\nf_Y <- function(u, noise) u^2 + noise^2\nnoise_Y <- rnorm(n)\nY <- f_Y(U, noise_Y)\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.032377\n\n\nExplanation\nIn this case the mean of \\(Y\\) did not change because the variable we intervened on, \\(X\\), is not a cause of \\(Y\\)."
   }
 ]

@@ -1,0 +1,157 @@
+---
+title: "Ethics4DS: Coursework 1"
+author: "[Candidate number here]"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Discussion questions
+
+#### Data science is usually framed as utilitarian because of its focus on prediction/causation (consequences) and optimization (maximizing utility). Describe an example data science application using explicitly utilitarian language, then refer to at least one non-consequentialist theory to identify some aspect of the application that utilitarianism might overlook.
+
+- Example application: 
+
+
+
+- A non-utilitarian aspect of this application:
+
+
+
+#### Choose one of the ethical data science guidelines that we read. Find some part of it that you agreed with strongly, quote that part, and describe why you thought it was important. Then find another part that you think is too limited, quote that part, and describe what you think is its most important limitation.
+
+- Guideline document: (choose one of ASA/RSS/ACM)
+
+- Agreement
+
+> quoted text
+
+Reasoning: 
+
+- Disagreement
+
+> quoted text
+
+Reasoning: 
+
+## Data questions
+
+### Computing fairness metrics
+
+Use the [fairness](https://kozodoi.me/r/fairness/packages/2020/05/01/fairness-tutorial.html) package. Pick one of the example datasets in the package. Fit a predictive model using that dataset. Choose three different fairness metrics to compute using the predictions from that model. For each of these, compute the values in the fairness metric in two ways: (1) using standard `R` functions, e.g. arithmetic operations, and (2) using the `fairness` package functions. Check to see whether you get the same answer.
+
+```{r}
+# install.packages("fairness")
+library(fairness)
+```
+
+```{r}
+# Predictive model
+
+```
+
+#### Fairness metric 1
+
+Which metric: (name here)
+
+```{r}
+# Computing manually
+
+```
+
+```{r}
+# Comparing to the fairness package answer
+
+```
+
+#### Fairness metric 2
+
+Which metric: (name here)
+
+```{r}
+# Computing manually
+
+```
+
+```{r}
+# Comparing to the fairness package answer
+
+```
+
+#### Fairness metric 3
+
+Which metric: (name here)
+
+```{r}
+# Computing manually
+
+```
+
+```{r}
+# Comparing to the fairness package answer
+
+```
+
+### Simulating a response variable
+
+Now replace the outcome variable in the original dataset with a new variable that you generate. You can decide how to generate the new outcome. Your goal is to make this outcome result in all the fairness metrics you chose above indicating that the predictive model is fair. 
+
+```{r}
+# n <- nrow(datasetname)
+# datasetname$outcomename <- somefunction(n, etc)
+```
+
+
+```{r}
+# Predictive model
+
+```
+
+#### Fairness metric 1
+
+Which metric: (name here)
+
+```{r}
+# Computing manually
+
+```
+
+```{r}
+# Comparing to the fairness package answer
+
+```
+
+#### Fairness metric 2
+
+Which metric: (name here)
+
+```{r}
+# Computing manually
+
+```
+
+```{r}
+# Comparing to the fairness package answer
+
+```
+
+#### Fairness metric 3
+
+Which metric: (name here)
+
+```{r}
+# Computing manually
+
+```
+
+```{r}
+# Comparing to the fairness package answer
+
+```
+
+#### Concluding thoughts
+
+Do any of the results above require some explanation? Briefly describe your conclusion here.
