@@ -1,6 +1,6 @@
 ---
 title: "Applying causality"
-date: "October 31, 2022"
+date: "November 11, 2022"
 author: "Joshua Loftus"
 ---
 
