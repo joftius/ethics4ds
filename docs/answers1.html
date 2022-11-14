@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joshua Loftus">
+<meta name="dcterms.date" content="2022-11-14">
+
+<title> ethics 4 data science - Ethics4DS: Coursework 1 answers</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title"> ethics 4 data science</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-references" role="button" data-bs-toggle="dropdown" aria-expanded="false">references</a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-references">    
+        <li>
+    <a class="dropdown-item" href="https://www.bitbybitbook.com/en/1st-ed/ethics/">
+ <span class="dropdown-text">Bit by Bit</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fairmlbook.org/">
+ <span class="dropdown-text">Fairness and Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://data-feminism.mitpress.mit.edu/">
+ <span class="dropdown-text">Data Feminism</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://rss.org.uk/RSS/media/News-and-publications/Publications/Reports%20and%20guides/A-Guide-for-Ethical-Data-Science-Final-Oct-2019.pdf">
+ <span class="dropdown-text">RSS Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice">
+ <span class="dropdown-text">ASA Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.acm.org/code-of-ethics">
+ <span class="dropdown-text">ACM Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> content</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> about</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#discussion-questions" id="toc-discussion-questions" class="nav-link active" data-scroll-target="#discussion-questions">Discussion questions</a></li>
+  <li><a href="#data-questions" id="toc-data-questions" class="nav-link" data-scroll-target="#data-questions">Data questions</a>
+  <ul class="collapse">
+  <li><a href="#computing-fairness-metrics" id="toc-computing-fairness-metrics" class="nav-link" data-scroll-target="#computing-fairness-metrics">Computing fairness metrics</a></li>
+  <li><a href="#simulating-a-response-variable" id="toc-simulating-a-response-variable" class="nav-link" data-scroll-target="#simulating-a-response-variable">Simulating a response variable</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Ethics4DS: Coursework 1 answers</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joshua Loftus </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 14, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="discussion-questions" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-questions">Discussion questions</h2>
+<section id="question-1" class="level4">
+<h4 class="anchored" data-anchor-id="question-1">Question 1</h4>
+<p>Data science is usually framed as utilitarian because of its focus on prediction/causation (consequences) and optimization (maximizing utility). Describe an example data science application using explicitly utilitarian language, then refer to at least one non-consequentialist theory to identify some aspect of the application that utilitarianism might overlook.</p>
+<p><strong>Example application</strong></p>
+<p>(This answer is written somewhat abstractly in order to include many possible applications)</p>
+<p>A common kind of application is for an organization to predict “risk” for individuals and make decisions based on these predictions. These decisions usually involve allocating some kind of resource. Decision makers at the organizations usually believe allocating resources when the predicted risk is lower will achieve better outcomes (i.e.&nbsp;higher utility) for the organization, and they probably also believe the organization where they work makes a positive contribution to society and therefore to total utility.</p>
+<ul>
+<li>A tech company may predict users’ interest in different kinds of content to decide which items to recommend (for viewing/purchasing) or which advertisements to show</li>
+<li>A university may predict academic performance of applicants to decide which students to admit</li>
+<li>A bank may predict credit scores to decide how much credit to make available to different customers</li>
+<li>A government agency may predict threats to public health or safety, like outbreaks of viruses or violence, and decide who/where to monitor more closely</li>
+</ul>
+<p>Several utilitarian criticisms:</p>
+<ul>
+<li>Social choice problem: the utility of the organization may align poorly with the total utility of society</li>
+<li>Data science problem: predictions of risk are usually based on correlations/associations and hence may not capture causal relationships, or the measures of risk may be poor proxies for an unobserved variable that would better inform decisions. Hence allocating resources based on predicted risk may not actually maximize (or even increase) the organizations’ (or society’s) utility</li>
+</ul>
+<p><strong>A non-utilitarian aspect of this application</strong></p>
+<p>One possible deontological issue: there may be laws or ethical duties requiring an organization does not make decisions about individuals based on certain “protected” characteristics or variables. But many of the same variables that are commonly used to predict risk can be associated with protected variables, so predictive models could end up using information about protected variables either explicitly or implicitly. Deontological ethics may encourage us to remove such signals from the risk predictions even if the consequences result in lower utility for the organization.</p>
+<p>One possible virtue ethics issue: the utility of the organization may align poorly with certain virtues. These virtues could become neglected if people focus narrowly on whatever other traits they believe are beneficial to the organization’s risk predictions or decisions.</p>
+</section>
+<section id="question-2" class="level4">
+<h4 class="anchored" data-anchor-id="question-2">Question 2</h4>
+<p>Choose one of the ethical data science guidelines that we read. Find some part of it that you agreed with strongly, quote that part, and describe why you thought it was important. Then find another part that you think is too limited, quote that part, and describe what you think is its most important limitation.</p>
+<ul>
+<li><p>Guideline document: ASA</p></li>
+<li><p>Agreement</p></li>
+</ul>
+<p>From Section A:</p>
+<blockquote class="blockquote">
+<p>The ethical statistical practitioner: … Does not knowingly conduct statistical practices that exploit vulnerable populations or create or perpetuate unfair outcomes.</p>
+</blockquote>
+<p>Reasoning: I’m most impressed by the idea that we should not <em>perpetuate</em> (or continue) some existing unfairness. There are good reasons why avoiding harm is often stated as a first ethical principle, and avoiding harm could correspond to not creating newly unfair outcomes. However I also think that this does not go far enough, and that we also have a responsibility to try to reduce existing unfairness.</p>
+<ul>
+<li>Disagreement</li>
+</ul>
+<p>From the Appendix:</p>
+<blockquote class="blockquote">
+<p>Organizations and institutions engage in and promote ethical statistical practice by: … Expecting and encouraging all employees and vendors who conduct statistical practice to adhere to these guidelines. Promoting a workplace where the ethical practitioner may apply the guidelines without being intimidated or coerced. Protecting statistical practitioners who comply with these guidelines.</p>
+</blockquote>
+<p>Reasoning: First, I am confused and disappointed about why this material is in an Appendix. I think responsibilities at the level of organizations/institutions should be emphasized perhaps even more strongly than at the level of individuals. And second, I think that “expecting and encouraging” and “promoting” statistical practice are too weak, and hard requirements should be considered instead. Perhaps training about ethical statistical practice should be mandatory so that, for example, people working with statisticians understand why they should not try to pressure them to produce different results.</p>
+</section>
+</section>
+<section id="data-questions" class="level2">
+<h2 class="anchored" data-anchor-id="data-questions">Data questions</h2>
+<section id="computing-fairness-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="computing-fairness-metrics">Computing fairness metrics</h3>
+<p>Use the <a href="https://kozodoi.me/r/fairness/packages/2020/05/01/fairness-tutorial.html">fairness</a> package. Pick one of the example datasets in the package. Fit a predictive model using that dataset. Choose three different fairness metrics to compute using the predictions from that model. For each of these, compute the values in the fairness metric in two ways: (1) using standard <code>R</code> functions, e.g.&nbsp;arithmetic operations, and (2) using the <code>fairness</code> package functions. Check to see whether you get the same answer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("fairness")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fairness)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">'germancredit'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictive model</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gc_data <span class="ot">&lt;-</span> germancredit <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(BAD, Duration, Amount, Savings,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         Employment, Installment_rate, Guarantors,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         Job, Foreign, Female)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>gc_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(BAD <span class="sc">~</span> ., <span class="at">family =</span> <span class="fu">binomial</span>(), <span class="at">data =</span> gc_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="fairness-metric-1" class="level4">
+<h4 class="anchored" data-anchor-id="fairness-metric-1">Fairness metric 1</h4>
+<p>Which metric: <strong>demographic parity</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing manually in base R</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gc_fit_pred <span class="ot">&lt;-</span> gc_data</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gc_fit_pred<span class="sc">$</span>.fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(gc_fit, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>inds_F <span class="ot">&lt;-</span> <span class="fu">which</span>(gc_fit_pred<span class="sc">$</span>Female <span class="sc">==</span> <span class="st">"Female"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>inds_M <span class="ot">&lt;-</span> <span class="fu">which</span>(gc_fit_pred<span class="sc">$</span>Female <span class="sc">==</span> <span class="st">"Male"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">average =</span> <span class="fu">c</span>(<span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_F]),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_M])),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff50 =</span> <span class="fu">c</span>(<span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_F] <span class="sc">&gt;</span> <span class="fl">0.5</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_M] <span class="sc">&gt;</span> <span class="fl">0.5</span>)),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff90 =</span> <span class="fu">c</span>(<span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_F] <span class="sc">&gt;</span> <span class="fl">0.9</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_M] <span class="sc">&gt;</span> <span class="fl">0.9</span>))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     sex   average  cutoff50   cutoff90
+1 Female 0.7231884 0.9028986 0.10434783
+2   Male 0.6483871 0.8096774 0.04193548</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing manually with tidyverse</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gc_fit_pred <span class="ot">&lt;-</span> gc_fit <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  broom<span class="sc">::</span><span class="fu">augment</span>(<span class="at">type.predict =</span> <span class="st">"response"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>gc_fit_pred <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Female) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">average =</span> <span class="fu">mean</span>(.fitted),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">cutoff50 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&gt;</span> <span class="fl">0.5</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">cutoff90 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&gt;</span> <span class="fl">0.9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  Female average cutoff50 cutoff90
+  &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1 Female   0.723    0.903   0.104 
+2 Male     0.648    0.810   0.0419</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing to the fairness package answer</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fairness_dp <span class="ot">&lt;-</span> <span class="fu">dem_parity</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> gc_fit_pred,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="st">"BAD"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"Female"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="st">".fitted"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="fl">0.5</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>fairness_dp<span class="sc">$</span>Metric</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      Female        Male
+Positively classified    623 251.0000000
+Demographic Parity         1   0.4028892
+Group size               690 310.0000000</code></pre>
+</div>
+</div>
+<p>Unfortunately this package seems to have a bug currently where the baseline for demographic parity does not take into account the group size. But we can calculate the desired values (proportions of each group with predicted probability above the 0.5 cutoff) this way:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fairness_dp<span class="sc">$</span>Metric[<span class="dv">1</span>, ] <span class="sc">/</span> fairness_dp<span class="sc">$</span>Metric[<span class="dv">3</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Female      Male 
+0.9028986 0.8096774 </code></pre>
+</div>
+</div>
+</section>
+<section id="fairness-metric-2" class="level4">
+<h4 class="anchored" data-anchor-id="fairness-metric-2">Fairness metric 2</h4>
+<p>Which metric: <strong>false negative rate parity</strong></p>
+<p>To see which is positive/negative we need to see how the <code>glm</code> function treated the <code>BAD</code> variable (which levels are 0 and 1), so let’s check the predicted probabilities this way:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gc_fit_pred <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(BAD) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_pred_prob =</span> <span class="fu">mean</span>(.fitted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  BAD   avg_pred_prob
+  &lt;fct&gt;         &lt;dbl&gt;
+1 BAD           0.608
+2 GOOD          0.739</code></pre>
+</div>
+</div>
+<p>On average the model predicts higher probabilities for the <code>GOOD</code> level, so a positive corresponds to good credit.</p>
+<p>In this case it might make more sense from the perspective of potential customers to have fairness for false negative rates.</p>
+<p>To compute false negatives we subset to customers with <code>GOOD</code> credit and look at the proportion of them given <code>BAD</code> predictions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing manually with base R</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>inds_GF <span class="ot">&lt;-</span> <span class="fu">with</span>(gc_fit_pred,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">which</span>(BAD <span class="sc">==</span> <span class="st">"GOOD"</span> <span class="sc">&amp;</span> Female <span class="sc">==</span> <span class="st">"Female"</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>inds_GM <span class="ot">&lt;-</span> <span class="fu">with</span>(gc_fit_pred,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">which</span>(BAD <span class="sc">==</span> <span class="st">"GOOD"</span> <span class="sc">&amp;</span> Female <span class="sc">==</span> <span class="st">"Male"</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff50 =</span> <span class="fu">c</span>(<span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_GF] <span class="sc">&lt;</span> <span class="fl">0.5</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_GM] <span class="sc">&lt;</span> <span class="fl">0.5</span>)),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff90 =</span> <span class="fu">c</span>(<span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_GF] <span class="sc">&lt;</span> <span class="fl">0.9</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mean</span>(gc_fit_pred<span class="sc">$</span>.fitted[inds_GM] <span class="sc">&lt;</span> <span class="fl">0.9</span>))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     sex   cutoff50  cutoff90
+1 Female 0.05210421 0.8677355
+2   Male 0.11940299 0.9452736</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing manually with tidyverse</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gc_fit_pred <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(BAD <span class="sc">==</span> <span class="st">"GOOD"</span>) <span class="sc">|&gt;</span> <span class="co"># positives</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Female) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">FN50 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&lt;</span> .<span class="dv">5</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">FN90 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&lt;</span> .<span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  Female   FN50  FN90
+  &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt;
+1 Female 0.0521 0.868
+2 Male   0.119  0.945</code></pre>
+</div>
+</div>
+<p>At a cutoff of 50% the false negative rates are low but very different by group. At a cutoff of 90% the false negative rates are less different by group but very high.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing to the fairness package answer</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>fairness_fnr <span class="ot">&lt;-</span> <span class="fu">fnr_parity</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> gc_fit_pred,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="st">"BAD"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="st">"Female"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="st">".fitted"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="fl">0.5</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in fnr_parity(data = gc_fit_pred, outcome = "BAD", group = "Female", :
+Converting tbl_df to data.frame</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fairness_fnr<span class="sc">$</span>Metric</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Female       Male
+FNR          0.05210421   0.119403
+FNR Parity   1.00000000   2.291619
+Group size 690.00000000 310.000000</code></pre>
+</div>
+</div>
+<p>The <code>FNR</code> results show the same numbers we computed above as <code>FN50</code>. Verifying for a cutoff of 0.9 would follow the same way.</p>
+</section>
+</section>
+<section id="simulating-a-response-variable" class="level3">
+<h3 class="anchored" data-anchor-id="simulating-a-response-variable">Simulating a response variable</h3>
+<p>Now replace the outcome variable in the original dataset with a new variable that you generate. You can decide how to generate the new outcome. Your goal is to make this outcome result in all the fairness metrics you chose above indicating that the predictive model is fair.</p>
+<p><strong>Answer</strong>: Recalling the impossibility theorems, we know the only way to satisfy multiple different fairness metrics is (usually, if the fairness metrics are truly different) under some trivial condition like (1) the world is already fair or (2) the model predicts with perfect accuracy.</p>
+<p>The easiest way to satisfy (1) is to just make the outcome independent of everything.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(gc_data)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>gc_data_sim <span class="ot">&lt;-</span> gc_data</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>gc_data_sim<span class="sc">$</span>BAD <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, .<span class="dv">5</span>) <span class="co"># random 0-1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is a satisfactory answer since it is technically correct and shows understanding of the application of the impossibility result. But I know that just being technically correct can seem unsatisfying as an answer, so I’ll try to give a more interesting solution as well.</p>
+<p>Another way to have a “fair world” (satisfying the impossibility theorem) would be if the outcome depends only on predictor variables that are independent of the protected attribute(s). I checked the other numeric predictors in this dataset and none of them were independent of <code>Female</code>, but I saw that I could create a new predictor that was independent, <code>Rate_Duration_ratio</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gc_data_indep <span class="ot">&lt;-</span> gc_data <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Rate_Duration_ratio =</span> Installment_rate <span class="sc">/</span> Duration)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>gc_data_indep <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>BAD) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Female) <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  Female Duration Amount Installment_rate Rate_Duration_ratio
+  &lt;fct&gt;     &lt;dbl&gt;  &lt;dbl&gt;            &lt;dbl&gt;               &lt;dbl&gt;
+1 Female     21.6  3448.             3.04               0.190
+2 Male       19.4  2878.             2.83               0.190</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>exp_ratio <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">exp</span>(x)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(x))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>gc_data_sim <span class="ot">&lt;-</span> gc_data_indep <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">BAD =</span> <span class="fu">rbinom</span>(n,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                 <span class="dv">1</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">prob =</span> <span class="fu">exp_ratio</span>(<span class="dv">7</span> <span class="sc">*</span> Rate_Duration_ratio)))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>gc_data_sim <span class="sc">|&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(BAD) <span class="sc">|&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_ratio =</span> <span class="fu">mean</span>(Rate_Duration_ratio))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+    BAD avg_ratio
+  &lt;int&gt;     &lt;dbl&gt;
+1     0     0.119
+2     1     0.210</code></pre>
+</div>
+</div>
+<p>This shows we have a predictor variable that is correlated with the outcome, so the outcome is not just purely random and independent of everything (noise).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictive model</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>gc_sim_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(BAD <span class="sc">~</span> ., <span class="at">family =</span> <span class="fu">binomial</span>(), <span class="at">data =</span> gc_data_sim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="fairness-metric-1-1" class="level4">
+<h4 class="anchored" data-anchor-id="fairness-metric-1-1">Fairness metric 1</h4>
+<p>Which metric: <strong>demographic parity</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing manually</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>gc_sim_fit_pred <span class="ot">&lt;-</span> gc_sim_fit <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  broom<span class="sc">::</span><span class="fu">augment</span>(<span class="at">type.predict =</span> <span class="st">"response"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>gc_sim_fit_pred <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Female) <span class="sc">|&gt;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">average =</span> <span class="fu">mean</span>(.fitted),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">cutoff50 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&gt;</span> <span class="fl">0.5</span>),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">cutoff90 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&gt;</span> <span class="fl">0.9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  Female average cutoff50 cutoff90
+  &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1 Female   0.783    0.971    0.254
+2 Male     0.768    0.932    0.258</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparing to the fairness package answer</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># skipped</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fairness-metric-2-1" class="level4">
+<h4 class="anchored" data-anchor-id="fairness-metric-2-1">Fairness metric 2</h4>
+<p>Which metric: <strong>false negative rate parity</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing manually</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing manually with tidyverse</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>gc_sim_fit_pred <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(BAD <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="co"># positives</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Female) <span class="sc">|&gt;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">FN50 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&lt;</span> .<span class="dv">5</span>),</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">FN90 =</span> <span class="fu">mean</span>(.fitted <span class="sc">&lt;</span> .<span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  Female    FN50  FN90
+  &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt;
+1 Female 0.00926 0.689
+2 Male   0.0504  0.685</code></pre>
+</div>
+</div>
+</section>
+<section id="concluding-thoughts" class="level4">
+<h4 class="anchored" data-anchor-id="concluding-thoughts">Concluding thoughts</h4>
+<p>Since the questions were fairly open-ended there are many other possible good answers. This solution guide is just an example of some of the answers that first occurred to me and a few ways of writing of <code>R</code> code that may be helpful to learn from.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

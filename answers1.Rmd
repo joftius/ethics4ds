@@ -1,0 +1,276 @@
+---
+title: "Ethics4DS: Coursework 1 answers"
+author: "Joshua Loftus"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Discussion questions
+
+#### Question 1
+
+Data science is usually framed as utilitarian because of its focus on prediction/causation (consequences) and optimization (maximizing utility). Describe an example data science application using explicitly utilitarian language, then refer to at least one non-consequentialist theory to identify some aspect of the application that utilitarianism might overlook.
+
+**Example application**
+
+(This answer is written somewhat abstractly in order to include many possible applications)
+
+A common kind of application is for an organization to predict "risk" for individuals and make decisions based on these predictions. These decisions usually involve allocating some kind of resource. Decision makers at the organizations usually believe allocating resources when the predicted risk is lower will achieve better outcomes (i.e. higher utility) for the organization, and they probably also believe the organization where they work makes a positive contribution to society and therefore to total utility.
+
+- A tech company may predict users' interest in different kinds of content to decide which items to recommend (for viewing/purchasing) or which advertisements to show
+- A university may predict academic performance of applicants to decide which students to admit
+- A bank may predict credit scores to decide how much credit to make available to different customers
+- A government agency may predict threats to public health or safety, like outbreaks of viruses or violence, and decide who/where to monitor more closely
+
+Several utilitarian criticisms:
+
+- Social choice problem: the utility of the organization may align poorly with the total utility of society
+- Data science problem: predictions of risk are usually based on correlations/associations and hence may not capture causal relationships, or the measures of risk may be poor proxies for an unobserved variable that would better inform decisions. Hence allocating resources based on predicted risk may not actually maximize (or even increase) the organizations' (or society's) utility
+
+**A non-utilitarian aspect of this application**
+
+One possible deontological issue: there may be laws or ethical duties requiring an organization does not make decisions about individuals based on certain "protected" characteristics or variables. But many of the same variables that are commonly used to predict risk can be associated with protected variables, so predictive models could end up using information about protected variables either explicitly or implicitly. Deontological ethics may encourage us to remove such signals from the risk predictions even if the consequences result in lower utility for the organization.
+
+One possible virtue ethics issue: the utility of the organization may align poorly with certain virtues. These virtues could become neglected if people focus narrowly on whatever other traits they believe are beneficial to the organization's risk predictions or decisions. 
+
+#### Question 2
+
+Choose one of the ethical data science guidelines that we read. Find some part of it that you agreed with strongly, quote that part, and describe why you thought it was important. Then find another part that you think is too limited, quote that part, and describe what you think is its most important limitation.
+
+- Guideline document: ASA
+
+- Agreement
+
+From Section A:
+
+> The ethical statistical practitioner: ... Does not knowingly conduct statistical practices that exploit vulnerable populations or create or perpetuate unfair outcomes.
+
+Reasoning: I'm most impressed by the idea that we should not *perpetuate* (or continue) some existing unfairness. There are good reasons why avoiding harm is often stated as a first ethical principle, and avoiding harm could correspond to not creating newly unfair outcomes. However I also think that this does not go far enough, and that we also have a responsibility to try to reduce existing unfairness.
+
+- Disagreement
+
+From the Appendix:
+
+> Organizations and institutions engage in and promote ethical statistical practice by: ... Expecting and encouraging all employees and vendors who conduct statistical practice to adhere to these guidelines. Promoting a workplace where the ethical practitioner may apply the guidelines without being intimidated or coerced. Protecting statistical practitioners who comply with these guidelines.
+
+Reasoning: First, I am confused and disappointed about why this material is in an Appendix. I think responsibilities at the level of organizations/institutions should be emphasized perhaps even more strongly than at the level of individuals. And second, I think that "expecting and encouraging" and "promoting" statistical practice are too weak, and hard requirements should be considered instead. Perhaps training about ethical statistical practice should be mandatory so that, for example, people working with statisticians understand why they should not try to pressure them to produce different results. 
+
+## Data questions
+
+### Computing fairness metrics
+
+Use the [fairness](https://kozodoi.me/r/fairness/packages/2020/05/01/fairness-tutorial.html) package. Pick one of the example datasets in the package. Fit a predictive model using that dataset. Choose three different fairness metrics to compute using the predictions from that model. For each of these, compute the values in the fairness metric in two ways: (1) using standard `R` functions, e.g. arithmetic operations, and (2) using the `fairness` package functions. Check to see whether you get the same answer.
+
+```{r message=FALSE}
+# install.packages("fairness")
+library(tidyverse)
+library(fairness)
+data('germancredit')
+```
+
+```{r}
+# Predictive model
+gc_data <- germancredit |>
+  select(BAD, Duration, Amount, Savings,
+         Employment, Installment_rate, Guarantors,
+         Job, Foreign, Female)
+gc_fit <- glm(BAD ~ ., family = binomial(), data = gc_data)
+```
+
+#### Fairness metric 1
+
+Which metric: **demographic parity**
+
+```{r}
+# Computing manually in base R
+gc_fit_pred <- gc_data
+gc_fit_pred$.fitted <- predict(gc_fit, type = "response")
+inds_F <- which(gc_fit_pred$Female == "Female")
+inds_M <- which(gc_fit_pred$Female == "Male")
+data.frame(
+  sex = c("Female", "Male"),
+  average = c(mean(gc_fit_pred$.fitted[inds_F]),
+              mean(gc_fit_pred$.fitted[inds_M])),
+  cutoff50 = c(mean(gc_fit_pred$.fitted[inds_F] > 0.5),
+               mean(gc_fit_pred$.fitted[inds_M] > 0.5)),
+  cutoff90 = c(mean(gc_fit_pred$.fitted[inds_F] > 0.9),
+               mean(gc_fit_pred$.fitted[inds_M] > 0.9))
+)
+```
+
+```{r}
+# Computing manually with tidyverse
+gc_fit_pred <- gc_fit |>
+  broom::augment(type.predict = "response")
+gc_fit_pred |>
+  group_by(Female) |>
+  summarize(average = mean(.fitted),
+            cutoff50 = mean(.fitted > 0.5),
+            cutoff90 = mean(.fitted > 0.9))
+```
+
+```{r warning=FALSE}
+# Comparing to the fairness package answer
+fairness_dp <- dem_parity(
+  data = gc_fit_pred,
+  outcome = "BAD",
+  group = "Female",
+  probs = ".fitted",
+  cutoff = 0.5
+)
+fairness_dp$Metric
+```
+
+Unfortunately this package seems to have a bug currently where the baseline for demographic parity does not take into account the group size. But we can calculate the desired values (proportions of each group with predicted probability above the 0.5 cutoff) this way:
+
+```{r}
+fairness_dp$Metric[1, ] / fairness_dp$Metric[3, ]
+```
+
+#### Fairness metric 2
+
+Which metric: **false negative rate parity**
+
+To see which is positive/negative we need to see how the `glm` function treated the `BAD` variable (which levels are 0 and 1), so let's check the predicted probabilities this way:
+
+```{r}
+gc_fit_pred |>
+  group_by(BAD) |>
+  summarize(avg_pred_prob = mean(.fitted))
+```
+On average the model predicts higher probabilities for the `GOOD` level, so a positive corresponds to good credit.
+
+In this case it might make more sense from the perspective of potential customers to have fairness for false negative rates.
+
+To compute false negatives we subset to customers with `GOOD` credit and look at the proportion of them given `BAD` predictions.
+
+```{r}
+# Computing manually with base R
+inds_GF <- with(gc_fit_pred,
+                which(BAD == "GOOD" & Female == "Female"))
+inds_GM <- with(gc_fit_pred,
+                which(BAD == "GOOD" & Female == "Male"))
+data.frame(
+  sex = c("Female", "Male"),
+  cutoff50 = c(mean(gc_fit_pred$.fitted[inds_GF] < 0.5),
+               mean(gc_fit_pred$.fitted[inds_GM] < 0.5)),
+  cutoff90 = c(mean(gc_fit_pred$.fitted[inds_GF] < 0.9),
+               mean(gc_fit_pred$.fitted[inds_GM] < 0.9))
+)
+```
+
+
+```{r}
+# Computing manually with tidyverse
+gc_fit_pred |>
+  dplyr::filter(BAD == "GOOD") |> # positives
+  group_by(Female) |>
+  summarize(FN50 = mean(.fitted < .5),
+            FN90 = mean(.fitted < .9))
+```
+
+At a cutoff of 50\% the false negative rates are low but very different by group. At a cutoff of 90\% the false negative rates are less different by group but very high.
+
+
+```{r}
+# Comparing to the fairness package answer
+fairness_fnr <- fnr_parity(
+  data = gc_fit_pred,
+  outcome = "BAD",
+  group = "Female",
+  probs = ".fitted",
+  cutoff = 0.5
+)
+fairness_fnr$Metric
+```
+
+The `FNR` results show the same numbers we computed above as `FN50`. Verifying for a cutoff of 0.9 would follow the same way.
+
+### Simulating a response variable
+
+Now replace the outcome variable in the original dataset with a new variable that you generate. You can decide how to generate the new outcome. Your goal is to make this outcome result in all the fairness metrics you chose above indicating that the predictive model is fair. 
+
+**Answer**: Recalling the impossibility theorems, we know the only way to satisfy multiple different fairness metrics is (usually, if the fairness metrics are truly different) under some trivial condition like (1) the world is already fair or (2) the model predicts with perfect accuracy. 
+
+The easiest way to satisfy (1) is to just make the outcome independent of everything.
+
+```{r}
+n <- nrow(gc_data)
+gc_data_sim <- gc_data
+gc_data_sim$BAD <- rbinom(n, 1, .5) # random 0-1
+```
+
+This is a satisfactory answer since it is technically correct and shows understanding of the application of the impossibility result. But I know that just being technically correct can seem unsatisfying as an answer, so I'll try to give a more interesting solution as well.
+
+Another way to have a "fair world" (satisfying the impossibility theorem) would be if the outcome depends only on predictor variables that are independent of the protected attribute(s). I checked the other numeric predictors in this dataset and none of them were independent of `Female`, but I saw that I could create a new predictor that was independent, `Rate_Duration_ratio`:
+
+```{r}
+gc_data_indep <- gc_data |>
+  mutate(Rate_Duration_ratio = Installment_rate / Duration)
+gc_data_indep |>
+  select(-BAD) |>
+  group_by(Female) |>
+  summarize(across(where(is.numeric), mean))
+```
+
+```{r}
+exp_ratio <- function(x) exp(x)/(1+exp(x))
+gc_data_sim <- gc_data_indep |>
+  mutate(
+    BAD = rbinom(n,
+                 1,
+                 prob = exp_ratio(7 * Rate_Duration_ratio)))
+gc_data_sim |>
+  group_by(BAD) |>
+  summarize(avg_ratio = mean(Rate_Duration_ratio))
+```
+
+This shows we have a predictor variable that is correlated with the outcome, so the outcome is not just purely random and independent of everything (noise).
+
+
+```{r}
+# Predictive model
+gc_sim_fit <- glm(BAD ~ ., family = binomial(), data = gc_data_sim)
+```
+
+#### Fairness metric 1
+
+Which metric: **demographic parity**
+
+```{r}
+# Computing manually
+gc_sim_fit_pred <- gc_sim_fit |>
+  broom::augment(type.predict = "response")
+gc_sim_fit_pred |>
+  group_by(Female) |>
+  summarize(average = mean(.fitted),
+            cutoff50 = mean(.fitted > 0.5),
+            cutoff90 = mean(.fitted > 0.9))
+```
+
+```{r}
+# Comparing to the fairness package answer
+# skipped
+```
+
+#### Fairness metric 2
+
+Which metric: **false negative rate parity**
+
+```{r}
+# Computing manually
+# Computing manually with tidyverse
+gc_sim_fit_pred |>
+  dplyr::filter(BAD == 1) |> # positives
+  group_by(Female) |>
+  summarize(FN50 = mean(.fitted < .5),
+            FN90 = mean(.fitted < .9))
+```
+
+#### Concluding thoughts
+
+Since the questions were fairly open-ended there are many other possible good answers. This solution guide is just an example of some of the answers that first occurred to me and a few ways of writing of `R` code that may be helpful to learn from.

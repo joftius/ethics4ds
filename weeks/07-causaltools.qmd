@@ -1,0 +1,22 @@
+---
+title: "Applying causality"
+date: "October 31, 2022"
+author: "Joshua Loftus"
+---
+
+## Summary
+
+Applying causal models to analyze questions in algorithmic fairness and scientific reproducibility.
+
+## References
+
+### Assigned reading
+
+- [FairML Book](https://fairmlbook.org/causal.html) the rest of Chapter 5 on *Causality*.
+
+### Additional references
+
+- [Disparate Causes](https://www.phenomenalworld.org/analysis/disparate-causes-pt-ii/)
+- [Causal Inference: The Mixtape](https://mixtape.scunning.com/index.html) Sections 1.1, 1.2, and 3.1 up to 3.1.3 (stop before 3.1.4)
+
+## Notes
