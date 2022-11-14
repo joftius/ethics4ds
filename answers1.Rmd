@@ -176,7 +176,7 @@ gc_fit_pred |>
 At a cutoff of 50\% the false negative rates are low but very different by group. At a cutoff of 90\% the false negative rates are less different by group but very high.
 
 
-```{r}
+```{r warning=FALSE}
 # Comparing to the fairness package answer
 fairness_fnr <- fnr_parity(
   data = gc_fit_pred,
