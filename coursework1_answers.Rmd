@@ -1,0 +1,213 @@
+---
+title: "Ethics4DS: Coursework 1"
+author: "[Candidate number here]"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+theme_set(theme_minimal())
+candidate_number <- 1 # change this
+set.seed(candidate_number)
+```
+
+## Reproducibility
+
+Change parameters of the simulation as necessary (or as desired, to make it unique)
+
+```{r}
+generate_data <- function(beta0 = 0,
+                          betaX = 0,
+                          betaA = 0,
+                          betaXA = 0,
+                          n = 200,
+                          proportion = 1/2) {
+  X <- rnorm(n)
+  A <- rbinom(n, 1, proportion)
+  Y <- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)
+  data.frame(Y = Y, X = X, A = factor(A))
+}
+```
+
+Here is a visualisation to help understand the data
+
+```{r}
+one_sample <- generate_data(beta0 = 2, betaX = -1, betaA = 2, betaXA = 1.5)
+one_sample |> 
+  ggplot(aes(X, Y, color = A)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+one_fit <- lm(Y ~ X + A + X * A, one_sample)
+summary(one_fit)
+```
+
+```{r}
+summary(one_fit)$coefficients[,4]
+```
+
+```{r}
+# p-values for all the non-intercept variables
+summary(one_fit)$coefficients[-1,4]
+```
+
+```{r}
+# p-value for second coeff
+summary(one_fit)$coefficients[2,4]
+```
+
+```{r}
+# Every time this function is called, it:
+# (1) generates new data
+# (2) fits a model using the formula Y ~ X + A + X * A
+# (3) returns the p-value for the second coefficient
+one_experiment <- function(beta0 = 0, betaX = 0, betaA = 0,
+                           betaXA = 0, n = 200, proportion = 1/2) {
+  one_sample <- generate_data(beta0, betaX, betaA, betaXA, n, proportion)
+  one_fit <- lm(Y ~ X + A + X * A, one_sample)
+  p_values <- summary(one_fit)$coefficients[2,4]
+  return(p_values)
+}
+```
+
+```{r}
+one_experiment()
+```
+
+```{r}
+one_experiment(betaX = .3)
+```
+
+```{r}
+n_experiments <- 5
+replicate(n_experiments, one_experiment())
+```
+
+```{r}
+rejection_level <- 0.05
+n_experiments <- 500
+# proportion of experiments where p-value
+# is below rejection level
+mean(replicate(n_experiments, one_experiment()) < rejection_level)
+```
+
+Consider: What should this be? Is the above result acceptable or concerning?
+
+```{r}
+mean(replicate(n_experiments, one_experiment(betaX = .2)) < rejection_level)
+```
+
+A larger proportion of experiments had significant p-values this time. Is that what we expect?
+
+How would this rejection rate depend on each of the parameters input to the `one_experiment()` function (e.g. `betaX`, `betaA`, `n`, etc)?
+
+When do we want the rejection rate to be high, and when do we want it to be low?
+
+Note: it may be helpful to review basic conditional control flow in R from sources like one of the following
+
+- https://posit.cloud/learn/primers/6.5
+- https://adv-r.hadley.nz/control-flow.html Section 5.2
+
+**Instructions**: after completing the rest of this notebook, delete this comment and all of the demonstration code above. You should only keep the code necessary for your answers below to work.
+
+### Preregistration vs p-hacking
+
+#### p-hacking 
+
+- Modify the example code to create a function that simulates p-hacking
+- Show the effect of p-hacking on statistical error rates using any appropriate statistics or visualisations that you prefer
+- Explain, in your own words, what problems could result from p-hacking
+
+```{r}
+one_phacked_experiment <- function(beta0 = 0, betaX = 0, betaA = 0,
+                           betaXA = 0, n = 200, proportion = 1/2) {
+  one_sample <- generate_data(beta0, betaX, betaA, betaXA, n, proportion)
+  one_fit <- lm(Y ~ X + A + X * A, one_sample)
+  min_pvalue <- min(summary(one_fit)$coefficients[-1,4])
+  another_fit <- lm(Y ~ X, one_sample)
+  another_pvalue <- summary(another_fit)$coefficients[2,4]
+  p_values <- min(min_pvalue, another_pvalue)
+  return(p_values)
+}
+```
+
+
+```{r}
+rejection_level <- 0.05
+n_experiments <- 500
+# proportion of experiments where p-value
+# is below rejection level
+all_experiments_pvalues <- replicate(n_experiments, one_phacked_experiment())
+mean(all_experiments_pvalues < rejection_level)
+```
+
+```{r}
+hist(all_experiments_pvalues)
+```
+
+
+#### Preregistration
+
+- Create another version of the function to simulate the constraints of preregistration
+- Compare the error rates with preregistration to those without, and explain whether this could help with any problems you identified above and, if so, how
+
+
+
+```{r}
+one_preregistered_experiment <- function(beta0 = 0, betaX = 0, betaA = 0,
+                           betaXA = 0, n = 200, proportion = 1/2) {
+  one_sample <- generate_data(beta0, betaX, betaA, betaXA, n, proportion)
+  one_fit <- lm(Y ~ X + A + X * A, one_sample)
+  several_pvalues <- summary(one_fit)$coefficients[-1,4]
+  another_fit <- lm(Y ~ X, one_sample)
+  another_pvalue <- summary(another_fit)$coefficients[2,4]
+  p_values <- c(several_pvalues, another_pvalue)
+  return(p_values)
+}
+```
+
+
+```{r}
+rejection_level <- 0.05
+n_experiments <- 500
+# proportion of experiments where p-value
+# is below rejection level
+all_experiments_pvalues <- replicate(n_experiments, one_preregistered_experiment())
+mean(all_experiments_pvalues < rejection_level)
+```
+
+```{r}
+hist(all_experiments_pvalues)
+```
+
+### Reproducibility and causality
+
+#### Reproducible and causal
+
+- Create another simulation, modifying the data generating code to be consistent with a specific causal model structure, and choosing the structure to satisfy the following the following requirements
+- Show that there is a reproducible effect, i.e. one that can be found fairly consistently (e.g. in more than five percent of experiments) without using p-hacking
+- Show, by simulating an intervention, that the above effect is causal
+
+#### Reproducible but not causal
+
+- Repeat the above section, but in this case choose the causal model generating your data so that the reproducible effect is not causal, i.e. an intervention on that variable does not change the outcome variable
+
+```{r}
+generate_noncausal_data <- function(beta0 = 0,
+                          betaX = 0,
+                          betaA = 0,
+                          betaXA = 0,
+                          n = 200,
+                          proportion = 1/2) {
+  # ...
+  X <- rnorm(n)
+  A <- rbinom(n, 1, proportion)
+  Y <- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)
+  data.frame(Y = Y, X = X, A = factor(A))
+}
+```
+
