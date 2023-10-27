@@ -192,22 +192,106 @@ hist(all_experiments_pvalues)
 - Show that there is a reproducible effect, i.e. one that can be found fairly consistently (e.g. in more than five percent of experiments) without using p-hacking
 - Show, by simulating an intervention, that the above effect is causal
 
+
+```{r}
+# no changes necessary -- why?
+```
+
+
 #### Reproducible but not causal
 
 - Repeat the above section, but in this case choose the causal model generating your data so that the reproducible effect is not causal, i.e. an intervention on that variable does not change the outcome variable
 
 ```{r}
 generate_noncausal_data <- function(beta0 = 0,
-                          betaX = 0,
+                          betaY = 0,
                           betaA = 0,
-                          betaXA = 0,
+                          betaYA = 0,
                           n = 200,
                           proportion = 1/2) {
-  # ...
-  X <- rnorm(n)
+  # Y -> X <- A
+  Y <- rnorm(n)
   A <- rbinom(n, 1, proportion)
-  Y <- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)
+  X <- beta0 + betaY * Y + betaA * A + betaYA * Y * A + rnorm(n, sd = 1)
   data.frame(Y = Y, X = X, A = factor(A))
 }
+```
+
+
+```{r}
+# Every time this function is called, it:
+# (1) generates new noncausal data 
+# (2) fits a model using the formula Y ~ X + A + X * A
+# (3) returns the p-value for the second coefficient
+one_noncausal_experiment <- function(beta0 = 0, betaY = 0, betaA = 0,
+                           betaYA = 0, n = 200, proportion = 1/2) {
+  one_sample <- generate_noncausal_data(beta0, betaY, betaA, betaYA, n, proportion)
+  one_fit <- lm(Y ~ X + A + X * A, one_sample)
+  p_values <- summary(one_fit)$coefficients[2,4]
+  return(p_values)
+}
+```
+
+```{r}
+rejection_level <- 0.05
+n_experiments <- 500
+# proportion of experiments where p-value
+# is below rejection level
+all_experiments_pvalues <- replicate(n_experiments, one_noncausal_experiment(betaY = .3, betaA = .5, betaYA = .1))
+mean(all_experiments_pvalues < rejection_level)
+```
+
+
+We often find a significant coefficient for X when regressing Y on X and A
+
+Why is this not causal?
+
+```{r}
+n <- 200
+beta0 <- 0
+betaY <- .3
+betaA <- .5
+betaYA <- .1
+Y <- rnorm(n)
+A <- rbinom(n, 1, 1/2)
+X <- beta0 + betaY * Y + betaA * A + betaYA * Y * A + rnorm(n, sd = 1)
+
+Y_new <- rnorm(n)
+A_new <- rbinom(n, 1, 1/2)
+X_new <- X + 1
+
+mean(Y) - mean(Y_new)
+```
+
+Scaling this up
+
+```{r}
+generate_noncausal_data_intervening_on_X <- function(beta0 = 0,
+                          betaY = 0,
+                          betaA = 0,
+                          betaYA = 0,
+                          n = 200,
+                          proportion = 1/2) {
+  # Before intervention
+  # Y -> X <- A
+  Y <- rnorm(n)
+  A <- rbinom(n, 1, proportion)
+  X <- beta0 + betaY * Y + betaA * A + betaYA * Y * A + rnorm(n, sd = 1)
+  mu_before <- mean(Y)
+  
+  # After intervention
+  # Y  X  A
+  X <- X + 1
+  # no more changes necessary
+  # because no variables are generated from X
+  mu_after <- mean(Y)
+  return(mu_before - mu_after)
+}
+```
+
+
+```{r}
+many_samples_intervened_on_X <- replicate(n_experiments, generate_noncausal_data_intervening_on_X(betaY = .3, betaA = .5, betaYA = .1))
+mean(many_samples_intervened_on_X)
 ```
 

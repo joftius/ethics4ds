@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="[Candidate number here]">
-<meta name="dcterms.date" content="2023-10-26">
+<meta name="dcterms.date" content="2023-10-27">
 
 <title> ethics 4 data science - Ethics4DS: Coursework 1</title>
 <style>
@@ -202,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 26, 2023</p>
+      <p class="date">October 27, 2023</p>
     </div>
   </div>
   
@@ -433,6 +433,9 @@ F-statistic: 90.53 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Show that there is a reproducible effect, i.e.&nbsp;one that can be found fairly consistently (e.g.&nbsp;in more than five percent of experiments) without using p-hacking</li>
 <li>Show, by simulating an intervention, that the above effect is causal</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no changes necessary -- why?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="reproducible-but-not-causal" class="level4">
 <h4 class="anchored" data-anchor-id="reproducible-but-not-causal">Reproducible but not causal</h4>
@@ -440,18 +443,94 @@ F-statistic: 90.53 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>Repeat the above section, but in this case choose the causal model generating your data so that the reproducible effect is not causal, i.e.&nbsp;an intervention on that variable does not change the outcome variable</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>generate_noncausal_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">beta0 =</span> <span class="dv">0</span>,</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaX =</span> <span class="dv">0</span>,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaA =</span> <span class="dv">0</span>,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaXA =</span> <span class="dv">0</span>,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">n =</span> <span class="dv">200</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">proportion =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) {</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, proportion)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> betaX <span class="sc">*</span> X <span class="sc">+</span> betaA <span class="sc">*</span> A <span class="sc">+</span> betaXA <span class="sc">*</span> X <span class="sc">*</span> A <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">A =</span> <span class="fu">factor</span>(A))</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>generate_noncausal_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">beta0 =</span> <span class="dv">0</span>,</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaY =</span> <span class="dv">0</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaA =</span> <span class="dv">0</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaYA =</span> <span class="dv">0</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">n =</span> <span class="dv">200</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">proportion =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) {</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Y -&gt; X &lt;- A</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, proportion)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> betaY <span class="sc">*</span> Y <span class="sc">+</span> betaA <span class="sc">*</span> A <span class="sc">+</span> betaYA <span class="sc">*</span> Y <span class="sc">*</span> A <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">A =</span> <span class="fu">factor</span>(A))</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Every time this function is called, it:</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) generates new noncausal data </span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) fits a model using the formula Y ~ X + A + X * A</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) returns the p-value for the second coefficient</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>one_noncausal_experiment <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">beta0 =</span> <span class="dv">0</span>, <span class="at">betaY =</span> <span class="dv">0</span>, <span class="at">betaA =</span> <span class="dv">0</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">betaYA =</span> <span class="dv">0</span>, <span class="at">n =</span> <span class="dv">200</span>, <span class="at">proportion =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) {</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  one_sample <span class="ot">&lt;-</span> <span class="fu">generate_noncausal_data</span>(beta0, betaY, betaA, betaYA, n, proportion)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  one_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> A <span class="sc">+</span> X <span class="sc">*</span> A, one_sample)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  p_values <span class="ot">&lt;-</span> <span class="fu">summary</span>(one_fit)<span class="sc">$</span>coefficients[<span class="dv">2</span>,<span class="dv">4</span>]</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p_values)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>rejection_level <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>n_experiments <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># proportion of experiments where p-value</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># is below rejection level</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>all_experiments_pvalues <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_experiments, <span class="fu">one_noncausal_experiment</span>(<span class="at">betaY =</span> .<span class="dv">3</span>, <span class="at">betaA =</span> .<span class="dv">5</span>, <span class="at">betaYA =</span> .<span class="dv">1</span>))</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(all_experiments_pvalues <span class="sc">&lt;</span> rejection_level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.814</code></pre>
+</div>
+</div>
+<p>We often find a significant coefficient for X when regressing Y on X and A</p>
+<p>Why is this not causal?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>betaY <span class="ot">&lt;-</span> .<span class="dv">3</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>betaA <span class="ot">&lt;-</span> .<span class="dv">5</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>betaYA <span class="ot">&lt;-</span> .<span class="dv">1</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> betaY <span class="sc">*</span> Y <span class="sc">+</span> betaA <span class="sc">*</span> A <span class="sc">+</span> betaYA <span class="sc">*</span> Y <span class="sc">*</span> A <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>Y_new <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>A_new <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>X_new <span class="ot">&lt;-</span> X <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y) <span class="sc">-</span> <span class="fu">mean</span>(Y_new)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01537278</code></pre>
+</div>
+</div>
+<p>Scaling this up</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>generate_noncausal_data_intervening_on_X <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">beta0 =</span> <span class="dv">0</span>,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaY =</span> <span class="dv">0</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaA =</span> <span class="dv">0</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">betaYA =</span> <span class="dv">0</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">n =</span> <span class="dv">200</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">proportion =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>) {</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Before intervention</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Y -&gt; X &lt;- A</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, proportion)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> betaY <span class="sc">*</span> Y <span class="sc">+</span> betaA <span class="sc">*</span> A <span class="sc">+</span> betaYA <span class="sc">*</span> Y <span class="sc">*</span> A <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  mu_before <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># After intervention</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Y  X  A</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> X <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># no more changes necessary</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># because no variables are generated from X</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>  mu_after <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y)</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(mu_before <span class="sc">-</span> mu_after)</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>many_samples_intervened_on_X <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_experiments, <span class="fu">generate_noncausal_data_intervening_on_X</span>(<span class="at">betaY =</span> .<span class="dv">3</span>, <span class="at">betaA =</span> .<span class="dv">5</span>, <span class="at">betaYA =</span> .<span class="dv">1</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(many_samples_intervened_on_X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
 </div>
 
 
