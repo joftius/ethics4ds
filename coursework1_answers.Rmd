@@ -109,8 +109,8 @@ When do we want the rejection rate to be high, and when do we want it to be low?
 
 Note: it may be helpful to review basic conditional control flow in R from sources like one of the following
 
-- https://posit.cloud/learn/primers/6.5
-- https://adv-r.hadley.nz/control-flow.html Section 5.2
+- [https://posit.cloud/learn/primers/6.5](https://posit.cloud/learn/primers/6.5)
+- [https://adv-r.hadley.nz/control-flow.html](https://adv-r.hadley.nz/control-flow.html) Section 5.2
 
 **Instructions**: after completing the rest of this notebook, delete this comment and all of the demonstration code above. You should only keep the code necessary for your answers below to work.
 
@@ -194,8 +194,36 @@ hist(all_experiments_pvalues)
 
 
 ```{r}
-# no changes necessary -- why?
+# no changes necessary from original experiment
+# if true betaX is nonzero then rejections are not false discoveries
+# rejection rate:
+mean(replicate(n_experiments, one_experiment(betaX = .2)) < rejection_level)
 ```
+
+Why is this effect causal?
+
+Assuming the code that generates the data accurately represents a causal model, we see the function generating Y depends on X. So if X is intervened on, then Y will also change. Here's a simple example showing the effect:
+
+```{r}
+# Using betaX = .2, all other coeffs = 0
+N <- 1000 # reduce sampling variation
+
+# Before intervention
+X <- rnorm(N)
+A <- rbinom(N, 1, 1/2)
+Y <- 0.2 * X + rnorm(N, sd = 1)
+
+# After intervention
+X_new <- 2
+A_new <- rbinom(N, 1, 1/2)
+Y_new <- 0.2 * X_new + rnorm(N, sd = 1)
+
+mean(Y_new) - mean(Y)
+```
+
+This shows that an intervention setting every value of X to 2 (for example) results in a different average value of Y
+
+Conclusion: there is a true causal effect, and regression experiments find a statistically significant coefficient for X (with a rejection rate that is higher than 0.05)
 
 
 #### Reproducible but not causal
@@ -203,95 +231,141 @@ hist(all_experiments_pvalues)
 - Repeat the above section, but in this case choose the causal model generating your data so that the reproducible effect is not causal, i.e. an intervention on that variable does not change the outcome variable
 
 ```{r}
-generate_noncausal_data <- function(beta0 = 0,
-                          betaY = 0,
-                          betaA = 0,
-                          betaYA = 0,
-                          n = 200,
-                          proportion = 1/2) {
-  # Y -> X <- A
-  Y <- rnorm(n)
-  A <- rbinom(n, 1, proportion)
-  X <- beta0 + betaY * Y + betaA * A + betaYA * Y * A + rnorm(n, sd = 1)
-  data.frame(Y = Y, X = X, A = factor(A))
+generate_common_cause_data <- function(n = 100,
+                                    sdx = .2,
+                                    sdy = .2,
+                                    intervention = NULL) {
+  
+  # Original world
+  # Y <- U -> X
+  U <- rnorm(n) # unobserved
+  f_X <- function(U) U + 1 
+  f_Y <- function(U) (1/5) * (1 + U)^2
+  
+  X <- f_X(U) + rnorm(n, sd = sdx)
+  Y <- f_Y(U) + rnorm(n, sd = sdy)
+  
+  # Optional: intervene on X
+  if (!is.null(intervention)) {
+    # Intervened world
+    # Y <- U, X <- intervention
+    # U is generated before X
+    U <- rnorm(n)
+    # X is set to a specific value
+    X <- intervention
+    # Y is generated after X, but keeps its original
+    # distribution because f_Y does not use X
+    Y <- f_Y(U) + rnorm(n, sd = sdy)
+  }
+  
+  data.frame(Y = Y, X = X)
 }
 ```
 
+Original data
+
+```{r}
+one_common_cause_dataset <- generate_common_cause_data(n = 400)
+ggplot(one_common_cause_dataset, aes(X, Y)) + 
+  geom_point(alpha = .5) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Data with an intervention setting X to 1
+
+```{r}
+intervened_common_cause_dataset <- 
+  generate_common_cause_data(n = 400, intervention = 1)
+ggplot(intervened_common_cause_dataset, aes(X, Y)) + 
+  geom_point(alpha = .5) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Averages of Y before and after intervention
+
+```{r}
+mean(one_common_cause_dataset$Y)
+mean(intervened_common_cause_dataset$Y)
+```
+
+Simulate one experiment
 
 ```{r}
 # Every time this function is called, it:
-# (1) generates new noncausal data 
-# (2) fits a model using the formula Y ~ X + A + X * A
-# (3) returns the p-value for the second coefficient
-one_noncausal_experiment <- function(beta0 = 0, betaY = 0, betaA = 0,
-                           betaYA = 0, n = 200, proportion = 1/2) {
-  one_sample <- generate_noncausal_data(beta0, betaY, betaA, betaYA, n, proportion)
-  one_fit <- lm(Y ~ X + A + X * A, one_sample)
-  p_values <- summary(one_fit)$coefficients[2,4]
-  return(p_values)
+# (1) generates new "common cause" data 
+# (2) fits a model using the formula Y ~ X 
+# (3) generates "common cause" data with intervention on X
+# (4) computes mean of Y before and after intervention
+# returns: X coefficient and p-value from (2), interventional effect (4)
+one_common_cause_experiment <- function(n = 100,
+                                      sdx = .2,
+                                      sdy = .2,
+                                      intervention = 1) {
+  # without intervention
+  one_sample <- generate_common_cause_data(n, sdx, sdy)
+  one_fit <- lm(Y ~ X, one_sample)
+  beta_hat <- summary(one_fit)$coefficients[2,1]
+  p_value <- summary(one_fit)$coefficients[2,4]
+  
+  # with intervention
+  intervened_sample <- generate_common_cause_data(n, sdx, sdy, intervention)
+  avg_Y_diff <- mean(intervened_sample$Y) - mean(one_sample$Y)
+  return(list(beta_hat = beta_hat,
+              p_value = p_value,
+              intervention_effect = avg_Y_diff))
 }
 ```
+
+Simulate multiple experiments and transform the results to make them easy to plot
+
+```{r}
+multiple_common_cause_experiments <- function(n_experiments = 200,
+                                              n = 100,
+                                              sdx = .2,
+                                              sdy = .2,
+                                              intervention = 1) {
+  experiment_summary_list <- replicate(
+    n_experiments,
+    one_common_cause_experiment(n, sdx, sdy, intervention))
+  experiment_summaries <- apply(t(experiment_summary_list), 2, unlist)
+  return(data.frame(experiment_summaries))
+}
+```
+
+
+```{r}
+experiment_summaries <- multiple_common_cause_experiments()
+```
+
+Distribution of estimated coefficients for X
+
+```{r}
+ggplot(experiment_summaries, aes(beta_hat)) + geom_histogram(bins = 20)
+```
+
+
+Rejection rate using p-values for X
 
 ```{r}
 rejection_level <- 0.05
-n_experiments <- 500
 # proportion of experiments where p-value
 # is below rejection level
-all_experiments_pvalues <- replicate(n_experiments, one_noncausal_experiment(betaY = .3, betaA = .5, betaYA = .1))
-mean(all_experiments_pvalues < rejection_level)
+mean(experiment_summaries$p_value < rejection_level)
 ```
 
-
-We often find a significant coefficient for X when regressing Y on X and A
-
-Why is this not causal?
+Distribution of mean difference in Y when intervening on X
 
 ```{r}
-n <- 200
-beta0 <- 0
-betaY <- .3
-betaA <- .5
-betaYA <- .1
-Y <- rnorm(n)
-A <- rbinom(n, 1, 1/2)
-X <- beta0 + betaY * Y + betaA * A + betaYA * Y * A + rnorm(n, sd = 1)
-
-Y_new <- rnorm(n)
-A_new <- rbinom(n, 1, 1/2)
-X_new <- X + 1
-
-mean(Y) - mean(Y_new)
+ggplot(experiment_summaries, aes(intervention_effect)) + 
+  geom_histogram(bins = 20)
 ```
 
-Scaling this up
+Average interventional effect across multiple experiments (meta-analysis)
 
 ```{r}
-generate_noncausal_data_intervening_on_X <- function(beta0 = 0,
-                          betaY = 0,
-                          betaA = 0,
-                          betaYA = 0,
-                          n = 200,
-                          proportion = 1/2) {
-  # Before intervention
-  # Y -> X <- A
-  Y <- rnorm(n)
-  A <- rbinom(n, 1, proportion)
-  X <- beta0 + betaY * Y + betaA * A + betaYA * Y * A + rnorm(n, sd = 1)
-  mu_before <- mean(Y)
-  
-  # After intervention
-  # Y  X  A
-  X <- X + 1
-  # no more changes necessary
-  # because no variables are generated from X
-  mu_after <- mean(Y)
-  return(mu_before - mu_after)
-}
+mean(experiment_summaries$intervention_effect)
 ```
 
+Conclusion: experiments consistently find a statistically significant coefficient for X (**without** using p-hacking to achieve significance), and yet there is no causal effect of X on Y (their significant association is due to having a common cause U, which in our simulation is unobserved by the experimenter)
 
-```{r}
-many_samples_intervened_on_X <- replicate(n_experiments, generate_noncausal_data_intervening_on_X(betaY = .3, betaA = .5, betaYA = .1))
-mean(many_samples_intervened_on_X)
-```
 
