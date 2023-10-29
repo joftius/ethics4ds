@@ -28,67 +28,144 @@
     "text": "Change parameters of the simulation as necessary (or as desired, to make it unique)\n\ngenerate_data &lt;- function(beta0 = 0,\n                          betaX = 0,\n                          betaA = 0,\n                          betaXA = 0,\n                          n = 200,\n                          proportion = 1/2) {\n  X &lt;- rnorm(n)\n  A &lt;- rbinom(n, 1, proportion)\n  Y &lt;- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)\n  data.frame(Y = Y, X = X, A = factor(A))\n}\n\nHere is a visualisation to help understand the data\n\none_sample &lt;- generate_data(beta0 = 2, betaX = -1, betaA = 2, betaXA = 1.5)\none_sample |&gt; \n  ggplot(aes(X, Y, color = A)) + \n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\none_fit &lt;- lm(Y ~ X + A + X * A, one_sample)\nsummary(one_fit)\n\n\nCall:\nlm(formula = Y ~ X + A + X * A, data = one_sample)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-2.8553 -0.6802 -0.0024  0.6824  3.7687 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   1.9373     0.1103  17.560  &lt; 2e-16 ***\nX            -0.8801     0.1258  -6.994  4.1e-11 ***\nA1            2.1303     0.1538  13.851  &lt; 2e-16 ***\nX:A1          1.4017     0.1672   8.381  1.0e-14 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.086 on 196 degrees of freedom\nMultiple R-squared:  0.5808,    Adjusted R-squared:  0.5744 \nF-statistic: 90.53 on 3 and 196 DF,  p-value: &lt; 2.2e-16\n\n\n\nsummary(one_fit)$coefficients[,4]\n\n (Intercept)            X           A1         X:A1 \n4.291280e-42 4.101667e-11 7.199416e-31 1.004225e-14 \n\n\n\n# p-values for all the non-intercept variables\nsummary(one_fit)$coefficients[-1,4]\n\n           X           A1         X:A1 \n4.101667e-11 7.199416e-31 1.004225e-14 \n\n\n\n# p-value for second coeff\nsummary(one_fit)$coefficients[2,4]\n\n[1] 4.101667e-11\n\n\n\n# Every time this function is called, it:\n# (1) generates new data\n# (2) fits a model using the formula Y ~ X + A + X * A\n# (3) returns the p-value for the second coefficient\none_experiment &lt;- function(beta0 = 0, betaX = 0, betaA = 0,\n                           betaXA = 0, n = 200, proportion = 1/2) {\n  one_sample &lt;- generate_data(beta0, betaX, betaA, betaXA, n, proportion)\n  one_fit &lt;- lm(Y ~ X + A + X * A, one_sample)\n  p_values &lt;- summary(one_fit)$coefficients[2,4]\n  return(p_values)\n}\n\n\none_experiment()\n\n[1] 0.8266538\n\n\n\none_experiment(betaX = .3)\n\n[1] 0.1502811\n\n\n\nn_experiments &lt;- 5\nreplicate(n_experiments, one_experiment())\n\n[1] 0.9677839 0.5647648 0.1151294 0.2137763 0.7461851\n\n\n\nrejection_level &lt;- 0.05\nn_experiments &lt;- 500\n# proportion of experiments where p-value\n# is below rejection level\nmean(replicate(n_experiments, one_experiment()) &lt; rejection_level)\n\n[1] 0.032\n\n\nConsider: What should this be? Is the above result acceptable or concerning?\n\nmean(replicate(n_experiments, one_experiment(betaX = .2)) &lt; rejection_level)\n\n[1] 0.474\n\n\nA larger proportion of experiments had significant p-values this time. Is that what we expect?\nHow would this rejection rate depend on each of the parameters input to the one_experiment() function (e.g. betaX, betaA, n, etc)?\nWhen do we want the rejection rate to be high, and when do we want it to be low?\nNote: it may be helpful to review basic conditional control flow in R from sources like one of the following\n\nhttps://posit.cloud/learn/primers/6.5\nhttps://adv-r.hadley.nz/control-flow.html Section 5.2\n\nInstructions: after completing the rest of this notebook, delete this comment and all of the demonstration code above. You should only keep the code necessary for your answers below to work.\n\n\n\n\n\nModify the example code to create a function that simulates p-hacking\nShow the effect of p-hacking on statistical error rates using any appropriate statistics or visualisations that you prefer\nExplain, in your own words, what problems could result from p-hacking\n\n\n\n\n\nCreate another version of the function to simulate the constraints of preregistration\nCompare the error rates with preregistration to those without, and explain whether this could help with any problems you identified above and, if so, how\n\n\n\n\n\n\n\n\nCreate another simulation, modifying the data generating code to be consistent with a specific causal model structure, and choosing the structure to satisfy the following the following requirements\nShow that there is a reproducible effect, i.e. one that can be found fairly consistently (e.g. in more than five percent of experiments) without using p-hacking\nShow, by simulating an intervention, that the above effect is causal\n\n\n\n\n\nRepeat the above section, but in this case choose the causal model generating your data so that the reproducible effect is not causal, i.e. an intervention on that variable does not change the outcome variable"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Weekly content",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Course information",
     "section": "",
-    "text": "Applying causality\n\n\n\n\n\n\n\n\n\n\n\n\nNov 11, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nCausal models\n\n\n\n\n\n\n\n\n\n\n\n\nOct 31, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nMotivations for types of fairness\n\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nFairness and prediction\n\n\n\n\n\n\n\n\n\n\n\n\nOct 16, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nEthical research conduct\n\n\n\n\n\n\n\n\n\n\n\n\nOct 10, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nWhat do we want from Statistics?\n\n\n\n\n\n\n\n\n\n\n\n\nOct 3, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction and examples\n\n\n\n\n\n\n\n\n\n\n\n\nSep 26, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\nNo matching items"
+    "text": "Course guide listing"
   },
   {
-    "objectID": "weeks/07-causaltools.html",
-    "href": "weeks/07-causaltools.html",
-    "title": "Applying causality",
+    "objectID": "weeks/03-research.html",
+    "href": "weeks/03-research.html",
+    "title": "Ethical research conduct",
     "section": "",
-    "text": "Applying causal models to analyze questions in algorithmic fairness and scientific reproducibility."
+    "text": "Historical examples of harmful research, guidelines for ethical research, reproducible practices."
   },
   {
-    "objectID": "weeks/07-causaltools.html#summary",
-    "href": "weeks/07-causaltools.html#summary",
-    "title": "Applying causality",
+    "objectID": "weeks/03-research.html#summary",
+    "href": "weeks/03-research.html#summary",
+    "title": "Ethical research conduct",
     "section": "",
-    "text": "Applying causal models to analyze questions in algorithmic fairness and scientific reproducibility."
+    "text": "Historical examples of harmful research, guidelines for ethical research, reproducible practices."
   },
   {
-    "objectID": "weeks/07-causaltools.html#references",
-    "href": "weeks/07-causaltools.html#references",
-    "title": "Applying causality",
+    "objectID": "weeks/03-research.html#references",
+    "href": "weeks/03-research.html#references",
+    "title": "Ethical research conduct",
     "section": "References",
-    "text": "References\n\nAssigned reading\n\nFairML Book the rest of Chapter 5 on Causality.\n\n\n\nAdditional references\n\nDisparate Causes\nCausal Inference: The Mixtape Sections 1.1, 1.2, and 3.1 up to 3.1.3 (stop before 3.1.4)"
+    "text": "References\n\nAssigned reading\n\nAt least two from the following ethical guidelines created by professional societies:\n\nRoyal Statistical Society\nAmerican Statistical Association\nAssociation for Computing Machinery\n\n\nWikipedia pages to briefly skim:\n\nTuskegee Syphilis Study (read summary section at the top)\nBelmont Report (read History section)\nMenlo Report (read Implementation of the Principles section)\n\n\n\nAdditional references\n\nGood researchers\n\nBill Jenkins"
   },
   {
-    "objectID": "weeks/07-causaltools.html#notes",
-    "href": "weeks/07-causaltools.html#notes",
-    "title": "Applying causality",
+    "objectID": "weeks/03-research.html#notes",
+    "href": "weeks/03-research.html#notes",
+    "title": "Ethical research conduct",
     "section": "Notes",
     "text": "Notes"
   },
   {
-    "objectID": "weeks/06-causality.html",
-    "href": "weeks/06-causality.html",
-    "title": "Causal models",
+    "objectID": "weeks/04-fairness.html",
+    "href": "weeks/04-fairness.html",
+    "title": "Fairness and prediction",
     "section": "",
-    "text": "Causal models are useful for understanding different kinds of statistical relationships between two or more variables."
+    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
   },
   {
-    "objectID": "weeks/06-causality.html#summary",
-    "href": "weeks/06-causality.html#summary",
-    "title": "Causal models",
+    "objectID": "weeks/04-fairness.html#summary",
+    "href": "weeks/04-fairness.html#summary",
+    "title": "Fairness and prediction",
     "section": "",
-    "text": "Causal models are useful for understanding different kinds of statistical relationships between two or more variables."
+    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
   },
   {
-    "objectID": "weeks/06-causality.html#references",
-    "href": "weeks/06-causality.html#references",
-    "title": "Causal models",
+    "objectID": "weeks/04-fairness.html#references",
+    "href": "weeks/04-fairness.html#references",
+    "title": "Fairness and prediction",
     "section": "References",
-    "text": "References\n\nAssigned reading\n\nFairML Book Chapter 5 on Causality, at least to the section on Counterfactuals (about halfway through).\n\n\n\nAdditional references\n\nFairML Book the rest of Chapter 5.\nCausal Inference: The Mixtape Sections 1.1, 1.2, and 3.1 up to 3.1.3 (stop before 3.1.4)"
+    "text": "References\n\nAssigned reading\n\nFairML Book Chapter 3 on Classification. It’s OK to skip the proofs in the section called Relationships between criteria.\nProPublica Machine Bias\n\n\n\nAdditional references\n\nProPublica COMPAS Methods Article\n50 Years of Test (Un)fairness: Lessons for Machine Learning"
   },
   {
-    "objectID": "weeks/06-causality.html#notes",
-    "href": "weeks/06-causality.html#notes",
-    "title": "Causal models",
+    "objectID": "weeks/04-fairness.html#notes",
+    "href": "weeks/04-fairness.html#notes",
+    "title": "Fairness and prediction",
     "section": "Notes",
-    "text": "Notes\n\nSimulating data based on DAGs\nNote: we can make nice graphs using the ggdag package to plot graphs.\n\nGraph: \\(X \\rightarrow Y\\)\nOriginal world\n\nlibrary(tidyverse)\ntheme_set(theme_minimal())\nset.seed(1)\nn &lt;- 200\n# Step 1: Generate variables with no parents\nf_X &lt;- function(noise) noise - 1\nnoise_X &lt;- rnorm(n)\nX &lt;- f_X(noise_X)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_Y &lt;- function(x, noise) 3 * x + 2 * noise\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(X, noise_Y)\nqplot(X, Y)\n\n\n\n\nSample average of Y:\n\nmean(Y)\n\n[1] -2.812106\n\n\nWorld after intervention\nWe start by copying and pasting the original code, then we modify the program to change some variable. In this case we do an “atomic” intervention setting all \\(X\\) values to 1.\nSince the code is written in a way that any variables depending on \\(X\\) (in this graph \\(Y\\) does) are generated after \\(X\\), this intervention on \\(X\\) may change their distributions as well.\n\n# Step 1: Generate variables with no parents\nX &lt;- 1\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_Y &lt;- function(x, noise) 3 * x + 2 * noise\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(X, noise_Y)\nqplot(X, Y)\n\n\n\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.916346\n\n\nExplanation\nWith this simple data generating process we can see that \\(X \\sim N(-1, 1)\\) and \\((Y | X = x) \\sim N(3x, 4)\\). By linearity, \\(E[Y] = 3E[X] = -3\\) in the original world. But after the intervention \\(\\text{do}(X := 1)\\), we have \\(E[Y] = 3 E[1] = 3 \\cdot 1 = 3\\).\n\n\nGraph: \\(X \\leftarrow U \\rightarrow Y\\)\nOriginal world\n\nn &lt;- 10000 # reduce sampling variability\n# Step 1: Generate variables with no parents\nU &lt;- rnorm(n)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_X &lt;- function(u, noise) 2 * u + 3 + noise\nnoise_X &lt;- rnorm(n)\nX &lt;- f_X(U, noise_X)\nf_Y &lt;- function(u, noise) u^2 + noise^2\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(U, noise_Y)\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.030961\n\n\nWorld after intervention\nAn “atomic” intervention setting all X values to 1.\n\n# Step 1: Generate variables with no parents\nU &lt;- rnorm(n)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nX &lt;- 1\nf_Y &lt;- function(u, noise) u^2 + noise^2\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(U, noise_Y)\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.032377\n\n\nExplanation\nIn this case the mean of \\(Y\\) did not change because the variable we intervened on, \\(X\\), is not a cause of \\(Y\\)."
+    "text": "Notes"
+  },
+  {
+    "objectID": "weeks/05-opportunity.html",
+    "href": "weeks/05-opportunity.html",
+    "title": "Motivations for types of fairness",
+    "section": "",
+    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
+  },
+  {
+    "objectID": "weeks/05-opportunity.html#summary",
+    "href": "weeks/05-opportunity.html#summary",
+    "title": "Motivations for types of fairness",
+    "section": "",
+    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
+  },
+  {
+    "objectID": "weeks/05-opportunity.html#references",
+    "href": "weeks/05-opportunity.html#references",
+    "title": "Motivations for types of fairness",
+    "section": "References",
+    "text": "References\n\nAssigned reading\n\nInherent Trade-Offs in the Fair Determination of Risk Scores read Section 1 through the statement of Theorem 1.1, and also read the Conclusion (Section 5).\nFairML Book Chapter 4 on Relative notions of fairness, beginning with the section on Intentionality and indirect discrimination.\n\n\n\nAdditional references\n\nFair prediction with disparate impact: A study of bias in recidivism prediction instruments\nFairML Book the rest of Chapter 4."
+  },
+  {
+    "objectID": "weeks/05-opportunity.html#notes",
+    "href": "weeks/05-opportunity.html#notes",
+    "title": "Motivations for types of fairness",
+    "section": "Notes",
+    "text": "Notes"
+  },
+  {
+    "objectID": "weeks/02-history.html",
+    "href": "weeks/02-history.html",
+    "title": "What do we want from Statistics?",
+    "section": "",
+    "text": "Vignettes about the history, philosophy, and profession of statistics."
+  },
+  {
+    "objectID": "weeks/02-history.html#summary",
+    "href": "weeks/02-history.html#summary",
+    "title": "What do we want from Statistics?",
+    "section": "",
+    "text": "Vignettes about the history, philosophy, and profession of statistics."
+  },
+  {
+    "objectID": "weeks/02-history.html#references",
+    "href": "weeks/02-history.html#references",
+    "title": "What do we want from Statistics?",
+    "section": "References",
+    "text": "References\n\nAssigned reading\n\nA Day in the Life of a Statistician (brief sketch written by a historian of science)\nWikipedia: one, two, three, four articles to briefly scan\nAt least one of:\n\nSurrogate Science: The Idol of a Universal Method for Scientific Inference\nCargo-cult statistics and scientific crisis\n\nAt least one of:\n\nThe Role of the Statistician: Scientist or Shoe Clerk\nStatistical Criticism Sections 1-5\n\n\nWikipedia pages can be briefly skimmed.\n\n\nAdditional references\n\nStatistical pluralism\n\nStatistical Modeling: The Two Cultures by Leo Breiman (and comments by others)\nConclusions vs Decisions by John W. Tukey\nStatistical Criticism with commentary\n\n\n\nResearch hall of shame\n\nZimbardo (note: his response to criticisms), etc\nWansink, etc"
+  },
+  {
+    "objectID": "weeks/02-history.html#notes",
+    "href": "weeks/02-history.html#notes",
+    "title": "What do we want from Statistics?",
+    "section": "Notes",
+    "text": "Notes\n\nExcerpts from The Pernicious Influence of Mathematics on Science\n\nI wish to confine myself to the negative aspects, leaving it to others to dwell on the amazing triumphs of the mathematical method; and also to comment not only on physical science but also on social science, in which the characteristic inadequacies which I wish to discuss are more readily apparent.\nComputer programmers often make a certain remark about computing machines, which may perhaps be taken as a complaint: that computing machines, with a perfect lack of discrimination, will do any foolish thing they are told to do. The reason for this lies of course in the narrow fixation of the computing machine “intelligence” upon the basely typographical details of its own perceptions–its inability to be guided by any large context. In a psychological description of the computer intelligence, three related adjectives push themselves forward: single-mindedness, literal-mindedness, simple- mindedness. Recognizing this, we should at the same time recognize that this single-mindedness, literal-mindedness, simple-mindedness also characterizes theoretical mathematics, though to a lesser extent.\nIt is a continual result of the fact that science tries to deal with reality that even the most precise sciences normally work with more or less ill-understood approximations toward which the scientist must maintain an appropriate skepticism. […] This very healthy self-skepticism is foreign to the mathematical approach.\n[…] The mathematician turns the scientist’s theoretical assumptions, i.e., convenient points of analytical emphasis, into axioms, and then takes these axioms literally. This brings with it the danger that he may also persuade the scientist to take these axioms literally. The question, central to the scientific investigation but intensely disturbing in the mathematical context–what happens to all this if the axioms are relaxed–is thereby put into shadow.\n[…] Related to this deficiency of mathematics, and perhaps more productive of rueful consequence, is the simple-mindedness of mathematics–its willingness, like that of a computing machine, to elaborate upon any idea, however absurd; to dress scientific brilliancies and scientific absurdities alike in the impressive uniform of formulae and theorems. Unfortunately however, an absurdity in uniform is far more persuasive than an absurdity unclad. The very fact that a theory appears in mathematical form, that, for instance, a theory has provided the occasion for the application of a fixed-point theorem, or of a result about difference equations, somehow makes us more ready to take it seriously. And the mathematical-intellectual effort of applying the theorem fixes in us the particular point of view of the theory with which we deal, making us blind to whatever appears neither as a dependent nor as an independent parameter in its mathematical formulation.\nThe result, perhaps most common in the social sciences, is bad theory with a mathematical passport. […]\n\n\n\nExcerpts from Cargo Cult Science html version\n\n[…] the educational and psychological studies I mentioned are examples of what I would like to call Cargo Cult Science. In the South Seas there is a Cargo Cult of people. During the war they saw airplanes land with lots of good materials, and they want the same thing to happen now. So they’ve arranged to make things like runways, to put fires along the sides of the runways, to make a wooden hut for a man to sit in, with two wooden pieces on his head like headphones and bars of bamboo sticking out like antennas—he’s the controller—and they wait for the airplanes to land. They’re doing everything right. The form is perfect. It looks exactly the way it looked before. But it doesn’t work. No airplanes land. So I call these things Cargo Cult Science, because they follow all the apparent precepts and forms of scientific investigation, but they’re missing something essential, because the planes don’t land.\nNow it behooves me, of course, to tell you what they’re missing. But it would he just about as difficult to explain to the South Sea Islanders how they have to arrange things so that they get some wealth in their system. It is not something simple like telling them how to improve the shapes of the earphones. But there is one feature I notice that is generally missing in Cargo Cult Science. That is the idea that we all hope you have learned in studying science in school—we never explicitly say what this is, but just hope that you catch on by all the examples of scientific investigation. It is interesting, therefore, to bring it out now and speak of it explicitly. It’s a kind of scientific integrity, a principle of scientific thought that corresponds to a kind of utter honesty—a kind of leaning over backwards. For example, if you’re doing an experiment, you should report everything that you think might make it invalid—not only what you think is right about it: other causes that could possibly explain your results; and things you thought of that you’ve eliminated by some other experiment, and how they worked—to make sure the other fellow can tell they have been eliminated.\nDetails that could throw doubt on your interpretation must be given, if you know them. You must do the best you can—if you know anything at all wrong, or possibly wrong—to explain it. If you make a theory, for example, and advertise it, or put it out, then you must also put down all the facts that disagree with it, as well as those that agree with it. There is also a more subtle problem. When you have put a lot of ideas together to make an elaborate theory, you want to make sure, when explaining what it fits, that those things it fits are not just the things that gave you the idea for the theory; but that the finished theory makes something else come out right, in addition.\nIn summary, the idea is to try to give all of the information to help others to judge the value of your contribution; not just the information that leads to judgment in one particular direction or another.\nThe easiest way to explain this idea is to contrast it, for example, with advertising. […]\nWe’ve learned from experience that the truth will out. Other experimenters will repeat your experiment and find out whether you were wrong or right. Nature’s phenomena will agree or they’ll disagree with your theory. And, although you may gain some temporary fame and excitement, you will not gain a good reputation as a scientist if you haven’t tried to be very careful in this kind of work. And it’s this type of integrity, this kind of care not to fool yourself, that is missing to a large extent in much of the research in Cargo Cult Science.\nA great deal of their difficulty is, of course, the difficulty of the subject and the inapplicability of the scientific method to the subject. Nevertheless, it should be remarked that this is not the only difficulty. That’s why the planes don’t land—but they don’t land.\nWe have learned a lot from experience about how to handle some of the ways we fool ourselves. […]\nBut this long history of learning how to not fool ourselves—of having utter scientific integrity—is, I’m sorry to say, something that we haven’t specifically included in any particular course that I know of. We just hope you’ve caught on by osmosis.\nThe first principle is that you must not fool yourself—and you are the easiest person to fool. So you have to be very careful about that. After you’ve not fooled yourself, it’s easy not to fool other scientists. You just have to be honest in a conventional way after that.\n[…]\nOne example of the principle is this: If you’ve made up your mind to test a theory, or you want to explain some idea, you should always decide to publish it whichever way it comes out. If we only publish results of a certain kind, we can make the argument look good. We must publish both kinds of result. For example—let’s take advertising again—suppose some particular cigarette has some particular property, like low nicotine. It’s published widely by the company that this means it is good for you—they don’t say, for instance, that the tars are a different proportion, or that something else is the matter with the cigarette. In other words, publication probability depends upon the answer. That should not be done.\nI say that’s also important in giving certain types of government advice. Supposing a senator asked you for advice about whether drilling a hole should be done in his state; and you decide it would he better in some other state. If you don’t publish such a result, it seems to me you’re not giving scientific advice. You’re being used. If your answer happens to come out in the direction the government or the politicians like, they can use it as an argument in their favor; if it comes out the other way, they don’t publish it at all. That’s not giving scientific advice.\n[…] I was shocked to hear of an experiment done at the big accelerator at the National Accelerator Laboratory, where a person used deuterium. In order to compare his heavy hydrogen results to what might happen to light hydrogen he had to use data from someone else’s experiment on light hydrogen, which was done on different apparatus. When asked he said it was because he couldn’t get time on the program (because there’s so little time and it’s such expensive apparatus) to do the experiment with light hydrogen on this apparatus because there wouldn’t be any new result. And so the men in charge of programs at NAL are so anxious for new results, in order to get more money to keep the thing going for public relations purposes, they are destroying—possibly—the value of the experiments themselves, which is the whole purpose of the thing. It is often hard for the experimenters there to complete their work as their scientific integrity demands.\nAll experiments in psychology are not of this type, however. For example, there have been many experiments running rats through all kinds of mazes, and so on—with little clear result. But in 1937 a man named Young did a very interesting one. He had a long corridor with doors all along one side where the rats came in, and doors along the other side where the food was. He wanted to see if he could train the rats to go in at the third door down from wherever he started them off. No. The rats went immediately to the door where the food had been the time before.\nThe question was, how did the rats know, because the corridor was so beautifully built and so uniform, that this was the same door as before? Obviously there was something about the door that was different from the other doors. So he painted the doors very carefully, arranging the textures on the faces of the doors exactly the same. Still the rats could tell. Then he thought maybe the rats were smelling the food, so he used chemicals to change the smell after each run. Still the rats could tell. Then he realized the rats might be able to tell by seeing the lights and the arrangement in the laboratory like any commonsense person. So he covered the corridor, and, still the rats could tell.\nHe finally found that they could tell by the way the floor sounded when they ran over it. And he could only fix that by putting his corridor in sand. So he covered one after another of all possible clues and finally was able to fool the rats so that they had to learn to go in the third door. If he relaxed any of his conditions, the rats could tell.\nNow, from a scientific standpoint, that is an A‑Number‑l experiment. That is the experiment that makes rat‑running experiments sensible, because it uncovers the clues that the rat is really using—not what you think it’s using. And that is the experiment that tells exactly what conditions you have to use in order to be careful and control everything in an experiment with rat‑running.\nI looked into the subsequent history of this research. The subsequent experiment, and the one after that, never referred to Mr. Young. They never used any of his criteria of putting the corridor on sand, or being very careful. They just went right on running rats in the same old way, and paid no attention to the great discoveries of Mr. Young, and his papers are not referred to, because he didn’t discover anything about the rats. In fact, he discovered all the things you have to do to discover something about rats. But not paying attention to experiments like that is a characteristic of Cargo Cult Science.\nAnother example is the ESP experiments of Mr. Rhine, and other people. As various people have made criticisms—and they themselves have made criticisms of their own experiments—they improve the techniques so that the effects are smaller, and smaller, and smaller until they gradually disappear. All the parapsychologists are looking for some experiment that can be repeated—that you can do again and get the same effect—statistically, even. They run a million rats—no, it’s people this time—they do a lot of things and get a certain statistical effect. Next time they try it they don’t get it any more. And now you find a man saying that it is an irrelevant demand to expect a repeatable experiment. This is science?\nThis man also speaks about a new institution, in a talk in which he was resigning as Director of the Institute of Parapsychology. And, in telling people what to do next, he says that one of the things they have to do is be sure they only train students who have shown their ability to get PSI results to an acceptable extent—not to waste their time on those ambitious and interested students who get only chance results. It is very dangerous to have such a policy in teaching—to teach students only how to get certain results, rather than how to do an experiment with scientific integrity.\nSo I wish to you—I have no more time, so I have just one wish for you—the good luck to be somewhere where you are free to maintain the kind of integrity I have described, and where you do not feel forced by a need to maintain your position in the organization, or financial support, or so on, to lose your integrity. May you have that freedom. […]"
+  },
+  {
+    "objectID": "pset1.html",
+    "href": "pset1.html",
+    "title": "Ethics4DS: Coursework 1",
+    "section": "",
+    "text": "Example application:\nA non-utilitarian aspect of this application:\n\n\n\n\n\nGuideline document: (choose one of ASA/RSS/ACM)\nAgreement\n\n\nquoted text\n\nReasoning:\n\nDisagreement\n\n\nquoted text\n\nReasoning:"
+  },
+  {
+    "objectID": "pset1.html#discussion-questions",
+    "href": "pset1.html#discussion-questions",
+    "title": "Ethics4DS: Coursework 1",
+    "section": "",
+    "text": "Example application:\nA non-utilitarian aspect of this application:\n\n\n\n\n\nGuideline document: (choose one of ASA/RSS/ACM)\nAgreement\n\n\nquoted text\n\nReasoning:\n\nDisagreement\n\n\nquoted text\n\nReasoning:"
+  },
+  {
+    "objectID": "pset1.html#data-questions",
+    "href": "pset1.html#data-questions",
+    "title": "Ethics4DS: Coursework 1",
+    "section": "Data questions",
+    "text": "Data questions\n\nComputing fairness metrics\nUse the fairness package. Pick one of the example datasets in the package. Fit a predictive model using that dataset. Choose three different fairness metrics to compute using the predictions from that model. For each of these, compute the values in the fairness metric in two ways: (1) using standard R functions, e.g. arithmetic operations, and (2) using the fairness package functions. Check to see whether you get the same answer.\n\n# install.packages(\"fairness\")\nlibrary(fairness)\n\n\n# Predictive model\n\n\nFairness metric 1\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 2\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 3\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\n\nSimulating a response variable\nNow replace the outcome variable in the original dataset with a new variable that you generate. You can decide how to generate the new outcome. Your goal is to make this outcome result in all the fairness metrics you chose above indicating that the predictive model is fair.\n\n# n &lt;- nrow(datasetname)\n# datasetname$outcomename &lt;- somefunction(n, etc)\n\n\n# Predictive model\n\n\nFairness metric 1\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 2\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 3\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nConcluding thoughts\nDo any of the results above require some explanation? Briefly describe your conclusion here."
   },
   {
     "objectID": "weeks/01-introduction.html",
@@ -126,144 +203,74 @@
     "text": "Notes\nWe discussed Figure 1 from The significance filter, the winner’s curse and the need to shrink and whether the file-drawer effect helps to explain it.\n\n\nSimulating many hypothesis tests\nWe created a simple simulation to understand how this might happen.\n\nlibrary(ggplot2)\nlibrary(dplyr)\ntheme_set(theme_minimal())\nset.seed(1) # for reproducibility\n\n# Generate the simulated world\nN &lt;- 5e4 # total hypotheses tested\nproportion_null &lt;- .4\nsignif_level &lt;- qnorm(.975)\nis_null &lt;- rbinom(N, 1, proportion_null)\neffect_size_nonnull &lt;- .5\nsimulated_world &lt;- data.frame(is_null) |&gt;\n  mutate(\n    zscore = rnorm(N, \n                   mean = (1 - is_null) * effect_size_nonnull,\n                   sd = 1 + .1 * (1 - is_null)))\nhead(simulated_world)\n\n  is_null      zscore\n1       0  0.71621827\n2       0  0.03806304\n3       0  1.77959649\n4       1 -0.40575597\n5       0  1.31850857\n6       1  0.47661057\n\n\nThis creates zscores with mean = 0 and sd = 1 under the null and larger mean and sd values when is_null is false.\n\nObserved effect sizes when proportion 0.4 are null\n\nsimulated_world |&gt;\n  ggplot(aes(x = zscore, fill = factor(is_null))) +\n  geom_density(alpha = .5) +\n  geom_vline(xintercept = c(-1, 1) * signif_level,\n             linetype = \"dotted\") +\n  scale_fill_viridis_d(option = \"magma\")\n\n\n\n\n\n\n\nSimulating publication bias\nBut analysts don’t know which hypotheses are null, so they could not create this plot or separate the zscore values into the null and nonnull cases. Instead, some analysts may choose to only publish the results that seem significant.\n\n# Generate simulated published effects\nproportion_phack &lt;- .9\nwhich_studies_phacked &lt;- rbinom(N, 1, proportion_phack)\nsimulated_publications &lt;-\n  simulated_world |&gt;\n  mutate(phacked = which_studies_phacked) |&gt;\n  dplyr::filter(phacked == 0 | # not p-hacked OR\n                abs(zscore) &gt; signif_level) # large enough\nnrow(simulated_publications)\n\n[1] 8768\n\n\n\nPublished zscores when proportion 0.9 are p-hacked\n\nsimulated_publications |&gt;\n  ggplot(aes(zscore)) +\n  geom_histogram(bins = 50)"
   },
   {
-    "objectID": "pset1.html",
-    "href": "pset1.html",
-    "title": "Ethics4DS: Coursework 1",
+    "objectID": "weeks/06-causality.html",
+    "href": "weeks/06-causality.html",
+    "title": "Causal models",
     "section": "",
-    "text": "Example application:\nA non-utilitarian aspect of this application:\n\n\n\n\n\nGuideline document: (choose one of ASA/RSS/ACM)\nAgreement\n\n\nquoted text\n\nReasoning:\n\nDisagreement\n\n\nquoted text\n\nReasoning:"
+    "text": "Causal models are useful for understanding different kinds of statistical relationships between two or more variables."
   },
   {
-    "objectID": "pset1.html#discussion-questions",
-    "href": "pset1.html#discussion-questions",
-    "title": "Ethics4DS: Coursework 1",
+    "objectID": "weeks/06-causality.html#summary",
+    "href": "weeks/06-causality.html#summary",
+    "title": "Causal models",
     "section": "",
-    "text": "Example application:\nA non-utilitarian aspect of this application:\n\n\n\n\n\nGuideline document: (choose one of ASA/RSS/ACM)\nAgreement\n\n\nquoted text\n\nReasoning:\n\nDisagreement\n\n\nquoted text\n\nReasoning:"
+    "text": "Causal models are useful for understanding different kinds of statistical relationships between two or more variables."
   },
   {
-    "objectID": "pset1.html#data-questions",
-    "href": "pset1.html#data-questions",
-    "title": "Ethics4DS: Coursework 1",
-    "section": "Data questions",
-    "text": "Data questions\n\nComputing fairness metrics\nUse the fairness package. Pick one of the example datasets in the package. Fit a predictive model using that dataset. Choose three different fairness metrics to compute using the predictions from that model. For each of these, compute the values in the fairness metric in two ways: (1) using standard R functions, e.g. arithmetic operations, and (2) using the fairness package functions. Check to see whether you get the same answer.\n\n# install.packages(\"fairness\")\nlibrary(fairness)\n\n\n# Predictive model\n\n\nFairness metric 1\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 2\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 3\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\n\nSimulating a response variable\nNow replace the outcome variable in the original dataset with a new variable that you generate. You can decide how to generate the new outcome. Your goal is to make this outcome result in all the fairness metrics you chose above indicating that the predictive model is fair.\n\n# n &lt;- nrow(datasetname)\n# datasetname$outcomename &lt;- somefunction(n, etc)\n\n\n# Predictive model\n\n\nFairness metric 1\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 2\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nFairness metric 3\nWhich metric: (name here)\n\n# Computing manually\n\n\n# Comparing to the fairness package answer\n\n\n\nConcluding thoughts\nDo any of the results above require some explanation? Briefly describe your conclusion here."
-  },
-  {
-    "objectID": "weeks/02-history.html",
-    "href": "weeks/02-history.html",
-    "title": "What do we want from Statistics?",
-    "section": "",
-    "text": "Vignettes about the history, philosophy, and profession of statistics."
-  },
-  {
-    "objectID": "weeks/02-history.html#summary",
-    "href": "weeks/02-history.html#summary",
-    "title": "What do we want from Statistics?",
-    "section": "",
-    "text": "Vignettes about the history, philosophy, and profession of statistics."
-  },
-  {
-    "objectID": "weeks/02-history.html#references",
-    "href": "weeks/02-history.html#references",
-    "title": "What do we want from Statistics?",
+    "objectID": "weeks/06-causality.html#references",
+    "href": "weeks/06-causality.html#references",
+    "title": "Causal models",
     "section": "References",
-    "text": "References\n\nAssigned reading\n\nA Day in the Life of a Statistician (brief sketch written by a historian of science)\nWikipedia: one, two, three, four articles to briefly scan\nAt least one of:\n\nSurrogate Science: The Idol of a Universal Method for Scientific Inference\nCargo-cult statistics and scientific crisis\n\nAt least one of:\n\nThe Role of the Statistician: Scientist or Shoe Clerk\nStatistical Criticism Sections 1-5\n\n\nWikipedia pages can be briefly skimmed.\n\n\nAdditional references\n\nStatistical pluralism\n\nStatistical Modeling: The Two Cultures by Leo Breiman (and comments by others)\nConclusions vs Decisions by John W. Tukey\nStatistical Criticism with commentary\n\n\n\nResearch hall of shame\n\nZimbardo (note: his response to criticisms), etc\nWansink, etc"
+    "text": "References\n\nAssigned reading\n\nFairML Book Chapter 5 on Causality, at least to the section on Counterfactuals (about halfway through).\n\n\n\nAdditional references\n\nFairML Book the rest of Chapter 5.\nCausal Inference: The Mixtape Sections 1.1, 1.2, and 3.1 up to 3.1.3 (stop before 3.1.4)"
   },
   {
-    "objectID": "weeks/02-history.html#notes",
-    "href": "weeks/02-history.html#notes",
-    "title": "What do we want from Statistics?",
+    "objectID": "weeks/06-causality.html#notes",
+    "href": "weeks/06-causality.html#notes",
+    "title": "Causal models",
     "section": "Notes",
-    "text": "Notes\n\nExcerpts from The Pernicious Influence of Mathematics on Science\n\nI wish to confine myself to the negative aspects, leaving it to others to dwell on the amazing triumphs of the mathematical method; and also to comment not only on physical science but also on social science, in which the characteristic inadequacies which I wish to discuss are more readily apparent.\nComputer programmers often make a certain remark about computing machines, which may perhaps be taken as a complaint: that computing machines, with a perfect lack of discrimination, will do any foolish thing they are told to do. The reason for this lies of course in the narrow fixation of the computing machine “intelligence” upon the basely typographical details of its own perceptions–its inability to be guided by any large context. In a psychological description of the computer intelligence, three related adjectives push themselves forward: single-mindedness, literal-mindedness, simple- mindedness. Recognizing this, we should at the same time recognize that this single-mindedness, literal-mindedness, simple-mindedness also characterizes theoretical mathematics, though to a lesser extent.\nIt is a continual result of the fact that science tries to deal with reality that even the most precise sciences normally work with more or less ill-understood approximations toward which the scientist must maintain an appropriate skepticism. […] This very healthy self-skepticism is foreign to the mathematical approach.\n[…] The mathematician turns the scientist’s theoretical assumptions, i.e., convenient points of analytical emphasis, into axioms, and then takes these axioms literally. This brings with it the danger that he may also persuade the scientist to take these axioms literally. The question, central to the scientific investigation but intensely disturbing in the mathematical context–what happens to all this if the axioms are relaxed–is thereby put into shadow.\n[…] Related to this deficiency of mathematics, and perhaps more productive of rueful consequence, is the simple-mindedness of mathematics–its willingness, like that of a computing machine, to elaborate upon any idea, however absurd; to dress scientific brilliancies and scientific absurdities alike in the impressive uniform of formulae and theorems. Unfortunately however, an absurdity in uniform is far more persuasive than an absurdity unclad. The very fact that a theory appears in mathematical form, that, for instance, a theory has provided the occasion for the application of a fixed-point theorem, or of a result about difference equations, somehow makes us more ready to take it seriously. And the mathematical-intellectual effort of applying the theorem fixes in us the particular point of view of the theory with which we deal, making us blind to whatever appears neither as a dependent nor as an independent parameter in its mathematical formulation.\nThe result, perhaps most common in the social sciences, is bad theory with a mathematical passport. […]\n\n\n\nExcerpts from Cargo Cult Science html version\n\n[…] the educational and psychological studies I mentioned are examples of what I would like to call Cargo Cult Science. In the South Seas there is a Cargo Cult of people. During the war they saw airplanes land with lots of good materials, and they want the same thing to happen now. So they’ve arranged to make things like runways, to put fires along the sides of the runways, to make a wooden hut for a man to sit in, with two wooden pieces on his head like headphones and bars of bamboo sticking out like antennas—he’s the controller—and they wait for the airplanes to land. They’re doing everything right. The form is perfect. It looks exactly the way it looked before. But it doesn’t work. No airplanes land. So I call these things Cargo Cult Science, because they follow all the apparent precepts and forms of scientific investigation, but they’re missing something essential, because the planes don’t land.\nNow it behooves me, of course, to tell you what they’re missing. But it would he just about as difficult to explain to the South Sea Islanders how they have to arrange things so that they get some wealth in their system. It is not something simple like telling them how to improve the shapes of the earphones. But there is one feature I notice that is generally missing in Cargo Cult Science. That is the idea that we all hope you have learned in studying science in school—we never explicitly say what this is, but just hope that you catch on by all the examples of scientific investigation. It is interesting, therefore, to bring it out now and speak of it explicitly. It’s a kind of scientific integrity, a principle of scientific thought that corresponds to a kind of utter honesty—a kind of leaning over backwards. For example, if you’re doing an experiment, you should report everything that you think might make it invalid—not only what you think is right about it: other causes that could possibly explain your results; and things you thought of that you’ve eliminated by some other experiment, and how they worked—to make sure the other fellow can tell they have been eliminated.\nDetails that could throw doubt on your interpretation must be given, if you know them. You must do the best you can—if you know anything at all wrong, or possibly wrong—to explain it. If you make a theory, for example, and advertise it, or put it out, then you must also put down all the facts that disagree with it, as well as those that agree with it. There is also a more subtle problem. When you have put a lot of ideas together to make an elaborate theory, you want to make sure, when explaining what it fits, that those things it fits are not just the things that gave you the idea for the theory; but that the finished theory makes something else come out right, in addition.\nIn summary, the idea is to try to give all of the information to help others to judge the value of your contribution; not just the information that leads to judgment in one particular direction or another.\nThe easiest way to explain this idea is to contrast it, for example, with advertising. […]\nWe’ve learned from experience that the truth will out. Other experimenters will repeat your experiment and find out whether you were wrong or right. Nature’s phenomena will agree or they’ll disagree with your theory. And, although you may gain some temporary fame and excitement, you will not gain a good reputation as a scientist if you haven’t tried to be very careful in this kind of work. And it’s this type of integrity, this kind of care not to fool yourself, that is missing to a large extent in much of the research in Cargo Cult Science.\nA great deal of their difficulty is, of course, the difficulty of the subject and the inapplicability of the scientific method to the subject. Nevertheless, it should be remarked that this is not the only difficulty. That’s why the planes don’t land—but they don’t land.\nWe have learned a lot from experience about how to handle some of the ways we fool ourselves. […]\nBut this long history of learning how to not fool ourselves—of having utter scientific integrity—is, I’m sorry to say, something that we haven’t specifically included in any particular course that I know of. We just hope you’ve caught on by osmosis.\nThe first principle is that you must not fool yourself—and you are the easiest person to fool. So you have to be very careful about that. After you’ve not fooled yourself, it’s easy not to fool other scientists. You just have to be honest in a conventional way after that.\n[…]\nOne example of the principle is this: If you’ve made up your mind to test a theory, or you want to explain some idea, you should always decide to publish it whichever way it comes out. If we only publish results of a certain kind, we can make the argument look good. We must publish both kinds of result. For example—let’s take advertising again—suppose some particular cigarette has some particular property, like low nicotine. It’s published widely by the company that this means it is good for you—they don’t say, for instance, that the tars are a different proportion, or that something else is the matter with the cigarette. In other words, publication probability depends upon the answer. That should not be done.\nI say that’s also important in giving certain types of government advice. Supposing a senator asked you for advice about whether drilling a hole should be done in his state; and you decide it would he better in some other state. If you don’t publish such a result, it seems to me you’re not giving scientific advice. You’re being used. If your answer happens to come out in the direction the government or the politicians like, they can use it as an argument in their favor; if it comes out the other way, they don’t publish it at all. That’s not giving scientific advice.\n[…] I was shocked to hear of an experiment done at the big accelerator at the National Accelerator Laboratory, where a person used deuterium. In order to compare his heavy hydrogen results to what might happen to light hydrogen he had to use data from someone else’s experiment on light hydrogen, which was done on different apparatus. When asked he said it was because he couldn’t get time on the program (because there’s so little time and it’s such expensive apparatus) to do the experiment with light hydrogen on this apparatus because there wouldn’t be any new result. And so the men in charge of programs at NAL are so anxious for new results, in order to get more money to keep the thing going for public relations purposes, they are destroying—possibly—the value of the experiments themselves, which is the whole purpose of the thing. It is often hard for the experimenters there to complete their work as their scientific integrity demands.\nAll experiments in psychology are not of this type, however. For example, there have been many experiments running rats through all kinds of mazes, and so on—with little clear result. But in 1937 a man named Young did a very interesting one. He had a long corridor with doors all along one side where the rats came in, and doors along the other side where the food was. He wanted to see if he could train the rats to go in at the third door down from wherever he started them off. No. The rats went immediately to the door where the food had been the time before.\nThe question was, how did the rats know, because the corridor was so beautifully built and so uniform, that this was the same door as before? Obviously there was something about the door that was different from the other doors. So he painted the doors very carefully, arranging the textures on the faces of the doors exactly the same. Still the rats could tell. Then he thought maybe the rats were smelling the food, so he used chemicals to change the smell after each run. Still the rats could tell. Then he realized the rats might be able to tell by seeing the lights and the arrangement in the laboratory like any commonsense person. So he covered the corridor, and, still the rats could tell.\nHe finally found that they could tell by the way the floor sounded when they ran over it. And he could only fix that by putting his corridor in sand. So he covered one after another of all possible clues and finally was able to fool the rats so that they had to learn to go in the third door. If he relaxed any of his conditions, the rats could tell.\nNow, from a scientific standpoint, that is an A‑Number‑l experiment. That is the experiment that makes rat‑running experiments sensible, because it uncovers the clues that the rat is really using—not what you think it’s using. And that is the experiment that tells exactly what conditions you have to use in order to be careful and control everything in an experiment with rat‑running.\nI looked into the subsequent history of this research. The subsequent experiment, and the one after that, never referred to Mr. Young. They never used any of his criteria of putting the corridor on sand, or being very careful. They just went right on running rats in the same old way, and paid no attention to the great discoveries of Mr. Young, and his papers are not referred to, because he didn’t discover anything about the rats. In fact, he discovered all the things you have to do to discover something about rats. But not paying attention to experiments like that is a characteristic of Cargo Cult Science.\nAnother example is the ESP experiments of Mr. Rhine, and other people. As various people have made criticisms—and they themselves have made criticisms of their own experiments—they improve the techniques so that the effects are smaller, and smaller, and smaller until they gradually disappear. All the parapsychologists are looking for some experiment that can be repeated—that you can do again and get the same effect—statistically, even. They run a million rats—no, it’s people this time—they do a lot of things and get a certain statistical effect. Next time they try it they don’t get it any more. And now you find a man saying that it is an irrelevant demand to expect a repeatable experiment. This is science?\nThis man also speaks about a new institution, in a talk in which he was resigning as Director of the Institute of Parapsychology. And, in telling people what to do next, he says that one of the things they have to do is be sure they only train students who have shown their ability to get PSI results to an acceptable extent—not to waste their time on those ambitious and interested students who get only chance results. It is very dangerous to have such a policy in teaching—to teach students only how to get certain results, rather than how to do an experiment with scientific integrity.\nSo I wish to you—I have no more time, so I have just one wish for you—the good luck to be somewhere where you are free to maintain the kind of integrity I have described, and where you do not feel forced by a need to maintain your position in the organization, or financial support, or so on, to lose your integrity. May you have that freedom. […]"
+    "text": "Notes\n\nSimulating data based on DAGs\nNote: we can make nice graphs using the ggdag package to plot graphs.\n\nGraph: \\(X \\rightarrow Y\\)\nOriginal world\n\nlibrary(tidyverse)\ntheme_set(theme_minimal())\nset.seed(1)\nn &lt;- 200\n# Step 1: Generate variables with no parents\nf_X &lt;- function(noise) noise - 1\nnoise_X &lt;- rnorm(n)\nX &lt;- f_X(noise_X)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_Y &lt;- function(x, noise) 3 * x + 2 * noise\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(X, noise_Y)\nqplot(X, Y)\n\n\n\n\nSample average of Y:\n\nmean(Y)\n\n[1] -2.812106\n\n\nWorld after intervention\nWe start by copying and pasting the original code, then we modify the program to change some variable. In this case we do an “atomic” intervention setting all \\(X\\) values to 1.\nSince the code is written in a way that any variables depending on \\(X\\) (in this graph \\(Y\\) does) are generated after \\(X\\), this intervention on \\(X\\) may change their distributions as well.\n\n# Step 1: Generate variables with no parents\nX &lt;- 1\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_Y &lt;- function(x, noise) 3 * x + 2 * noise\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(X, noise_Y)\nqplot(X, Y)\n\n\n\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.916346\n\n\nExplanation\nWith this simple data generating process we can see that \\(X \\sim N(-1, 1)\\) and \\((Y | X = x) \\sim N(3x, 4)\\). By linearity, \\(E[Y] = 3E[X] = -3\\) in the original world. But after the intervention \\(\\text{do}(X := 1)\\), we have \\(E[Y] = 3 E[1] = 3 \\cdot 1 = 3\\).\n\n\nGraph: \\(X \\leftarrow U \\rightarrow Y\\)\nOriginal world\n\nn &lt;- 10000 # reduce sampling variability\n# Step 1: Generate variables with no parents\nU &lt;- rnorm(n)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nf_X &lt;- function(u, noise) 2 * u + 3 + noise\nnoise_X &lt;- rnorm(n)\nX &lt;- f_X(U, noise_X)\nf_Y &lt;- function(u, noise) u^2 + noise^2\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(U, noise_Y)\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.030961\n\n\nWorld after intervention\nAn “atomic” intervention setting all X values to 1.\n\n# Step 1: Generate variables with no parents\nU &lt;- rnorm(n)\n# Step k+1: Generate variables that had their\n# set of parents finish generating at step k\nX &lt;- 1\nf_Y &lt;- function(u, noise) u^2 + noise^2\nnoise_Y &lt;- rnorm(n)\nY &lt;- f_Y(U, noise_Y)\n\nSample average of Y:\n\nmean(Y)\n\n[1] 2.032377\n\n\nExplanation\nIn this case the mean of \\(Y\\) did not change because the variable we intervened on, \\(X\\), is not a cause of \\(Y\\)."
   },
   {
-    "objectID": "weeks/05-opportunity.html",
-    "href": "weeks/05-opportunity.html",
-    "title": "Motivations for types of fairness",
+    "objectID": "weeks/07-causaltools.html",
+    "href": "weeks/07-causaltools.html",
+    "title": "Applying causality",
     "section": "",
-    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
+    "text": "Applying causal models to analyze questions in algorithmic fairness and scientific reproducibility."
   },
   {
-    "objectID": "weeks/05-opportunity.html#summary",
-    "href": "weeks/05-opportunity.html#summary",
-    "title": "Motivations for types of fairness",
+    "objectID": "weeks/07-causaltools.html#summary",
+    "href": "weeks/07-causaltools.html#summary",
+    "title": "Applying causality",
     "section": "",
-    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
+    "text": "Applying causal models to analyze questions in algorithmic fairness and scientific reproducibility."
   },
   {
-    "objectID": "weeks/05-opportunity.html#references",
-    "href": "weeks/05-opportunity.html#references",
-    "title": "Motivations for types of fairness",
+    "objectID": "weeks/07-causaltools.html#references",
+    "href": "weeks/07-causaltools.html#references",
+    "title": "Applying causality",
     "section": "References",
-    "text": "References\n\nAssigned reading\n\nInherent Trade-Offs in the Fair Determination of Risk Scores read Section 1 through the statement of Theorem 1.1, and also read the Conclusion (Section 5).\nFairML Book Chapter 4 on Relative notions of fairness, beginning with the section on Intentionality and indirect discrimination.\n\n\n\nAdditional references\n\nFair prediction with disparate impact: A study of bias in recidivism prediction instruments\nFairML Book the rest of Chapter 4."
+    "text": "References\n\nAssigned reading\n\nFairML Book the rest of Chapter 5 on Causality.\n\n\n\nAdditional references\n\nDisparate Causes\nCausal Inference: The Mixtape Sections 1.1, 1.2, and 3.1 up to 3.1.3 (stop before 3.1.4)"
   },
   {
-    "objectID": "weeks/05-opportunity.html#notes",
-    "href": "weeks/05-opportunity.html#notes",
-    "title": "Motivations for types of fairness",
+    "objectID": "weeks/07-causaltools.html#notes",
+    "href": "weeks/07-causaltools.html#notes",
+    "title": "Applying causality",
     "section": "Notes",
     "text": "Notes"
   },
   {
-    "objectID": "weeks/04-fairness.html",
-    "href": "weeks/04-fairness.html",
-    "title": "Fairness and prediction",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Weekly content",
     "section": "",
-    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
+    "text": "Applying causality\n\n\n\n\n\n\n\n\n\n\n\n\nNov 11, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nCausal models\n\n\n\n\n\n\n\n\n\n\n\n\nOct 31, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nMotivations for types of fairness\n\n\n\n\n\n\n\n\n\n\n\n\nOct 22, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nFairness and prediction\n\n\n\n\n\n\n\n\n\n\n\n\nOct 16, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nEthical research conduct\n\n\n\n\n\n\n\n\n\n\n\n\nOct 10, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nWhat do we want from Statistics?\n\n\n\n\n\n\n\n\n\n\n\n\nOct 3, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\n  \n\n\n\n\nIntroduction and examples\n\n\n\n\n\n\n\n\n\n\n\n\nSep 26, 2022\n\n\nJoshua Loftus\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "weeks/04-fairness.html#summary",
-    "href": "weeks/04-fairness.html#summary",
-    "title": "Fairness and prediction",
+    "objectID": "coursework2.html",
+    "href": "coursework2.html",
+    "title": "Ethics4DS: Coursework 2",
     "section": "",
-    "text": "The data and formal precision of predictive algorithms make evident certain kinds of unfairness. There are many ideas about how to make algorithms more fair, and this week we will consider a few examples of statistical definitions of fairness."
-  },
-  {
-    "objectID": "weeks/04-fairness.html#references",
-    "href": "weeks/04-fairness.html#references",
-    "title": "Fairness and prediction",
-    "section": "References",
-    "text": "References\n\nAssigned reading\n\nFairML Book Chapter 3 on Classification. It’s OK to skip the proofs in the section called Relationships between criteria.\nProPublica Machine Bias\n\n\n\nAdditional references\n\nProPublica COMPAS Methods Article\n50 Years of Test (Un)fairness: Lessons for Machine Learning"
-  },
-  {
-    "objectID": "weeks/04-fairness.html#notes",
-    "href": "weeks/04-fairness.html#notes",
-    "title": "Fairness and prediction",
-    "section": "Notes",
-    "text": "Notes"
-  },
-  {
-    "objectID": "weeks/03-research.html",
-    "href": "weeks/03-research.html",
-    "title": "Ethical research conduct",
-    "section": "",
-    "text": "Historical examples of harmful research, guidelines for ethical research, reproducible practices."
-  },
-  {
-    "objectID": "weeks/03-research.html#summary",
-    "href": "weeks/03-research.html#summary",
-    "title": "Ethical research conduct",
-    "section": "",
-    "text": "Historical examples of harmful research, guidelines for ethical research, reproducible practices."
-  },
-  {
-    "objectID": "weeks/03-research.html#references",
-    "href": "weeks/03-research.html#references",
-    "title": "Ethical research conduct",
-    "section": "References",
-    "text": "References\n\nAssigned reading\n\nAt least two from the following ethical guidelines created by professional societies:\n\nRoyal Statistical Society\nAmerican Statistical Association\nAssociation for Computing Machinery\n\n\nWikipedia pages to briefly skim:\n\nTuskegee Syphilis Study (read summary section at the top)\nBelmont Report (read History section)\nMenlo Report (read Implementation of the Principles section)\n\n\n\nAdditional references\n\nGood researchers\n\nBill Jenkins"
-  },
-  {
-    "objectID": "weeks/03-research.html#notes",
-    "href": "weeks/03-research.html#notes",
-    "title": "Ethical research conduct",
-    "section": "Notes",
-    "text": "Notes"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "Course information",
-    "section": "",
-    "text": "Course guide listing"
+    "text": "Reproducibility and causality\n\nReproducible and causal [20 marks]\n\nCreate a simulation with data generating code that is consistent with a specific causal model structure. Choose the structure to satisfy all these requirements [10 marks]\n\n\n# Data generation\n# Structure: e.g. \"Z -&gt; Y and Z -&gt; X -&gt; Y\"\n\n\nShow that there is a reproducible effect, i.e. one that can be found fairly consistently (e.g. in more than five percent of experiments) without using p-hacking [5 marks]\n\n\n# Code for simulating multiple experiments\n\n\n# Code for showing the significance of the effect\n\n\nShow, by simulating an intervention, that the above effect is causal [5 marks]\n\n\n# Code for simulating an intervention \n# and showing the effect on an outcome\n\n\n\nReproducible but not causal [20 marks]\n\nRepeat the above section, but in this case choose the causal model generating your data so that the reproducible effect is not causal, i.e. an intervention on that variable does not change the outcome variable [10 marks]\n\n\n# Data generation\n# Structure: \n\n\nShow that there is a reproducible effect, i.e. one that can be found fairly consistently (e.g. in more than five percent of experiments) without using p-hacking [5 marks]\n\n\n# Code for simulating multiple experiments\n\n\n# Code for showing the significance of the effect\n\n\nShow, by simulating an intervention, that the above effect is not causal [5 marks]\n\n\n# Code for simulating an intervention \n# and showing the effect on an outcome\n\n\n\n\nFairness and causality\n\nCreate a simulation with data generating code that is consistent with a specific causal model structure. Choose the structure to satisfy all these requirements\n\n\nData generation [10 marks]\n\nVariable A should be a categorical “sensitive attribute,” Y should be an outcome to be predicted, and X some other predictor. If you decide to include an unobserved variable, name it U [5 marks]\nIn your example, A should not have any causal effect on Y (including direct or indirect effects), i.e. there should be no directed pathway from A to Y in the structure graph [5 marks]\n\n\n# Data generation\n# Structure: \n\n\n\nPredictive accuracy [20 marks]\n\nFit a “full” model predicting Y from A and X, and a separate “unaware” model predicting Y from X only [10 marks]\n\n\n# Generate training data (if not already)\n\n# Fit models\n\n\nGenerate a second sample of data and compare the predictive accuracy of these models when predicting on the new sample. If the full model is not significantly more accurate, change the data generating code until it is\nUse this test data for all remaining parts of the coursework below this point\n\n\n# Generate test data\n\n\nCompare predictive accuracy of the two models on test data [10 marks]\nHint: You may wish to read about the newdata argument in ?predict.lm or ?predict.glm\nChoose any accuracy measure you wish, e.g. if Y is numeric you could use mean squared error, sqrt(MSE), median absolute error, etc. If it’s binary you could use misclassification rate, or false positive rate, or false negative rate, etc.\nNote: if Y is binary and you’re using logistic regression, you may want to see ?predict.glm and read about the response argument\n\n\n# Compare predictive accuracy on test data\n\n\n\nDisparate predictions? [20 marks]\n\nFor each of the two predictive models, compare the average predicted outcomes for two subsamples with different values of A (e.g. if A is a binary, 0/1 variable, compare average predictions for the A == 0 group and the A == 1 group) [10 marks]\n\n\n# Hint: use `subset()` or `dplyr::filter()` with A\n\n\nFor each of the two predictive models, compare the predictive accuracy for the same two subsamples as above [10 marks]\n\n\n# Predictive accuracy in each group\n\n\n\nStory time [10 marks]\n(Delete from here to the beginning of your own writing before the final knit)\n\nDescribe a (reasonably plausible) real world scenario that could fit with your answers to this section.\nWhat do the variables represent? Who would be fitting/using the predictive models, and what would they use the predictions for? How could a disparity in the predictions of the models potentially affect people and make ethics relevant for the example? [5 marks]\nGive an explanation for why the variables, with the real world meanings you have given them, could possibly not have any causal relationship between A and Y, even though using A results in more accurate predictions [5 marks]\n\nRemember to replace candidate_number and “[Candidate number here]” at the top of the document and knit one last time before submitting\nWrite here and delete this text"
   },
   {
     "objectID": "answers1.html",

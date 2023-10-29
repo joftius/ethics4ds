@@ -1,0 +1,149 @@
+---
+title: "Ethics4DS: Coursework 2"
+author: "[Candidate number here]"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+theme_set(theme_minimal())
+candidate_number <- 1 # change this
+set.seed(candidate_number)
+```
+
+### Reproducibility and causality
+
+#### Reproducible and causal [20 marks]
+
+- Create a simulation with data generating code that is consistent with a specific causal model structure. Choose the structure to satisfy all these requirements [10 marks]
+
+```{r}
+# Data generation
+# Structure: e.g. "Z -> Y and Z -> X -> Y"
+
+```
+
+- Show that there is a reproducible effect, i.e. one that can be found fairly consistently (e.g. in more than five percent of experiments) without using p-hacking [5 marks]
+
+```{r}
+# Code for simulating multiple experiments
+
+```
+
+```{r}
+# Code for showing the significance of the effect
+
+```
+
+- Show, by simulating an intervention, that the above effect is causal [5 marks]
+
+```{r}
+# Code for simulating an intervention 
+# and showing the effect on an outcome
+
+```
+
+#### Reproducible but not causal [20 marks]
+
+- Repeat the above section, but in this case choose the causal model generating your data so that the reproducible effect is not causal, i.e. an intervention on that variable does not change the outcome variable [10 marks]
+
+```{r}
+# Data generation
+# Structure: 
+
+```
+
+- Show that there is a reproducible effect, i.e. one that can be found fairly consistently (e.g. in more than five percent of experiments) without using p-hacking [5 marks]
+
+```{r}
+# Code for simulating multiple experiments
+
+```
+
+```{r}
+# Code for showing the significance of the effect
+
+```
+
+- Show, by simulating an intervention, that the above effect is not causal [5 marks]
+
+```{r}
+# Code for simulating an intervention 
+# and showing the effect on an outcome
+
+```
+
+### Fairness and causality
+
+- Create a simulation with data generating code that is consistent with a specific causal model structure. Choose the structure to satisfy all these requirements
+
+#### Data generation [10 marks]
+
+- Variable `A` should be a categorical "sensitive attribute," `Y` should be an outcome to be predicted, and `X` some other predictor. If you decide to include an unobserved variable, name it `U` [5 marks]
+- In your example, `A` should not have any causal effect on `Y` (including direct or indirect effects), i.e. there should be no directed pathway from `A` to `Y` in the structure graph [5 marks]
+
+```{r}
+# Data generation
+# Structure: 
+
+```
+
+#### Predictive accuracy [20 marks]
+
+- Fit a "full" model predicting `Y` from `A` and `X`, and a separate "unaware" model predicting `Y` from `X` only [10 marks]
+
+```{r}
+# Generate training data (if not already)
+
+# Fit models
+
+```
+
+- Generate a second sample of data and compare the predictive accuracy of these models when predicting on the new sample. If the full model is not significantly more accurate, change the data generating code until it is
+- Use this test data for all remaining parts of the coursework below this point
+
+```{r}
+# Generate test data
+
+```
+
+- Compare predictive accuracy of the two models on test data [10 marks]
+- Hint: You may wish to read about the `newdata` argument in `?predict.lm` or `?predict.glm`
+- Choose any accuracy measure you wish, e.g. if `Y` is numeric you could use mean squared error, sqrt(MSE), median absolute error, etc. If it's binary you could use misclassification rate, or false positive rate, or false negative rate, etc.
+- Note: if `Y` is binary and you're using logistic regression, you may want to see `?predict.glm` and read about the `response` argument
+
+```{r}
+# Compare predictive accuracy on test data
+
+```
+
+#### Disparate predictions? [20 marks]
+
+- For each of the two predictive models, compare the average predicted outcomes for two subsamples with different values of `A` (e.g. if `A` is a binary, 0/1 variable, compare average predictions for the `A == 0` group and the `A == 1` group) [10 marks]
+
+```{r}
+# Hint: use `subset()` or `dplyr::filter()` with A
+
+```
+
+- For each of the two predictive models, compare the predictive accuracy for the same two subsamples as above [10 marks]
+
+```{r}
+# Predictive accuracy in each group
+
+```
+
+#### Story time [10 marks]
+
+(Delete from here to the beginning of your own writing before the final knit)
+
+- Describe a (reasonably plausible) real world scenario that could fit with your answers to this section.
+- What do the variables represent? Who would be fitting/using the predictive models, and what would they use the predictions for? How could a disparity in the predictions of the models potentially affect people and make ethics relevant for the example? [5 marks]
+- Give an explanation for why the variables, with the real world meanings you have given them, could possibly not have any causal relationship between `A` and `Y`, even though using `A` results in more accurate predictions [5 marks]
+
+Remember to replace `candidate_number` and "[Candidate number here]" at the top of the document and knit one last time before submitting
+
+Write here and delete this text
+
