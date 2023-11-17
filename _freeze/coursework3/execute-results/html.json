@@ -1,0 +1,14 @@
+{
+  "hash": "cf2a3b34bdc276b4f72ca63cb87c0d6f",
+  "result": {
+    "markdown": "---\ntitle: \"Ethics4DS: Coursework 3\"\nauthor: \"[Candidate number here]\"\ndate: \"2023-11-17\"\noutput: html_document\n---\n\n\n\n\n## Short essays\n\nPick combinations of course concepts and write short essays (at least two) relating them. Each short essay could be anywhere from a sentence to a paragraph or even longer if you find the idea worth exploring in greater depth.\n\nFor example, you might choose a subset of these:\n\n- values: pluralism, instrumental, instrinsic\n- normative theories: consequential, deontological, virtue, pragmatic\n- Belmont-Menlo principles from [course](https://joshualoftus.com/ms4ds/ethical-data-science.html#applied-ethics) [readings](https://www.bitbybitbook.com/en/1st-ed/ethics/principles/)\n\nand use them to analyse, support, or critique each other, and/or some choice of these:\n\n- fairness definitions: parity, opportunity, calibration, etc\n- fairness methods: pre-processing, in-training, post-processing\n- accounts of the wrongfulness of discrimination from [fairML book](https://fairmlbook.org/relative.html#six-accounts-of-the-wrongfulness-of-discrimination)\n- merit, desert, opportunity, utility, stakeholders, power, etc\n\nYou could also choose something else from course lectures or readings, or even from an outside reference if it's related. The purpose is just to practice thinking and writing clearly about these concepts and how they relate to each other.\n\nThe purpose is to demonstrate your *understanding and skillful use* of the concepts by communicating a clear, good, and convincing point of view. It may help to choose to make an argument that you are personally interested in or have strong agreement or disagreement with. [Here is some good advice](https://researchinsiders.blog/2015/06/12/10-tips-for-more-concise-writing/) about writing. Reading your writing aloud can be helpful when editing.\n\nYou may also want to read about [formatting text in markdown](https://rstudio.github.io/cheatsheets/html/rmarkdown.html#write-with-markdown) if you are not already familiar.\n\nYou can delete all of these instructions before knitting your final document.\n\n### Title: \n\n(Essay 1 goes here, delete this line)\n\n### Title: \n\n(Essay 2 goes here, delete this line)\n\n## Simulations\n\nConduct a simulation study to explore multiple testing correction methods\n\n- Methods: Bonferroni-Dunn and/or Benjamini-Hochberg\n- Metrics: family-wise error rates, false discovery rates, true positive rates\n- Conditions: global null hypothesis, mixtures of null and non-null with various proportions of each and various signal strengths for the non-nulls\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,56 @@
+---
+title: "Ethics4DS: Coursework 3"
+author: "[Candidate number here]"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+theme_set(theme_minimal())
+candidate_number <- 1 # change this
+set.seed(candidate_number)
+```
+
+## Short essays
+
+Pick combinations of course concepts and write short essays (at least two) relating them. Each short essay could be anywhere from a sentence to a paragraph or even longer if you find the idea worth exploring in greater depth.
+
+For example, you might choose a subset of these:
+
+- values: pluralism, instrumental, instrinsic
+- normative theories: consequential, deontological, virtue, pragmatic
+- Belmont-Menlo principles from [course](https://joshualoftus.com/ms4ds/ethical-data-science.html#applied-ethics) [readings](https://www.bitbybitbook.com/en/1st-ed/ethics/principles/)
+
+and use them to analyse, support, or critique each other, and/or some choice of these:
+
+- fairness definitions: parity, opportunity, calibration, etc
+- fairness methods: pre-processing, in-training, post-processing
+- accounts of the wrongfulness of discrimination from [fairML book](https://fairmlbook.org/relative.html#six-accounts-of-the-wrongfulness-of-discrimination)
+- merit, desert, opportunity, utility, stakeholders, power, etc
+
+You could also choose something else from course lectures or readings, or even from an outside reference if it's related. The purpose is just to practice thinking and writing clearly about these concepts and how they relate to each other.
+
+The purpose is to demonstrate your *understanding and skillful use* of the concepts by communicating a clear, good, and convincing point of view. It may help to choose to make an argument that you are personally interested in or have strong agreement or disagreement with. [Here is some good advice](https://researchinsiders.blog/2015/06/12/10-tips-for-more-concise-writing/) about writing. Reading your writing aloud can be helpful when editing.
+
+You may also want to read about [formatting text in markdown](https://rstudio.github.io/cheatsheets/html/rmarkdown.html#write-with-markdown) if you are not already familiar.
+
+You can delete all of these instructions before knitting your final document.
+
+### Title: 
+
+(Essay 1 goes here, delete this line)
+
+### Title: 
+
+(Essay 2 goes here, delete this line)
+
+## Simulations
+
+Conduct a simulation study to explore multiple testing correction methods
+
+- Methods: Bonferroni-Dunn and/or Benjamini-Hochberg
+- Metrics: family-wise error rates, false discovery rates, true positive rates
+- Conditions: global null hypothesis, mixtures of null and non-null with various proportions of each and various signal strengths for the non-nulls
+
