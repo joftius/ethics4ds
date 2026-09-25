@@ -1,0 +1,217 @@
+---
+title: "Selection and the replication crisis"
+subtitle: "Class"
+author: "Joshua Loftus"
+format:
+  html:
+    toc: true
+execute:
+  message: false
+  warning: false
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+theme_set(theme_minimal())
+set.seed(313)
+```
+
+## To start
+
+Two things, on the shared document.
+
+1. One ethical issue in data science that concerns you. A sentence is
+   enough.
+2. From memory: what does the power of a test depend on? And which way does
+   selecting on significance push a published estimate?
+
+## Problems
+
+Everything can be done by hand with $\Phi(1) = 0.84$, $\Phi(2) = 0.977$,
+$\phi(0) = 0.399$, $\phi(1) = 0.242$ and $\phi(2) = 0.054$. Use $c = 2$
+as the threshold throughout; it is close enough to 1.96.
+
+Parts marked **(class)** are for the class. The rest are for practice
+afterwards. Answers will be released after the class.
+
+### 1. Many tests
+
+An analyst tests $k$ true null hypotheses, independently, each at level
+$0.05$, and reports the smallest $p$-value.
+
+(a) **(class)** What is the probability that the reported $p$-value is
+below 0.05, for $k = 1$, $k = 10$ and $k = 20$?
+
+(b) A second analyst announces in advance that they will test only
+hypothesis number 7 of the same 20, and reports that. What is the
+probability their reported $p$-value is below 0.05? What has changed, and
+what has not?
+
+
+### 2. Power
+
+An estimator $\hat\mu$ of $\mu$ has standard error $\sigma/\sqrt n$, and
+$Z = \hat\mu/\mathrm{se} \sim N(\theta, 1)$ with $\theta = \mu\sqrt n/\sigma$.
+A one-sided test rejects when $Z > 2$.
+
+(a) **(class)** Compute the power at $\theta = 1$, $\theta = 2$ and $\theta = 3$.
+
+(b) The study at $\theta = 1$ is repeated with nine times the sample size.
+What is the new $\theta$, and the new power?
+
+(c) Which of $\mu$, $\sigma$ and $n$ could the analyst have changed, and
+which does the power *describe*?
+
+
+### 3. The filter
+
+Same setting. Only results with $Z > 2$ are reported. Recall
+$$E[Z \mid Z > c] = \theta + \frac{\phi(c-\theta)}{1-\Phi(c-\theta)}.$$
+
+(a) **(class)** Compute $E[Z \mid Z > 2]$ when $\theta = 0$. In words: what
+does this number say about a true null that got reported?
+
+(b) **(class)** Compute $E[Z \mid Z > 2]$ and the ratio $E[Z \mid Z > 2]/\theta$
+for $\theta = 1$ and for $\theta = 3$. Which of these two studies reports a
+number closer to the truth, and what quantity from question 2 explains the
+difference?
+
+(c) Is the problem in (b) a bias, a variance, or both? Say which word
+applies to which quantity.
+
+
+### 4. What a field's literature looks like (harder)
+
+In a field, a fraction $p$ of the hypotheses tested are true. Tests are
+run at $\alpha = 0.05$ with power $1 - \beta$, and every rejection is
+published.
+
+(a) Write down, using Bayes' rule, the probability that a published
+rejection is a false positive, in terms of $p$, $\alpha$ and $\beta$.
+
+(b) Evaluate it for $p = 0.1$ with power $0.8$, and for $p = 0.1$ with
+power $0.2$.
+
+(c) A critic says: "this proves most published findings are false." A
+defender says: "this proves nothing about any real field." In two
+sentences, say what the formula shows and what it does not.
+
+(d) Which of the three ingredients is about *who is in the data*?
+
+
+## Discussion break
+
+In groups of three or four, then to the room:
+
+What are the causes of the replication crisis? Consider both cultural and
+statistical sources. Try to name at least one of each, and say which of
+your causes the problem set has anything to say about.
+
+## Coding
+
+Open a fresh R script. You will need `ggplot2` and `dplyr`.
+
+### A. Significance filter / file-drawer effect
+
+Generate 100,000 standard normal $z$-scores. Every one of them is a test of
+a true null hypothesis.
+
+```{r coding_a_setup}
+z <- rnorm(1e5)
+```
+
+1. Keep only the $z$-scores with $|z| > 1.96$. What fraction survived? What
+   should it be?
+2. Plot a histogram of the survivors. Describe its shape in one sentence.
+3. Compute the mean of $|z|$ among the survivors. Compare it with
+   $\phi(1.96)/(1 - \Phi(1.96))$, which in R is
+   `dnorm(1.96) / (1 - pnorm(1.96))`.
+4. (Practice.) Now generate $z \sim N(1, 1)$ instead, so every hypothesis
+   is false with a modest effect. Keep the survivors with $z > 1.96$ and
+   compute their mean. Compare with the formula
+   $\theta + \phi(c-\theta)/(1-\Phi(c-\theta))$ at $\theta = 1$, $c = 1.96$.
+   What is the exaggeration ratio?
+
+
+### B. The best of several
+
+A function that generates a dataset from a linear model, and a function
+that runs one experiment and returns the $p$-value for the coefficient on
+$X$.
+
+```{r coding_b_setup}
+generate_data <- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,
+                          n = 200, proportion = 1/2) {
+  X <- rnorm(n)
+  A <- rbinom(n, 1, proportion)
+  Y <- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)
+  data.frame(Y = Y, X = X, A = factor(A))
+}
+
+one_experiment <- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,
+                           n = 200, proportion = 1/2) {
+  one_sample <- generate_data(beta0, betaX, betaA, betaXA, n, proportion)
+  one_fit <- lm(Y ~ X + A + X * A, one_sample)
+  summary(one_fit)$coefficients[2, 4]
+}
+```
+
+1. With all coefficients at zero, run 1000 experiments and compute the
+   rejection rate at level 0.05. Is it what it should be?
+2. Write `one_searched_experiment()`, which fits the same model, looks at
+   the $p$-values for *all three* non-intercept coefficients, also fits the
+   simpler model `Y ~ X`, and returns the smallest of the four $p$-values.
+   Run 1000 of these under the null. What is the rejection rate now, and
+   why is it not $1 - 0.95^4$?
+3. Set `betaX = 0.2` and find, by trying values of `n`, the sample size at
+   which the rejection rate is about 0.8. Then explain the number using
+   $\theta = \mu\sqrt{n_{\text{eff}}}/\sigma$: what is $n_{\text{eff}}$
+   here, and why is it not $n$?
+4. (Practice.) Run 1000 experiments with `betaX = 0.2` at the $n$ you
+   found in 3, keep the estimated coefficient on $X$ only when its
+   $p$-value is below 0.05, and compute the average kept estimate. Compare
+   it with 0.2. You will need to modify `one_experiment()` to return the
+   estimate as well as the $p$-value.
+
+
+## Discussion
+
+More prompts than we will get through. Groups of three or four, then to
+the room; every group's answer goes on the shared document.
+
+1. What are the ethical impacts of the replication crisis? Consider both
+   general impacts and impacts specific to a field you know.
+2. What can data scientists and statisticians do about it? Which of your
+   proposals would have changed the number in problem 3(a), which would
+   have changed the number in problem 4(b), and which would change neither?
+3. Each group takes one setting below and writes three sentences: what the
+   filter is; which way the numbers you get to see are biased and what
+   makes the bias larger or smaller; who benefits from the bias being
+   invisible.
+   - An investment platform advertises the past returns of the funds it
+     currently offers. Funds that performed badly were closed and are no
+     longer listed.
+   - A newspaper publishes a table of the schools whose exam results
+     improved most this year.
+   - A hospital's website shows the complication rates of its surgeons.
+     Only surgeons who have performed at least 50 operations are shown.
+   - A recruiting team reports that candidates hired after a new interview
+     process are performing well. It cannot see the candidates it
+     rejected.
+   - A social media feed shows you the ten posts from a group of people
+     that got the most reactions today.
+4. Have you seen "spin" in a paper, a press release or a news story: a
+   result reported in the most favourable of the comparisons that could
+   have been made? What was the comparison that was not reported?
+
+## To finish
+
+One sentence, individually: what causes p-hacking, and what would fix it?
+
+## For next time
+
+Bring one published claim about a difference between two groups of
+people, from any source. Write down the comparison that was reported, and
+one comparison that could have been reported instead. One sentence each.
+Every group's examples will go on the screen.
