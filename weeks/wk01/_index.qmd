@@ -1,0 +1,9 @@
+## Week 1: Selection and the replication crisis
+
+Why a literature of honest tests can still be wrong on average: power, the significance filter, and what a published estimate is conditioned on. The standing question, with two cases.
+
+**Reading:** [ms4ds, chapter 3: Ethical data science](https://joshualoftus.com/ms4ds/ethical-data-science.html), sections 3.1 to 3.6 · [Wikipedia: Replication crisis](https://en.wikipedia.org/wiki/Replication_crisis), skim
+
+**Lecture:** [notes](weeks/wk01/notes.html) · [slides](weeks/wk01/slides.html)
+
+**Class:** [class sheet](weeks/wk01/class.html) ([.qmd](https://ethics4ds.com/weeks/wk01/class.qmd){download="class.qmd"})

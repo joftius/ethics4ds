@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Ethics for data science: the statistical choices hidden inside technical steps, and who they affect.">
 
-<title>Weekly content –  ethics 4 data science</title>
+<title>ST313 course page –  ethics 4 data science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +34,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -74,65 +73,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -204,17 +145,28 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#week-1-selection-and-the-replication-crisis" id="toc-week-1-selection-and-the-replication-crisis" class="nav-link active" data-scroll-target="#week-1-selection-and-the-replication-crisis">Week 1: Selection and the replication crisis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Weekly content</h1>
+<h1 class="title">ST313 course page</h1>
 </div>
 
+<div>
+  <div class="description">
+    <p>Ethics for data science: the statistical choices hidden inside technical steps, and who they affect.</p>
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -229,40 +181,21 @@ window.Quarto = {
 </header>
 
 
+<p>Each week has one lecture and one class (80 minutes each, lecture first). The notes are the main reference; the slides are what is shown in the lecture; the class sheet is what you work through in class, and its <code>.qmd</code> link downloads the source to run the R code. Bring a laptop with R and RStudio to the class.</p>
+<!-- One block per week, each in weeks/wkNN/_index.qmd (title, one paragraph, reading,
+links). Include paths and the links inside the blocks are relative to this file.
+A week's delivery edits only its own block; nothing here changes. -->
+<section id="week-1-selection-and-the-replication-crisis" class="level2">
+<h2 class="anchored" data-anchor-id="week-1-selection-and-the-replication-crisis">Week 1: Selection and the replication crisis</h2>
+<p>Why a literature of honest tests can still be wrong on average: power, the significance filter, and what a published estimate is conditioned on. The standing question, with two cases.</p>
+<p><strong>Reading:</strong> <a href="https://joshualoftus.com/ms4ds/ethical-data-science.html">ms4ds, chapter 3: Ethical data science</a>, sections 3.1 to 3.6 · <a href="https://en.wikipedia.org/wiki/Replication_crisis">Wikipedia: Replication crisis</a>, skim</p>
+<p><strong>Lecture:</strong> <a href="weeks/wk01/notes.html">notes</a> · <a href="weeks/wk01/slides.html">slides</a></p>
+<p><strong>Class:</strong> <a href="weeks/wk01/class.html">class sheet</a> (<a href="https://ethics4ds.com/weeks/wk01/class.qmd" download="class.qmd">.qmd</a>)</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1790546400000" data-listing-file-modified-sort="1790373940000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4582">
-<div class="thumbnail"><a href="./weeks/01-selection.html" class="no-external">
-
-<img loading="lazy" src="./weeks/01-selection_files/figure-html/power_curve-1.png" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./weeks/01-selection.html" class="no-external">Selection and the replication crisis</a>
-</h3>
-<div class="delink listing-description"><a href="./weeks/01-selection.html" class="no-external">
-Slides · Class sheet
-</a></div>
-</div>
-<div class="metadata">
-<a href="./weeks/01-selection.html" class="no-external">
-<div class="listing-date">
-Sep 28, 2026
-</div>
-<div class="listing-author">
-Joshua Loftus
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -336,7 +269,7 @@ Joshua Loftus
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("http:\/\/ethics4ds\.com");
+        var filterRegex = new RegExp("https:\/\/ethics4ds\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

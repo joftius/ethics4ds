@@ -1,332 +1,248 @@
 [
   {
-    "objectID": "class/01-selection.html",
-    "href": "class/01-selection.html",
-    "title": "Selection and the replication crisis",
-    "section": "",
-    "text": "Two things, on the shared document.\n\nOne ethical issue in data science that concerns you. A sentence is enough.\nFrom memory: what does the power of a test depend on? And which way does selecting on significance push a published estimate?"
-  },
-  {
-    "objectID": "class/01-selection.html#to-start",
-    "href": "class/01-selection.html#to-start",
-    "title": "Selection and the replication crisis",
-    "section": "",
-    "text": "Two things, on the shared document.\n\nOne ethical issue in data science that concerns you. A sentence is enough.\nFrom memory: what does the power of a test depend on? And which way does selecting on significance push a published estimate?"
-  },
-  {
-    "objectID": "class/01-selection.html#problems",
-    "href": "class/01-selection.html#problems",
-    "title": "Selection and the replication crisis",
-    "section": "Problems",
-    "text": "Problems\nEverything can be done by hand with \\(\\Phi(1) = 0.84\\), \\(\\Phi(2) = 0.977\\), \\(\\phi(0) = 0.399\\), \\(\\phi(1) = 0.242\\) and \\(\\phi(2) = 0.054\\). Use \\(c = 2\\) as the threshold throughout; it is close enough to 1.96.\nParts marked (class) are for the class. The rest are for practice afterwards. Answers will be released after the class.\n\n1. Many tests\nAn analyst tests \\(k\\) true null hypotheses, independently, each at level \\(0.05\\), and reports the smallest \\(p\\)-value.\n\n(class) What is the probability that the reported \\(p\\)-value is below 0.05, for \\(k = 1\\), \\(k = 10\\) and \\(k = 20\\)?\nA second analyst announces in advance that they will test only hypothesis number 7 of the same 20, and reports that. What is the probability their reported \\(p\\)-value is below 0.05? What has changed, and what has not?\n\n\n\n2. Power\nAn estimator \\(\\hat\\mu\\) of \\(\\mu\\) has standard error \\(\\sigma/\\sqrt n\\), and \\(Z = \\hat\\mu/\\mathrm{se} \\sim N(\\theta, 1)\\) with \\(\\theta = \\mu\\sqrt n/\\sigma\\). A one-sided test rejects when \\(Z &gt; 2\\).\n\n(class) Compute the power at \\(\\theta = 1\\), \\(\\theta = 2\\) and \\(\\theta = 3\\).\nThe study at \\(\\theta = 1\\) is repeated with nine times the sample size. What is the new \\(\\theta\\), and the new power?\nWhich of \\(\\mu\\), \\(\\sigma\\) and \\(n\\) could the analyst have changed, and which does the power describe?\n\n\n\n3. The filter\nSame setting. Only results with \\(Z &gt; 2\\) are reported. Recall \\[E[Z \\mid Z &gt; c] = \\theta + \\frac{\\phi(c-\\theta)}{1-\\Phi(c-\\theta)}.\\]\n\n(class) Compute \\(E[Z \\mid Z &gt; 2]\\) when \\(\\theta = 0\\). In words: what does this number say about a true null that got reported?\n(class) Compute \\(E[Z \\mid Z &gt; 2]\\) and the ratio \\(E[Z \\mid Z &gt; 2]/\\theta\\) for \\(\\theta = 1\\) and for \\(\\theta = 3\\). Which of these two studies reports a number closer to the truth, and what quantity from question 2 explains the difference?\nIs the problem in (b) a bias, a variance, or both? Say which word applies to which quantity.\n\n\n\n4. What a field’s literature looks like (harder)\nIn a field, a fraction \\(p\\) of the hypotheses tested are true. Tests are run at \\(\\alpha = 0.05\\) with power \\(1 - \\beta\\), and every rejection is published.\n\nWrite down, using Bayes’ rule, the probability that a published rejection is a false positive, in terms of \\(p\\), \\(\\alpha\\) and \\(\\beta\\).\nEvaluate it for \\(p = 0.1\\) with power \\(0.8\\), and for \\(p = 0.1\\) with power \\(0.2\\).\nA critic says: “this proves most published findings are false.” A defender says: “this proves nothing about any real field.” In two sentences, say what the formula shows and what it does not.\nWhich of the three ingredients is about who is in the data?"
-  },
-  {
-    "objectID": "class/01-selection.html#discussion-break",
-    "href": "class/01-selection.html#discussion-break",
-    "title": "Selection and the replication crisis",
-    "section": "Discussion break",
-    "text": "Discussion break\nIn groups of three or four, then to the room:\nWhat are the causes of the replication crisis? Consider both cultural and statistical sources. Try to name at least one of each, and say which of your causes the problem set has anything to say about."
-  },
-  {
-    "objectID": "class/01-selection.html#coding",
-    "href": "class/01-selection.html#coding",
-    "title": "Selection and the replication crisis",
-    "section": "Coding",
-    "text": "Coding\nOpen a fresh R script. You will need ggplot2 and dplyr.\n\nA. Significance filter / file-drawer effect\nGenerate 100,000 standard normal \\(z\\)-scores. Every one of them is a test of a true null hypothesis.\n\nz &lt;- rnorm(1e5)\n\n\nKeep only the \\(z\\)-scores with \\(|z| &gt; 1.96\\). What fraction survived? What should it be?\nPlot a histogram of the survivors. Describe its shape in one sentence.\nCompute the mean of \\(|z|\\) among the survivors. Compare it with \\(\\phi(1.96)/(1 - \\Phi(1.96))\\), which in R is dnorm(1.96) / (1 - pnorm(1.96)).\n(Practice.) Now generate \\(z \\sim N(1, 1)\\) instead, so every hypothesis is false with a modest effect. Keep the survivors with \\(z &gt; 1.96\\) and compute their mean. Compare with the formula \\(\\theta + \\phi(c-\\theta)/(1-\\Phi(c-\\theta))\\) at \\(\\theta = 1\\), \\(c = 1.96\\). What is the exaggeration ratio?\n\n\n\nB. The best of several\nA function that generates a dataset from a linear model, and a function that runs one experiment and returns the \\(p\\)-value for the coefficient on \\(X\\).\n\ngenerate_data &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                          n = 200, proportion = 1/2) {\n  X &lt;- rnorm(n)\n  A &lt;- rbinom(n, 1, proportion)\n  Y &lt;- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)\n  data.frame(Y = Y, X = X, A = factor(A))\n}\n\none_experiment &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                           n = 200, proportion = 1/2) {\n  one_sample &lt;- generate_data(beta0, betaX, betaA, betaXA, n, proportion)\n  one_fit &lt;- lm(Y ~ X + A + X * A, one_sample)\n  summary(one_fit)$coefficients[2, 4]\n}\n\n\nWith all coefficients at zero, run 1000 experiments and compute the rejection rate at level 0.05. Is it what it should be?\nWrite one_searched_experiment(), which fits the same model, looks at the \\(p\\)-values for all three non-intercept coefficients, also fits the simpler model Y ~ X, and returns the smallest of the four \\(p\\)-values. Run 1000 of these under the null. What is the rejection rate now, and why is it not \\(1 - 0.95^4\\)?\nSet betaX = 0.2 and find, by trying values of n, the sample size at which the rejection rate is about 0.8. Then explain the number using \\(\\theta = \\mu\\sqrt{n_{\\text{eff}}}/\\sigma\\): what is \\(n_{\\text{eff}}\\) here, and why is it not \\(n\\)?\n(Practice.) Run 1000 experiments with betaX = 0.2 at the \\(n\\) you found in 3, keep the estimated coefficient on \\(X\\) only when its \\(p\\)-value is below 0.05, and compute the average kept estimate. Compare it with 0.2. You will need to modify one_experiment() to return the estimate as well as the \\(p\\)-value."
-  },
-  {
-    "objectID": "class/01-selection.html#discussion",
-    "href": "class/01-selection.html#discussion",
-    "title": "Selection and the replication crisis",
-    "section": "Discussion",
-    "text": "Discussion\nMore prompts than we will get through. Groups of three or four, then to the room; every group’s answer goes on the shared document.\n\nWhat are the ethical impacts of the replication crisis? Consider both general impacts and impacts specific to a field you know.\nWhat can data scientists and statisticians do about it? Which of your proposals would have changed the number in problem 3(a), which would have changed the number in problem 4(b), and which would change neither?\nEach group takes one setting below and writes three sentences: what the filter is; which way the numbers you get to see are biased and what makes the bias larger or smaller; who benefits from the bias being invisible.\n\nAn investment platform advertises the past returns of the funds it currently offers. Funds that performed badly were closed and are no longer listed.\nA newspaper publishes a table of the schools whose exam results improved most this year.\nA hospital’s website shows the complication rates of its surgeons. Only surgeons who have performed at least 50 operations are shown.\nA recruiting team reports that candidates hired after a new interview process are performing well. It cannot see the candidates it rejected.\nA social media feed shows you the ten posts from a group of people that got the most reactions today.\n\nHave you seen “spin” in a paper, a press release or a news story: a result reported in the most favourable of the comparisons that could have been made? What was the comparison that was not reported?"
-  },
-  {
-    "objectID": "class/01-selection.html#to-finish",
-    "href": "class/01-selection.html#to-finish",
-    "title": "Selection and the replication crisis",
-    "section": "To finish",
-    "text": "To finish\nOne sentence, individually: what causes p-hacking, and what would fix it?"
-  },
-  {
-    "objectID": "class/01-selection.html#for-next-time",
-    "href": "class/01-selection.html#for-next-time",
-    "title": "Selection and the replication crisis",
-    "section": "For next time",
-    "text": "For next time\nBring one published claim about a difference between two groups of people, from any source. Write down the comparison that was reported, and one comparison that could have been reported instead. One sentence each. Every group’s examples will go on the screen."
-  },
-  {
-    "objectID": "slides/01-selection.html#two-numbers",
-    "href": "slides/01-selection.html#two-numbers",
+    "objectID": "weeks/wk01/slides.html#two-numbers",
+    "href": "weeks/wk01/slides.html#two-numbers",
     "title": "Selection and the replication crisis",
     "section": "Two numbers",
     "text": "Two numbers\n\nOpen Science Collaboration (2015): 100 psychology experiments replicated. 97 originals significant; 36% of replications significant; effect sizes about half.\nNature survey (2016), 1,576 researchers: over 70% had failed to reproduce someone else’s result, over half their own."
   },
   {
-    "objectID": "slides/01-selection.html#pre-registration",
-    "href": "slides/01-selection.html#pre-registration",
+    "objectID": "weeks/wk01/slides.html#pre-registration",
+    "href": "weeks/wk01/slides.html#pre-registration",
     "title": "Selection and the replication crisis",
     "section": "Pre-registration",
     "text": "Pre-registration\n\n\n\n\n\n\nLarge NHLBI trials. Before 2000: 17 of 30 showed benefit (57%). After registration at clinicaltrials.gov became required: 2 of 25 (8%). Kaplan and Irvin (2015), PLoS ONE 10(8): e0132382, Figure 1, CC0."
   },
   {
-    "objectID": "slides/01-selection.html#write-it-down",
-    "href": "slides/01-selection.html#write-it-down",
+    "objectID": "weeks/wk01/slides.html#write-it-down",
+    "href": "weeks/wk01/slides.html#write-it-down",
     "title": "Selection and the replication crisis",
     "section": "Write it down",
     "text": "Write it down\nEvery study is honest. Results are written up only if significant.\nSketch the histogram of published \\(z\\)-values."
   },
   {
-    "objectID": "slides/01-selection.html#a-million-z-values",
-    "href": "slides/01-selection.html#a-million-z-values",
+    "objectID": "weeks/wk01/slides.html#a-million-z-values",
+    "href": "weeks/wk01/slides.html#a-million-z-values",
     "title": "Selection and the replication crisis",
     "section": "A million \\(z\\)-values",
     "text": "A million \\(z\\)-values\n\n\n\n\n\n\nMedline abstracts, 1976–2019. “The under-representation of \\(z\\)-values between \\(-2\\) and \\(2\\) is striking.” van Zwet and Cator (2020), arXiv:2009.09440, Figure 1."
   },
   {
-    "objectID": "slides/01-selection.html#rejection-rate-and-power",
-    "href": "slides/01-selection.html#rejection-rate-and-power",
+    "objectID": "weeks/wk01/slides.html#rejection-rate-and-power",
+    "href": "weeks/wk01/slides.html#rejection-rate-and-power",
     "title": "Selection and the replication crisis",
     "section": "Rejection rate and power",
-    "text": "Rejection rate and power\n\\[Z = \\frac{\\hat\\mu}{\\mathrm{se}} \\sim N(\\theta, 1),\\qquad \\theta = \\frac{\\mu}{\\mathrm{se}} = \\frac{\\mu\\sqrt n}{\\sigma}\\]\nReject when \\(|Z| &gt; 1.96\\).\n\n\\(\\mu = 0\\): \\(\\;P(|Z|&gt;c) = 2(1-\\Phi(c)) = 0.05\\)\notherwise: \\(\\;\\text{power}(\\theta) = 1 - \\Phi(c-\\theta) + \\Phi(-c-\\theta)\\)\n\n\n\nRetrieve the se of a mean from the room. Then: which of \\(\\mu\\), \\(\\sigma\\), \\(n\\) does the analyst control? Thirty seconds, written."
+    "text": "Rejection rate and power\n\\[Z = \\frac{\\hat\\mu}{\\mathrm{se}} \\sim N(\\theta, 1),\\qquad \\theta = \\frac{\\mu}{\\mathrm{se}} = \\frac{\\mu\\sqrt n}{\\sigma}\\]\nReject when \\(|Z| &gt; 1.96\\).\n\n\\(\\mu = 0\\): \\(\\;P(|Z|&gt;c) = 2(1-\\Phi(c)) = 0.05\\)\notherwise: \\(\\;\\text{power}(\\theta) = 1 - \\Phi(c-\\theta) + \\Phi(-c-\\theta)\\)"
   },
   {
-    "objectID": "slides/01-selection.html#a-world-of-studies",
-    "href": "slides/01-selection.html#a-world-of-studies",
+    "objectID": "weeks/wk01/slides.html#a-world-of-studies",
+    "href": "weeks/wk01/slides.html#a-world-of-studies",
     "title": "Selection and the replication crisis",
     "section": "A world of studies",
     "text": "A world of studies"
   },
   {
-    "objectID": "slides/01-selection.html#what-gets-published",
-    "href": "slides/01-selection.html#what-gets-published",
+    "objectID": "weeks/wk01/slides.html#what-gets-published",
+    "href": "weeks/wk01/slides.html#what-gets-published",
     "title": "Selection and the replication crisis",
     "section": "What gets published",
     "text": "What gets published\n\nNine studies in ten are written up only if \\(|z| &gt; 1.96\\). Every test honest."
   },
   {
-    "objectID": "slides/01-selection.html#predict",
-    "href": "slides/01-selection.html#predict",
+    "objectID": "weeks/wk01/slides.html#predict",
+    "href": "weeks/wk01/slides.html#predict",
     "title": "Selection and the replication crisis",
     "section": "Predict",
     "text": "Predict\nAmong published studies whose null was true and which had to pass the filter: the average of \\(|z|\\)?"
   },
   {
-    "objectID": "slides/01-selection.html#the-significance-filter",
-    "href": "slides/01-selection.html#the-significance-filter",
+    "objectID": "weeks/wk01/slides.html#the-significance-filter",
+    "href": "weeks/wk01/slides.html#the-significance-filter",
     "title": "Selection and the replication crisis",
     "section": "The significance filter",
     "text": "The significance filter\n\\(Z \\sim N(\\theta, 1)\\), seen only when \\(Z &gt; c\\):\n\\[E[Z \\mid Z &gt; c] = \\theta + \\frac{\\phi(c-\\theta)}{1 - \\Phi(c-\\theta)}\\]\n\\(\\theta = 0\\), \\(c = 1.96\\): \\(\\quad\\phi(1.96) = 0.0584,\\qquad 1 - \\Phi(1.96) = 0.025\\)\nCompute \\(E[Z \\mid Z &gt; 1.96]\\)."
   },
   {
-    "objectID": "slides/01-selection.html#standard-errors",
-    "href": "slides/01-selection.html#standard-errors",
+    "objectID": "weeks/wk01/slides.html#standard-errors",
+    "href": "weeks/wk01/slides.html#standard-errors",
     "title": "Selection and the replication crisis",
     "section": "2.3 standard errors",
     "text": "2.3 standard errors\nA true null that got published is, on average, 2.3 standard errors from zero.\nNot because anyone cheated, but because you only saw it when it was large."
   },
   {
-    "objectID": "slides/01-selection.html#exaggeration",
-    "href": "slides/01-selection.html#exaggeration",
+    "objectID": "weeks/wk01/slides.html#exaggeration",
+    "href": "weeks/wk01/slides.html#exaggeration",
     "title": "Selection and the replication crisis",
     "section": "Exaggeration",
     "text": "Exaggeration\n\n\n\n\\(\\theta\\)\n0.5\n1\n1.5\n2\n2.5\n3\n4\n\n\n\n\npower\n0.07\n0.17\n0.32\n0.52\n0.71\n0.85\n0.98\n\n\n\\(E[Z \\mid Z&gt;c]\\)\n2.41\n2.49\n2.61\n2.77\n2.99\n3.27\n4.05\n\n\nratio to truth\n4.8\n2.5\n1.7\n1.4\n1.2\n1.1\n1.0\n\n\n\n\n“the relative conditional bias and the exaggeration factor are decreasing functions of the power” – van Zwet and Cator (2020)"
   },
   {
-    "objectID": "slides/01-selection.html#bias-and-variation",
-    "href": "slides/01-selection.html#bias-and-variation",
+    "objectID": "weeks/wk01/slides.html#bias-and-variation",
+    "href": "weeks/wk01/slides.html#bias-and-variation",
     "title": "Selection and the replication crisis",
     "section": "Bias and variation",
     "text": "Bias and variation\nPower: how much the estimate varies.\nExaggeration: a bias in what gets published.\nThe file-drawer effect turns variance into bias."
   },
   {
-    "objectID": "slides/01-selection.html#in-pairs",
-    "href": "slides/01-selection.html#in-pairs",
+    "objectID": "weeks/wk01/slides.html#in-pairs",
+    "href": "weeks/wk01/slides.html#in-pairs",
     "title": "Selection and the replication crisis",
     "section": "In pairs",
     "text": "In pairs\nHow much of the replication crisis does selection alone explain, without anyone behaving badly?\nOne sentence each, with a number in it if you can."
   },
   {
-    "objectID": "slides/01-selection.html#why-most-published-research-findings-are-false",
-    "href": "slides/01-selection.html#why-most-published-research-findings-are-false",
+    "objectID": "weeks/wk01/slides.html#why-most-published-research-findings-are-false",
+    "href": "weeks/wk01/slides.html#why-most-published-research-findings-are-false",
     "title": "Selection and the replication crisis",
     "section": "Why most published research findings are false",
     "text": "Why most published research findings are false\nIoannidis (2005):\n\\[P(H_0 \\text{ true} \\mid \\text{reject}) = \\frac{(1-p)\\,\\alpha}{(1-p)\\,\\alpha + p\\,(1-\\beta)}\\]\n\\(p\\) = share of tested hypotheses that are true; \\(1-\\beta\\) = power.\nBest of \\(k\\) null tests: \\(\\;P(\\text{some } p&lt;0.05) = 1 - 0.95^k\\), \\(\\;=0.64\\) at \\(k=20\\)."
   },
   {
-    "objectID": "slides/01-selection.html#or-20000",
-    "href": "slides/01-selection.html#or-20000",
+    "objectID": "weeks/wk01/slides.html#or-20000",
+    "href": "weeks/wk01/slides.html#or-20000",
     "title": "Selection and the replication crisis",
     "section": "208 or 20,000?",
     "text": "208 or 20,000?\nStessman et al. (2017), Nature Genetics: 208 genes sequenced in 11,730 cases; 91 risk genes, 38 new.\nThreshold corrected for 208 tests. Mutation counts drew on exome studies of about 20,000 genes.\n\\[0.05/208 = 2.4\\times10^{-4} \\qquad 0.05/20{,}000 = 2.5\\times10^{-6}\\]\nCorrected (Daly and colleagues, bioRxiv 2017): 1 of the 38 remains.\n\n“We should have seen that when we went across the tables, and we just didn’t.” – Evan Eichler, to Spectrum"
   },
   {
-    "objectID": "slides/01-selection.html#asa-ethical-guidelines-2022-b.3",
-    "href": "slides/01-selection.html#asa-ethical-guidelines-2022-b.3",
+    "objectID": "weeks/wk01/slides.html#asa-ethical-guidelines-2022-b.3",
+    "href": "weeks/wk01/slides.html#asa-ethical-guidelines-2022-b.3",
     "title": "Selection and the replication crisis",
     "section": "ASA Ethical Guidelines (2022), B.3",
     "text": "ASA Ethical Guidelines (2022), B.3\n\n“…transparent about a priori versus post hoc objectives and planned versus unplanned statistical practices. Discloses when multiple comparisons are conducted and any relevant adjustments.”"
   },
   {
-    "objectID": "slides/01-selection.html#ab-testing",
-    "href": "slides/01-selection.html#ab-testing",
+    "objectID": "weeks/wk01/slides.html#ab-testing",
+    "href": "weeks/wk01/slides.html#ab-testing",
     "title": "Selection and the replication crisis",
     "section": "A/B testing",
     "text": "A/B testing\nA company runs 200 A/B tests a year. It ships a variant only if the measured lift is significant at 5%. Six months later it re-measures the shipped variants.\n\nWhich way is the average shipped lift biased, relative to the true lifts?\nWhich ingredient of the formula does the company control, and what happens to the bias if it changes it?\nWho benefits from the bias being invisible?\n\nIndividually, written."
   },
   {
-    "objectID": "slides/01-selection.html#the-standing-question",
-    "href": "slides/01-selection.html#the-standing-question",
+    "objectID": "weeks/wk01/slides.html#the-standing-question",
+    "href": "weeks/wk01/slides.html#the-standing-question",
     "title": "Selection and the replication crisis",
     "section": "The standing question",
-    "text": "The standing question\n\nWho benefited from that choice being invisible? And would a more competent analyst have chosen differently?\n\nThe next two examples illustrate the second part of the standing question.\n\nAfter both cases, repeat the question and take a show of hands on each."
+    "text": "The standing question\n\nWho benefited from that choice being invisible? And would a more competent analyst have chosen differently?\n\nThe next two examples illustrate the second part of the standing question."
   },
   {
-    "objectID": "slides/01-selection.html#lucia-de-berk",
-    "href": "slides/01-selection.html#lucia-de-berk",
+    "objectID": "weeks/wk01/slides.html#lucia-de-berk",
+    "href": "weeks/wk01/slides.html#lucia-de-berk",
     "title": "Selection and the replication crisis",
     "section": "Lucia de Berk",
     "text": "Lucia de Berk\nConvicted 2003, appeal 2004. Prosecution: 1 in 342 million that the incidents fell on her shifts by chance.\nThree wards: \\(p_1 \\times p_2 \\times p_3 \\approx 1/342{,}000{,}000\\). A product of \\(p\\)-values is not a \\(p\\)-value. Fisher: \\(-2\\sum \\log p_i \\sim \\chi^2_6\\) gives about 1 in a million.\n\\(P(\\text{pattern} \\mid \\text{coincidence}) \\neq P(\\text{coincidence} \\mid \\text{pattern})\\).\nIncidents were classed as suspicious partly because she was there. Recomputed (Gill and colleagues): between about 1 in 9 and 1 in 50.\nReopened 2008. Acquitted 2010."
   },
   {
-    "objectID": "slides/01-selection.html#ofqual-2020",
-    "href": "slides/01-selection.html#ofqual-2020",
+    "objectID": "weeks/wk01/slides.html#ofqual-2020",
+    "href": "weeks/wk01/slides.html#ofqual-2020",
     "title": "Selection and the replication crisis",
     "section": "Ofqual, 2020",
     "text": "Ofqual, 2020\nNo exams. Each school submits grades and a rank order.\nStudent at rank \\(r\\) of \\(n\\) gets the grade at the \\(r/n\\) point of the school’s predicted distribution, built from its 2017–19 results.\nThe student’s work enters only through \\(r\\). Cohorts under 15: teachers’ grades used.\n13 August: about 36% of A-level grades one grade below the teacher’s, 3% two below. 17 August: withdrawn."
   },
   {
-    "objectID": "slides/01-selection.html#two-lenses-this-week",
-    "href": "slides/01-selection.html#two-lenses-this-week",
+    "objectID": "weeks/wk01/slides.html#two-lenses-this-week",
+    "href": "weeks/wk01/slides.html#two-lenses-this-week",
     "title": "Selection and the replication crisis",
     "section": "Two lenses this week",
     "text": "Two lenses this week\n\nWhich comparison gets reported? Inside a study: the best of \\(k\\), the forking paths, 208 or 20,000.\nWho is in the data? Between studies: the literature is the published studies, and the file drawer is missing in a known direction.\n\n…and why?"
   },
   {
-    "objectID": "slides/01-selection.html#next-week",
-    "href": "slides/01-selection.html#next-week",
+    "objectID": "weeks/wk01/slides.html#next-week",
+    "href": "weeks/wk01/slides.html#next-week",
     "title": "Selection and the replication crisis",
     "section": "Next week",
     "text": "Next week\nGroups and averages: what an average of a group says about a member of it, and what a feed that shows you the most extreme items does to your picture of a group.\nRequired reading: David Freedman on ecological inference – the ecological fallacy, Goodman’s regression, and the voting-rights cases where it was used.\nPrepare and bring: one published claim about a difference between two groups. Write down the comparison that was reported, and one that could have been reported instead."
   },
   {
-    "objectID": "slides/01-selection.html#power-of-the-z-test",
-    "href": "slides/01-selection.html#power-of-the-z-test",
+    "objectID": "weeks/wk01/slides.html#power-of-the-z-test",
+    "href": "weeks/wk01/slides.html#power-of-the-z-test",
     "title": "Selection and the replication crisis",
     "section": "Power of the \\(z\\)-test",
     "text": "Power of the \\(z\\)-test\n\\(Z \\sim N(\\theta,1)\\), reject if \\(|Z| &gt; c\\).\n\\[\n\\begin{aligned}\nP(|Z|&gt;c) &= P(Z &gt; c) + P(Z &lt; -c)\\\\\n&= P(Z-\\theta &gt; c-\\theta) + P(Z-\\theta &lt; -c-\\theta)\\\\\n&= 1 - \\Phi(c-\\theta) + \\Phi(-c-\\theta).\n\\end{aligned}\n\\]\nAt \\(\\theta = 0\\): \\(2(1-\\Phi(c)) = \\alpha\\)."
   },
   {
-    "objectID": "slides/01-selection.html#the-truncated-normal-mean",
-    "href": "slides/01-selection.html#the-truncated-normal-mean",
+    "objectID": "weeks/wk01/slides.html#the-truncated-normal-mean",
+    "href": "weeks/wk01/slides.html#the-truncated-normal-mean",
     "title": "Selection and the replication crisis",
     "section": "The truncated normal mean",
     "text": "The truncated normal mean\n\\[E[Z\\mid Z&gt;c] = \\frac{\\int_c^\\infty z\\,\\phi(z-\\theta)\\,dz}{1-\\Phi(c-\\theta)}\\]\nSubstitute \\(u = z-\\theta\\):\n\\[\\int_{c-\\theta}^\\infty (u+\\theta)\\,\\phi(u)\\,du = \\theta\\,(1-\\Phi(c-\\theta)) + \\int_{c-\\theta}^\\infty u\\,\\phi(u)\\,du\\]\nSince \\(\\phi'(u) = -u\\,\\phi(u)\\): \\(\\;\\int_{c-\\theta}^\\infty u\\,\\phi(u)\\,du = \\phi(c-\\theta)\\).\n\\[\\Rightarrow\\quad E[Z\\mid Z&gt;c] = \\theta + \\frac{\\phi(c-\\theta)}{1-\\Phi(c-\\theta)}\\]"
   },
   {
-    "objectID": "slides/01-selection.html#the-false-discovery-proportion",
-    "href": "slides/01-selection.html#the-false-discovery-proportion",
+    "objectID": "weeks/wk01/slides.html#the-false-discovery-proportion",
+    "href": "weeks/wk01/slides.html#the-false-discovery-proportion",
     "title": "Selection and the replication crisis",
     "section": "The false discovery proportion",
     "text": "The false discovery proportion\nShare \\(p\\) of tested hypotheses true; level \\(\\alpha\\); power \\(1-\\beta\\).\n\\[P(\\text{reject}) = (1-p)\\,\\alpha + p\\,(1-\\beta)\\]\n\\[P(H_0\\mid \\text{reject}) = \\frac{(1-p)\\,\\alpha}{(1-p)\\,\\alpha + p\\,(1-\\beta)}\\]\n\n\n\n\\(p\\)\npower\n\\(P(H_0\\mid\\text{reject})\\)\n\n\n\n\n0.5\n0.8\n0.06\n\n\n0.1\n0.8\n0.36\n\n\n0.1\n0.2\n0.69"
   },
   {
-    "objectID": "weeks/01-selection.html",
-    "href": "weeks/01-selection.html",
+    "objectID": "weeks/wk01/class.html",
+    "href": "weeks/wk01/class.html",
     "title": "Selection and the replication crisis",
     "section": "",
-    "text": "Slides · Class sheet"
+    "text": "Note\n\n\n\nThis is the student version of the class sheet. Parts marked (class) are for the class; the rest are practice. Answers are revealed in class and are not released afterwards."
   },
   {
-    "objectID": "weeks/01-selection.html#preamble-purpose-of-the-course",
-    "href": "weeks/01-selection.html#preamble-purpose-of-the-course",
+    "objectID": "weeks/wk01/class.html#to-start",
+    "href": "weeks/wk01/class.html#to-start",
     "title": "Selection and the replication crisis",
-    "section": "Preamble: purpose of the course",
-    "text": "Preamble: purpose of the course\nMuch of what goes wrong in data science does not announce itself as an ethical problem. It appears as a technical step: a threshold, a filter, a choice of outcome variable, a decision about which rows to keep. The step looks neutral, someone takes the default, and a value judgement has been made without anyone noticing. This course is about those steps. The formal content, mostly probability you already know and some causal modelling you may not, is there to make the hidden choice visible.\nThere are five questions we will keep asking, lenses that bring hidden choices into focus.\n\nWhat are we optimising or predicting? Whose definition of the outcome governs.\nWho is in the data? Whether the unseen are like the seen, and who decided.\nWhich comparison gets reported? Whether the question was fixed before the answer.\nWho bears the error? What each kind of mistake costs, and on whom that cost falls.\nYou have to choose, so choose, and defend it. Sometimes the mathematics proves that a choice is unavoidable. Pretending it was forced is its own failure.\n\nEach of these ends with the same two words: and why?\nThere is also a question the lenses cannot answer:\n\nWho benefited from that choice being invisible? And would a more competent analyst have chosen differently?\n\nSometimes the answer is yes and the fix is better statistics. Sometimes the answer is no: the technique was defensible and the harm came from somewhere else.\nImportant note: my views on these topics are not a consensus. You are not expected to adopt them, and a well-argued position I think is wrong can still get full marks. What is assessed is whether you can find a defensible position, say what it assumes, and defend it against the strongest objection."
+    "section": "To start",
+    "text": "To start\nTwo things, on the shared document.\n\nOne ethical issue in data science that concerns you. A sentence is enough.\nFrom memory: what does the power of a test depend on? And which way does selecting on significance push a published estimate?"
   },
   {
-    "objectID": "weeks/01-selection.html#summary",
-    "href": "weeks/01-selection.html#summary",
+    "objectID": "weeks/wk01/class.html#problems",
+    "href": "weeks/wk01/class.html#problems",
     "title": "Selection and the replication crisis",
-    "section": "Summary",
-    "text": "Summary\nScience has a replication problem. Some of it is fraud and some is incompetence, but a surprising amount needs neither. If a result is more likely to be published when it is significant, the published literature is a filtered sample of the studies that were run, and the filter changes what the published numbers mean. We build that filter in a simulation, derive what it does to an estimate, and then ask who benefited from the filter being invisible."
+    "section": "Problems",
+    "text": "Problems\nEverything can be done by hand with \\(\\Phi(1) = 0.84\\), \\(\\Phi(2) = 0.977\\), \\(\\phi(0) = 0.399\\), \\(\\phi(1) = 0.242\\) and \\(\\phi(2) = 0.054\\). Use \\(c = 2\\) as the threshold throughout; it is close enough to 1.96.\nParts marked (class) are for the class. The rest are for practice afterwards. Answers are revealed in class. Attempt each part first.\n\n1. Many tests\nAn analyst tests \\(k\\) true null hypotheses, independently, each at level \\(0.05\\), and reports the smallest \\(p\\)-value.\n\n(class) What is the probability that the reported \\(p\\)-value is below 0.05, for \\(k = 1\\), \\(k = 10\\) and \\(k = 20\\)?\nA second analyst announces in advance that they will test only hypothesis number 7 of the same 20, and reports that. What is the probability their reported \\(p\\)-value is below 0.05? What has changed, and what has not?\n\n\n\n2. Power\nAn estimator \\(\\hat\\mu\\) of \\(\\mu\\) has standard error \\(\\sigma/\\sqrt n\\), and \\(Z = \\hat\\mu/\\mathrm{se} \\sim N(\\theta, 1)\\) with \\(\\theta = \\mu\\sqrt n/\\sigma\\). A one-sided test rejects when \\(Z &gt; 2\\).\n\n(class) Compute the power at \\(\\theta = 1\\), \\(\\theta = 2\\) and \\(\\theta = 3\\).\nThe study at \\(\\theta = 1\\) is repeated with nine times the sample size. What is the new \\(\\theta\\), and the new power?\nWhich of \\(\\mu\\), \\(\\sigma\\) and \\(n\\) could the analyst have changed, and which does the power describe?\n\n\n\n3. The filter\nSame setting. Only results with \\(Z &gt; 2\\) are reported. Recall \\[E[Z \\mid Z &gt; c] = \\theta + \\frac{\\phi(c-\\theta)}{1-\\Phi(c-\\theta)}.\\]\n\n(class) Compute \\(E[Z \\mid Z &gt; 2]\\) when \\(\\theta = 0\\). In words: what does this number say about a true null that got reported?\n(class) Compute \\(E[Z \\mid Z &gt; 2]\\) and the ratio \\(E[Z \\mid Z &gt; 2]/\\theta\\) for \\(\\theta = 1\\) and for \\(\\theta = 3\\). Which of these two studies reports a number closer to the truth, and what quantity from question 2 explains the difference?\nIs the problem in (b) a bias, a variance, or both? Say which word applies to which quantity.\n\n\n\n4. What a field’s literature looks like (harder)\nIn a field, a fraction \\(p\\) of the hypotheses tested are true. Tests are run at \\(\\alpha = 0.05\\) with power \\(1 - \\beta\\), and every rejection is published.\n\nWrite down, using Bayes’ rule, the probability that a published rejection is a false positive, in terms of \\(p\\), \\(\\alpha\\) and \\(\\beta\\).\nEvaluate it for \\(p = 0.1\\) with power \\(0.8\\), and for \\(p = 0.1\\) with power \\(0.2\\).\nA critic says: “this proves most published findings are false.” A defender says: “this proves nothing about any real field.” In two sentences, say what the formula shows and what it does not.\nWhich of the three ingredients is about who is in the data?"
   },
   {
-    "objectID": "weeks/01-selection.html#the-replication-crisis",
-    "href": "weeks/01-selection.html#the-replication-crisis",
+    "objectID": "weeks/wk01/class.html#discussion-break",
+    "href": "weeks/wk01/class.html#discussion-break",
     "title": "Selection and the replication crisis",
-    "section": "The replication crisis",
-    "text": "The replication crisis\nA study is replicated when an independent team repeats it with new data and finds the same thing: an effect in the same direction, of similar size, and usually significant again. Replication is supposed to be routine. It turns out to be rare, and when it is attempted it often fails.\nIn 2015 the Open Science Collaboration replicated 100 published psychology experiments. Of the 97 originals that had reported significant effects, 36% replicated at \\(p &lt; 0.05\\), and the replication effect sizes were about half the originals. In 2016 Nature surveyed 1,576 researchers. More than 70% had tried and failed to reproduce someone else’s result, and more than half had failed to reproduce one of their own. The citations are in Wikipedia: Replication crisis.\nHere is what happened to one set of trials when registration became required. Kaplan and Irvin (2015) looked at 55 large trials of drugs and supplements funded by the US National Heart, Lung and Blood Institute. Before 2000, 17 of 30 (57%) found a significant benefit. From 2000, trials had to register their primary outcome at clinicaltrials.gov before collecting data. After that, 2 of 25 (8%).\n\n\n\nRelative risk of the primary outcome by year of publication for large NHLBI trials. Plus signs are trials showing benefit; circles with a diagonal line show harm. Figure 1 of Kaplan and Irvin (2015), PLoS ONE 10(8): e0132382, CC0.\n\n\nSame funder, same kind of trial, same statistics. What changed is that the comparison had to be chosen before the data could influence it.\nHere is a second picture, a histogram. Van Zwet and Cator (2020) collected over a million \\(z\\)-values from Medline abstracts published between 1976 and 2019. A \\(z\\)-value is an estimate divided by its standard error.\n\n\n\nOver a million \\(z\\)-values from Medline abstracts, 1976 to 2019. Figure 1 of van Zwet and Cator (2020), arXiv:2009.09440.\n\n\nIt is striking how large the hole in the histogram is: values between \\(-2\\) and \\(2\\) are missing in bulk. Results that were not significant were far less likely to appear.\nTwo explanations are on the table. The first is misconduct and incompetence, and there is plenty of both; see the hall of shame in the optional readings. The second is that nobody has to behave badly for the picture to look like that. A journal preferring significant results, a researcher writing up the study that worked, a reader citing the surprising finding: each one is a filter. Let’s take the second explanation seriously enough to build it."
+    "section": "Discussion break",
+    "text": "Discussion break\nIn groups of three or four, then to the room:\nWhat are the causes of the replication crisis? Consider both cultural and statistical sources. Try to name at least one of each, and say which of your causes the problem set has anything to say about."
   },
   {
-    "objectID": "weeks/01-selection.html#rejection-rates-and-power",
-    "href": "weeks/01-selection.html#rejection-rates-and-power",
+    "objectID": "weeks/wk01/class.html#coding",
+    "href": "weeks/wk01/class.html#coding",
     "title": "Selection and the replication crisis",
-    "section": "Rejection rates and power",
-    "text": "Rejection rates and power\nYou estimate a quantity \\(\\mu\\) with an estimator \\(\\hat\\mu\\) whose standard error is \\(\\mathrm{se}\\). Standardise: \\[\nZ = \\frac{\\hat\\mu}{\\mathrm{se}} \\sim N(\\theta, 1), \\qquad \\theta = \\frac{\\mu}{\\mathrm{se}}.\n\\] For a sample mean with \\(n\\) observations and noise standard deviation \\(\\sigma\\), \\(\\mathrm{se} = \\sigma/\\sqrt n\\) and \\(\\theta = \\mu\\sqrt n/\\sigma\\). The two-sided test at level \\(\\alpha = 0.05\\) rejects when \\(|Z| &gt; c\\) with \\(c = 1.96\\).\nUnder the null hypothesis \\(\\mu = 0\\), so \\(\\theta = 0\\) and \\[\nP(|Z| &gt; c \\mid \\mu = 0) = 2\\,(1 - \\Phi(c)) = 0.05 .\n\\] This is the rejection rate under the null, the error rate the test advertises.\nWhen \\(\\mu \\neq 0\\) the rejection probability is the power, \\[\n\\text{power}(\\theta) = P(|Z| &gt; c) = 1 - \\Phi(c - \\theta) + \\Phi(-c - \\theta).\n\\] Everything about the study enters through the single number \\(\\theta\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\theta\\)\n0\n0.5\n1\n1.5\n2\n2.5\n2.8\n3\n4\n\n\n\n\npower\n0.05\n0.08\n0.17\n0.32\n0.52\n0.71\n0.80\n0.85\n0.98\n\n\n\nWhich of \\(\\mu\\), \\(\\sigma\\) and \\(n\\) does the analyst control? Usually only \\(n\\). The effect is whatever it is, and \\(\\sigma\\) is a property of the measurement. So power at a fixed \\(\\mu\\) is a statement about how much the estimate varies: the same \\(\\mu\\) estimated with a wider standard error is caught less often.\n\nThe rates in a simulation\nThe function below generates a dataset with an outcome \\(Y\\), a covariate \\(X\\) and a binary group \\(A\\) from a linear model with whatever coefficients you choose. With every coefficient at zero, \\(Y\\) is pure noise and every regression coefficient is a null hypothesis that happens to be true.\n\nset.seed(1)\n\ngenerate_data &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                          n = 200, proportion = 1/2) {\n  X &lt;- rnorm(n)\n  A &lt;- rbinom(n, 1, proportion)\n  Y &lt;- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)\n  data.frame(Y = Y, X = X, A = factor(A))\n}\n\n# One experiment: generate data, fit the model, return the p-value for X\none_experiment &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                           n = 200, proportion = 1/2) {\n  one_sample &lt;- generate_data(beta0, betaX, betaA, betaXA, n, proportion)\n  one_fit &lt;- lm(Y ~ X + A + X * A, one_sample)\n  summary(one_fit)$coefficients[2, 4]\n}\n\nRun it many times under the null and count how often \\(p &lt; 0.05\\).\n\nrejection_level &lt;- 0.05\nn_experiments &lt;- 2000\nmean(replicate(n_experiments, one_experiment()) &lt; rejection_level)\n\n[1] 0.0415\n\n\nClose to 0.05, as it should be. Now give \\(X\\) a small real effect and watch the rejection rate rise with \\(n\\).\n\nsapply(c(100, 200, 400, 800), function(n)\n  mean(replicate(n_experiments, one_experiment(betaX = 0.2, n = n)) &lt; rejection_level))\n\n[1] 0.2795 0.5100 0.8135 0.9795\n\n\nA coefficient of 0.2 is caught about half the time at \\(n = 200\\) and about 80% of the time near \\(n = 400\\). Can you predict those numbers from the table? The coefficient on \\(X\\) in Y ~ X + A + X * A is the slope within the group \\(A = 0\\), so it is estimated from roughly half the sample, and \\(\\theta \\approx 0.2\\sqrt{n/2}\\). At \\(n = 400\\) that is \\(\\theta \\approx 2.8\\). The simulation and the formula agree. Check that first, every time, for both."
+    "section": "Coding",
+    "text": "Coding\nOpen a fresh R script. You will need ggplot2 and dplyr.\n\nA. Significance filter / file-drawer effect\nGenerate 100,000 standard normal \\(z\\)-scores. Every one of them is a test of a true null hypothesis.\n\nz &lt;- rnorm(1e5)\n\n\nKeep only the \\(z\\)-scores with \\(|z| &gt; 1.96\\). What fraction survived? What should it be?\nPlot a histogram of the survivors. Describe its shape in one sentence.\nCompute the mean of \\(|z|\\) among the survivors. Compare it with \\(\\phi(1.96)/(1 - \\Phi(1.96))\\), which in R is dnorm(1.96) / (1 - pnorm(1.96)).\n(Practice.) Now generate \\(z \\sim N(1, 1)\\) instead, so every hypothesis is false with a modest effect. Keep the survivors with \\(z &gt; 1.96\\) and compute their mean. Compare with the formula \\(\\theta + \\phi(c-\\theta)/(1-\\Phi(c-\\theta))\\) at \\(\\theta = 1\\), \\(c = 1.96\\). What is the exaggeration ratio?\n\n\n\nB. The best of several\nA function that generates a dataset from a linear model, and a function that runs one experiment and returns the \\(p\\)-value for the coefficient on \\(X\\).\n\ngenerate_data &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                          n = 200, proportion = 1/2) {\n  X &lt;- rnorm(n)\n  A &lt;- rbinom(n, 1, proportion)\n  Y &lt;- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)\n  data.frame(Y = Y, X = X, A = factor(A))\n}\n\none_experiment &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                           n = 200, proportion = 1/2) {\n  one_sample &lt;- generate_data(beta0, betaX, betaA, betaXA, n, proportion)\n  one_fit &lt;- lm(Y ~ X + A + X * A, one_sample)\n  summary(one_fit)$coefficients[2, 4]\n}\n\n\nWith all coefficients at zero, run 1000 experiments and compute the rejection rate at level 0.05. Is it what it should be?\nWrite one_searched_experiment(), which fits the same model, looks at the \\(p\\)-values for all three non-intercept coefficients, also fits the simpler model Y ~ X, and returns the smallest of the four \\(p\\)-values. Run 1000 of these under the null. What is the rejection rate now, and why is it not \\(1 - 0.95^4\\)?\nSet betaX = 0.2 and find, by trying values of n, the sample size at which the rejection rate is about 0.8. Then explain the number using \\(\\theta = \\mu\\sqrt{n_{\\text{eff}}}/\\sigma\\): what is \\(n_{\\text{eff}}\\) here, and why is it not \\(n\\)?\n(Practice.) Run 1000 experiments with betaX = 0.2 at the \\(n\\) you found in 3, keep the estimated coefficient on \\(X\\) only when its \\(p\\)-value is below 0.05, and compute the average kept estimate. Compare it with 0.2. You will need to modify one_experiment() to return the estimate as well as the \\(p\\)-value."
   },
   {
-    "objectID": "weeks/01-selection.html#simulating-publication-bias",
-    "href": "weeks/01-selection.html#simulating-publication-bias",
+    "objectID": "weeks/wk01/class.html#discussion",
+    "href": "weeks/wk01/class.html#discussion",
     "title": "Selection and the replication crisis",
-    "section": "Simulating publication bias",
-    "text": "Simulating publication bias\nNow the filter. Simulate a world of many studies. Some test hypotheses that are true nulls; the rest test real effects of modest size. Every test is done honestly. The only thing that goes wrong is that most results are written up only if they are significant. The rest stay in the file drawer, which is why this is called the file-drawer effect.\n\nset.seed(1)\nN &lt;- 5e4                     # studies conducted\nproportion_null &lt;- 0.4\nsignif_level &lt;- qnorm(0.975)\nis_null &lt;- rbinom(N, 1, proportion_null)\neffect_size_nonnull &lt;- 0.5\nsimulated_world &lt;- data.frame(is_null) |&gt;\n  mutate(zscore = rnorm(N,\n                        mean = (1 - is_null) * effect_size_nonnull,\n                        sd = 1 + 0.1 * (1 - is_null)))\n\nThe \\(z\\)-scores have mean zero and standard deviation one when the null is true, and a slightly larger mean and spread when it is false. Here is the world before anybody decides what to publish.\n\nsimulated_world |&gt;\n  ggplot(aes(x = zscore, fill = factor(is_null))) +\n  geom_density(alpha = 0.5) +\n  geom_vline(xintercept = c(-1, 1) * signif_level, linetype = \"dotted\") +\n  scale_fill_viridis_d(option = \"magma\", name = \"null?\")\n\n\n\n\n\n\n\n\nNobody sees this plot. An analyst does not know which of their hypotheses are null, and neither does a journal. The literature sees the subset that passes the filter.\n\nproportion_filtered &lt;- 0.9\nwhich_studies_filtered &lt;- rbinom(N, 1, proportion_filtered)\nsimulated_publications &lt;- simulated_world |&gt;\n  mutate(filtered = which_studies_filtered) |&gt;\n  filter(filtered == 0 |                 # published regardless, OR\n         abs(zscore) &gt; signif_level)     # large enough to pass the filter\nnrow(simulated_publications)\n\n[1] 8768\n\n\n\nsimulated_publications |&gt;\n  ggplot(aes(zscore)) +\n  geom_histogram(bins = 50)\n\n\n\n\n\n\n\n\nCompare this with the Medline histogram. In the simulation, the hole between \\(-1.96\\) and \\(1.96\\) appeared without a single dishonest test. The Medline histogram surely contains some dishonest ones, but it does not need them to look the way it does.\nBefore reading on, guess the average of \\(|z|\\) among the published studies whose null hypothesis was true and which had to pass the filter. Then check:\n\nsimulated_publications |&gt;\n  filter(is_null == 1, filtered == 1) |&gt;\n  summarise(mean_abs_z = mean(abs(zscore)), n = n())\n\n  mean_abs_z   n\n1   2.329553 926"
+    "section": "Discussion",
+    "text": "Discussion\nMore prompts than we will get through. Groups of three or four, then to the room; every group’s answer goes on the shared document.\n\nWhat are the ethical impacts of the replication crisis? Consider both general impacts and impacts specific to a field you know.\nWhat can data scientists and statisticians do about it? Which of your proposals would have changed the number in problem 3(a), which would have changed the number in problem 4(b), and which would change neither?\nEach group takes one setting below and writes three sentences: what the filter is; which way the numbers you get to see are biased and what makes the bias larger or smaller; who benefits from the bias being invisible.\n\nAn investment platform advertises the past returns of the funds it currently offers. Funds that performed badly were closed and are no longer listed.\nA newspaper publishes a table of the schools whose exam results improved most this year.\nA hospital’s website shows the complication rates of its surgeons. Only surgeons who have performed at least 50 operations are shown.\nA recruiting team reports that candidates hired after a new interview process are performing well. It cannot see the candidates it rejected.\nA social media feed shows you the ten posts from a group of people that got the most reactions today.\n\nHave you seen “spin” in a paper, a press release or a news story: a result reported in the most favorable of the comparisons that could have been made? What was the comparison that was not reported?"
   },
   {
-    "objectID": "weeks/01-selection.html#the-significance-filter",
-    "href": "weeks/01-selection.html#the-significance-filter",
+    "objectID": "weeks/wk01/class.html#to-finish",
+    "href": "weeks/wk01/class.html#to-finish",
     "title": "Selection and the replication crisis",
-    "section": "The significance filter",
-    "text": "The significance filter\nThat number is not an accident of the simulation. It is a property of the normal distribution.\nSuppose \\(Z \\sim N(\\theta, 1)\\) and we only get to see \\(Z\\) when \\(Z &gt; c\\). What is the expected value of what we see? Write \\(u = z - \\theta\\), so that \\(u\\) is standard normal and the condition becomes \\(u &gt; c - \\theta\\): \\[\nE[Z \\mid Z &gt; c]\n= \\frac{\\int_c^\\infty z\\,\\phi(z - \\theta)\\,dz}{P(Z &gt; c)}\n= \\frac{\\int_{c-\\theta}^\\infty (u + \\theta)\\,\\phi(u)\\,du}{1 - \\Phi(c - \\theta)} .\n\\] The \\(\\theta\\) part of the numerator integrates to \\(\\theta\\,(1 - \\Phi(c-\\theta))\\). For the \\(u\\) part, \\(\\phi'(u) = -u\\,\\phi(u)\\), so \\(\\int_{c-\\theta}^\\infty u\\,\\phi(u)\\,du = \\phi(c - \\theta)\\). Therefore \\[\n\\boxed{\\;E[Z \\mid Z &gt; c] = \\theta + \\frac{\\phi(c - \\theta)}{1 - \\Phi(c - \\theta)}\\;}\n\\] The second term is the bias induced by the filter. It is always positive, and its denominator is the power of a one-sided test at threshold \\(c\\).\nUnder the null. Put \\(\\theta = 0\\) and \\(c = 1.96\\). Then \\(\\phi(1.96) = 0.0584\\) and \\(1 - \\Phi(1.96) = 0.025\\), so \\[\nE[Z \\mid Z &gt; 1.96] = \\frac{0.0584}{0.025} \\approx 2.34 .\n\\] By symmetry the same number is \\(E[\\,|Z|\\, \\mid |Z| &gt; 1.96]\\) for the two-sided filter. A true null effect that passed the filter is, on average, 2.3 standard errors from zero. The estimate is not wrong because someone cheated, but because you only got to see it when it was large. This is called the winner’s curse.\n\nThe filter on its own\nYou do not need the whole simulated world to see this. Generate null \\(z\\)-scores, keep the ones that pass, and look at what survived.\n\nz &lt;- rnorm(1e5)                       # every null hypothesis true\nsurvivors &lt;- z[abs(z) &gt; 1.96]\nlength(survivors) / length(z)         # should be about 0.05\n\n[1] 0.05065\n\nmean(abs(survivors))                  # compare with phi(1.96) / 0.025\n\n[1] 2.335377\n\n\n\ndata.frame(z = survivors) |&gt;\n  ggplot(aes(z)) +\n  geom_histogram(bins = 60) +\n  geom_vline(xintercept = c(-1.96, 1.96), linetype = \"dotted\")\n\n\n\n\n\n\n\n\nNothing in the survivors’ distribution is near zero, and none of them tells you it came through a filter.\n\n\nExaggeration\nThe null case is the extreme. What does the filter do to true effects?\nFor \\(\\theta &gt; 0\\) the boxed formula gives the expected published estimate. Its ratio to the truth, \\(E[Z \\mid Z &gt; c]/\\theta\\), is how much a published estimate exaggerates on average. Here it is for a few values, with the one-sided power at \\(c = 1.96\\):\n\n\n\n\\(\\theta\\)\n0.5\n1\n1.5\n2\n2.5\n3\n4\n\n\n\n\npower\n0.07\n0.17\n0.32\n0.52\n0.71\n0.85\n0.98\n\n\n\\(E[Z \\mid Z &gt; c]\\)\n2.41\n2.49\n2.61\n2.77\n2.99\n3.27\n4.05\n\n\nexaggeration ratio\n4.8\n2.5\n1.7\n1.4\n1.2\n1.1\n1.0\n\n\n\nA study with 17% power that reaches significance reports, on average, two and a half times the true effect. A study with 85% power overstates it by about a tenth. Van Zwet and Cator prove the general statement: the exaggeration factor is a decreasing function of the power, and if the power is 50% or less, the usual 95% confidence interval on a significant result does not reach its nominal coverage. (Their formula is for the two-sided filter on \\(|Z|\\); for \\(\\theta \\ge 1\\) it gives the same numbers as the one-sided version in the table, to two decimals.)\nPut the two halves together. The power of a study is about how much its estimate varies. The exaggeration of a published estimate is a bias. The file-drawer effect turns variance into bias. So when you are shown an estimate, ask whether the problem is bias, variance, or both.\n\n\nWhat the model leaves out\nTwo things, both of which make matters worse. A two-sided filter also lets through estimates of the wrong sign, so a low-powered study can produce a significant result pointing the wrong way. And real filters are softer than a hard threshold and act at several stages. Neither changes the direction of anything above.\n\n\nOptional: sign and magnitude errors\nGelman and Carlin (2014) give the two consequences of the filter names. A Type M (magnitude) error is the exaggeration ratio above. A Type S (sign) error is a significant estimate with the wrong sign. For the two-sided filter its probability is \\[\nP(Z &lt; -c \\mid |Z| &gt; c) = \\frac{\\Phi(-c-\\theta)}{1 - \\Phi(c-\\theta) + \\Phi(-c-\\theta)} ,\n\\] the lower tail’s share of what passes.\n\n\n\n\\(\\theta\\)\n0.25\n0.5\n1\n1.5\n2\n\n\n\n\npower\n0.06\n0.08\n0.17\n0.32\n0.52\n\n\nwrong sign, given significant\n0.24\n0.09\n0.01\n0.001\n0.0001\n\n\n\nAt 6% power, nearly a quarter of the significant results point the wrong way. By 30% power the problem has gone, while the magnitude error is still a factor of 1.7. So the two errors have different cures: a little more power removes sign errors, and a lot more power is needed before the exaggeration is small.\n\n\nOptional and advanced: shrinkage, an empirical Bayes view\nEverything above conditions on selection: it averages over the estimates that passed. A Bayesian asks a different question. Given this \\(z\\), what is \\(\\theta\\) likely to be? Answering it needs a distribution for \\(\\theta\\) across the studies being done. Suppose the standardised effects in a field are \\[\n\\theta \\sim N(0, \\tau^2), \\qquad Z \\mid \\theta \\sim N(\\theta, 1).\n\\] Then marginally \\(Z \\sim N(0, 1 + \\tau^2)\\), and \\[\n\\theta \\mid Z = z \\;\\sim\\; N\\!\\left( \\frac{\\tau^2}{1 + \\tau^2}\\, z,\\; \\frac{\\tau^2}{1 + \\tau^2} \\right).\n\\] The posterior mean shrinks \\(z\\) towards zero by the factor \\(\\tau^2/(1+\\tau^2)\\). With \\(\\tau = 1\\), a field where the typical study has power under 20%, a just-significant \\(z = 1.96\\) is best read as about \\(0.98\\). The frequentist calculation from the other direction gave \\(1.96/2.5 \\approx 0.8\\) at \\(\\theta = 1\\). Different questions, similar answers.\nTwo things follow. First, the selection rule does not appear in the posterior. The filter acts on \\(z\\), and once you condition on \\(z\\) it has nothing more to say. The bias in the frequentist calculation comes from averaging over what was selected; the Bayesian conditions on what was seen. You can check this by simulation:\n\nset.seed(2)\ntau &lt;- 1\ntheta_true &lt;- rnorm(2e5, 0, tau)\nz &lt;- theta_true + rnorm(2e5)\nsignificant &lt;- z &gt; 1.96\nmean(z[significant] - theta_true[significant])        # the raw estimate, among the selected\n\n[1] 1.303844\n\nmean(z[significant] / 2 - theta_true[significant])    # the shrunk estimate, among the selected\n\n[1] -0.0008693044\n\n\nThe raw estimate overshoots by more than one standard error on average among the significant results; the shrunk estimate does not overshoot at all.\nSecond, \\(\\tau\\) is not known, but it can be estimated from an unfiltered collection of \\(z\\)-values, since \\(\\mathrm{Var}(Z) = 1 +\n\\tau^2\\). This is empirical Bayes. Do it on a filtered collection and the answer is wrong in a predictable direction: the filter removes the small \\(|z|\\), the variance is inflated, \\(\\hat\\tau^2\\) comes out too large and the shrinkage too weak. Van Zwet, Schwab and Senn (2021) did it on 23,747 \\(z\\)-values from trials in the Cochrane database, which records trials whatever their outcome, using a mixture of normals rather than a single one. They estimate the median achieved power of a trial to be 0.13, and that an estimate just significant at the 5% level overstates the true effect by a factor of about 1.7. Their conclusion is in the title of the paper that gave us the Medline histogram: the need to shrink."
+    "section": "To finish",
+    "text": "To finish\nOne sentence, individually: what causes p-hacking, and what would fix it?"
   },
   {
-    "objectID": "weeks/01-selection.html#many-comparisons",
-    "href": "weeks/01-selection.html#many-comparisons",
+    "objectID": "weeks/wk01/class.html#for-next-time",
+    "href": "weeks/wk01/class.html#for-next-time",
     "title": "Selection and the replication crisis",
-    "section": "Many comparisons",
-    "text": "Many comparisons\nThe filter does not have to sit between studies. It can sit inside one. If an analyst runs \\(k\\) independent tests of true null hypotheses and reports the smallest \\(p\\)-value, the chance that at least one is below 0.05 is \\[\n1 - 0.95^k ,\n\\] which is 0.23 at \\(k = 5\\), 0.40 at \\(k = 10\\) and 0.64 at \\(k = 20\\). Reporting the best of \\(k\\) is the significance filter applied to one analyst’s own work.\nThe analyst need not literally run all \\(k\\). Gelman and Loken call this the garden of forking paths. An analysis involves many choices: which outcome, which subgroup, which covariates, which outliers to drop, one-sided or two-sided. If the choice depends on the data, the reported test behaves as though the alternatives had been run, even when they were not. The researcher who “just looked at the data first” is in a similar position to the one who ran twenty tests, and it is harder to count the paths.\nHere is a recent example from genetics. In 2017 a large team reported 91 genes linked to neurodevelopmental disorders, 38 of them new (Stessman et al., Nature Genetics). They had sequenced 208 candidate genes in more than 11,000 cases. To decide which genes had more mutations than chance would produce they needed a significance threshold corrected for the number of genes tested, and they used 208. But the mutation counts combined their own data with earlier studies that had sequenced the whole exome, around 20,000 genes, and a mutation found by searching 20,000 genes is much less surprising than one found by searching 208. A group of geneticists led by Mark Daly pointed this out within a month. Redone with the larger denominator, one of the 38 new genes remained. To see the size of the error: a Bonferroni threshold at 5% is \\(0.05/208 = 2.4 \\times 10^{-4}\\) for 208 tests and \\(0.05/20{,}000 = 2.5 \\times 10^{-6}\\) for 20,000. A factor of a hundred in the threshold was the difference between 38 discoveries and one. Nobody fabricated anything. The senior author’s comment to Spectrum: “We should have seen that when we went across the tables, and we just didn’t.”\nThe remedy has a name, pre-specification or pre-registration: fix the analysis before the data can influence it. It does not make a test more powerful. It makes the reported comparison the one that was planned. The NHLBI trials above are what that looks like at the scale of a field.\nThe profession’s own code says the same thing. The American Statistical Association’s guidelines (2022 revision, item B.3) ask the practitioner to be “transparent about a priori versus post hoc objectives and planned versus unplanned statistical practices” and to disclose “when multiple comparisons are conducted and any relevant adjustments.” If you wonder why an ethics course is teaching you about power and selection, this is why."
-  },
-  {
-    "objectID": "weeks/01-selection.html#how-much-of-the-crisis-does-selection-alone-explain",
-    "href": "weeks/01-selection.html#how-much-of-the-crisis-does-selection-alone-explain",
-    "title": "Selection and the replication crisis",
-    "section": "How much of the crisis does selection alone explain?",
-    "text": "How much of the crisis does selection alone explain?\nIoannidis (2005) asked a simple question. Among the hypotheses a field tests, suppose a share \\(p\\) are true. Tests are run at level \\(\\alpha\\) with power \\(1 - \\beta\\). In the long run, what fraction of rejections are false? By Bayes’ rule, \\[\nP(H_0 \\text{ true} \\mid \\text{reject})\n= \\frac{(1 - p)\\,\\alpha}{(1 - p)\\,\\alpha + p\\,(1 - \\beta)} .\n\\] The complement is what he calls the positive predictive value of a research finding. With \\(\\alpha = 0.05\\):\n\n\n\n\\(p\\)\npower\n\\(P(H_0 \\mid \\text{reject})\\)\n\n\n\n\n0.5\n0.8\n0.06\n\n\n0.5\n0.2\n0.20\n\n\n0.1\n0.8\n0.36\n\n\n0.1\n0.2\n0.69\n\n\n\nA field where true effects are rare and studies are small will have a literature in which most significant findings are false, with no misconduct at all. Each ingredient is one of this week’s ideas: \\(\\alpha\\) is the advertised error rate, the power is the variation, and \\(p\\) is about who is in the data, because a field that tests wild hypotheses has a different literature from one that tests safe ones.\nWhat the formula does not show is that most published findings in any particular field are false. Nobody observes \\(p\\). Ioannidis’s title is a claim about the range of \\(p\\) and power he considered plausible, and you can disagree with the range without disagreeing with the arithmetic.\nThe same arithmetic, with a risk score in place of a \\(p\\)-value, describes a classifier that flags people rather than hypotheses. We will do it again."
-  },
-  {
-    "objectID": "weeks/01-selection.html#two-lenses",
-    "href": "weeks/01-selection.html#two-lenses",
-    "title": "Selection and the replication crisis",
-    "section": "Two lenses",
-    "text": "Two lenses\nWhich comparison gets reported? Inside a study: the best of \\(k\\) tests, the forking paths, the 208 genes.\nWho is in the data? Between studies. For anyone reading the literature, the data are the published studies, and the ones in the file drawer are missing in a known direction. A meta-analysis that pools every published trial has a sample chosen by the filter, and Ioannidis’s \\(p\\) is a statement about which hypotheses a field puts into the data at all.\nAnd why? Because the filter serves someone: the journal that prefers positive results, the author whose career depends on them, the reader who prefers a story."
-  },
-  {
-    "objectID": "weeks/01-selection.html#two-cases",
-    "href": "weeks/01-selection.html#two-cases",
-    "title": "Selection and the replication crisis",
-    "section": "Two cases",
-    "text": "Two cases\nWould a more competent analyst have chosen differently? One case where the answer is yes and one where it is no.\nLucia de Berk. A Dutch nurse was convicted in 2003, and again on appeal in 2004, of murders and attempted murders. Part of the evidence was a calculation: the chance that the deaths and resuscitations on her wards would all fall on her shifts by coincidence was put at 1 in 342 million. The number came from three wards. For each ward the statistician computed the probability that a nurse working her share of shifts would be present at that many incidents, and then multiplied the three probabilities together.\nTwo things are wrong with that before we even get to the data. A product of three \\(p\\)-values is not a \\(p\\)-value. Combining them properly (Fisher’s method, \\(-2\\sum_i \\log p_i \\sim \\chi^2_6\\) under the null) gives about one in a million, not one in 342 million. And \\(P(\\text{this pattern} \\mid\n\\text{coincidence})\\) is not \\(P(\\text{coincidence} \\mid \\text{this\npattern})\\). To get from one to the other you need the prior probability that a nurse is a murderer and the number of nurses whose shifts could have been examined. Then the data: incidents had been classified as suspicious partly because she was present at them, and some incidents counted against her happened when she was not on the ward. Recomputed by Richard Gill and colleagues with corrected data, the chance came out somewhere between about 1 in 9 and 1 in 50, depending on what is assumed about how incident rates vary between nurses. The case was reopened in 2008 and she was acquitted in 2010. A more competent analyst would have refused to compute the number that way. Yes.\nOfqual, 2020. Exams were cancelled and England’s regulator had to produce grades without them. Teachers submitted a grade for each student and a rank order within each school and subject. The model then replaced the grades with a predicted grade distribution for the school, built from the school’s own results in 2017 to 2019 and adjusted for the cohort’s prior attainment: the student at rank \\(r\\) of \\(n\\) received the grade at the \\(r/n\\) point of that distribution. The student’s own work entered only through \\(r\\). Two students with identical work at different schools got different grades, and a school whose past cohorts had few top grades could award few this year. For small cohorts (under 15) the teachers’ grades were used, wholly or in part. Small classes are commoner in private schools, which is where the widely reported private-school advantage came from. On results day, 13 August, about 36% of A-level grades were one grade below the teacher’s and 3% two grades below. On 17 August the model was withdrawn and the teachers’ grades were used instead.\nAs statistics the model was defensible. A regulator told to hold the grade distribution steady without any exams has to standardise against something, and the school’s own history is a reasonable something. The trouble was not the arithmetic. A rule about school histories was used to decide individual futures, the cost fell on students who had no way to contest it, and more statistical training at the regulator would not have changed that. No.\nIf your answer is “better statistics would have fixed it” every time, or “the statistics were fine, it’s all politics” every time, you need to recalibrate."
-  },
-  {
-    "objectID": "weeks/01-selection.html#readings",
-    "href": "weeks/01-selection.html#readings",
-    "title": "Selection and the replication crisis",
-    "section": "Readings",
-    "text": "Readings\n\nRequired\n\nms4ds, chapter 3: Ethical data science, sections 3.1 to 3.6. Start it now and read it gradually. It is a compressed version of a large part of the course, and you will come back to it.\nWikipedia: Replication crisis, skim.\n\n\n\nOptional\n\nIoannidis, Why Most Published Research Findings Are False (2005). The calculation above, and six corollaries worth arguing with.\nOpen Science Collaboration, Estimating the reproducibility of psychological science (2015).\nKaplan and Irvin, Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time (2015). The figure above.\nvan Zwet and Cator, The significance filter, the winner’s curse and the need to shrink (2020). The Medline histogram and the theorem about power.\nGelman and Loken, The garden of forking paths (2013).\nGelman and Carlin, Beyond power calculations: assessing Type S (sign) and Type M (magnitude) errors (2014).\nvan Zwet, Schwab and Senn, The statistical properties of RCTs and a proposal for shrinkage (2021). The empirical Bayes calculation in the advanced section.\nWright, Researchers correct statistical flaw in high-profile autism paper (Spectrum, 2017), on the Stessman et al. correction.\nThe research hall of shame: Wansink, Zimbardo."
-  },
-  {
-    "objectID": "weeks/01-selection.html#computer-setup",
-    "href": "weeks/01-selection.html#computer-setup",
-    "title": "Selection and the replication crisis",
-    "section": "Computer setup",
-    "text": "Computer setup\nFirst install R and then RStudio (recommended, not required, if you prefer another editor and know what you are doing). Then install the tidyverse packages:\ninstall.packages(\"tidyverse\")\nOn a Mac or Linux machine you may prefer a package manager. If you have not used R before, the LSE Digital Skills Lab’s short pre-sessional R course is the quickest way in. The class assumes you can run and edit a script like the ones above."
+    "section": "For next time",
+    "text": "For next time\nBring one published claim about a difference between two groups of people, from any source. Write down the comparison that was reported, and one comparison that could have been reported instead. One sentence each. Every group’s examples will go on the screen."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Weekly content",
+    "title": "ST313 course page",
     "section": "",
-    "text": "Selection and the replication crisis\n\n\n\n\n\n\n\n\nSep 28, 2026\n\n\nJoshua Loftus\n\n\n\n\n\nNo matching items"
+    "text": "Each week has one lecture and one class (80 minutes each, lecture first). The notes are the main reference; the slides are what is shown in the lecture; the class sheet is what you work through in class, and its .qmd link downloads the source to run the R code. Bring a laptop with R and RStudio to the class."
+  },
+  {
+    "objectID": "index.html#week-1-selection-and-the-replication-crisis",
+    "href": "index.html#week-1-selection-and-the-replication-crisis",
+    "title": "ST313 course page",
+    "section": "Week 1: Selection and the replication crisis",
+    "text": "Week 1: Selection and the replication crisis\nWhy a literature of honest tests can still be wrong on average: power, the significance filter, and what a published estimate is conditioned on. The standing question, with two cases.\nReading: ms4ds, chapter 3: Ethical data science, sections 3.1 to 3.6 · Wikipedia: Replication crisis, skim\nLecture: notes · slides\nClass: class sheet (.qmd)"
   },
   {
     "objectID": "about.html",
@@ -334,5 +250,96 @@
     "title": "Course information",
     "section": "",
     "text": "Course guide listing"
+  },
+  {
+    "objectID": "weeks/wk01/notes.html",
+    "href": "weeks/wk01/notes.html",
+    "title": "Selection and the replication crisis",
+    "section": "",
+    "text": "Much of what goes wrong in data science does not announce itself as an ethical problem. It appears as a technical step: a threshold, a filter, a choice of outcome variable, a decision about which rows to keep. The step looks neutral, someone takes the default, and a value judgment has been made without anyone noticing. This course is about those steps. The formal content, mostly probability you already know and some causal modeling you may not, is there to make the hidden choice visible.\nThere are five questions we will keep asking, lenses that bring hidden choices into focus.\n\nWhat are we optimizing or predicting? Whose definition of the outcome governs.\nWho is in the data? Whether the unseen are like the seen, and who decided.\nWhich comparison gets reported? Whether the question was fixed before the answer.\nWho bears the error? What each kind of mistake costs, and on whom that cost falls.\nYou have to choose, so choose, and defend it. Sometimes the mathematics proves that a choice is unavoidable. Pretending it was forced is its own failure.\n\nEach of these ends with the same two words: and why?\nThere is also a question the lenses cannot answer:\n\nWho benefited from that choice being invisible? And would a more competent analyst have chosen differently?\n\nSometimes the answer is yes and the fix is better statistics. Sometimes the answer is no: the technique was defensible and the harm came from somewhere else.\nImportant note: my views on these topics are not a consensus. You are not expected to adopt them, and a well-argued position I think is wrong can still get full marks. What is assessed is whether you can find a defensible position, say what it assumes, and defend it against the strongest objection."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#preamble-purpose-of-the-course",
+    "href": "weeks/wk01/notes.html#preamble-purpose-of-the-course",
+    "title": "Selection and the replication crisis",
+    "section": "",
+    "text": "Much of what goes wrong in data science does not announce itself as an ethical problem. It appears as a technical step: a threshold, a filter, a choice of outcome variable, a decision about which rows to keep. The step looks neutral, someone takes the default, and a value judgment has been made without anyone noticing. This course is about those steps. The formal content, mostly probability you already know and some causal modeling you may not, is there to make the hidden choice visible.\nThere are five questions we will keep asking, lenses that bring hidden choices into focus.\n\nWhat are we optimizing or predicting? Whose definition of the outcome governs.\nWho is in the data? Whether the unseen are like the seen, and who decided.\nWhich comparison gets reported? Whether the question was fixed before the answer.\nWho bears the error? What each kind of mistake costs, and on whom that cost falls.\nYou have to choose, so choose, and defend it. Sometimes the mathematics proves that a choice is unavoidable. Pretending it was forced is its own failure.\n\nEach of these ends with the same two words: and why?\nThere is also a question the lenses cannot answer:\n\nWho benefited from that choice being invisible? And would a more competent analyst have chosen differently?\n\nSometimes the answer is yes and the fix is better statistics. Sometimes the answer is no: the technique was defensible and the harm came from somewhere else.\nImportant note: my views on these topics are not a consensus. You are not expected to adopt them, and a well-argued position I think is wrong can still get full marks. What is assessed is whether you can find a defensible position, say what it assumes, and defend it against the strongest objection."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#summary",
+    "href": "weeks/wk01/notes.html#summary",
+    "title": "Selection and the replication crisis",
+    "section": "Summary",
+    "text": "Summary\nScience has a replication problem. Some of it is fraud and some is incompetence, but a surprising amount needs neither. If a result is more likely to be published when it is significant, the published literature is a filtered sample of the studies that were run, and the filter changes what the published numbers mean. We build that filter in a simulation, derive what it does to an estimate, and then ask who benefited from the filter being invisible."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#the-replication-crisis",
+    "href": "weeks/wk01/notes.html#the-replication-crisis",
+    "title": "Selection and the replication crisis",
+    "section": "The replication crisis",
+    "text": "The replication crisis\nA study is replicated when an independent team repeats it with new data and finds the same thing: an effect in the same direction, of similar size, and usually significant again. Replication is supposed to be routine. It turns out to be rare, and when it is attempted it often fails.\nIn 2015 the Open Science Collaboration replicated 100 published psychology experiments. Of the 97 originals that had reported significant effects, 36% replicated at \\(p &lt; 0.05\\), and the replication effect sizes were about half the originals. In 2016 Nature surveyed 1,576 researchers. More than 70% had tried and failed to reproduce someone else’s result, and more than half had failed to reproduce one of their own. The citations are in Wikipedia: Replication crisis.\nHere is what happened to one set of trials when registration became required. Kaplan and Irvin (2015) looked at 55 large trials of drugs and supplements funded by the US National Heart, Lung and Blood Institute. Before 2000, 17 of 30 (57%) found a significant benefit. From 2000, trials had to register their primary outcome at clinicaltrials.gov before collecting data. After that, 2 of 25 (8%).\n\n\n\nRelative risk of the primary outcome by year of publication for large NHLBI trials. Plus signs are trials showing benefit; circles with a diagonal line show harm. Figure 1 of Kaplan and Irvin (2015), PLoS ONE 10(8): e0132382, CC0.\n\n\nSame funder, same kind of trial, same statistics. What changed is that the comparison had to be chosen before the data could influence it.\nHere is a second picture, a histogram. Van Zwet and Cator (2020) collected over a million \\(z\\)-values from Medline abstracts published between 1976 and 2019. A \\(z\\)-value is an estimate divided by its standard error.\n\n\n\nOver a million \\(z\\)-values from Medline abstracts, 1976 to 2019. Figure 1 of van Zwet and Cator (2020), arXiv:2009.09440.\n\n\nIt is striking how large the hole in the histogram is: values between \\(-2\\) and \\(2\\) are missing in bulk. Results that were not significant were far less likely to appear.\nTwo explanations are on the table. The first is misconduct and incompetence, and there is plenty of both; see the hall of shame in the optional readings. The second is that nobody has to behave badly for the picture to look like that. A journal preferring significant results, a researcher writing up the study that worked, a reader citing the surprising finding: each one is a filter. Let’s take the second explanation seriously enough to build it."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#rejection-rates-and-power",
+    "href": "weeks/wk01/notes.html#rejection-rates-and-power",
+    "title": "Selection and the replication crisis",
+    "section": "Rejection rates and power",
+    "text": "Rejection rates and power\nYou estimate a quantity \\(\\mu\\) with an estimator \\(\\hat\\mu\\) whose standard error is \\(\\mathrm{se}\\). Standardize: \\[\nZ = \\frac{\\hat\\mu}{\\mathrm{se}} \\sim N(\\theta, 1), \\qquad \\theta = \\frac{\\mu}{\\mathrm{se}}.\n\\] For a sample mean with \\(n\\) observations and noise standard deviation \\(\\sigma\\), \\(\\mathrm{se} = \\sigma/\\sqrt n\\) and \\(\\theta = \\mu\\sqrt n/\\sigma\\). The two-sided test at level \\(\\alpha = 0.05\\) rejects when \\(|Z| &gt; c\\) with \\(c = 1.96\\).\nUnder the null hypothesis \\(\\mu = 0\\), so \\(\\theta = 0\\) and \\[\nP(|Z| &gt; c \\mid \\mu = 0) = 2\\,(1 - \\Phi(c)) = 0.05 .\n\\] This is the rejection rate under the null, the error rate the test advertises.\nWhen \\(\\mu \\neq 0\\) the rejection probability is the power, \\[\n\\text{power}(\\theta) = P(|Z| &gt; c) = 1 - \\Phi(c - \\theta) + \\Phi(-c - \\theta).\n\\] Everything about the study enters through the single number \\(\\theta\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\theta\\)\n0\n0.5\n1\n1.5\n2\n2.5\n2.8\n3\n4\n\n\n\n\npower\n0.05\n0.08\n0.17\n0.32\n0.52\n0.71\n0.80\n0.85\n0.98\n\n\n\nWhich of \\(\\mu\\), \\(\\sigma\\) and \\(n\\) does the analyst control? Usually only \\(n\\). The effect is whatever it is, and \\(\\sigma\\) is a property of the measurement. So power at a fixed \\(\\mu\\) is a statement about how much the estimate varies: the same \\(\\mu\\) estimated with a wider standard error is caught less often.\n\nThe rates in a simulation\nThe function below generates a dataset with an outcome \\(Y\\), a covariate \\(X\\) and a binary group \\(A\\) from a linear model with whatever coefficients you choose. With every coefficient at zero, \\(Y\\) is pure noise and every regression coefficient is a null hypothesis that happens to be true.\n\nset.seed(1)\n\ngenerate_data &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                          n = 200, proportion = 1/2) {\n  X &lt;- rnorm(n)\n  A &lt;- rbinom(n, 1, proportion)\n  Y &lt;- beta0 + betaX * X + betaA * A + betaXA * X * A + rnorm(n, sd = 1)\n  data.frame(Y = Y, X = X, A = factor(A))\n}\n\n# One experiment: generate data, fit the model, return the p-value for X\none_experiment &lt;- function(beta0 = 0, betaX = 0, betaA = 0, betaXA = 0,\n                           n = 200, proportion = 1/2) {\n  one_sample &lt;- generate_data(beta0, betaX, betaA, betaXA, n, proportion)\n  one_fit &lt;- lm(Y ~ X + A + X * A, one_sample)\n  summary(one_fit)$coefficients[2, 4]\n}\n\nRun it many times under the null and count how often \\(p &lt; 0.05\\).\n\nrejection_level &lt;- 0.05\nn_experiments &lt;- 2000\nmean(replicate(n_experiments, one_experiment()) &lt; rejection_level)\n\n[1] 0.0415\n\n\nClose to 0.05, as it should be. Now give \\(X\\) a small nonzero effect and watch the rejection rate rise with \\(n\\).\n\nsapply(c(100, 200, 400, 800), function(n)\n  mean(replicate(n_experiments, one_experiment(betaX = 0.2, n = n)) &lt; rejection_level))\n\n[1] 0.2795 0.5100 0.8135 0.9795\n\n\nA coefficient of 0.2 is caught about half the time at \\(n = 200\\) and about 80% of the time near \\(n = 400\\). Can you predict those numbers from the table? The coefficient on \\(X\\) in Y ~ X + A + X * A is the slope within the group \\(A = 0\\), so it is estimated from roughly half the sample, and \\(\\theta \\approx 0.2\\sqrt{n/2}\\). At \\(n = 400\\) that is \\(\\theta \\approx 2.8\\). The simulation and the formula agree. Check that first, every time, for both."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#simulating-publication-bias",
+    "href": "weeks/wk01/notes.html#simulating-publication-bias",
+    "title": "Selection and the replication crisis",
+    "section": "Simulating publication bias",
+    "text": "Simulating publication bias\nNow the filter. Simulate a world of many studies. Some test hypotheses that are true nulls; the rest test real effects of modest size. Every test is done honestly. The only thing that goes wrong is that most results are written up only if they are significant. The rest stay in the file drawer, which is why this is called the file-drawer effect.\n\nset.seed(1)\nN &lt;- 5e4                     # studies conducted\nproportion_null &lt;- 0.4\nsignif_level &lt;- qnorm(0.975)\nis_null &lt;- rbinom(N, 1, proportion_null)\neffect_size_nonnull &lt;- 0.5\nsimulated_world &lt;- data.frame(is_null) |&gt;\n  mutate(zscore = rnorm(N,\n                        mean = (1 - is_null) * effect_size_nonnull,\n                        sd = 1 + 0.1 * (1 - is_null)))\n\nThe \\(z\\)-scores have mean zero and standard deviation one when the null is true, and a slightly larger mean and spread when it is false. Here is the world before anybody decides what to publish.\n\nsimulated_world |&gt;\n  ggplot(aes(x = zscore, fill = factor(is_null))) +\n  geom_density(alpha = 0.5) +\n  geom_vline(xintercept = c(-1, 1) * signif_level, linetype = \"dotted\") +\n  scale_fill_viridis_d(option = \"magma\", name = \"null?\")\n\n\n\n\n\n\n\n\nNobody sees this plot. An analyst does not know which of their hypotheses are null, and neither does a journal. The literature sees the subset that passes the filter.\n\nproportion_filtered &lt;- 0.9\nwhich_studies_filtered &lt;- rbinom(N, 1, proportion_filtered)\nsimulated_publications &lt;- simulated_world |&gt;\n  mutate(filtered = which_studies_filtered) |&gt;\n  filter(filtered == 0 |                 # published regardless, OR\n         abs(zscore) &gt; signif_level)     # large enough to pass the filter\nnrow(simulated_publications)\n\n[1] 8768\n\n\n\nsimulated_publications |&gt;\n  ggplot(aes(zscore)) +\n  geom_histogram(bins = 50)\n\n\n\n\n\n\n\n\nCompare this with the Medline histogram. In the simulation, the hole between \\(-1.96\\) and \\(1.96\\) appeared without a single dishonest test. The Medline histogram surely contains some dishonest ones, but it does not need them to look the way it does.\nBefore reading on, guess the average of \\(|z|\\) among the published studies whose null hypothesis was true and which had to pass the filter. Then check:\n\nsimulated_publications |&gt;\n  filter(is_null == 1, filtered == 1) |&gt;\n  summarise(mean_abs_z = mean(abs(zscore)), n = n())\n\n  mean_abs_z   n\n1   2.329553 926"
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#the-significance-filter",
+    "href": "weeks/wk01/notes.html#the-significance-filter",
+    "title": "Selection and the replication crisis",
+    "section": "The significance filter",
+    "text": "The significance filter\nThat number is not an accident of the simulation. It is a property of the normal distribution.\nSuppose \\(Z \\sim N(\\theta, 1)\\) and we only get to see \\(Z\\) when \\(Z &gt; c\\). What is the expected value of what we see? Write \\(u = z - \\theta\\), so that \\(u\\) is standard normal and the condition becomes \\(u &gt; c - \\theta\\): \\[\nE[Z \\mid Z &gt; c]\n= \\frac{\\int_c^\\infty z\\,\\phi(z - \\theta)\\,dz}{P(Z &gt; c)}\n= \\frac{\\int_{c-\\theta}^\\infty (u + \\theta)\\,\\phi(u)\\,du}{1 - \\Phi(c - \\theta)} .\n\\] The \\(\\theta\\) part of the numerator integrates to \\(\\theta\\,(1 - \\Phi(c-\\theta))\\). For the \\(u\\) part, \\(\\phi'(u) = -u\\,\\phi(u)\\), so \\(\\int_{c-\\theta}^\\infty u\\,\\phi(u)\\,du = \\phi(c - \\theta)\\). Therefore \\[\n\\boxed{\\;E[Z \\mid Z &gt; c] = \\theta + \\frac{\\phi(c - \\theta)}{1 - \\Phi(c - \\theta)}\\;}\n\\] The second term is the bias induced by the filter. It is always positive, and its denominator is the power of a one-sided test at threshold \\(c\\).\nUnder the null. Put \\(\\theta = 0\\) and \\(c = 1.96\\). Then \\(\\phi(1.96) = 0.0584\\) and \\(1 - \\Phi(1.96) = 0.025\\), so \\[\nE[Z \\mid Z &gt; 1.96] = \\frac{0.0584}{0.025} \\approx 2.34 .\n\\] By symmetry the same number is \\(E[\\,|Z|\\, \\mid |Z| &gt; 1.96]\\) for the two-sided filter. A true null effect that passed the filter is, on average, 2.3 standard errors from zero. The estimate is not wrong because someone cheated, but because you only got to see it when it was large. This is called the winner’s curse.\n\nThe filter on its own\nYou do not need the whole simulated world to see this. Generate null \\(z\\)-scores, keep the ones that pass, and look at what survived.\n\nz &lt;- rnorm(1e5)                       # every null hypothesis true\nsurvivors &lt;- z[abs(z) &gt; 1.96]\nlength(survivors) / length(z)         # should be about 0.05\n\n[1] 0.05065\n\nmean(abs(survivors))                  # compare with phi(1.96) / 0.025\n\n[1] 2.335377\n\n\n\ndata.frame(z = survivors) |&gt;\n  ggplot(aes(z)) +\n  geom_histogram(bins = 60) +\n  geom_vline(xintercept = c(-1.96, 1.96), linetype = \"dotted\")\n\n\n\n\n\n\n\n\nNothing in the survivors’ distribution is near zero, and none of them tells you it came through a filter.\n\n\nExaggeration\nThe null case is the extreme. What does the filter do to true effects?\nFor \\(\\theta &gt; 0\\) the boxed formula gives the expected published estimate. Its ratio to the truth, \\(E[Z \\mid Z &gt; c]/\\theta\\), is how much a published estimate exaggerates on average. Here it is for a few values, with the one-sided power at \\(c = 1.96\\):\n\n\n\n\\(\\theta\\)\n0.5\n1\n1.5\n2\n2.5\n3\n4\n\n\n\n\npower\n0.07\n0.17\n0.32\n0.52\n0.71\n0.85\n0.98\n\n\n\\(E[Z \\mid Z &gt; c]\\)\n2.41\n2.49\n2.61\n2.77\n2.99\n3.27\n4.05\n\n\nexaggeration ratio\n4.8\n2.5\n1.7\n1.4\n1.2\n1.1\n1.0\n\n\n\nA study with 17% power that reaches significance reports, on average, two and a half times the true effect. A study with 85% power overstates it by about a tenth. Van Zwet and Cator prove the general statement: the exaggeration factor is a decreasing function of the power, and if the power is 50% or less, the usual 95% confidence interval on a significant result does not reach its nominal coverage. (Their formula is for the two-sided filter on \\(|Z|\\); for \\(\\theta \\ge 1\\) it gives the same numbers as the one-sided version in the table, to two decimals.)\nPut the two halves together. The power of a study is about how much its estimate varies. The exaggeration of a published estimate is a bias. The file-drawer effect turns variance into bias. So when you are shown an estimate, ask whether the problem is bias, variance, or both.\n\n\nWhat the model leaves out\nTwo things, both of which make matters worse. A two-sided filter also lets through estimates of the wrong sign, so a low-powered study can produce a significant result pointing the wrong way. And real filters are softer than a hard threshold and act at several stages. Neither changes the direction of anything above.\n\n\nOptional: sign and magnitude errors\nGelman and Carlin (2014) give the two consequences of the filter names. A Type M (magnitude) error is the exaggeration ratio above. A Type S (sign) error is a significant estimate with the wrong sign. For the two-sided filter its probability is \\[\nP(Z &lt; -c \\mid |Z| &gt; c) = \\frac{\\Phi(-c-\\theta)}{1 - \\Phi(c-\\theta) + \\Phi(-c-\\theta)} ,\n\\] the lower tail’s share of what passes.\n\n\n\n\\(\\theta\\)\n0.25\n0.5\n1\n1.5\n2\n\n\n\n\npower\n0.06\n0.08\n0.17\n0.32\n0.52\n\n\nwrong sign, given significant\n0.24\n0.09\n0.01\n0.001\n0.0001\n\n\n\nAt 6% power, nearly a quarter of the significant results point the wrong way. By 30% power the problem has gone, while the magnitude error is still a factor of 1.7. So the two errors have different cures: a little more power removes sign errors, and a lot more power is needed before the exaggeration is small.\n\n\nOptional and advanced: shrinkage, an empirical Bayes view\nEverything above conditions on selection: it averages over the estimates that passed. A Bayesian asks a different question. Given this \\(z\\), what is \\(\\theta\\) likely to be? Answering it needs a distribution for \\(\\theta\\) across the studies being done. Suppose the standardized effects in a field are \\[\n\\theta \\sim N(0, \\tau^2), \\qquad Z \\mid \\theta \\sim N(\\theta, 1).\n\\] Then marginally \\(Z \\sim N(0, 1 + \\tau^2)\\), and \\[\n\\theta \\mid Z = z \\;\\sim\\; N\\!\\left( \\frac{\\tau^2}{1 + \\tau^2}\\, z,\\; \\frac{\\tau^2}{1 + \\tau^2} \\right).\n\\] The posterior mean shrinks \\(z\\) towards zero by the factor \\(\\tau^2/(1+\\tau^2)\\). With \\(\\tau = 1\\), a field where the typical study has power under 20%, a just-significant \\(z = 1.96\\) is best read as about \\(0.98\\). The frequentist calculation from the other direction gave \\(1.96/2.5 \\approx 0.8\\) at \\(\\theta = 1\\). Different questions, similar answers.\nTwo things follow. First, the selection rule does not appear in the posterior. The filter acts on \\(z\\), and once you condition on \\(z\\) it has nothing more to say. The bias in the frequentist calculation comes from averaging over what was selected; the Bayesian conditions on what was seen. You can check this by simulation:\n\nset.seed(2)\ntau &lt;- 1\ntheta_true &lt;- rnorm(2e5, 0, tau)\nz &lt;- theta_true + rnorm(2e5)\nsignificant &lt;- z &gt; 1.96\nmean(z[significant] - theta_true[significant])        # the raw estimate, among the selected\n\n[1] 1.303844\n\nmean(z[significant] / 2 - theta_true[significant])    # the shrunk estimate, among the selected\n\n[1] -0.0008693044\n\n\nThe raw estimate overshoots by more than one standard error on average among the significant results; the shrunk estimate does not overshoot at all.\nSecond, \\(\\tau\\) is not known, but it can be estimated from an unfiltered collection of \\(z\\)-values, since \\(\\mathrm{Var}(Z) = 1 +\n\\tau^2\\). This is empirical Bayes. Do it on a filtered collection and the answer is wrong in a predictable direction: the filter removes the small \\(|z|\\), the variance is inflated, \\(\\hat\\tau^2\\) comes out too large and the shrinkage too weak. Van Zwet, Schwab and Senn (2021) did it on 23,747 \\(z\\)-values from trials in the Cochrane database, which records trials whatever their outcome, using a mixture of normals rather than a single one. They estimate the median achieved power of a trial to be 0.13, and that an estimate just significant at the 5% level overstates the true effect by a factor of about 1.7. Their conclusion is in the title of the paper that gave us the Medline histogram: the need to shrink."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#many-comparisons",
+    "href": "weeks/wk01/notes.html#many-comparisons",
+    "title": "Selection and the replication crisis",
+    "section": "Many comparisons",
+    "text": "Many comparisons\nThe filter does not have to sit between studies. It can sit inside one. If an analyst runs \\(k\\) independent tests of true null hypotheses and reports the smallest \\(p\\)-value, the chance that at least one is below 0.05 is \\[\n1 - 0.95^k ,\n\\] which is 0.23 at \\(k = 5\\), 0.40 at \\(k = 10\\) and 0.64 at \\(k = 20\\). Reporting the best of \\(k\\) is the significance filter applied to one analyst’s own work.\nThe analyst need not literally run all \\(k\\). Gelman and Loken call this the garden of forking paths. An analysis involves many choices: which outcome, which subgroup, which covariates, which outliers to drop, one-sided or two-sided. If the choice depends on the data, the reported test behaves as though the alternatives had been run, even when they were not. The researcher who “just looked at the data first” is in a similar position to the one who ran twenty tests, and it is harder to count the paths.\nHere is a recent example from genetics. In 2017 a large team reported 91 genes linked to neurodevelopmental disorders, 38 of them new (Stessman et al., Nature Genetics). They had sequenced 208 candidate genes in more than 11,000 cases. To decide which genes had more mutations than chance would produce they needed a significance threshold corrected for the number of genes tested, and they used 208. But the mutation counts combined their own data with earlier studies that had sequenced the whole exome, around 20,000 genes, and a mutation found by searching 20,000 genes is much less surprising than one found by searching 208. A group of geneticists led by Mark Daly pointed this out within a month. Redone with the larger denominator, one of the 38 new genes remained. To see the size of the error: a Bonferroni threshold at 5% is \\(0.05/208 = 2.4 \\times 10^{-4}\\) for 208 tests and \\(0.05/20{,}000 = 2.5 \\times 10^{-6}\\) for 20,000. A factor of a hundred in the threshold was the difference between 38 discoveries and one. Nobody fabricated anything. The senior author’s comment to Spectrum: “We should have seen that when we went across the tables, and we just didn’t.”\nThe remedy has a name, pre-specification or pre-registration: fix the analysis before the data can influence it. It does not make a test more powerful. It makes the reported comparison the one that was planned. The NHLBI trials above are what that looks like at the scale of a field.\nThe profession’s own code says the same thing. The American Statistical Association’s guidelines (2022 revision, item B.3) ask the practitioner to be “transparent about a priori versus post hoc objectives and planned versus unplanned statistical practices” and to disclose “when multiple comparisons are conducted and any relevant adjustments.” If you wonder why an ethics course is teaching you about power and selection, this is why."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#how-much-of-the-crisis-does-selection-alone-explain",
+    "href": "weeks/wk01/notes.html#how-much-of-the-crisis-does-selection-alone-explain",
+    "title": "Selection and the replication crisis",
+    "section": "How much of the crisis does selection alone explain?",
+    "text": "How much of the crisis does selection alone explain?\nIoannidis (2005) asked a simple question. Among the hypotheses a field tests, suppose a share \\(p\\) are true. Tests are run at level \\(\\alpha\\) with power \\(1 - \\beta\\). In the long run, what fraction of rejections are false? By Bayes’ rule, \\[\nP(H_0 \\text{ true} \\mid \\text{reject})\n= \\frac{(1 - p)\\,\\alpha}{(1 - p)\\,\\alpha + p\\,(1 - \\beta)} .\n\\] The complement is what he calls the positive predictive value of a research finding. With \\(\\alpha = 0.05\\):\n\n\n\n\\(p\\)\npower\n\\(P(H_0 \\mid \\text{reject})\\)\n\n\n\n\n0.5\n0.8\n0.06\n\n\n0.5\n0.2\n0.20\n\n\n0.1\n0.8\n0.36\n\n\n0.1\n0.2\n0.69\n\n\n\nA field where true effects are rare and studies are small will have a literature in which most significant findings are false, with no misconduct at all. Each ingredient is one of this week’s ideas: \\(\\alpha\\) is the advertised error rate, the power is the variation, and \\(p\\) is about who is in the data, because a field that tests wild hypotheses has a different literature from one that tests safe ones.\nWhat the formula does not show is that most published findings in any particular field are false. Nobody observes \\(p\\). Ioannidis’s title is a claim about the range of \\(p\\) and power he considered plausible, and you can disagree with the range without disagreeing with the arithmetic.\nThe same arithmetic, with a risk score in place of a \\(p\\)-value, describes a classifier that flags people rather than hypotheses. We will do it again."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#two-lenses",
+    "href": "weeks/wk01/notes.html#two-lenses",
+    "title": "Selection and the replication crisis",
+    "section": "Two lenses",
+    "text": "Two lenses\nWhich comparison gets reported? Inside a study: the best of \\(k\\) tests, the forking paths, the 208 genes.\nWho is in the data? Between studies. For anyone reading the literature, the data are the published studies, and the ones in the file drawer are missing in a known direction. A meta-analysis that pools every published trial has a sample chosen by the filter, and Ioannidis’s \\(p\\) is a statement about which hypotheses a field puts into the data at all.\nAnd why? Because the filter serves someone: the journal that prefers positive results, the author whose career depends on them, the reader who prefers a story."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#two-cases",
+    "href": "weeks/wk01/notes.html#two-cases",
+    "title": "Selection and the replication crisis",
+    "section": "Two cases",
+    "text": "Two cases\nWould a more competent analyst have chosen differently? One case where the answer is yes and one where it is no.\nLucia de Berk. A Dutch nurse was convicted in 2003, and again on appeal in 2004, of murders and attempted murders. Part of the evidence was a calculation: the chance that the deaths and resuscitations on her wards would all fall on her shifts by coincidence was put at 1 in 342 million. The number came from three wards. For each ward the statistician computed the probability that a nurse working her share of shifts would be present at that many incidents, and then multiplied the three probabilities together.\nTwo things are wrong with that before we even get to the data. A product of three \\(p\\)-values is not a \\(p\\)-value. Combining them properly (Fisher’s method, \\(-2\\sum_i \\log p_i \\sim \\chi^2_6\\) under the null) gives about one in a million, not one in 342 million. And \\(P(\\text{this pattern} \\mid\n\\text{coincidence})\\) is not \\(P(\\text{coincidence} \\mid \\text{this\npattern})\\). To get from one to the other you need the prior probability that a nurse is a murderer and the number of nurses whose shifts could have been examined. Then the data: incidents had been classified as suspicious partly because she was present at them, and some incidents counted against her happened when she was not on the ward. Recomputed by Richard Gill and colleagues with corrected data, the chance came out somewhere between about 1 in 9 and 1 in 50, depending on what is assumed about how incident rates vary between nurses. The case was reopened in 2008 and she was acquitted in 2010. A more competent analyst would have refused to compute the number that way. Yes.\nOfqual, 2020. Exams were canceled and England’s regulator had to produce grades without them. Teachers submitted a grade for each student and a rank order within each school and subject. The model then replaced the grades with a predicted grade distribution for the school, built from the school’s own results in 2017 to 2019 and adjusted for the cohort’s prior attainment: the student at rank \\(r\\) of \\(n\\) received the grade at the \\(r/n\\) point of that distribution. The student’s own work entered only through \\(r\\). Two students with identical work at different schools got different grades, and a school whose past cohorts had few top grades could award few this year. For small cohorts (under 15) the teachers’ grades were used, wholly or in part. Small classes are commoner in private schools, which is where the widely reported private-school advantage came from. On results day, 13 August, about 36% of A-level grades were one grade below the teacher’s and 3% two grades below. On 17 August the model was withdrawn and the teachers’ grades were used instead.\nAs statistics the model was defensible. A regulator told to hold the grade distribution steady without any exams has to standardize against something, and the school’s own history is a reasonable something. The trouble was not the arithmetic. A rule about school histories was used to decide individual futures, the cost fell on students who had no way to contest it, and more statistical training at the regulator would not have changed that. No.\nIf your answer is “better statistics would have fixed it” every time, or “the statistics were fine, it’s all politics” every time, you need to recalibrate."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#readings",
+    "href": "weeks/wk01/notes.html#readings",
+    "title": "Selection and the replication crisis",
+    "section": "Readings",
+    "text": "Readings\n\nRequired\n\nms4ds, chapter 3: Ethical data science, sections 3.1 to 3.6. Start it now and read it gradually. It is a compressed version of a large part of the course, and you will come back to it.\nWikipedia: Replication crisis, skim.\n\n\n\nOptional\n\nIoannidis, Why Most Published Research Findings Are False (2005). The calculation above, and six corollaries worth arguing with.\nOpen Science Collaboration, Estimating the reproducibility of psychological science (2015).\nKaplan and Irvin, Likelihood of Null Effects of Large NHLBI Clinical Trials Has Increased over Time (2015). The figure above.\nvan Zwet and Cator, The significance filter, the winner’s curse and the need to shrink (2020). The Medline histogram and the theorem about power.\nGelman and Loken, The garden of forking paths (2013).\nGelman and Carlin, Beyond power calculations: assessing Type S (sign) and Type M (magnitude) errors (2014).\nvan Zwet, Schwab and Senn, The statistical properties of RCTs and a proposal for shrinkage (2021). The empirical Bayes calculation in the advanced section.\nWright, Researchers correct statistical flaw in high-profile autism paper (Spectrum, 2017), on the Stessman et al. correction.\nThe research hall of shame: Wansink, Zimbardo."
+  },
+  {
+    "objectID": "weeks/wk01/notes.html#computer-setup",
+    "href": "weeks/wk01/notes.html#computer-setup",
+    "title": "Selection and the replication crisis",
+    "section": "Computer setup",
+    "text": "Computer setup\nFirst install R and then RStudio (recommended, not required, if you prefer another editor and know what you are doing). Then install the tidyverse packages:\ninstall.packages(\"tidyverse\")\nOn a Mac or Linux machine you may prefer a package manager. If you have not used R before, the LSE Digital Skills Lab’s short pre-sessional R course is the quickest way in. The class assumes you can run and edit a script like the ones above."
   }
 ]

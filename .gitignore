@@ -1,9 +1,12 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
+# Never on GitHub: complete class sheets, teacher notes, board scripts, item bank, results, their renders.
+**/instructor/
+_instructor_rendered/
+
+# Build state. docs/ is committed: it is the site.
+_freeze/
+.quarto/
+/.Rproj.user/
+.DS_Store
 
 /.quarto/
-.positai
-
 **/*.quarto_ipynb

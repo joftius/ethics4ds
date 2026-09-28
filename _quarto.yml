@@ -1,6 +1,31 @@
 project:
   type: website
   output-dir: docs
+  # From 28 September 2026: week packets live in weeks/wkNN/ (student files at
+  # the folder root, everything else under wkNN/instructor/, which is never
+  # rendered or copied). The 2022 week pages weeks/NN-*.qmd stay in the tree
+  # unrendered until they are retired. Whatever wkNN folders are in this tree
+  # are live; a week is imported (with _build_env/build.sh import) when released.
+  render:
+    - "index.qmd"
+    - "about.qmd"
+    - "weeks/wk*/*.qmd"
+    - "!weeks/wk*/_index.qmd"
+    - "!**/instructor/**"
+    - "!**/*_complete.qmd"
+    - "!_build_env/**"
+    - "!_instructor_rendered/**"
+  # The student class sheet is copied beside its HTML so students can download
+  # it to run the R code. Notes and slides sources are not copied: they carry
+  # the instructor-side st313: block.
+  resources:
+    - "files/**"
+    - "weeks/wk*/class.qmd"
+    - "!**/instructor/**"
+    - "!**/*_complete.qmd"
+  preview:
+    port: 4313
+    browser: false
 
 website:
   title: "{{< fa solid chart-simple size=large >}} ethics 4 data science"
@@ -25,8 +50,8 @@ website:
       file: index.qmd
     - text: "{{< fa solid user size=large >}} about"
       file: about.qmd
-  site-url: http://ethics4ds.com
-  
+  site-url: https://ethics4ds.com
+
 format:
   html:
     cookie_consent:
@@ -39,18 +64,7 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-    
-collections:
-  research:
-    share: [twitter, linkedin]
-    categories: false
-  teaching:
-    share: [twitter, linkedin]
-    categories: false
-  creative_commons: CC BY
 
 editor: source
-execute: 
+execute:
   freeze: auto
-
-

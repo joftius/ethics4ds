@@ -1,7 +1,15 @@
 ---
-title: "Weekly content"
-listing:
-  contents: weeks
-  sort: "date desc"
+title: "ST313 course page"
+description: |
+  Ethics for data science: the statistical choices hidden inside technical steps, and who they affect.
+toc: true
+toc-depth: 2
 ---
 
+Each week has one lecture and one class (80 minutes each, lecture first). The notes are the main reference; the slides are what is shown in the lecture; the class sheet is what you work through in class, and its `.qmd` link downloads the source to run the R code. Bring a laptop with R and RStudio to the class.
+
+<!-- One block per week, each in weeks/wkNN/_index.qmd (title, one paragraph, reading,
+links). Include paths and the links inside the blocks are relative to this file.
+A week's delivery edits only its own block; nothing here changes. -->
+
+{{< include weeks/wk01/_index.qmd >}}
