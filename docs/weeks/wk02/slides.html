@@ -34,7 +34,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-60ce2e051cbd8b6093c65e00a93fb675.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-fb1776734a8a58cd78610881e307cdc5.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -291,7 +291,7 @@ Joshua Loftus
 </div>
 </div>
 <div class="small">
-<p>1, 3: a test proves nothing. <span class="math inline">\(\;\)</span> 2, 4, 5: <span class="math inline">\(P(\text{data} \mid H_0)\)</span> is not <span class="math inline">\(P(H_0 \mid \text{data})\)</span>. <span class="math inline">\(\;\)</span> 6: the chance that a repeat is significant is its power, which <span class="math inline">\(p\)</span> does not give.</p>
+<p>1, 3: a test proves nothing. <span class="math inline">\(\;\)</span> 2, 4, 5: <span class="math inline">\(p = P(|T| \ge 2.7 \mid H_0)\)</span>, which is not <span class="math inline">\(P(H_0 \mid \text{data})\)</span>. <span class="math inline">\(\;\)</span> 6: the chance that a repeat is significant is its power, which <span class="math inline">\(p\)</span> does not give.</p>
 </div>
 <div class="source">
 <p>Six German universities. Percentages as reported in Gigerenzer (2004).</p>
@@ -412,9 +412,9 @@ Joshua Loftus
 <p><span class="math display">\[R^2 = 1 - \frac{\sum_i (y_i - \hat y_i)^2}{\sum_i (y_i - \bar y)^2}\]</span></p>
 <div class="small">
 <p>The share of the variation in <span class="math inline">\(y\)</span>, among the units in the regression, that the fitted values account for. With one predictor it is the squared correlation: <span class="math inline">\(0.52^2 = 0.27\)</span> for the fifty states.</p>
-<p>For a line with slope <span class="math inline">\(\beta\)</span> and noise variance <span class="math inline">\(\sigma^2\)</span>:</p>
+<p>Fitted line, slope <span class="math inline">\(\hat\beta\)</span>, residual variance <span class="math inline">\(\hat\sigma^2\)</span>:</p>
 </div>
-<p><span class="math display">\[R^2 = \frac{\beta^2 \operatorname{Var}(X)}{\beta^2 \operatorname{Var}(X) + \sigma^2}\]</span></p>
+<p><span class="math display">\[R^2 = \frac{\hat\beta^2\, \widehat{\operatorname{Var}}(X)}{\hat\beta^2\, \widehat{\operatorname{Var}}(X) + \hat\sigma^2}\]</span></p>
 </div><div class="column" style="width:55%;">
 <ol type="1">
 <li>“A high <span class="math inline">\(R^2\)</span> means the model is right.”</li>
@@ -461,9 +461,9 @@ Joshua Loftus
 </section>
 <section id="strength-of-association-at-which-level" class="slide level2">
 <h2>Strength of association, at which level?</h2>
-<p>Hill’s strength is the strength of a cause’s effect on the units it acts on. His examples were people: a ratio of 200 for chimney sweeps, 9 to 10 for smokers.</p>
-<p>A causal effect, if it exists, is observable among the concrete units, people, and not only after aggregation.</p>
-<p>An association that appears only after averaging was made by the averaging: the variation within areas is removed, the slope is unchanged. <span class="math inline">\(R^2\)</span> of 0.20 among people and 0.84 across their averages is one effect, measured twice.</p>
+<p>Hill’s strength of association is a heuristic. His examples compared rates among people: a ratio of 200 for chimney sweeps, 9 to 10 for smokers.</p>
+<p>If a cause acts on people, look for the association among people, and not only among their averages.</p>
+<p>In this simulation, averaging raises <span class="math inline">\(R^2\)</span> while leaving the population slope unchanged. A strong association between area averages does not establish a causal effect among individuals.</p>
 <div class="source">
 <p>Hill (1965): “we must not be too ready to dismiss a cause-and-effect hypothesis merely on the grounds that the observed association appears to be slight.”</p>
 </div>
@@ -519,7 +519,7 @@ Joshua Loftus
 </section>
 <section id="same-mean-variance-ratio-1.2" class="slide level2">
 <h2>Same mean, variance ratio 1.2</h2>
-<p>Two groups of equal size with the same mean.</p>
+<p>Two groups of equal size, each normally distributed, with the same mean.</p>
 <p>One has a variance 20% larger, which is a standard deviation about 10% larger.</p>
 <div class="ask">
 <p>Take the people more than 4 standard deviations above the mean, where the standard deviation is that of the two groups combined. What share of them comes from the lower-variance group?</p>
@@ -615,7 +615,7 @@ Joshua Loftus
 </tr>
 <tr class="odd">
 <td style="text-align: left;">3. From a share to “intrinsic”</td>
-<td style="text-align: left;">The variance ratio is a property of the two groups, and not of the country, the test or the year.</td>
+<td style="text-align: left;">The difference in variance has an intrinsic cause. That needs causal evidence that distinguishes the explanations. Ratios that vary by country challenge a universal ratio; they do not by themselves exclude an intrinsic contribution.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4. From a share of a profession to one applicant</td>

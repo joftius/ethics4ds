@@ -104,20 +104,13 @@ $code-block-bg: #f6f6f6;
   background: #f3f3f2;
 }
 
-// A question the room answers before the reveal: commit first.
+// A question the room answers before the reveal: commit first. No label
+// (the "You first" heading was dropped on 6 October 2026 at the convenor's request).
 .reveal .ask {
   border: 2px dashed #6E5F00;
   border-radius: 0.3em;
   padding: 0.3em 0.8em;
   background: #fffbe0;
-}
-.reveal .ask::before {
-  content: "You first";
-  display: block;
-  font-size: 0.7em;
-  font-weight: 700;
-  color: #6E5F00;
-  letter-spacing: 0.06em;
 }
 
 .reveal .credit { font-size: 0.45em; color: #666; margin-top: 0.2em; }

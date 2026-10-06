@@ -293,7 +293,7 @@ ggplot(hk, aes(pct, who)) +
 ```
 
 ::: {.small}
-1, 3: a test proves nothing. $\;$ 2, 4, 5: $P(\text{data} \mid H_0)$ is not $P(H_0 \mid \text{data})$. $\;$ 6: the chance that a repeat is significant is its power, which $p$ does not give.
+1, 3: a test proves nothing. $\;$ 2, 4, 5: $p = P(|T| \ge 2.7 \mid H_0)$, which is not $P(H_0 \mid \text{data})$. $\;$ 6: the chance that a repeat is significant is its power, which $p$ does not give.
 :::
 
 ::: {.source}
@@ -463,10 +463,10 @@ $$R^2 = 1 - \frac{\sum_i (y_i - \hat y_i)^2}{\sum_i (y_i - \bar y)^2}$$
 ::: {.small}
 The share of the variation in $y$, among the units in the regression, that the fitted values account for. With one predictor it is the squared correlation: $0.52^2 = 0.27$ for the fifty states.
 
-For a line with slope $\beta$ and noise variance $\sigma^2$:
+Fitted line, slope $\hat\beta$, residual variance $\hat\sigma^2$:
 :::
 
-$$R^2 = \frac{\beta^2 \operatorname{Var}(X)}{\beta^2 \operatorname{Var}(X) + \sigma^2}$$
+$$R^2 = \frac{\hat\beta^2\, \widehat{\operatorname{Var}}(X)}{\hat\beta^2\, \widehat{\operatorname{Var}}(X) + \hat\sigma^2}$$
 :::
 ::: {.column width="55%"}
 1. "A high $R^2$ means the model is right."
@@ -536,14 +536,14 @@ Slope 1 at both levels. $R^2$: $\tfrac{5}{5 + 20} = 0.20$ among people, $\tfrac{
 ## Strength of association, at which level?
 
 ::: {.notes}
-Hill's criterion and the ecological regression, reconciled. His examples were people: sweeps, smokers. Hill also warned against dismissing a hypothesis because the association looks slight.
+Hill's strength is a heuristic, one of nine viewpoints. His examples compared rates among people: sweeps, smokers. The R-squared values are the last slide's: 0.20 among people, 0.84 across averages of 100.
 :::
 
-Hill's strength is the strength of a cause's effect on the units it acts on. His examples were people: a ratio of 200 for chimney sweeps, 9 to 10 for smokers.
+Hill's strength of association is a heuristic. His examples compared rates among people: a ratio of 200 for chimney sweeps, 9 to 10 for smokers.
 
-A causal effect, if it exists, is observable among the concrete units, people, and not only after aggregation.
+If a cause acts on people, look for the association among people, and not only among their averages.
 
-An association that appears only after averaging was made by the averaging: the variation within areas is removed, the slope is unchanged. $R^2$ of 0.20 among people and 0.84 across their averages is one effect, measured twice.
+In this simulation, averaging raises $R^2$ while leaving the population slope unchanged. A strong association between area averages does not establish a causal effect among individuals.
 
 ::: {.source}
 Hill (1965): "we must not be too ready to dismiss a cause-and-effect hypothesis merely on the grounds that the observed association appears to be slight."
@@ -624,7 +624,7 @@ Then president of Harvard, on why few women hold tenured posts in science and en
 Each person writes a number, then hands: over 40%, 25 to 40%, under 25%. The answer is on the slide after next.
 :::
 
-Two groups of equal size with the same mean.
+Two groups of equal size, each normally distributed, with the same mean.
 
 One has a variance 20% larger, which is a standard deviation about 10% larger.
 
@@ -685,7 +685,7 @@ The marked shares are the paper's own. The fractions of everyone beyond each cut
 ## Hyde and Mertz (2009), Table 2
 
 ::: {.notes}
-The ratio that the argument treats as a property of the two groups, by country: above 1 in most, 0.99, 1.00 and 0.95 in three. Machin and Pekkarinen, whose figures these are, found it significantly above 1 in 34 of the 40 countries in PISA 2003.
+The variance ratio by country: above 1 in most, 0.99, 1.00 and 0.95 in three. This challenges a universal ratio; it does not by itself exclude an intrinsic contribution. Machin and Pekkarinen, whose figures these are, found it significantly above 1 in 34 of the 40 countries in PISA 2003.
 :::
 
 :::: {.columns}
@@ -758,14 +758,14 @@ Does "bigotry" describe any of the steps? Which?
 ## Assumptions at each step
 
 ::: {.notes}
-After the pairs: which of these did the room name. Only step 1 is a calculation, and it is correct. Hyde and Mertz use steps 1 and 2 themselves, for their 32%. Step 4 is part 2's statistical discrimination; Summers's sentence does not take it.
+After the pairs: which of these did the room name. Only step 1 is a calculation, and it is correct. Hyde and Mertz use steps 1 and 2 themselves, for their 32%. Step 3 is a causal claim. Step 4 is part 2's statistical discrimination; Summers's sentence does not take it.
 :::
 
 | Step | What it assumes |
 |:-------------|:--------------------------|
 | 1. From test scores to a share of a tail | Normal curves, fitted where the data are, hold four standard deviations out. The variance ratio and the mean difference are those of the population in question. The two groups are the same size. |
 | 2. From a share of a tail to a share of a profession | The test measures what the work needs. The profession draws from beyond that cutoff. Among people beyond it, the two groups enter the profession at the same rate. |
-| 3. From a share to "intrinsic" | The variance ratio is a property of the two groups, and not of the country, the test or the year. |
+| 3. From a share to "intrinsic" | The difference in variance has an intrinsic cause. That needs causal evidence that distinguishes the explanations. Ratios that vary by country challenge a universal ratio; they do not by themselves exclude an intrinsic contribution. |
 | 4. From a share of a profession to one applicant | A person can be judged from their group's share. |
 
 Only step 1 is a calculation. The quotation stops at step 3.
@@ -855,7 +855,7 @@ $P(M_{1000} > 3) = 1 - \Phi(3)^{1000} = 0.74$, $\quad P(M_{100} > 3) = 1 - \Phi(
 ## Calculation and interpretation
 
 ::: {.notes}
-Each number was computed correctly. Getting from the middle column to the right-hand one needs more than the calculation: power and the share of real effects; data on people; steps 2 and 3.
+Each number was computed correctly. Getting from the middle column to the right-hand one needs more than the calculation: power and the share of real effects; data on people; the assumptions of steps 1 and 2.
 :::
 
 ::: {style="font-size: 1.25em"}

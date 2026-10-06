@@ -240,12 +240,14 @@ statements are true?
 6. If the experiment were repeated many times, 99% of the repetitions
    would give a significant result.
 
-None of them is true. A $p$-value is the probability of data at least as
-extreme as those observed, computed on the assumption that the null
-hypothesis is true: $P(\text{data} \mid H_0)$. A significance test
-proves and disproves nothing, so 1 and 3 are false. Statements 2, 4
-and 5 are about $P(H_0 \mid \text{data})$, the probability of a
-hypothesis, which is a different quantity. Statement 5 is statement 2
+None of them is true. A $p$-value is the probability, computed on the
+assumption that the null hypothesis is true, of a test statistic at
+least as extreme as the one observed: here
+$p = P(|T| \ge 2.7 \mid H_0) = 0.01$, where $T$ is the $t$ statistic.
+A significance test proves and disproves nothing, so 1 and 3 are
+false. Statements 2, 4 and 5 are about $P(H_0 \mid \text{data})$, the
+probability of a hypothesis given the data, which is a different
+quantity. Statement 5 is statement 2
 again: a rejection is the wrong decision only when the null hypothesis
 is true. Nor is the probability in statement 5 the level of the test.
 The level is $P(\text{reject} \mid H_0)$, and the statement is about
@@ -430,7 +432,13 @@ $\sigma^2$, the population value is
 $$
 R^2 = \frac{\beta^2 \operatorname{Var}(X)}{\beta^2 \operatorname{Var}(X) + \sigma^2} .
 $$
-The slope $\beta$ says how much $Y$ changes with $X$. $R^2$ depends on
+The same identity holds exactly for a line fitted by least squares,
+with the quantities computed from the data in place of the parameters:
+$$
+R^2 = \frac{\hat\beta^2\, \widehat{\operatorname{Var}}(X)}{\hat\beta^2\, \widehat{\operatorname{Var}}(X) + \hat\sigma^2} ,
+$$
+where $\hat\sigma^2$ is the variance of the residuals and both
+variances divide by $n$. The slope $\beta$ says how much $Y$ changes with $X$. $R^2$ depends on
 $\beta$, and also on $\sigma^2$ and on how much $X$ varies among the
 units that are in the regression. With $\beta$ and $\sigma^2$ held
 fixed, $R^2$ can be moved anywhere between 0 and 1 by changing
@@ -568,16 +576,12 @@ at one and $0.85$ at the other. No person's $Y$ became easier to
 predict: given their $X$, the prediction is off by about
 $\sqrt{20} = 4.5$ whichever line is used.
 
-This is how Hill's strength criterion and the ecological regression
-are reconciled. His strength is the strength of a cause's effect on
-the units it acts on, and his examples were people: sweeps, smokers.
-A causal effect, if it exists, is observable among those concrete
-units, and not only after aggregation. An association that appears
-only after averaging was made by the averaging, which removes the
-variation within areas and leaves the slope alone. In the simulation
-the $R^2$ of $0.20$ among people and $0.84$ across their averages is
-one effect, measured twice; neither number is the strength of the
-effect, which is the slope.
+Hill's strength of association is a heuristic, and his examples of it
+compared rates among people: sweeps, smokers. If a cause acts on
+people, look for the association among people, and not only among
+their averages. In this simulation, averaging raises $R^2$ while
+leaving the population slope unchanged. A strong association between
+area averages does not establish a causal effect among individuals.
 
 ### Area effects
 
@@ -653,7 +657,8 @@ membership accounts for is
 $$
 R^2 = \frac{d^2}{d^2 + 4} ,
 $$
-which the class derives. In the figure $d = 0.5$, and the share is 6%.
+which an optional class problem derives. In the figure $d = 0.5$, and
+the share is 6%.
 
 ```{r stat_disc, echo=FALSE, fig.height=2.8}
 xs <- seq(-3.5, 4, by = 0.01)
@@ -809,11 +814,13 @@ the values they take as representative of Table 1 and a cutoff at the
 and they set that beside the 18% of US engineering PhDs then awarded
 to women.
 
-*3. From a share to "intrinsic."* The variance ratio has to be a
-property of the two groups and not of the country, the test or the
-year. The reading's Table 2 is about this one. Its left-hand column is
-the variance ratio in the 2003 PISA mathematics test, by country,
-plotted beside it.
+*3. From a share to "intrinsic."* This is a causal claim: that the
+difference in variance has an intrinsic cause. It needs causal
+evidence that distinguishes that explanation from the others, and a
+variance ratio is not such evidence. The reading's Table 2 bears on a
+narrower question, whether the ratio is the same everywhere. Its
+left-hand column is the variance ratio in the 2003 PISA mathematics
+test, by country, plotted beside it.
 
 ::: {layout="[36,64]"}
 ![Hyde and Mertz (2009), Table 2.](../../files/hyde_mertz_2009_table2.png)
@@ -837,7 +844,9 @@ ggplot(pisa, aes(vr, reorder(country, vr), shape = sig)) +
 The ratio is above 1 in most countries, significantly so in 34 of the
 40 that took part according to Machin and Pekkarinen (2008), whose
 figures the table draws on, and it is $0.99$ in Denmark, $1.00$ in the
-Netherlands and $0.95$ in Indonesia. In
+Netherlands and $0.95$ in Indonesia. Variation across countries
+challenges a universal variance ratio. It does not by itself exclude
+an intrinsic contribution. In
 Minnesota's data the ratio of boys to girls above the 99th percentile
 was $2.06$ for white students, which the paper calls close to its
 theoretical prediction, and $0.91$ for Asian-American students, in the
@@ -1022,7 +1031,7 @@ Each number was computed correctly. None of them gets from the middle
 column to the right-hand one without more: for the $p$-value, the
 power of the test and how many of the effects being tested are real;
 for the fifty states, data on people, or an assumption about them; for
-the tail, steps 2 and 3 of the variance argument. These are what
+the tail, the assumptions of steps 1 and 2 of the variance argument. These are what
 Feynman called the "details that could throw doubt on your
 interpretation."
 
@@ -1062,9 +1071,9 @@ a more competent analyst have taken steps 2 and 3?
 
 ## For the class
 
-The class starts with the two studies of infants. Its problems on
-slopes, ecological regression and bounds use the other three sections.
-None of the four was in the lecture.
+The class starts with the two studies of infants and works a case of
+ecological regression. Its optional problems on slopes and bounds use
+the other two sections. None of the four was in the lecture.
 
 ### Two studies of infants
 
