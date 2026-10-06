@@ -13,3 +13,5 @@ links). Include paths and the links inside the blocks are relative to this file.
 A week's delivery edits only its own block; nothing here changes. -->
 
 {{< include weeks/wk01/_index.qmd >}}
+
+{{< include weeks/wk02/_index.qmd >}}

@@ -74,6 +74,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -151,6 +180,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#week-1-selection-and-the-replication-crisis" id="toc-week-1-selection-and-the-replication-crisis" class="nav-link active" data-scroll-target="#week-1-selection-and-the-replication-crisis">Week 1: Selection and the replication crisis</a></li>
+  <li><a href="#week-2-mindless-statistics-and-sophisticated-bigotry" id="toc-week-2-mindless-statistics-and-sophisticated-bigotry" class="nav-link" data-scroll-target="#week-2-mindless-statistics-and-sophisticated-bigotry">Week 2: Mindless statistics and sophisticated bigotry</a></li>
   </ul>
 </nav>
     </div>
@@ -191,6 +221,14 @@ A week's delivery edits only its own block; nothing here changes. -->
 <p><strong>Reading:</strong> <a href="https://joshualoftus.com/ms4ds/ethical-data-science.html">ms4ds, chapter 3: Ethical data science</a>, sections 3.1 to 3.6 · <a href="https://en.wikipedia.org/wiki/Replication_crisis">Wikipedia: Replication crisis</a>, skim</p>
 <p><strong>Lecture:</strong> <a href="weeks/wk01/notes.html">notes</a> · <a href="weeks/wk01/slides.html">slides</a></p>
 <p><strong>Class:</strong> <a href="weeks/wk01/class.html">class sheet</a> (<a href="https://ethics4ds.com/weeks/wk01/class.qmd" download="class.qmd">.qmd</a>)</p>
+</section>
+<section id="week-2-mindless-statistics-and-sophisticated-bigotry" class="level2">
+<h2 class="anchored" data-anchor-id="week-2-mindless-statistics-and-sophisticated-bigotry">Week 2: Mindless statistics and sophisticated bigotry</h2>
+<p>Cargo cult science, cargo-cult statistics and the null ritual, and Feynman’s first principle: you must not fool yourself. Then numbers that are computed correctly and read as answers to other questions: a correlation across fifty states with the opposite sign among the people who live in them, what <span class="math inline">\(R^2\)</span> measures and what averaging does to it, decisions about a person made from the average of their group, what a small difference in spread does far out in a tail, and what the largest of <span class="math inline">\(n\)</span> items shows you of a group.</p>
+<p><strong>Required reading:</strong> <a href="https://significancemagazine.com/cargo-cult-statistics-and-scientific-crisis/">Stark and Saltelli, Cargo-cult statistics and scientific crisis</a> (in full) · <a href="https://doi.org/10.1073/pnas.0901265106">Hyde and Mertz, Gender, culture, and mathematics performance</a> (first paragraph of “Do Gender Differences Exist Among the Mathematically Talented?”, Figure 1, Table 2; <a href="https://europepmc.org/article/PMC/PMC2689999">free full text</a>) · <a href="https://statistics.berkeley.edu/sites/default/files/tech-reports/549.pdf">Freedman, Ecological Inference and the Ecological Fallacy</a> (sections 1 to 3) · one of two psychology studies, as announced (Connellan and colleagues 2000, or <a href="https://doi.org/10.1007/s10508-008-9430-1">Alexander and colleagues 2009</a>), skimmed for its data and analysis</p>
+<p><strong>Optional:</strong> <a href="https://doi.org/10.1073/pnas.2024292118">Rathje, Van Bavel and van der Linden, Out-group animosity drives engagement on social media</a> · <a href="https://doi.org/10.1177/0149206314547522">Gigerenzer and Marewski, Surrogate Science</a></p>
+<p><strong>Lecture:</strong> <a href="weeks/wk02/notes.html">notes</a> · <a href="weeks/wk02/slides.html">slides</a></p>
+<p><strong>Class:</strong> <a href="weeks/wk02/class.html">class sheet</a> (<a href="https://ethics4ds.com/weeks/wk02/class.qmd" download="class.qmd">.qmd</a>)</p>
 
 
 </section>

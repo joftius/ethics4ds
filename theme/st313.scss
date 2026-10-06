@@ -1,0 +1,134 @@
+/*-- scss:defaults --*/
+// ST313 revealjs theme, 2026-27. Structure from ST310's theme/st310.scss;
+// colours from cividis (viridisLite::cividis), 5 October 2026.
+//
+// Palette (viridisLite::cividis(9)):
+//   #00204D (navy)  #05366E  #414D6B  #61646F  #7C7B78 (grey)
+//   #9B9477  #BCAF6F  #E0CB5E  #FFEA46 (yellow)
+// Not in cividis: #6E5F00, its gold darkened until it can be text on white.
+//
+// WCAG contrast on white (#ffffff), computed 5 Oct 2026:
+//   #00204D 15.98   #05366E 11.94   #414D6B 8.40   #61646F 5.90
+//   #6E5F00 6.36    #7C7B78 4.23 (large text only)
+//   #BCAF6F 2.21, #E0CB5E 1.63, #FFEA46 1.23 (never as text on white)
+// On the inverse background #00204D:
+//   #ffffff 15.98   #FFEA46 13.02   #E0CB5E 9.80   #BCAF6F 7.23
+// So: text colours on white are #00204D, #05366E, #414D6B, #6E5F00; the
+// golds and yellow are borders, backgrounds and text on dark slides only.
+
+$font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-monospace: "Fira Mono", "Source Code Pro", Menlo, Consolas, monospace;
+$presentation-font-size-root: 34px;
+$presentation-line-height: 1.35;
+$presentation-heading-font-weight: 600;
+
+$body-bg: #ffffff;
+$body-color: #1f1f1f;
+$link-color: #05366E;
+$link-color-hover: #414D6B;
+$selection-bg: #FFEA46;
+
+$presentation-heading-color: #00204D;
+$presentation-h1-font-size: 1.9em;
+$presentation-h2-font-size: 1.4em;
+$presentation-h3-font-size: 1.15em;
+
+$code-block-font-size: 0.7em;
+$code-color: #00204D;
+$code-block-bg: #f6f6f6;
+
+/*-- scss:rules --*/
+
+// Links are navy like the headings, so they are underlined to stay visible.
+.reveal a { text-decoration: underline; text-decoration-thickness: 0.06em; text-underline-offset: 0.12em; }
+
+// Emphasised text: the gold end of the scale, darkened for white. 6.36:1.
+.reveal strong { color: #6E5F00; }
+
+// Dark slides: class="inverse". In ST313 (and ST310 from 5 Oct 2026) a dark
+// slide is one that can be rushed or skipped; core content is never dark.
+.reveal .slide.inverse,
+.reveal .slides section.inverse {
+  background-color: #00204D;
+  color: #ffffff;
+}
+.reveal .inverse h1, .reveal .inverse h2, .reveal .inverse h3, .reveal .inverse h4 { color: #ffffff; }
+.reveal .inverse a { color: #FFEA46; }
+.reveal .inverse strong { color: #E0CB5E; }
+.reveal .inverse blockquote { border-left-color: #BCAF6F; color: #ffffff; }
+.reveal .inverse code { color: #FFEA46; }
+// A dark slide with a background image: let the image show through
+// (give the slide background-color="#00204D" too, so the image sits on dark).
+.reveal .slides section.inverse[data-background-image] { background-color: transparent; }
+
+// The "board" marker: [board]{.board} in a slide title or line.
+.reveal .board {
+  display: inline-block;
+  background: #00204D;
+  color: #FFEA46;
+  font-size: 0.5em;
+  font-weight: 600;
+  padding: 0.05em 0.5em;
+  border-radius: 0.3em;
+  vertical-align: middle;
+  letter-spacing: 0.06em;
+}
+
+// Recall boxes: a fact from an earlier course or week, notation only.
+.reveal .recall {
+  border: 2px solid #414D6B;
+  border-radius: 0.3em;
+  padding: 0.3em 0.7em;
+  background: #eef1f6;
+  font-size: 0.85em;
+}
+.reveal .recall::before {
+  content: "Recall";
+  display: block;
+  font-size: 0.75em;
+  font-weight: 700;
+  color: #414D6B;
+  letter-spacing: 0.06em;
+}
+
+// The statement to leave on the board, and retrieval prompts.
+.reveal .leave {
+  border-left: 6px solid #BCAF6F;
+  padding: 0.2em 0.7em;
+  background: #faf7e8;
+  font-size: 0.95em;
+}
+.reveal .retrieval {
+  border-left: 6px solid #7C7B78;
+  padding: 0.2em 0.7em;
+  background: #f3f3f2;
+}
+
+// A question the room answers before the reveal: commit first.
+.reveal .ask {
+  border: 2px dashed #6E5F00;
+  border-radius: 0.3em;
+  padding: 0.3em 0.8em;
+  background: #fffbe0;
+}
+.reveal .ask::before {
+  content: "You first";
+  display: block;
+  font-size: 0.7em;
+  font-weight: 700;
+  color: #6E5F00;
+  letter-spacing: 0.06em;
+}
+
+.reveal .credit { font-size: 0.45em; color: #666; margin-top: 0.2em; }
+.reveal .big { font-size: 2.2em; font-weight: 700; color: #00204D; line-height: 1.1; }
+.reveal .minutes { position: absolute; top: 0.3em; left: 0.6em; font-size: 0.45em; color: #666; }
+.reveal .small { font-size: 0.75em; }
+.reveal .smaller { font-size: 0.6em; }
+.reveal .columns .column { padding: 0 0.4em; box-sizing: border-box; }
+.reveal .source { font-size: 0.5em; color: #666; }
+.reveal table { font-size: 0.75em; }
+
+// Boxes keep dark text on dark slides.
+.reveal .inverse .ask, .reveal .inverse .leave, .reveal .inverse .recall, .reveal .inverse .retrieval { color: #1f1f1f; }
+.reveal .inverse .ask strong, .reveal .inverse .leave strong, .reveal .inverse .recall strong { color: #6E5F00; }

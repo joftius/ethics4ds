@@ -1,0 +1,11 @@
+## Week 2: Mindless statistics and sophisticated bigotry
+
+Cargo cult science, cargo-cult statistics and the null ritual, and Feynman's first principle: you must not fool yourself. Then numbers that are computed correctly and read as answers to other questions: a correlation across fifty states with the opposite sign among the people who live in them, what $R^2$ measures and what averaging does to it, decisions about a person made from the average of their group, what a small difference in spread does far out in a tail, and what the largest of $n$ items shows you of a group.
+
+**Required reading:** [Stark and Saltelli, Cargo-cult statistics and scientific crisis](https://significancemagazine.com/cargo-cult-statistics-and-scientific-crisis/) (in full) · [Hyde and Mertz, Gender, culture, and mathematics performance](https://doi.org/10.1073/pnas.0901265106) (first paragraph of "Do Gender Differences Exist Among the Mathematically Talented?", Figure 1, Table 2; [free full text](https://europepmc.org/article/PMC/PMC2689999)) · [Freedman, Ecological Inference and the Ecological Fallacy](https://statistics.berkeley.edu/sites/default/files/tech-reports/549.pdf) (sections 1 to 3) · one of two psychology studies, as announced (Connellan and colleagues 2000, or [Alexander and colleagues 2009](https://doi.org/10.1007/s10508-008-9430-1)), skimmed for its data and analysis
+
+**Optional:** [Rathje, Van Bavel and van der Linden, Out-group animosity drives engagement on social media](https://doi.org/10.1073/pnas.2024292118) · [Gigerenzer and Marewski, Surrogate Science](https://doi.org/10.1177/0149206314547522)
+
+**Lecture:** [notes](weeks/wk02/notes.html) · [slides](weeks/wk02/slides.html)
+
+**Class:** [class sheet](weeks/wk02/class.html) ([.qmd](https://ethics4ds.com/weeks/wk02/class.qmd){download="class.qmd"})

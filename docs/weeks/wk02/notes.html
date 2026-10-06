@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joshua Loftus">
+
+<title>Mindless statistics and sophisticated bigotry –  ethics 4 data science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><i class="fa-solid fa-chart-simple fa-large" aria-label="chart-simple"></i> ethics 4 data science</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-references" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">references</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-references">    
+        <li>
+    <a class="dropdown-item" href="https://www.bitbybitbook.com/en/1st-ed/ethics/">
+ <span class="dropdown-text">Bit by Bit</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fairmlbook.org/">
+ <span class="dropdown-text">Fairness and Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://data-feminism.mitpress.mit.edu/">
+ <span class="dropdown-text">Data Feminism</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://rss.org.uk/RSS/media/News-and-publications/Publications/Reports%20and%20guides/A-Guide-for-Ethical-Data-Science-Final-Oct-2019.pdf">
+ <span class="dropdown-text">RSS Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice">
+ <span class="dropdown-text">ASA Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.acm.org/code-of-ethics">
+ <span class="dropdown-text">ACM Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text"><i class="fa-solid fa-house fa-large" aria-label="house"></i> content</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text"><i class="fa-solid fa-user fa-large" aria-label="user"></i> about</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#cargo-cult-science" id="toc-cargo-cult-science" class="nav-link" data-scroll-target="#cargo-cult-science">Cargo cult science</a></li>
+  <li><a href="#cargo-cult-statistics" id="toc-cargo-cult-statistics" class="nav-link" data-scroll-target="#cargo-cult-statistics">Cargo-cult statistics</a></li>
+  <li><a href="#the-first-principle" id="toc-the-first-principle" class="nav-link" data-scroll-target="#the-first-principle">The first principle</a></li>
+  <li><a href="#the-null-ritual" id="toc-the-null-ritual" class="nav-link" data-scroll-target="#the-null-ritual">The null ritual</a></li>
+  <li><a href="#ecological-correlation" id="toc-ecological-correlation" class="nav-link" data-scroll-target="#ecological-correlation">Ecological correlation</a></li>
+  <li><a href="#r2" id="toc-r2" class="nav-link" data-scroll-target="#r2"><span class="math inline">\(R^2\)</span></a></li>
+  <li><a href="#aggregation-and-r2" id="toc-aggregation-and-r2" class="nav-link" data-scroll-target="#aggregation-and-r2">Aggregation and <span class="math inline">\(R^2\)</span></a>
+  <ul class="collapse">
+  <li><a href="#area-effects" id="toc-area-effects" class="nav-link" data-scroll-target="#area-effects">Area effects</a></li>
+  </ul></li>
+  <li><a href="#statistical-discrimination" id="toc-statistical-discrimination" class="nav-link" data-scroll-target="#statistical-discrimination">Statistical discrimination</a></li>
+  <li><a href="#means-spreads-and-tails" id="toc-means-spreads-and-tails" class="nav-link" data-scroll-target="#means-spreads-and-tails">Means, spreads and tails</a>
+  <ul class="collapse">
+  <li><a href="#the-variance-argument" id="toc-the-variance-argument" class="nav-link" data-scroll-target="#the-variance-argument">The variance argument</a></li>
+  </ul></li>
+  <li><a href="#the-largest-of-n" id="toc-the-largest-of-n" class="nav-link" data-scroll-target="#the-largest-of-n">The largest of <span class="math inline">\(n\)</span></a></li>
+  <li><a href="#calculation-and-interpretation" id="toc-calculation-and-interpretation" class="nav-link" data-scroll-target="#calculation-and-interpretation">Calculation and interpretation</a></li>
+  <li><a href="#lenses" id="toc-lenses" class="nav-link" data-scroll-target="#lenses">Lenses</a></li>
+  <li><a href="#for-the-class" id="toc-for-the-class" class="nav-link" data-scroll-target="#for-the-class">For the class</a>
+  <ul class="collapse">
+  <li><a href="#two-studies-of-infants" id="toc-two-studies-of-infants" class="nav-link" data-scroll-target="#two-studies-of-infants">Two studies of infants</a></li>
+  <li><a href="#two-slopes" id="toc-two-slopes" class="nav-link" data-scroll-target="#two-slopes">Two slopes</a></li>
+  <li><a href="#ecological-regression-and-the-constancy-assumption" id="toc-ecological-regression-and-the-constancy-assumption" class="nav-link" data-scroll-target="#ecological-regression-and-the-constancy-assumption">Ecological regression and the constancy assumption</a></li>
+  <li><a href="#the-method-of-bounds" id="toc-the-method-of-bounds" class="nav-link" data-scroll-target="#the-method-of-bounds">The method of bounds</a></li>
+  </ul></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a>
+  <ul class="collapse">
+  <li><a href="#required" id="toc-required" class="nav-link" data-scroll-target="#required">Required</a></li>
+  <li><a href="#optional" id="toc-optional" class="nav-link" data-scroll-target="#optional">Optional</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mindless statistics and sophisticated bigotry</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joshua Loftus </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Important note:</strong> the second half of this week is about claims that one group of people differs from another. Some of the examples are politically charged and some of the findings are contested. The readings of them here are my own. You are not expected to share them, and a well-argued position I think is wrong can still get full marks. The arithmetic is not contested. It tells you which questions to ask of a group difference before you believe it, whoever is making the claim.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Cargo cult science is Richard Feynman’s name for research that has the form of science without the substance. Stark and Saltelli say much of statistics is practiced that way, and Gigerenzer calls the result mindless statistics, the first half of this week’s title: a ritual of null hypotheses and 5% levels, performed whatever the question and misunderstood by many of the people who perform it and teach it. Feynman’s first principle is that “you must not fool yourself–and you are the easiest person to fool.”</p>
+<p>Correct statistics can fool you too. A correlation across fifty states says the foreign-born have the higher incomes, and a survey of people says the opposite. Averaging removes the variation among people, so a relationship can be far tighter across areas than among the people who live in them, and <span class="math inline">\(R^2\)</span> is often read as saying more than it does. A decision about a person made from the average of a group they belong to is called statistical discrimination. A small difference in spread between two groups becomes a large ratio far out in the tail, by arithmetic that is correct, and the second half of the title is about an argument that uses that arithmetic. A feed that shows the most extreme item from each of two groups shows more extreme items from the larger group, even when the two groups are alike.</p>
+<p>Three numbers in these notes were computed correctly: a <span class="math inline">\(p\)</span>-value of 0.01, a correlation of 0.52 and an 18% share of a tail. Each answers one question and is easily read as the answer to another.</p>
+</section>
+<section id="cargo-cult-science" class="level2">
+<h2 class="anchored" data-anchor-id="cargo-cult-science">Cargo cult science</h2>
+<p>In his 1974 commencement address at Caltech, Richard Feynman described islanders in the South Pacific who had watched airfields operate during the war and wanted the cargo to come back. They built runways, lit fires along them, and put a man in a wooden hut with wooden headphones.</p>
+<blockquote class="blockquote">
+<p>“They’re doing everything right. The form is perfect. It looks exactly the way it looked before. But it doesn’t work. No airplanes land.”</p>
+</blockquote>
+<p>Cargo cult science was his name for research that follows “all the apparent precepts and forms of scientific investigation” and is “missing something essential.”</p>
+</section>
+<section id="cargo-cult-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="cargo-cult-statistics">Cargo-cult statistics</h2>
+<p><a href="https://significancemagazine.com/cargo-cult-statistics-and-scientific-crisis/">Stark and Saltelli</a>, this week’s first required reading, apply the image to our subject:</p>
+<blockquote class="blockquote">
+<p>“In our experience, many applications of statistics are cargo-cult statistics: practitioners go through the motions of fitting models, computing <em>p</em>-values or confidence intervals, or simulating posterior distributions. They invoke statistical terms and procedures as incantations, with scant understanding of the assumptions or relevance of the calculations, or even the meaning of the terminology. This demotes statistics from a <strong>way of thinking</strong> about evidence and <strong>avoiding self-deception</strong> to a formal ‘blessing’ of claims.”</p>
+</blockquote>
+<p>(Emphasis added.) Their short version is “the ritualistic miming of statistics rather than conscientious practice,” and of what the miming achieves they say: “The calculations are as likely to produce valid inferences as cargo cults were to summon cargo planes.”</p>
+<p>It “has become the norm in many disciplines, reinforced and abetted by statistical education, statistical software, and editorial policies.” The first two are close to home. Many statistics courses, in their experience, “teach cargo-cult statistics: mechanical calculations with little attention to scientific context, experimental design, assumptions and limitations of methods, or the interpretation of results.” And:</p>
+<blockquote class="blockquote">
+<p>“Statistical software does not help you know what to compute, nor how to interpret the result. … The more ‘powerful’ and ‘user-friendly’ the software is, the more it invites cargo-cult statistics.”</p>
+</blockquote>
+<p>That was written in 2018. What would they say about software that writes the analysis for you?</p>
+<p>Their explanation of how this became the norm is historical. “After World War II, governments increased funding for science in response to the assessment that scientific progress is important for national security, prosperity, and quality of life. This increased the scale of science and the pool of scientific labour: science became ‘big science’ conducted by career professionals.” With the scale came the management of it, and “the norms and self-regulating aspects of ‘little science’–communities that valued questioning, craftsmanship, scepticism, self-doubt, critical appraisal of the quality of evidence, and the verifiable, and verifiably replicable, advancement of human knowledge–gave way to current approaches centring on metrics, funding, publication, and prestige.”</p>
+<p>Their last section is about what statisticians can do:</p>
+<blockquote class="blockquote">
+<p>“Statisticians can help with important, controversial issues with immediate consequences for society. We can help fight power asymmetries in the use of evidence. We can stand up for the responsible use of statistics, even when that means taking personal risks.”</p>
+</blockquote>
+<p>That means being “vocally critical” of cargo-cult statistics, including “where probabilities are calculated under irrelevant, misleading assumptions,” objecting “whether or not we like the conclusion,” and being “critical even when the abuses involve politically charged issues.” The second half of this week is one.</p>
+</section>
+<section id="the-first-principle" class="level2">
+<h2 class="anchored" data-anchor-id="the-first-principle">The first principle</h2>
+<p>What cargo cult science is missing, Feynman said, is “a kind of scientific integrity, a principle of scientific thought that corresponds to a kind of utter honesty–a kind of leaning over backwards.” If you are doing an experiment, “you should report everything that you think might make it invalid–not only what you think is right about it.” And: “Details that could throw doubt on your interpretation must be given, if you know them.” The idea is to “give all of the information to help others to judge the value of your contribution.”</p>
+<blockquote class="blockquote">
+<p>“The first principle is that you must not fool yourself–and you are the easiest person to fool.”</p>
+</blockquote>
+<p>One of his examples is last week’s file drawer, in 1974:</p>
+<blockquote class="blockquote">
+<p>“If we only publish results of a certain kind, we can make the argument look good. We must publish both kinds of result. … In other words, publication probability depends upon the answer. That should not be done.”</p>
+</blockquote>
+<p>Another is an experiment he admired. In 1937, as Feynman tells it, a man named Young wanted rats to learn to go in at the third door along from wherever they started. They went straight to the door where the food had been the time before. Young repainted the doors, changed the smell with chemicals, and covered the corridor so that the rats could not see the room. They could still tell. They were going by how the floor sounded, and only when he set the corridor in sand did they have to learn the task. Later experimenters ran rats in the old way and did not cite him, “because he didn’t discover anything about the rats. In fact, he discovered all the things you have to do to discover something about rats.”</p>
+<p>He ended with a wish for the graduating class:</p>
+<blockquote class="blockquote">
+<p>“… the good luck to be somewhere where you are free to maintain the kind of integrity I have described, and where you do not feel forced by a need to maintain your position in the organization, or financial support, or so on, to lose your integrity. May you have that freedom.”</p>
+</blockquote>
+<p>The first principle is where one of the course’s lenses starts. <strong>You have to choose, so choose, and defend it.</strong> Sometimes the mathematics proves that a choice is unavoidable. Pretending it was forced is its own failure. In an analysis the hypothesis, the level, the test and what gets published were all chosen by someone, and not fooling yourself begins with knowing which of them were yours.</p>
+</section>
+<section id="the-null-ritual" class="level2">
+<h2 class="anchored" data-anchor-id="the-null-ritual">The null ritual</h2>
+<p>Gigerenzer’s name for the same practice is mindless statistics. With Marewski, in this week’s <a href="https://doi.org/10.1177/0149206314547522">optional reading</a>, he describes its commonest form:</p>
+<blockquote class="blockquote">
+<ol type="1">
+<li>Set up a null hypothesis of “no mean difference” or “zero correlation.” Do not specify the predictions of your own research hypothesis.</li>
+<li>Use 5% as a convention for rejecting the null. If significant, accept your research hypothesis. Report the result as <em>p</em> &lt; .05, <em>p</em> &lt; .01, or <em>p</em> &lt; .001, whichever comes next to the obtained <em>p</em> value.</li>
+<li>Always perform this procedure.</li>
+</ol>
+</blockquote>
+<p>They call it the null ritual, and add: “Yet the null ritual does not exist in statistics proper.” Fisher’s significance tests and Neyman and Pearson’s hypothesis tests are different theories whose authors disagreed, and in Gigerenzer’s account the ritual is a hybrid that neither would have accepted. Step 1 matters most for us. Last week’s arithmetic needed the power of a test, and without an alternative hypothesis there is no power to compute.</p>
+<p>Gigerenzer argues that the ritual survives on illusions about what a significant result means. Try this question, which has been put to students and to their teachers (Oakes 1986; Haller and Krauss 2002; the wording here is shortened from Gigerenzer 2004). A treatment group and a control group have 20 people each, and a <span class="math inline">\(t\)</span> test on the difference in means gives <span class="math inline">\(t = 2.7\)</span>, <span class="math inline">\(p = 0.01\)</span>. Which of these statements are true?</p>
+<ol type="1">
+<li>The null hypothesis has been disproved.</li>
+<li>You have found the probability that the null hypothesis is true.</li>
+<li>The experimental hypothesis has been proved.</li>
+<li>You can deduce the probability that the experimental hypothesis is true.</li>
+<li>If you reject the null hypothesis, you know the probability that you are making the wrong decision.</li>
+<li>If the experiment were repeated many times, 99% of the repetitions would give a significant result.</li>
+</ol>
+<p>None of them is true. A <span class="math inline">\(p\)</span>-value is the probability of data at least as extreme as those observed, computed on the assumption that the null hypothesis is true: <span class="math inline">\(P(\text{data} \mid H_0)\)</span>. A significance test proves and disproves nothing, so 1 and 3 are false. Statements 2, 4 and 5 are about <span class="math inline">\(P(H_0 \mid \text{data})\)</span>, the probability of a hypothesis, which is a different quantity. Statement 5 is statement 2 again: a rejection is the wrong decision only when the null hypothesis is true. Nor is the probability in statement 5 the level of the test. The level is <span class="math inline">\(P(\text{reject} \mid H_0)\)</span>, and the statement is about <span class="math inline">\(P(H_0 \mid \text{reject})\)</span>, last week’s share of rejections that are false. That share depends on how many of the effects being tested are real and on the power of the tests, and in last week’s examples with <span class="math inline">\(\alpha = 0.05\)</span> it ran from 0.06 to 0.69. Statement 6 is known as the replication fallacy. The probability that a repeat of the experiment is significant is the power of the test at the true effect, and a <span class="math inline">\(p\)</span>-value does not tell you that.</p>
+<p>Haller and Krauss put the question to students and staff in the psychology departments of six German universities.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/haller_krauss-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Every one of the 44 students, all of whom had passed a statistics course, marked at least one statement true. So did 90% of the 39 professors and lecturers who did not teach statistics, and 80% of the 30 people who taught it. Statement 5 was the most often believed, by about 70% of each group. All six, Gigerenzer notes, “err in the same direction of wishful thinking: They make a <em>p</em>-value look more informative than it is.”</p>
+<p>Gigerenzer and Marewski collect cases of the ritual performed where nothing called for it. An Internet study asked “Do you feel there is a difference between altruism and heroism?” and 2,347 people said yes and 58 said no.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="notes_files/figure-html/yes_no-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The study’s authors ran a chi-squared test and reported “a significant perceived difference between the ideas of heroism and altruism, <span class="math inline">\(\chi^2(1) = 2178.60\)</span>, <span class="math inline">\(p &lt; .0001\)</span>.” The null hypothesis that gives that number is that people are equally likely to answer yes and no: <span class="math display">\[
+\frac{(2347 - 1202.5)^2}{1202.5} + \frac{(58 - 1202.5)^2}{1202.5} = 2178.6 .
+\]</span> One of Gigerenzer and Marewski’s students, whose experimental and control groups had the same mean, ran a <span class="math inline">\(t\)</span> test and reported that the means did not differ significantly. And:</p>
+<blockquote class="blockquote">
+<p>“One of us reviewed an article in which the number of subjects was reported as 57. The authors calculated that the 95% confidence interval was between 47.3 and 66.7 subjects. … The only numbers with no confidence intervals or <em>p</em> values attached were the page numbers.”</p>
+</blockquote>
+<p>They write: “Statistical methods are not simply applied to a discipline; they change the discipline itself, and vice versa.” A single number used to judge the quality of research, as a significant <span class="math inline">\(p\)</span>-value is, they call a surrogate, and introducing one “shifts researchers’ goal away from doing innovative science and redirects their efforts toward meeting the surrogate goal.”</p>
+<p>Were any of your courses taught the way Stark and Saltelli describe? How were <span class="math inline">\(p\)</span>-values and confidence intervals taught and assessed in your degree?</p>
+</section>
+<section id="ecological-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="ecological-correlation">Ecological correlation</h2>
+<p>Many claims about groups of people are made from data on places: for each place, the rate of one thing and the rate of another, with no record of which people have both.</p>
+<p>Robinson (1950) used the 1930 US census. For each of the 48 states he took the percentage of residents who were foreign-born and the percentage who were literate, and across the states the two have a correlation of <span class="math inline">\(0.53\)</span>. A correlation whose unit is a place, not a person, is called an <em>ecological</em> correlation. Read as a statement about people, this one says the foreign-born were more likely to be literate than the native-born. Among individuals the correlation was <span class="math inline">\(-0.11\)</span>: the foreign-born were less likely to be literate. They lived in states where the native-born were relatively literate, and that is what the state-level number measured.</p>
+<p><a href="https://statistics.berkeley.edu/sites/default/files/tech-reports/549.pdf">Freedman’s report</a>, in this week’s required reading, repeats the example with 1995 survey data: foreign birth against family income of $50,000 or more, for people aged 25 and over. His Figure 1 has one point per state and the regression line through them, <span class="math inline">\(y = 0.29 + 0.56x\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../files/freedman_1999_fig1.png" class="img-fluid figure-img" style="width:55.0%"></p>
+<figcaption>Freedman (1999), Figure 1. Each point is a US state: the fraction of people aged 25 and over who are foreign-born, and the fraction with family incomes of $50,000 or more. March 1995 Current Population Survey.</figcaption>
+</figure>
+</div>
+<p>Across the 50 states the correlation is <span class="math inline">\(0.52\)</span>. At the individual level it is <span class="math inline">\(-0.05\)</span>: 35% of the native-born had high incomes against 28% of the foreign-born.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/freedman_summary-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The right-hand panel is what happens when the line is read as a statement about people. A state with no foreign-born residents is at <span class="math inline">\(x = 0\)</span>, where the line is at 29%. A state made up of the foreign-born would be at <span class="math inline">\(x = 1\)</span>, where the line is at <span class="math inline">\(0.29 + 0.56 = 0.85\)</span>. So the regression says 29% of the native-born and 85% of the foreign-born had high incomes. The survey, which asked people, says 35% and 28%. The line is the least squares line and both correlations are correct. Freedman’s name for the mistake:</p>
+<blockquote class="blockquote">
+<p>“The ecological fallacy consists in thinking that relationships observed for groups necessarily hold for individuals.”</p>
+</blockquote>
+<p>This is also an example of Simpson’s paradox: the association among people and the association across the groups they are averaged into have opposite signs.</p>
+<p>His reason for the reversal is where people live. “Immigration to the USA tends to concentrate in richer states–California, Hawaii and New York rather than Kentucky, Tennessee and West Virginia.” The native-born in those states have higher incomes too, so the slope of the line measures how states differ. Reading the two ends of the line as the two groups’ rates assumes that neither rate depends on how many immigrants a state has, and the native-born rate does. The section “Ecological regression and the constancy assumption,” near the end of these notes, has the algebra, and the class does a case by hand.</p>
+</section>
+<section id="r2" class="level2">
+<h2 class="anchored" data-anchor-id="r2"><span class="math inline">\(R^2\)</span></h2>
+<p>The usual one-number summary of a scatter like Figure 1 is <span class="math inline">\(R^2\)</span>. For a regression fitted by least squares, <span class="math display">\[
+R^2 = 1 - \frac{\sum_i (y_i - \hat y_i)^2}{\sum_i (y_i - \bar y)^2} ,
+\]</span> the share of the variation in <span class="math inline">\(y\)</span>, among the units in the regression, that the fitted values account for. With one predictor it is the square of the correlation: <span class="math inline">\(0.52^2 = 0.27\)</span> for Freedman’s fifty states, and <span class="math inline">\((-0.05)^2 = 0.0025\)</span> for the people in them.</p>
+<p>If <span class="math inline">\(Y = \alpha + \beta X + \varepsilon\)</span> with noise variance <span class="math inline">\(\sigma^2\)</span>, the population value is <span class="math display">\[
+R^2 = \frac{\beta^2 \operatorname{Var}(X)}{\beta^2 \operatorname{Var}(X) + \sigma^2} .
+\]</span> The slope <span class="math inline">\(\beta\)</span> says how much <span class="math inline">\(Y\)</span> changes with <span class="math inline">\(X\)</span>. <span class="math inline">\(R^2\)</span> depends on <span class="math inline">\(\beta\)</span>, and also on <span class="math inline">\(\sigma^2\)</span> and on how much <span class="math inline">\(X\)</span> varies among the units that are in the regression. With <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span> held fixed, <span class="math inline">\(R^2\)</span> can be moved anywhere between 0 and 1 by changing <span class="math inline">\(\operatorname{Var}(X)\)</span>.</p>
+<p>Three common misreadings.</p>
+<p>“A high <span class="math inline">\(R^2\)</span> means the model is right.” A straight line fitted to <span class="math inline">\(y = x^2\)</span>, with <span class="math inline">\(x\)</span> spread evenly between 0 and 1, has an <span class="math inline">\(R^2\)</span> of <span class="math inline">\(0.94\)</span>, and the model is wrong. A model that is exactly right has a low <span class="math inline">\(R^2\)</span> when the noise is large: the next section has one with an <span class="math inline">\(R^2\)</span> of <span class="math inline">\(0.19\)</span>.</p>
+<p>“A high <span class="math inline">\(R^2\)</span> means a strong association, so a cause is more likely.” Bradford Hill’s 1965 list of nine things to consider before deciding that an association is causal begins: “First upon my list I would put the strength of the association.” His examples of strength are ratios of rates: “the mortality of chimney sweeps from scrotal cancer was some 200 times that of workers who were not specially exposed to tar or mineral oils,” and “the death rate from cancer of the lung in cigarette smokers is nine to ten times the rate in non-smokers.” A ratio of rates says how much the outcome changes with the exposure, as a slope does. <span class="math inline">\(R^2\)</span> does not: the same slope gives any <span class="math inline">\(R^2\)</span>, depending on which units are in the regression. Hill added that none of his nine viewpoints “can be required as a sine qua non,” and that “we must not be too ready to dismiss a cause-and-effect hypothesis merely on the grounds that the observed association appears to be slight.”</p>
+<p>“A high <span class="math inline">\(R^2\)</span> means we can predict each person well.” <span class="math inline">\(R^2\)</span> is about the units in the regression. If the units are states, it says how well a state’s average can be predicted.</p>
+</section>
+<section id="aggregation-and-r2" class="level2">
+<h2 class="anchored" data-anchor-id="aggregation-and-r2">Aggregation and <span class="math inline">\(R^2\)</span></h2>
+<p>In this simulation the relationship among people is the same in every area, and both levels can be seen at once.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">50</span>      <span class="co"># areas</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>     <span class="co"># people per area</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>area_mean_x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(J, <span class="dv">0</span>, <span class="dv">1</span>)                    <span class="co"># areas differ in X</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>people <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">area =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>J, <span class="at">each =</span> n)) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">X =</span> area_mean_x[area] <span class="sc">+</span> <span class="fu">rnorm</span>(J <span class="sc">*</span> n, <span class="dv">0</span>, <span class="dv">2</span>),   <span class="co"># people differ more</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">Y =</span> beta <span class="sc">*</span> X <span class="sc">+</span> <span class="fu">rnorm</span>(J <span class="sc">*</span> n, <span class="dv">0</span>, <span class="fu">sqrt</span>(<span class="dv">20</span>)))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>areas <span class="ot">&lt;-</span> people <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(area) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">X =</span> <span class="fu">mean</span>(X), <span class="at">Y =</span> <span class="fu">mean</span>(Y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/plot_areas-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X, people))<span class="sc">$</span>r.squared</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1901863</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X, areas))<span class="sc">$</span>r.squared</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8520358</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X, people))[<span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        X 
+0.9886547 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X, areas))[<span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       X 
+1.006042 </code></pre>
+</div>
+</div>
+<p>The two lines are almost the same line. One of them accounts for about 20% of the variation and the other for about 85%. A reader who is shown the navy points and their line sees a tight relationship. A reader shown the gray cloud sees a weak one. The slope and the people are the same in both.</p>
+<p>Write the model for person <span class="math inline">\(i\)</span> in area <span class="math inline">\(j\)</span>, with <span class="math inline">\(n\)</span> people in each area: <span class="math display">\[
+X_{ij} = B_j + W_{ij}, \qquad Y_{ij} = \alpha + \beta X_{ij} + \varepsilon_{ij} .
+\]</span> <span class="math inline">\(B_j\)</span> is the part of <span class="math inline">\(X\)</span> that everyone in area <span class="math inline">\(j\)</span> shares, with variance <span class="math inline">\(\sigma_B^2\)</span> across areas. <span class="math inline">\(W_{ij}\)</span> is the person’s deviation from it, with mean zero and variance <span class="math inline">\(\sigma_W^2\)</span>, uncorrelated with <span class="math inline">\(B_j\)</span> and across people. The error <span class="math inline">\(\varepsilon_{ij}\)</span> has variance <span class="math inline">\(\sigma^2\)</span>, is uncorrelated across people, and has mean zero whatever the values of <span class="math inline">\(X\)</span> in the area: <span class="math inline">\(E[\varepsilon_{ij} \mid X] = 0\)</span>. That last condition makes the line the conditional mean of <span class="math inline">\(Y\)</span>, and the statements about the slope in this section use it.</p>
+<p>The variance of <span class="math inline">\(X\)</span> across people is <span class="math inline">\(\sigma_B^2 + \sigma_W^2\)</span>, and the population <span class="math inline">\(R^2\)</span> of the individual regression is the share of the variance of <span class="math inline">\(Y\)</span> that the line accounts for: <span class="math display">\[
+R^2_{\text{ind}} = \frac{\beta^2 (\sigma_B^2 + \sigma_W^2)}{\beta^2 (\sigma_B^2 + \sigma_W^2) + \sigma^2}.
+\]</span></p>
+<p>Now average within each area. The model for the area averages is <span class="math display">\[
+\bar X_j = B_j + \bar W_j, \qquad \bar Y_j = \alpha + \beta \bar X_j + \bar\varepsilon_j .
+\]</span> The intercept and the slope are the same as for people. An average of <span class="math inline">\(n\)</span> uncorrelated terms with a common variance has <span class="math inline">\(1/n\)</span> of that variance, so <span class="math inline">\(\operatorname{Var}(\bar W_j) = \sigma_W^2/n\)</span> and <span class="math inline">\(\operatorname{Var}(\bar\varepsilon_j) = \sigma^2/n\)</span>. <span class="math inline">\(B_j\)</span> is the same for everyone in the area and averaging leaves it alone. Therefore <span class="math display">\[
+\boxed{\;R^2_{\text{agg}} = \frac{\beta^2 (\sigma_B^2 + \sigma_W^2/n)}{\beta^2 (\sigma_B^2 + \sigma_W^2/n) + \sigma^2/n}\;}
+\]</span> Multiplying top and bottom by <span class="math inline">\(n\)</span> gives the individual formula with <span class="math inline">\(\sigma_B^2\)</span> replaced by <span class="math inline">\(n\sigma_B^2\)</span>. For <span class="math inline">\(R^2\)</span>, averaging <span class="math inline">\(n\)</span> people per area does what moving the areas <span class="math inline">\(\sqrt n\)</span> times further apart in <span class="math inline">\(X\)</span> would do. If the areas differ in <span class="math inline">\(X\)</span> at all and <span class="math inline">\(\beta\)</span> is not zero, <span class="math inline">\(R^2_{\text{agg}}\)</span> equals <span class="math inline">\(R^2_{\text{ind}}\)</span> at <span class="math inline">\(n = 1\)</span>, rises with <span class="math inline">\(n\)</span> and tends to 1. If the areas do not differ (<span class="math inline">\(\sigma_B^2 = 0\)</span>, people assigned to areas at random), averaging changes nothing.</p>
+<p>In the simulation, <span class="math inline">\(\beta = 1\)</span>, <span class="math inline">\(\sigma_B^2 = 1\)</span>, <span class="math inline">\(\sigma_W^2 = 4\)</span>, <span class="math inline">\(\sigma^2 = 20\)</span> and <span class="math inline">\(n = 100\)</span>: <span class="math display">\[
+R^2_{\text{ind}} = \frac{5}{5 + 20} = 0.20, \qquad
+R^2_{\text{agg}} = \frac{1.04}{1.04 + 0.20} = 0.84 .
+\]</span> The simulated values above differ from these by sampling variation in fifty areas.</p>
+<p>The area regression estimates the same <span class="math inline">\(\beta\)</span>, without bias. Averaging did not change the slope. It divided the error variance by <span class="math inline">\(n\)</span> and the variance of <span class="math inline">\(X\)</span> by less, so <span class="math inline">\(R^2\)</span> rose. A tight fit across area averages is not evidence of a strong relationship among people.</p>
+<p>Set the three misreadings against the simulation. The line through the people is the model that generated them, and its <span class="math inline">\(R^2\)</span> is <span class="math inline">\(0.19\)</span>. The effect of <span class="math inline">\(X\)</span> is the same at both levels, with an <span class="math inline">\(R^2\)</span> of <span class="math inline">\(0.19\)</span> at one and <span class="math inline">\(0.85\)</span> at the other. No person’s <span class="math inline">\(Y\)</span> became easier to predict: given their <span class="math inline">\(X\)</span>, the prediction is off by about <span class="math inline">\(\sqrt{20} = 4.5\)</span> whichever line is used.</p>
+<p>This is how Hill’s strength criterion and the ecological regression are reconciled. His strength is the strength of a cause’s effect on the units it acts on, and his examples were people: sweeps, smokers. A causal effect, if it exists, is observable among those concrete units, and not only after aggregation. An association that appears only after averaging was made by the averaging, which removes the variation within areas and leaves the slope alone. In the simulation the <span class="math inline">\(R^2\)</span> of <span class="math inline">\(0.20\)</span> among people and <span class="math inline">\(0.84\)</span> across their averages is one effect, measured twice; neither number is the strength of the effect, which is the slope.</p>
+<section id="area-effects" class="level3">
+<h3 class="anchored" data-anchor-id="area-effects">Area effects</h3>
+<p>The model assumed that nothing in <span class="math inline">\(\varepsilon_{ij}\)</span> is shared within an area. Suppose each area also has an effect of its own on <span class="math inline">\(Y\)</span>: <span class="math display">\[
+\varepsilon_{ij} = u_j + e_{ij}, \qquad \operatorname{Var}(u_j) = \sigma_u^2, \quad \operatorname{Var}(e_{ij}) = \sigma_e^2 ,
+\]</span> with <span class="math inline">\(u_j\)</span> uncorrelated with the area’s <span class="math inline">\(X\)</span> values and with the <span class="math inline">\(e_{ij}\)</span>, and the <span class="math inline">\(e_{ij}\)</span> uncorrelated across people. Averaging removes <span class="math inline">\(e_{ij}\)</span> and not <span class="math inline">\(u_j\)</span>, so <span class="math inline">\(\operatorname{Var}(\bar\varepsilon_j) = \sigma_u^2 + \sigma_e^2/n\)</span> and <span class="math display">\[
+R^2_{\text{agg}} = \frac{\beta^2 (\sigma_B^2 + \sigma_W^2/n)}{\beta^2 (\sigma_B^2 + \sigma_W^2/n) + \sigma_u^2 + \sigma_e^2/n}
+\;\to\; \frac{\beta^2 \sigma_B^2}{\beta^2 \sigma_B^2 + \sigma_u^2} &lt; 1 .
+\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/r2_by_n-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With <span class="math inline">\(\sigma_u^2 = 4\)</span> and <span class="math inline">\(\sigma_e^2 = 20\)</span> added to the simulation’s numbers, the individual <span class="math inline">\(R^2\)</span> is <span class="math inline">\(5/29 = 0.17\)</span>, the aggregate <span class="math inline">\(R^2\)</span> at <span class="math inline">\(n = 100\)</span> is <span class="math inline">\(1.04/5.24 = 0.20\)</span>, and its limit is <span class="math inline">\(0.2\)</span>. For every <span class="math inline">\(n\)</span> above 1 the aggregate <span class="math inline">\(R^2\)</span> is the larger of the two when <span class="math display">\[
+\frac{\sigma_B^2}{\sigma_B^2 + \sigma_W^2} &gt; \frac{\sigma_u^2}{\sigma_u^2 + \sigma_e^2},
+\]</span> that is, when <span class="math inline">\(X\)</span> is more clustered by area than the errors are, and the smaller when the inequality is reversed. So aggregation can raise the magnitude of a correlation a great deal, or a little, or lower it. A high aggregate <span class="math inline">\(R^2\)</span> says that between areas the unexplained variation is small next to the explained variation. It does not say that areas have no effect of their own, and it says nothing about how well <span class="math inline">\(X\)</span> predicts a person. If <span class="math inline">\(u_j\)</span> is correlated with <span class="math inline">\(B_j\)</span>, the area regression’s slope is biased as well. That is Freedman’s case: the states with more immigrants are the richer states.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>people_u <span class="ot">&lt;-</span> people <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Y =</span> Y <span class="sc">+</span> <span class="fu">rep</span>(<span class="fu">rnorm</span>(J, <span class="dv">0</span>, <span class="dv">2</span>), <span class="at">each =</span> n))    <span class="co"># add an area effect</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>areas_u <span class="ot">&lt;-</span> people_u <span class="sc">|&gt;</span> <span class="fu">group_by</span>(area) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">X =</span> <span class="fu">mean</span>(X), <span class="at">Y =</span> <span class="fu">mean</span>(Y))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X, people_u))<span class="sc">$</span>r.squared</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1750122</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X, areas_u))<span class="sc">$</span>r.squared</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2676506</code></pre>
+</div>
+</div>
+<p>With fifty areas the simulated aggregate value moves around its population value of <span class="math inline">\(0.20\)</span> by about <span class="math inline">\(0.1\)</span> from run to run.</p>
+</section>
+</section>
+<section id="statistical-discrimination" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-discrimination">Statistical discrimination</h2>
+<p>The fifty states were groups of people, and the fallacy was to read a number about the groups as a number about their members. The same step can be a decision. An employer, a lender or an insurer who cannot see what they would like to know about a person uses the average of a group the person belongs to. Economists call this statistical discrimination (Phelps 1972; Arrow 1973), and contrast it with discrimination that comes from dislike of a group.</p>
+<p>How much does a group’s average say about a member? Take two groups of equal size whose values have the same spread, with means <span class="math inline">\(d\)</span> standard deviations apart. The share of all the variance that group membership accounts for is <span class="math display">\[
+R^2 = \frac{d^2}{d^2 + 4} ,
+\]</span> which the class derives. In the figure <span class="math inline">\(d = 0.5\)</span>, and the share is 6%.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/stat_disc-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Take one person from each group at random. If the values are normal, the difference between the two is normal with mean <span class="math inline">\(d\)</span> and variance 2, so the person from the group with the lower mean has the higher value with probability <span class="math inline">\(\Phi(-d/\sqrt 2)\)</span>, which is <span class="math inline">\(0.36\)</span> when <span class="math inline">\(d = 0.5\)</span>.</p>
+<p>A rule that always prefers the person from the group with the higher mean picks the lower of the two people in 36% of such pairs. The errors fall on the people who differ from their group’s average. A group’s average can also be the result of past exclusion. If a group was kept out of an occupation, its average experience of that occupation is lower. A decision made from that average keeps its members out, and the average stays where it was.</p>
+<p>Is an aggregate claim about a group ever a claim about a member of it? An insurer who prices a driver by age acts as if it is, and so does a doctor who quotes a survival rate to a patient. Which of the two would you defend?</p>
+</section>
+<section id="means-spreads-and-tails" class="level2">
+<h2 class="anchored" data-anchor-id="means-spreads-and-tails">Means, spreads and tails</h2>
+<p>In 1962 the mathematician Jacob Schwartz described a weakness of mathematics:</p>
+<blockquote class="blockquote">
+<p>“… the simple-mindedness of mathematics–its willingness, like that of a computing machine, to elaborate upon any idea, however absurd; to dress scientific brilliancies and scientific absurdities alike in the impressive uniform of formulae and theorems. Unfortunately however, an absurdity in uniform is far more persuasive than an absurdity unclad.”</p>
+</blockquote>
+<p>“The result, perhaps most common in the social sciences, is bad theory with a mathematical passport.”</p>
+<p>A group difference can be a difference in averages, in spreads, or in tails, and the three are reported as if interchangeable. <a href="https://doi.org/10.1073/pnas.0901265106">Hyde and Mertz</a> (2009), this week’s required reading, use the state mathematics tests that every US state must give under No Child Left Behind, ten states and over seven million students. Their Table 1 gives, for each grade from 2 to 11, the standardized mean difference between boys and girls, <span class="math inline">\(d\)</span>, which runs from <span class="math inline">\(-0.02\)</span> to <span class="math inline">\(0.06\)</span>, and the variance ratio, boys’ variance over girls’, which runs from <span class="math inline">\(1.11\)</span> to <span class="math inline">\(1.21\)</span>. The first number is about averages and says the two distributions overlap almost completely: by the formula of the last section, a <span class="math inline">\(d\)</span> of <span class="math inline">\(0.06\)</span> makes group membership account for less than a tenth of one percent of the variance in scores. The second is about spreads: a variance ratio of <span class="math inline">\(1.2\)</span> is a difference of about 10% in standard deviations.</p>
+<p>Their Figure 1 is what a difference in spread does in the tail. Two normal distributions with the same mean and a variance ratio of <span class="math inline">\(1.2\)</span> nearly coincide. Four standard deviations out they do not; the inset enlarges the two curves between 3.8 and 4.2.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../files/hyde_mertz_2009_table1_fig1.png" class="img-fluid figure-img"></p>
+<figcaption>Hyde and Mertz (2009), Table 1 and Figure 1.</figcaption>
+</figure>
+</div>
+<p>With normal distributions, equal means, a variance ratio of 1.2 and two groups of equal size, the people beyond a cutoff divide as follows. Cutoffs are in pooled standard deviations (the square root of the average of the two variances), as in the paper.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>cutoff (pooled SDs above the mean)</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>share of everyone who is beyond it</td>
+<td>1 in 44</td>
+<td>1 in 700</td>
+<td>1 in 26,000</td>
+<td>1 in 2.2 million</td>
+</tr>
+<tr class="even">
+<td>ratio, higher-variance group to lower</td>
+<td>1.5</td>
+<td>2.5</td>
+<td>4.7</td>
+<td>10.8</td>
+</tr>
+<tr class="odd">
+<td>lower-variance group’s share of those beyond it</td>
+<td>39.3%</td>
+<td>28.9%</td>
+<td>17.5%</td>
+<td>8.5%</td>
+</tr>
+</tbody>
+</table>
+<p>Hyde and Mertz give the last two entries of the bottom row as 18% and 9%, and call those two cutoffs the 1-in-20,000 and 1-in-one million levels. With <span class="math inline">\(d = 0.05\)</span> and a variance ratio of <span class="math inline">\(1.12\)</span>, which they take as representative of Table 1, they compute a ratio of <span class="math inline">\(1.34\)</span> above the 95th percentile and <span class="math inline">\(2.15\)</span> above the 99.9th, a 68 to 32 split.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/tail_share-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The share depends heavily on two inputs: the variance ratio, and how far out the cutoff is. On one curve the lower-variance group is 18% of those beyond the cutoff at about 4 standard deviations; on the other, not until about 4.6.</p>
+<section id="the-variance-argument" class="level3">
+<h3 class="anchored" data-anchor-id="the-variance-argument">The variance argument</h3>
+<p>The paragraph of Hyde and Mertz you read sets out the Greater Male Variability Hypothesis: boys’ scores vary more than girls’, which could put more boys than girls at the highest levels of performance with no difference in means. As a statement of it they quote Lawrence Summers, speaking at a National Bureau of Economic Research conference on 14 January 2005:</p>
+<blockquote class="blockquote">
+<p>“There are issues of intrinsic aptitude, and particularly of the variability of aptitude, and that those considerations are reinforced by what are in fact lesser factors involving socialization and continuing discrimination. It’s talking about people who are 3½, 4 standard deviations above the mean in the one-in-5,000, one-in-10,000 class. Even small differences in the standard deviation will translate into very large differences in the available pool substantially out.”</p>
+</blockquote>
+<p>The arithmetic of the last sentence is Figure 1’s, and it is right: with a variance ratio of 1.2, four standard deviations out, one group is 82% of the pool. From that number to a statement about who holds which jobs takes a second step, a third is needed for “intrinsic,” and a fourth for any one person. Only the first is a calculation.</p>
+<p><em>1. From test scores to a share of a tail.</em> The calculation takes normal curves, fitted where the data are, and uses them four standard deviations out, where almost no data are, and where a test with a top score cannot follow a normal curve. It takes the variance ratio and the mean difference to be those of the population in question, and the two groups to be the same size.</p>
+<p><em>2. From a share of a tail to a share of a profession.</em> The test has to measure what the work needs. The profession has to draw from beyond that cutoff. And among people beyond it, the two groups have to enter the profession at the same rate, which is what the quotation calls a lesser factor. Hyde and Mertz make their own use of this step: with the values they take as representative of Table 1 and a cutoff at the 99.9th percentile, the calculation gives a field that is 32% women, and they set that beside the 18% of US engineering PhDs then awarded to women.</p>
+<p><em>3. From a share to “intrinsic.”</em> The variance ratio has to be a property of the two groups and not of the country, the test or the year. The reading’s Table 2 is about this one. Its left-hand column is the variance ratio in the 2003 PISA mathematics test, by country, plotted beside it.</p>
+<div class="quarto-layout-panel" data-layout="[36,64]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 36.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../files/hyde_mertz_2009_table2.png" class="img-fluid figure-img"></p>
+<figcaption>Hyde and Mertz (2009), Table 2.</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 64.0%;justify-content: flex-start;">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/vr_countries-1.png" class="img-fluid figure-img" width="537"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The ratio is above 1 in most countries, significantly so in 34 of the 40 that took part according to Machin and Pekkarinen (2008), whose figures the table draws on, and it is <span class="math inline">\(0.99\)</span> in Denmark, <span class="math inline">\(1.00\)</span> in the Netherlands and <span class="math inline">\(0.95\)</span> in Indonesia. In Minnesota’s data the ratio of boys to girls above the 99th percentile was <span class="math inline">\(2.06\)</span> for white students, which the paper calls close to its theoretical prediction, and <span class="math inline">\(0.91\)</span> for Asian-American students, in the same state’s test. In the 2003 PISA data, Iceland, Thailand and the United Kingdom had as many or more girls than boys above the 99th percentile, although their variance ratios in Table 2 are <span class="math inline">\(1.24\)</span>, <span class="math inline">\(1.10\)</span> and <span class="math inline">\(1.06\)</span>: the ratio in the tail is not set by the variance ratio alone. The Johns Hopkins talent search found 13 boys for every girl scoring 700 or more on the SAT mathematics section among the children under 13 it tested in 1980 to 1982, and 2.8 to 1 by 2005; the paper notes that its sample is voluntary and has changed over time. And the paper’s Figure 2 gives women’s share of US mathematics PhDs by decade: 15% in the 1920s and 1930s, 5% in the 1950s, 30% in 2000 to 2008.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/other_samples-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>4. From a share of a profession to a person.</em> No number in this section takes this step. A variance ratio, a tail ratio and a share of a pool are properties of two distributions. A share of a pool says how many members of each group are beyond a cutoff. It does not say whether one applicant is, and judging the applicant by it is the statistical discrimination of the last section.</p>
+<p>Hyde and Mertz go further and report that across countries the share of girls in the tail is correlated with measures of gender equity. That is a correlation across countries, an ecological correlation, and the authors read it as a cause. Stark and Saltelli ask statisticians to object “whether or not we like the conclusion.” Ask of this 32% and this correlation what you asked of Summers’s sentence.</p>
+<p>Whether the argument earns the second half of this week’s title, and at which step, is for you to argue.</p>
+</section>
+</section>
+<section id="the-largest-of-n" class="level2">
+<h2 class="anchored" data-anchor-id="the-largest-of-n">The largest of <span class="math inline">\(n\)</span></h2>
+<p>Summers’s “one-in-10,000 class” is the far end of a distribution. A feed that ranks posts shows the far end of a distribution too: the posts that scored highest on something. The highest of <span class="math inline">\(n\)</span> scores has a distribution of its own.</p>
+<p>Let <span class="math inline">\(M_n\)</span> be the largest of <span class="math inline">\(n\)</span> independent draws from a distribution with distribution function <span class="math inline">\(F\)</span>. Then <span class="math display">\[
+P(M_n \le x) = P(\text{all } n \text{ draws} \le x) = F(x)^n ,
+\]</span> with density <span class="math inline">\(n F(x)^{n-1} f(x)\)</span>. Two cases you can do by hand.</p>
+<ul>
+<li><strong>Uniform on <span class="math inline">\((0,1)\)</span>.</strong> <span class="math inline">\(F(x) = x\)</span>, so <span class="math inline">\(E[M_n] = \int_0^1 n x^n\,dx = \dfrac{n}{n+1}\)</span>. The largest of 9 draws is 0.9 on average; of 99, 0.99.</li>
+<li><strong>Exponential with mean 1.</strong> The smallest of <span class="math inline">\(n\)</span> exponentials exceeds <span class="math inline">\(t\)</span> when all of them do, with probability <span class="math inline">\(e^{-nt}\)</span>, so it is exponential with rate <span class="math inline">\(n\)</span> and mean <span class="math inline">\(1/n\)</span>. An exponential that has already exceeded <span class="math inline">\(t\)</span> exceeds it by a fresh exponential (lack of memory), so the <span class="math inline">\(n - 1\)</span> that remain exceed the smallest by independent exponentials, and the gap to the next smallest is exponential with rate <span class="math inline">\(n - 1\)</span>. Continuing, the largest is the sum of the gaps, and <span class="math display">\[
+E[M_n] = \frac1n + \frac1{n-1} + \cdots + 1 \approx \ln n + 0.577 .
+\]</span> A feed ten times as large raises the expected most extreme item by about 2.3.</li>
+</ul>
+<p>For the normal there is no closed form. If <span class="math inline">\(m_n\)</span> is the expected largest of <span class="math inline">\(n\)</span> standard normals, the expected largest of <span class="math inline">\(n\)</span> draws with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> is <span class="math inline">\(E[M_n] = \mu + \sigma\, m_n\)</span>. <span class="math inline">\(m_n\)</span> grows like <span class="math inline">\(\sqrt{2 \ln n}\)</span>, but that is an asymptotic statement and it overstates at the sizes we care about: for <span class="math inline">\(n = 100\)</span> the value is about <span class="math inline">\(2.5\)</span> and the approximation gives <span class="math inline">\(3.0\)</span>. Use the table.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(n\)</span></th>
+<th>1</th>
+<th>10</th>
+<th>100</th>
+<th>1,000</th>
+<th>10,000</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(m_n\)</span></td>
+<td>0</td>
+<td>1.54</td>
+<td>2.51</td>
+<td>3.24</td>
+<td>3.85</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sqrt{2\ln n}\)</span></td>
+<td>0</td>
+<td>2.15</td>
+<td>3.03</td>
+<td>3.72</td>
+<td>4.29</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/max_density-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The most extreme item depends on the center, the spread and the number of items. Two groups whose typical items are identical can differ in their most extreme items because one group is larger or because one is more varied, and no difference between their centers is needed. A standard deviation 10% larger (a variance ratio of 1.21) raises the expected largest of 10,000 from <span class="math inline">\(3.85\)</span> to <span class="math inline">\(4.24\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/emax-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The tail probability compounds: <span class="math inline">\(P(M_n &gt; c) = 1 - F(c)^n\)</span>. A standard normal exceeds 3 with probability <span class="math inline">\(0.00135\)</span>. Among a thousand of them, <span class="math display">\[
+P(M_{1000} &gt; 3) = 1 - (1 - 0.00135)^{1000} \approx 1 - e^{-1.35} = 0.74 .
+\]</span> A group with a thousand posts a day supplies one beyond three standard deviations on about three days in four; a group with a hundred, on about one day in eight. Both groups draw from the same distribution.</p>
+<p>Suppose two groups post items whose extremity is an independent draw from the same continuous distribution, one group 100 a day and the other 10,000, and a feed shows the single most extreme item from each. The most extreme of all 10,100 items is equally likely to be any one of them, so the larger group’s item is the more extreme of the two with probability <span class="math inline">\(10{,}000/10{,}100 = 0.99\)</span>. On about one day in a hundred the smaller group’s item is the more extreme.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>small_group <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)        <span class="co"># 100 posts, all from the same distribution</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>large_group <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>)      <span class="co"># 10,000 posts, same distribution</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">shown_from_small =</span> <span class="fu">max</span>(small_group), <span class="at">shown_from_large =</span> <span class="fu">max</span>(large_group))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shown_from_small shown_from_large 
+        2.330322         3.408656 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">max</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>))))     <span class="co"># compare with the table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.50105</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/feed_strip-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Selecting the most extreme is the significance filter with the threshold replaced by a maximum. Last week you saw <span class="math inline">\(Z\)</span> only when it passed <span class="math inline">\(c\)</span>; here you see the item only when it beat the other <span class="math inline">\(n - 1\)</span>. Both produce a sample whose mean is far from the population’s.</p>
+<p>Rathje, Van Bavel and van der Linden (2021) analyzed 2.7 million Facebook and Twitter posts from news media and members of Congress. Posts about the political out-group “were shared or retweeted about twice as often as posts about the in-group,” and each additional out-group term was associated with a 67% increase in the odds of a share. So the items that reach you from the other side have been selected before a feed ranks anything, by the people who chose to share them.</p>
+</section>
+<section id="calculation-and-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="calculation-and-interpretation">Calculation and interpretation</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 37%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">The calculation gives</th>
+<th style="text-align: left;">It is read as</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(p = 0.01\)</span></td>
+<td style="text-align: left;">how often data this extreme occur when the null hypothesis is true</td>
+<td style="text-align: left;">the chance that the null hypothesis is true</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a correlation of 0.52</td>
+<td style="text-align: left;">a relationship across fifty states</td>
+<td style="text-align: left;">a relationship among the people in them</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">an 18% share of a tail</td>
+<td style="text-align: left;">a share of the tail area under two normal curves</td>
+<td style="text-align: left;">the “available pool” for a profession</td>
+</tr>
+</tbody>
+</table>
+<p>Each number was computed correctly. None of them gets from the middle column to the right-hand one without more: for the <span class="math inline">\(p\)</span>-value, the power of the test and how many of the effects being tested are real; for the fifty states, data on people, or an assumption about them; for the tail, steps 2 and 3 of the variance argument. These are what Feynman called the “details that could throw doubt on your interpretation.”</p>
+</section>
+<section id="lenses" class="level2">
+<h2 class="anchored" data-anchor-id="lenses">Lenses</h2>
+<p>You have to choose, so choose, and defend it. “Pretending it was forced is its own failure.” In the null ritual nobody chose the null hypothesis, the level or the test, and nobody has to defend them: its third step is “Always perform this procedure.” In the variance argument the first step is a correct calculation, and the steps after it are stated as if they followed from it.</p>
+<p>What are we optimizing or predicting? A state’s rate, or a person’s. A group’s average, or one of its members. The regression on fifty states predicts a state. Statistical discrimination has a person to predict and uses a group’s average.</p>
+<p>Who is in the data? Under the two normal curves, about 1 person in 26,000 is four standard deviations out, and the curves were fitted to everyone else. The variance ratios came from fifteen-year-olds in one country or another and ran from 0.95 to 1.24. The ratios in the tail came from one state’s students and from the children who entered a talent search. A feed shows one item in 10,000.</p>
+<p>And why? Who finds it useful that a group average can be read as a description of a member, or that a feed shows the most extreme item from each group?</p>
+<blockquote class="blockquote">
+<p><strong>Who benefited from that choice being invisible? And would a more competent analyst have chosen differently?</strong></p>
+</blockquote>
+<p>Put both questions to the null ritual and to the variance argument. For the null ritual, Stark and Saltelli’s answer to the first is that cargo-cult statistics “is effective at getting weak work published.” For the variance argument, the calculation was done competently. Would a more competent analyst have taken steps 2 and 3?</p>
+</section>
+<section id="for-the-class" class="level2">
+<h2 class="anchored" data-anchor-id="for-the-class">For the class</h2>
+<p>The class starts with the two studies of infants. Its problems on slopes, ecological regression and bounds use the other three sections. None of the four was in the lecture.</p>
+<section id="two-studies-of-infants" class="level3">
+<h3 class="anchored" data-anchor-id="two-studies-of-infants">Two studies of infants</h3>
+<p>You skimmed one of two papers. Connellan, Baron-Cohen, Wheelwright, Batki and Ahluwalia (2000) showed 102 newborns, mean age 37 hours, a face and a mobile, one at a time, and recorded how long each baby looked at each. Alexander, Wilcox and Woods (2009) showed 30 infants aged 3 to 8 months a doll and a toy truck side by side and tracked their eyes. Each paper measured more than one thing and could compare boys and girls on each. The question here is where each comparison was placed: which got the abstract, which got a figure, which got a table, and which got a sentence of text or nothing.</p>
+<p>The abstract of Connellan and colleagues says that the boys “showed a stronger interest in the physical-mechanical mobile while the female infants showed a stronger interest in the face,” and ends: “The results of this research clearly demonstrate that sex differences are in part biological in origin.” Table 1 sorts each baby into face preference, mobile preference or no preference. Table 2 gives each sex’s mean percentage of looking time at each stimulus, four means with their standard deviations.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/connellan-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The text reports two tests on Table 2: boys against girls on the mobile, and girls on the face against girls on the mobile. The other two comparisons the same table allows, boys against girls on the face and boys on the face against boys on the mobile, are not reported. The largest group of girls in Table 1 is the 27 of 58 with no preference; the text’s sentence about them is that female babies “either have no preference or prefer the real face.” The evidence offered for the abstract’s last sentence is a chi-squared test on Table 1 (<span class="math inline">\(p = 0.016\)</span>) and an interaction in Table 2 (<span class="math inline">\(p = 0.02\)</span>).</p>
+<p>In Alexander and colleagues, the eye tracker gave two measures, total looking time and number of fixations. The analysis of variance on looking time did not find a statistically significant sex difference or sex by toy interaction; looking time has three sentences of text and no figure. The analysis of fixations found an interaction, and fixations are what Figure 1 shows and what the abstract reports: the two comparisons that reached significance, of the four the paper set out to test. On the left is the paper’s Figure 1. On the right are the looking times, drawn from the means and standard deviations in the paper’s text in the form the paper used for fixations.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../files/alexander_2009_fig1.png" class="img-fluid figure-img"></p>
+<figcaption>Alexander, Wilcox and Woods (2009), Figure 1: number of fixations.</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/alexander-1.png" class="img-fluid figure-img" width="441"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>If you compared the paper’s text with its Figure 1 you may have noticed that they disagree about one comparison: the text says that boys fixated more on the truck than on the doll, a difference that was not significant. An erratum the journal published in 2010 corrects the sentence. Boys fixated more on the doll, as the figure shows.</p>
+<p>None of this says that either paper’s result is wrong, and this course makes no claim about whether either has held up. A paper reports some of the comparisons its data allow, and where each one goes, abstract, figure, table, sentence or nowhere, was somebody’s choice. Seeing that some comparisons were given more room than others does not show that the choice was made after looking at the results. In the first paper, 102 babies completed testing; 51 others did not, for crying, falling asleep or fussing.</p>
+</section>
+<section id="two-slopes" class="level3">
+<h3 class="anchored" data-anchor-id="two-slopes">Two slopes</h3>
+<p>In the simulation under “Aggregation and <span class="math inline">\(R^2\)</span>” the slope was the same across areas and across people. The two slopes can differ, and can have opposite signs. For person <span class="math inline">\(i\)</span> in area <span class="math inline">\(j\)</span>, split both variables into the area average and the deviation from it, <span class="math inline">\(X_{ij} = \bar X_j + (X_{ij} - \bar X_j)\)</span> and likewise for <span class="math inline">\(Y\)</span>. The deviations average to zero within each area, so the cross terms vanish and <span class="math display">\[
+\boxed{\;\operatorname{Cov}(X, Y) = \operatorname{Cov}_B + \operatorname{Cov}_W\;}
+\qquad
+\operatorname{Var}(X) = \operatorname{Var}_B + \operatorname{Var}_W ,
+\]</span> where <span class="math inline">\(\operatorname{Cov}_B\)</span> is the covariance between the area averages <span class="math inline">\(\bar X_j\)</span> and <span class="math inline">\(\bar Y_j\)</span>, with each area weighted by its size, and <span class="math inline">\(\operatorname{Cov}_W\)</span> is the average of the covariances within areas, weighted the same way. (<span class="math inline">\(\operatorname{Var}_B\)</span> is the variance of the area averages, which in the model of “Aggregation and <span class="math inline">\(R^2\)</span>” is <span class="math inline">\(\sigma_B^2 + \sigma_W^2/n\)</span>.) The slope across area averages is <span class="math inline">\(b_B = \operatorname{Cov}_B / \operatorname{Var}_B\)</span> and the pooled slope within areas is <span class="math inline">\(b_W = \operatorname{Cov}_W / \operatorname{Var}_W\)</span>. The slope across everyone is <span class="math display">\[
+b_{\text{all}} = \frac{\operatorname{Cov}_B + \operatorname{Cov}_W}{\operatorname{Var}_B + \operatorname{Var}_W}
+= \lambda\, b_B + (1 - \lambda)\, b_W,
+\qquad
+\lambda = \frac{\operatorname{Var}_B}{\operatorname{Var}_B + \operatorname{Var}_W} .
+\]</span> It is a weighted average of the two slopes, and the weight on the slope between areas is the share of the variance of <span class="math inline">\(X\)</span> that lies between areas. The three slopes agree when <span class="math inline">\(b_B = b_W\)</span>. When <span class="math inline">\(b_B\)</span> and <span class="math inline">\(b_W\)</span> have opposite signs, the sign of <span class="math inline">\(b_{\text{all}}\)</span> is the sign of <span class="math inline">\(\operatorname{Cov}_B + \operatorname{Cov}_W\)</span>, and knowing the two signs is not enough to say which it is. With <span class="math inline">\(\lambda = 0.1\)</span>, <span class="math inline">\(b_B = -0.5\)</span> and <span class="math inline">\(b_W = 0.5\)</span> give <span class="math inline">\(b_{\text{all}} = 0.40\)</span>; the same <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(b_W\)</span> with <span class="math inline">\(b_B = -6\)</span> give <span class="math inline">\(-0.15\)</span>. With a small <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(b_{\text{all}}\)</span> takes the sign of <span class="math inline">\(b_B\)</span> only when <span class="math inline">\(b_B\)</span> is much the steeper of the two.</p>
+<p>Gelman, Shor, Bafumi and Park (2007) worked through the US case. In the 2000 and 2004 presidential elections the richer states voted Democratic and the poorer states Republican, which produced years of commentary about affluent liberals and working-class conservatives. Within states, richer voters were more likely to vote Republican, and the same was true across all voters in the country. The authors’ account is the weighted average above: “Income varies far more within states than average income does between states. Consequently, it is the within-state rather than the between-state effect of income that dominates the national patterns.”</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../files/gelman_2007_fig3.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Gelman, Shor, Bafumi and Park (2007), Figure 3. Probability of voting for Bush against individual income, in a poor, a middle-income and a rich state. Solid circles: each state’s average income and average support.</figcaption>
+</figure>
+</div>
+<p>The paper’s caption for this figure begins “The paradox is no paradox.” A simulation with the same structure shows the voters as well as the lines.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/sign_flip-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The dashed line is the regression on everyone. The simulation was built with <span class="math inline">\(\lambda = 0.14\)</span>, a slope between the three state averages of <span class="math inline">\(-0.6\)</span> and a slope within states of <span class="math inline">\(0.4\)</span>, so the slope for everyone should be about <span class="math inline">\(0.14(-0.6) + 0.86(0.4) = 0.26\)</span>, and the dashed line’s slope is <span class="math inline">\(0.26\)</span>. One slope describes states and the other describes voters.</p>
+</section>
+<section id="ecological-regression-and-the-constancy-assumption" class="level3">
+<h3 class="anchored" data-anchor-id="ecological-regression-and-the-constancy-assumption">Ecological regression and the constancy assumption</h3>
+<p>You want a group’s rate of something, and what you have is area-level data: for each area <span class="math inline">\(i\)</span>, the fraction <span class="math inline">\(x_i\)</span> of its people who belong to the group, and the fraction <span class="math inline">\(y_i\)</span> of the same people who have the outcome. (Areas are indexed by <span class="math inline">\(i\)</span> in this section and the next, as in Freedman’s report.) Fit <span class="math display">\[
+y_i = a + b x_i + \varepsilon_i
+\]</span> by least squares. The height of the line at <span class="math inline">\(x = 0\)</span> is an area with no group members, so <span class="math inline">\(\hat a\)</span> is read as the rate among everyone else; the height at <span class="math inline">\(x = 1\)</span>, <span class="math inline">\(\hat a + \hat b\)</span>, as the group’s rate. This is <em>ecological regression</em> (Goodman 1953, 1959). Freedman’s one sentence on its use: it “has been widely used in voting rights litigation in the USA,” where the group is defined by ethnicity, the outcome is a vote, and the ballot is secret.</p>
+<p>Write <span class="math inline">\(p_i\)</span> for the rate among the group’s members in area <span class="math inline">\(i\)</span> and <span class="math inline">\(q_i\)</span> for the rate among everyone else. Neither rate is observed. Then <span class="math display">\[
+y_i = p_i x_i + q_i (1 - x_i)
+\]</span> holds by accounting, provided <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> are shares of the same people. (A share of adults and a share of votes cast are shares of different people, and the identity fails for them.) The reading of the line is correct under the <em>constancy assumption</em>: the two rates do not vary systematically with the group’s share of the area. If <span class="math inline">\(p_i = p\)</span> and <span class="math inline">\(q_i = q\)</span> in every area, then <span class="math inline">\(y_i = q + (p - q) x_i\)</span> and the regression recovers <span class="math inline">\(q\)</span> from its intercept and <span class="math inline">\(p\)</span> from intercept plus slope. The assumption is about both rates. Area data can sometimes contradict it (a curved scatter, a fitted rate above 1, bounds that rule it out) but cannot confirm it.</p>
+<p>When constancy fails, the estimate is wrong in a direction you can compute. In Freedman’s example the regression says 29% and 85% and the truth is 35% and 28%; his explanation is that “the incomes of the native-born increase systematically with fraction of foreign-born in the state,” because immigration concentrates in richer states. Suppose the group’s rate is constant, <span class="math inline">\(p_i = p\)</span>, and everyone else’s rate climbs with the group’s share, <span class="math inline">\(q_i = q_0 + \gamma x_i\)</span>. Substituting, <span class="math display">\[
+y_i = q_0 + (p - q_0 + \gamma)\, x_i - \gamma x_i^2 .
+\]</span> When the shares are small the last term is small, the fitted slope is close to <span class="math inline">\(p - q_0 + \gamma\)</span>, and the line at <span class="math inline">\(x = 1\)</span> is close to <span class="math inline">\(p + \gamma\)</span>: the gradient in <em>everyone else’s</em> rate has been added to the group’s rate. How much of <span class="math inline">\(\gamma\)</span> is added depends on how the shares are distributed: in the two-area example below it is about seven tenths.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/constancy_sim-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The figure is a simulation with that structure, fifty areas of equal size and a little noise in everyone else’s rate, with numbers chosen so that the fitted line resembles Freedman’s: <span class="math inline">\(p = 0.28\)</span>, <span class="math inline">\(q_0 = 0.29\)</span>, <span class="math inline">\(\gamma = 0.7\)</span>. The regression reports the group’s rate as 0.84 when it is 0.28 in every area, and everyone else’s rate as 0.30 when over all areas it is 0.36. Freedman says that the trouble is not that the line has been extended beyond the data: “the same sort of reversal can occur even with a full spectrum of <span class="math inline">\(x\)</span>-values. The issue is the disaggregation, not the range of the data.”</p>
+<p>A version small enough to do by hand: two areas of equal size at <span class="math inline">\(x = 0.1\)</span> and <span class="math inline">\(x = 0.2\)</span>, with <span class="math inline">\(p = 0.28\)</span>, <span class="math inline">\(q_0 = 0.30\)</span> and <span class="math inline">\(\gamma = 0.5\)</span>. The area rates are <span class="math inline">\(0.343\)</span> and <span class="math inline">\(0.376\)</span>, the line through them is <span class="math inline">\(y = 0.31 + 0.33x\)</span>, and the group’s rate it reports is <span class="math inline">\(0.64\)</span> against a truth of <span class="math inline">\(0.28\)</span>. It reports everyone else’s rate as <span class="math inline">\(0.31\)</span>; over the two areas it is <span class="math inline">\(0.374\)</span>. This error is a bias. It does not shrink as areas get larger or more numerous: more data with the same assumption gives the same wrong answer with a smaller standard error. The constancy assumption is the kind Stark and Saltelli mean when they write of “the mechanical application of methods without understanding their assumptions, limitations, or interpretation.” It is stated nowhere in the regression output, and in the figure above nothing in the output shows that it has failed.</p>
+<p>Freedman’s Table 2, in section 5 of the report, which you were not asked to read, sets four answers side by side.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/freedman_table2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The <em>neighborhood model</em> assumes the opposite of constancy: everyone in an area has the area’s rate, <span class="math inline">\(\hat p_i = \hat q_i = y_i\)</span>, whatever group they belong to. For the income data it estimates 34% and 36% against the truth of 35% and 28%, far closer than ecological regression’s 29% and 85%. The fourth method is the random-coefficients model of King (1997), in which the two rates vary from area to area but are drawn from one distribution whatever the area’s makeup: a version of the constancy assumption, as Freedman says. Freedman does not conclude that the neighborhood model is right. “In some contexts, of course, the neighborhood model proves deficient. If the data are incomplete so estimation is needed, it will be unclear which model if any is giving the right answers.” Every one of these models is compatible with the fifty points, so the points cannot show which assumption holds.</p>
+</section>
+<section id="the-method-of-bounds" class="level3">
+<h3 class="anchored" data-anchor-id="the-method-of-bounds">The method of bounds</h3>
+<p>Freedman’s section 4, optional in the reading list.</p>
+<p>There is one thing the area data do settle without any assumption. Freedman’s example: in Washington state in 1995, 7.9% of adults were foreign-born and 34.4% had high incomes. Write <span class="math inline">\(p\)</span> for the high-income rate among the foreign-born and <span class="math inline">\(q\)</span> for the rate among the native-born. The accounting identity <span class="math display">\[
+0.079\,p + 0.921\,q = 0.344
+\]</span> is one equation in two unknowns. But <span class="math inline">\(p\)</span> is between 0 and 1, so <span class="math inline">\(q\)</span> is trapped: <span class="math display">\[
+q = \frac{0.344 - 0.079\,p}{0.921} \in
+\left[\frac{0.344 - 0.079}{0.921},\ \frac{0.344}{0.921}\right] = [0.288,\ 0.374].
+\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/bounds_plot-1.png" class="img-fluid figure-img" width="441"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Every point on the line segment reproduces the two percentages we were given. Its slope is <span class="math inline">\(-0.079/0.921\)</span>, nearly flat, because the foreign-born are a small share of the state: <span class="math inline">\(q\)</span> is pinned to a narrow band and <span class="math inline">\(p\)</span> can be anything from 0 to 1. In general, for area <span class="math inline">\(i\)</span>, <span class="math display">\[
+q_i \in \left[\max\!\left(0, \frac{y_i - x_i}{1 - x_i}\right),\
+\min\!\left(1, \frac{y_i}{1 - x_i}\right)\right],
+\qquad
+p_i \in \left[\max\!\left(0, \frac{y_i - (1 - x_i)}{x_i}\right),\
+\min\!\left(1, \frac{y_i}{x_i}\right)\right].
+\]</span> These are the <em>Duncan–Davis bounds</em> (1953). The interval for <span class="math inline">\(p_i\)</span> has width <span class="math inline">\(\min(x_i,\, 1 - x_i,\, y_i,\, 1 - y_i)/x_i\)</span>, and the interval for <span class="math inline">\(q_i\)</span> has the same numerator over <span class="math inline">\(1 - x_i\)</span>. So the bounds on a group’s rate are the whole of <span class="math inline">\([0, 1]\)</span> when the group is smaller than both the share of people with the outcome and the share without it, as the foreign-born are in Washington. They are not always wide for a small group. If a group is 5% of an area and 2% of the area’s people have the outcome, the group’s rate is at most <span class="math inline">\(0.02/0.05 = 0.4\)</span>.</p>
+<p>Any estimate narrower than the bounds gets its extra precision from an assumption. Freedman notes that “in many applications, the bounds are too broad to be informative,” which is why people reach for a model.</p>
+</section>
+</section>
+<section id="readings" class="level2">
+<h2 class="anchored" data-anchor-id="readings">Readings</h2>
+<p>As announced. There are several, but they are short, and part of the work is deciding when to scan and when to slow down.</p>
+<section id="required" class="level3">
+<h3 class="anchored" data-anchor-id="required">Required</h3>
+<ul>
+<li>Stark and Saltelli, <a href="https://significancemagazine.com/cargo-cult-statistics-and-scientific-crisis/">Cargo-cult statistics and scientific crisis</a> (<em>Significance</em> 15, 2018, 40–43). Four pages, open access; read it in full.</li>
+<li>Hyde and Mertz, <a href="https://doi.org/10.1073/pnas.0901265106">Gender, culture, and mathematics performance</a> (<em>PNAS</em> 106, 2009, 8801–8807; free full text at <a href="https://europepmc.org/article/PMC/PMC2689999">Europe PMC</a>). Read the first paragraph of the section “Do Gender Differences Exist Among the Mathematically Talented?” and understand Figure 1 and Table 2.</li>
+<li>Freedman, <a href="https://statistics.berkeley.edu/sites/default/files/tech-reports/549.pdf">Ecological Inference and the Ecological Fallacy</a> (Berkeley Statistics Technical Report 549, 1999). Sections 1 to 3; section 4, the method of bounds, is optional. Read the PDF at this link; a much shorter 2002 entry by Freedman with a similar title circulates online and has none of the worked example.</li>
+<li>One of two psychology studies, as announced: Connellan, Baron-Cohen, Wheelwright, Batki and Ahluwalia, “Sex differences in human neonatal social perception” (<em>Infant Behavior and Development</em> 23, 2000, 113–118), or Alexander, Wilcox and Woods, <a href="https://doi.org/10.1007/s10508-008-9430-1">Sex Differences in Infants’ Visual Interest in Toys</a> (<em>Archives of Sexual Behavior</em> 38, 2009, 427–433). Skim it with attention to the data and the statistical analysis, and form your own guess about whether its results would be reproduced.</li>
+</ul>
+</section>
+<section id="optional" class="level3">
+<h3 class="anchored" data-anchor-id="optional">Optional</h3>
+<ul>
+<li>Rathje, Van Bavel and van der Linden, <a href="https://doi.org/10.1073/pnas.2024292118">Out-group animosity drives engagement on social media</a> (<em>PNAS</em> 118, 2021).</li>
+<li>Gigerenzer and Marewski, <a href="https://doi.org/10.1177/0149206314547522">Surrogate Science: The Idol of a Universal Method for Scientific Inference</a> (<em>Journal of Management</em> 41, 2015, 421–440; LSE library access). The phrase “mindless statistics” is Gigerenzer’s, from a 2004 paper of that title.</li>
+</ul>
+<p>Cited in the text and not assigned: Feynman, “Cargo Cult Science” (1974); Schwartz, “The Pernicious Influence of Mathematics on Science” (1962); Gigerenzer, “Mindless statistics” (<em>Journal of Socio-Economics</em> 33, 2004, 587–606), which reports Oakes (1986) and Haller and Krauss (2002); Franco, Blau and Zimbardo (2011), as quoted by Gigerenzer and Marewski; Robinson (1950); Bradford Hill, “The Environment and Disease: Association or Causation?” (<em>Proceedings of the Royal Society of Medicine</em> 58, 1965, 295–300); Phelps, “The Statistical Theory of Racism and Sexism” (<em>American Economic Review</em> 62, 1972, 659–661); Arrow, “The Theory of Discrimination” (in <em>Discrimination in Labor Markets</em>, 1973); Goodman (1953, 1959); Duncan and Davis (1953); King, <em>A Solution to the Ecological Inference Problem</em> (1997); Gelman, Shor, Bafumi and Park (2007); Hyde, Lindberg, Linn, Ellis and Williams (2008), whose data Hyde and Mertz’s Table 1 summarizes; Machin and Pekkarinen (2008), whose variance ratios their Table 2 reports; the erratum to Alexander and colleagues, <em>Archives of Sexual Behavior</em> 39 (2010), 816.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ethics4ds\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

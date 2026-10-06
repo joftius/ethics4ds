@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Joshua Loftus">
+  <title>{{&lt; fa solid chart-simple size=large &gt;}} ethics 4 data science – Mindless statistics and sophisticated bigotry</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-60ce2e051cbd8b6093c65e00a93fb675.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mindless statistics and sophisticated bigotry</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Joshua Loftus 
+</div>
+</div>
+</div>
+
+</section>
+<section id="section" class="slide level2 inverse">
+<h2></h2>
+<h3 id="week-2">Week 2</h3>
+<p>Part 1: Mindless statistics</p>
+<p>Part 2: Groups and individuals</p>
+<p>Part 3: Sophisticated bigotry</p>
+</section>
+<section>
+<section id="part-1-mindless-statistics" class="title-slide slide level1 center">
+<h1>Part 1: Mindless statistics</h1>
+
+</section>
+<section id="cargo-cult-science" class="slide level2">
+<h2>Cargo cult science</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../../files/cargo_cult_2024deck.jpg" class="quarto-figure quarto-figure-center" height="300"></p>
+</figure>
+</div>
+<blockquote>
+<p>“They’re doing everything right. The form is perfect. It looks exactly the way it looked before. But it doesn’t work. No airplanes land.”</p>
+</blockquote>
+<div class="source">
+<p>Richard Feynman, “Cargo Cult Science,” Caltech commencement address, 1974.</p>
+</div>
+</section>
+<section id="cargo-cult-statistics" class="slide level2">
+<h2>Cargo-cult statistics</h2>
+<blockquote>
+<p>“… practitioners go through the motions of fitting models, computing <em>p</em>-values or confidence intervals, or simulating posterior distributions. They invoke statistical terms and procedures as incantations, with scant understanding of the assumptions or relevance of the calculations, or even the meaning of the terminology. This demotes statistics from a <strong>way of thinking</strong> about evidence and <strong>avoiding self-deception</strong> to a formal ‘blessing’ of claims.”</p>
+</blockquote>
+<div class="source">
+<p>Stark and Saltelli (2018), “Cargo-cult statistics and scientific crisis,” <em>Significance</em> 15(4). Emphasis added.</p>
+</div>
+<div class="ask">
+<p>Have you seen examples?</p>
+</div>
+</section>
+<section id="big-science" class="slide level2">
+<h2>Big science</h2>
+<blockquote>
+<p>“After World War II, governments increased funding for science in response to the assessment that scientific progress is important for national security, prosperity, and quality of life. This increased the scale of science and the pool of scientific labour: science became ‘big science’ conducted by career professionals.”</p>
+</blockquote>
+<blockquote>
+<p>“The norms and self-regulating aspects of ‘little science’–communities that valued questioning, craftsmanship, scepticism, self-doubt, critical appraisal of the quality of evidence, and the verifiable, and verifiably replicable, advancement of human knowledge–gave way to current approaches centring on metrics, funding, publication, and prestige.”</p>
+</blockquote>
+<div class="source">
+<p>Stark and Saltelli (2018), “The bigger picture.”</p>
+</div>
+</section>
+<section id="courses-and-software" class="slide level2 inverse">
+<h2>Courses and software</h2>
+<blockquote>
+<p>“This has become the norm in many disciplines, reinforced and abetted by statistical education, statistical software, and editorial policies.”</p>
+</blockquote>
+<blockquote>
+<p>“… many statistics courses–especially ‘service’ courses for non-specialists–teach cargo-cult statistics: mechanical calculations with little attention to scientific context, experimental design, assumptions and limitations of methods, or the interpretation of results.”</p>
+</blockquote>
+<blockquote>
+<p>“The more ‘powerful’ and ‘user-friendly’ the software is, the more it invites cargo-cult statistics.”</p>
+</blockquote>
+<div class="source" style="color: #BCAF6F">
+<p>Stark and Saltelli (2018).</p>
+</div>
+</section>
+<section id="youngs-rats-1937" class="slide level2 inverse">
+<h2>Young’s rats, 1937</h2>
+<p>A man named Young tried to train rats to go in at the third door along from wherever he started them. They went to the door where the food had been the time before.</p>
+<p>He repainted the doors, changed the smell and covered the corridor. They could still tell, by how the floor sounded, until he put the corridor in sand.</p>
+<p>Later experimenters ran rats in the old way and did not cite him,</p>
+<blockquote>
+<p>“… because he didn’t discover anything about the rats. In fact, he discovered all the things you have to do to discover something about rats.”</p>
+</blockquote>
+<div class="source" style="color: #BCAF6F">
+<p>As Feynman tells it in “Cargo Cult Science.”</p>
+</div>
+</section>
+<section id="what-can-statisticians-do" class="slide level2">
+<h2>What can statisticians do?</h2>
+<blockquote>
+<p>“Statisticians can help with important, controversial issues with immediate consequences for society. We can help fight power asymmetries in the use of evidence. We can stand up for the responsible use of statistics, even when that means taking personal risks.”</p>
+</blockquote>
+<blockquote>
+<p>“We should be critical even when the abuses involve politically charged issues …”</p>
+</blockquote>
+<div class="source">
+<p>Stark and Saltelli (2018), “What can statisticians do?”</p>
+</div>
+</section>
+<section id="richard-feynman-1974" class="slide level2">
+<h2>Richard Feynman, 1974</h2>
+<blockquote>
+<p>“The first principle is that you must not fool yourself–and you are the easiest person to fool.”</p>
+</blockquote>
+<blockquote>
+<p>“If we only publish results of a certain kind, we can make the argument look good. We must publish both kinds of result. … In other words, publication probability depends upon the answer. That should not be done.”</p>
+</blockquote>
+<div class="source">
+<p>“Cargo Cult Science.”</p>
+</div>
+<p><strong>You have to choose, so choose, and defend it.</strong> Sometimes the mathematics proves that a choice is unavoidable. Pretending it was forced is its own failure.</p>
+</section>
+<section id="the-null-ritual" class="slide level2">
+<h2>The null ritual</h2>
+<ol type="1">
+<li>Set up a null hypothesis of “no mean difference” or “zero correlation.” Do not specify the predictions of your own research hypothesis.</li>
+<li>Use 5% as a convention for rejecting the null. If significant, accept your research hypothesis. Report the result as <em>p</em> &lt; .05, <em>p</em> &lt; .01, or <em>p</em> &lt; .001, whichever comes next to the obtained <em>p</em> value.</li>
+<li>Always perform this procedure.</li>
+</ol>
+<blockquote>
+<p>“Yet the null ritual does not exist in statistics proper.”</p>
+</blockquote>
+<div class="source">
+<p>The three steps and the sentence are quoted from Gigerenzer and Marewski (2015), “Surrogate Science” (optional reading). “Mindless statistics” is the title of Gigerenzer (2004).</p>
+</div>
+</section>
+<section id="p-0.01" class="slide level2">
+<h2><span class="math inline">\(p = 0.01\)</span></h2>
+<div class="ask">
+<p>A treatment group and a control group, 20 people in each. A <span class="math inline">\(t\)</span> test on the difference in means gives <span class="math inline">\(t = 2.7\)</span>, <span class="math inline">\(p = 0.01\)</span>. True or false?</p>
+</div>
+<div class="small">
+<ol type="1">
+<li>The null hypothesis has been disproved.</li>
+<li>You have found the probability that the null hypothesis is true.</li>
+<li>The experimental hypothesis has been proved.</li>
+<li>You can deduce the probability that the experimental hypothesis is true.</li>
+<li>If you reject the null hypothesis, you know the probability that you are making the wrong decision.</li>
+<li>If the experiment were repeated many times, 99% of the repetitions would give a significant result.</li>
+</ol>
+</div>
+<div class="source">
+<p>After Oakes (1986) and Haller and Krauss (2002), as given in Gigerenzer (2004). Wording shortened.</p>
+</div>
+</section>
+<section id="haller-and-krauss-2002" class="slide level2">
+<h2>Haller and Krauss (2002)</h2>
+<p>All six are false.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/haller_krauss-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="small">
+<p>1, 3: a test proves nothing. <span class="math inline">\(\;\)</span> 2, 4, 5: <span class="math inline">\(P(\text{data} \mid H_0)\)</span> is not <span class="math inline">\(P(H_0 \mid \text{data})\)</span>. <span class="math inline">\(\;\)</span> 6: the chance that a repeat is significant is its power, which <span class="math inline">\(p\)</span> does not give.</p>
+</div>
+<div class="source">
+<p>Six German universities. Percentages as reported in Gigerenzer (2004).</p>
+</div>
+</section>
+<section id="said-yes-58-said-no" class="slide level2">
+<h2>2,347 said yes, 58 said no</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/yes_no-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="small">
+<p>An Internet study asked: “Do you feel there is a difference between altruism and heroism?”</p>
+</div>
+<div class="ask">
+<p>What would you report?</p>
+</div>
+</section>
+<section id="mindless-statistical-inference" class="slide level2">
+<h2>Mindless statistical inference</h2>
+<blockquote>
+<p>“… there is a significant perceived difference between the ideas of heroism and altruism, <span class="math inline">\(\chi^2(1) = 2178.60\)</span>, <span class="math inline">\(p &lt; .0001\)</span>.”</p>
+</blockquote>
+<p><span class="math display">\[\frac{(2347 - 1202.5)^2}{1202.5} + \frac{(58 - 1202.5)^2}{1202.5} = 2178.6\]</span></p>
+<blockquote>
+<p>“One of us reviewed an article in which the number of subjects was reported as 57. The authors calculated that the 95% confidence interval was between 47.3 and 66.7 subjects. … The only numbers with no confidence intervals or <em>p</em> values attached were the page numbers.”</p>
+</blockquote>
+<div class="source">
+<p>The first is Franco, Blau and Zimbardo (2011) as quoted by Gigerenzer and Marewski (2015); the second is Gigerenzer and Marewski’s own.</p>
+</div>
+</section>
+<section id="have-you-had-courses-taught-that-way" class="slide level2">
+<h2>Have you had courses taught that way?</h2>
+<blockquote>
+<p>“Statistical methods are not simply applied to a discipline; they change the discipline itself, and vice versa.”</p>
+</blockquote>
+<div class="source">
+<p>Gigerenzer and Marewski (2015).</p>
+</div>
+<div class="ask">
+<p>How were <span class="math inline">\(p\)</span>-values and confidence intervals taught and assessed in your degree?</p>
+<p>What are the causes, and what would you change?</p>
+</div>
+</section></section>
+<section>
+<section id="part-2-groups-and-individuals" class="title-slide slide level1 center">
+<h1>Part 2: Groups and individuals</h1>
+
+</section>
+<section id="freedman-1999-figure-1" class="slide level2 inverse">
+<h2>Freedman (1999), Figure 1</h2>
+<div class="columns">
+<div class="column" style="width:58%;">
+<p><img data-src="../../files/freedman_1999_fig1.png" height="520"></p>
+</div><div class="column" style="width:42%;">
+<div class="source" style="color: #BCAF6F">
+<p>Each point is a US state. March 1995 Current Population Survey, people aged 25 and over. High income: family income of $50,000 or more. From “Ecological Inference and the Ecological Fallacy,” Technical Report 549.</p>
+</div>
+<p>The line is <span class="math inline">\(y = 0.29 + 0.56\,x\)</span>.</p>
+<div class="ask">
+<p>According to the line, what fraction of the native-born have high incomes? Of the foreign-born?</p>
+</div>
+</div></div>
+</section>
+<section id="the-regression-and-the-survey" class="slide level2 inverse">
+<h2>The regression and the survey</h2>
+<div class="columns">
+<div class="column" style="width:54%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/freedman_bars-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:46%;">
+<p>Reading the two ends of the line as the two groups’ rates assumes that neither rate depends on how many immigrants a state has.</p>
+<div class="small">
+<blockquote>
+<p>“Immigration to the USA tends to concentrate in richer states–California, Hawaii and New York rather than Kentucky, Tennessee and West Virginia.”</p>
+</blockquote>
+</div>
+<div class="source" style="color: #BCAF6F">
+<p>Numbers and quotation from Freedman (1999), sections 1 and 3.</p>
+</div>
+</div></div>
+</section>
+<section id="ecological-and-individual-correlations" class="slide level2 inverse">
+<h2>Ecological and individual correlations</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/two_correlations-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote>
+<p>“The ecological fallacy consists in thinking that relationships observed for groups necessarily hold for individuals.”</p>
+</blockquote>
+<p>This is also an example of Simpson’s paradox.</p>
+<div class="source" style="color: #BCAF6F">
+<p>Freedman (1999).</p>
+</div>
+</section>
+<section id="r2-definition-and-common-misreadings" class="slide level2">
+<h2><span class="math inline">\(R^2\)</span>: definition and common misreadings</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<p><span class="math display">\[R^2 = 1 - \frac{\sum_i (y_i - \hat y_i)^2}{\sum_i (y_i - \bar y)^2}\]</span></p>
+<div class="small">
+<p>The share of the variation in <span class="math inline">\(y\)</span>, among the units in the regression, that the fitted values account for. With one predictor it is the squared correlation: <span class="math inline">\(0.52^2 = 0.27\)</span> for the fifty states.</p>
+<p>For a line with slope <span class="math inline">\(\beta\)</span> and noise variance <span class="math inline">\(\sigma^2\)</span>:</p>
+</div>
+<p><span class="math display">\[R^2 = \frac{\beta^2 \operatorname{Var}(X)}{\beta^2 \operatorname{Var}(X) + \sigma^2}\]</span></p>
+</div><div class="column" style="width:55%;">
+<ol type="1">
+<li>“A high <span class="math inline">\(R^2\)</span> means the model is right.”</li>
+<li>“A high <span class="math inline">\(R^2\)</span> means a strong association, so a cause is more likely.”</li>
+<li>“A high <span class="math inline">\(R^2\)</span> means we can predict each person well.”</li>
+</ol>
+<blockquote>
+<p>“First upon my list I would put the strength of the association.”</p>
+</blockquote>
+<div class="source">
+<p>Bradford Hill (1965), “The Environment and Disease: Association or Causation?” His measure of strength was a ratio of rates.</p>
+</div>
+</div></div>
+</section>
+<section id="fifty-area-averages" class="slide level2">
+<h2>Fifty area averages</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/plot_areas_only-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="ask">
+<p>The line through the 5,000 people has the same slope. What is its <span class="math inline">\(R^2\)</span>?</p>
+</div>
+</section>
+<section id="the-same-fifty-areas-and-their-people" class="slide level2">
+<h2>The same fifty areas and their people</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/plot_people-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="small">
+<p>Slope 1 at both levels. <span class="math inline">\(R^2\)</span>: <span class="math inline">\(\tfrac{5}{5 + 20} = 0.20\)</span> among people, <span class="math inline">\(\tfrac{1.04}{1.04 + 0.2} = 0.84\)</span> across averages of 100.</p>
+</div>
+</section>
+<section id="strength-of-association-at-which-level" class="slide level2">
+<h2>Strength of association, at which level?</h2>
+<p>Hill’s strength is the strength of a cause’s effect on the units it acts on. His examples were people: a ratio of 200 for chimney sweeps, 9 to 10 for smokers.</p>
+<p>A causal effect, if it exists, is observable among the concrete units, people, and not only after aggregation.</p>
+<p>An association that appears only after averaging was made by the averaging: the variation within areas is removed, the slope is unchanged. <span class="math inline">\(R^2\)</span> of 0.20 among people and 0.84 across their averages is one effect, measured twice.</p>
+<div class="source">
+<p>Hill (1965): “we must not be too ready to dismiss a cause-and-effect hypothesis merely on the grounds that the observed association appears to be slight.”</p>
+</div>
+</section>
+<section id="statistical-discrimination" class="slide level2">
+<h2>Statistical discrimination</h2>
+<p>A decision about a person, made from the average of a group they belong to.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/stat_disc-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Group membership accounts for 6% of the variance. Take one person from each group at random: the one from the group with the lower mean is the higher of the two 36% of the time.</p>
+</section>
+<section id="decisions-from-group-averages" class="slide level2">
+<h2>Decisions from group averages</h2>
+<p>The errors fall on the people who differ from their group’s average.</p>
+<p>If the average is the result of past exclusion, deciding by it continues the exclusion.</p>
+<div class="ask">
+<p>Is an aggregate claim about a group ever a claim about a member of it?</p>
+<p>Give one case where you think it is and one where it is not.</p>
+</div>
+</section></section>
+<section>
+<section id="part-3-sophisticated-bigotry" class="title-slide slide level1 center">
+<h1>Part 3: Sophisticated bigotry</h1>
+
+</section>
+<section id="jacob-schwartz-1962" class="slide level2">
+<h2>Jacob Schwartz, 1962</h2>
+<blockquote>
+<p>“… the simple-mindedness of mathematics–its willingness, like that of a computing machine, to elaborate upon any idea, however absurd; to dress scientific brilliancies and scientific absurdities alike in the impressive uniform of formulae and theorems. Unfortunately however, an absurdity in uniform is far more persuasive than an absurdity unclad.”</p>
+</blockquote>
+<blockquote>
+<p>“The result, perhaps most common in the social sciences, is bad theory with a mathematical passport.”</p>
+</blockquote>
+<div class="source">
+<p>“The Pernicious Influence of Mathematics on Science.”</p>
+</div>
+</section>
+<section id="lawrence-summers-14-january-2005" class="slide level2">
+<h2>Lawrence Summers, 14 January 2005</h2>
+<blockquote>
+<p>“There are issues of intrinsic aptitude, and particularly of the variability of aptitude, and that those considerations are reinforced by what are in fact lesser factors involving socialization and continuing discrimination. It’s talking about people who are 3½, 4 standard deviations above the mean in the one-in-5,000, one-in-10,000 class. Even small differences in the standard deviation will translate into very large differences in the available pool substantially out.”</p>
+</blockquote>
+<div class="source">
+<p>Then president of Harvard, on why few women hold tenured posts in science and engineering. At a National Bureau of Economic Research conference, as quoted by Hyde and Mertz (2009), who present it as a statement of the Greater Male Variability Hypothesis.</p>
+</div>
+</section>
+<section id="same-mean-variance-ratio-1.2" class="slide level2">
+<h2>Same mean, variance ratio 1.2</h2>
+<p>Two groups of equal size with the same mean.</p>
+<p>One has a variance 20% larger, which is a standard deviation about 10% larger.</p>
+<div class="ask">
+<p>Take the people more than 4 standard deviations above the mean, where the standard deviation is that of the two groups combined. What share of them comes from the lower-variance group?</p>
+</div>
+</section>
+<section id="hyde-and-mertz-2009-figure-1" class="slide level2">
+<h2>Hyde and Mertz (2009), Figure 1</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../../files/hyde_mertz_2009_fig1.png" class="quarto-figure quarto-figure-center" height="515"></p>
+</figure>
+</div>
+<div class="source">
+<p>Equal means and a variance ratio of 1.2; the inset is the region from 3.8 to 4.2 standard deviations. “Gender, culture, and mathematics performance,” <em>PNAS</em> 106(22), 8801–8807.</p>
+</div>
+</section>
+<section id="share-above-a-cutoff" class="slide level2">
+<h2>Share above a cutoff</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/tail_share-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source">
+<p>The marked shares are the paper’s own. The fractions of everyone beyond each cutoff are computed from Figure 1’s values; the paper calls the two cutoffs the 1-in-20,000 and 1-in-one million levels.</p>
+</div>
+</section>
+<section id="hyde-and-mertz-2009-table-2" class="slide level2">
+<h2>Hyde and Mertz (2009), Table 2</h2>
+<div class="columns">
+<div class="column" style="width:34%;">
+<p><img data-src="../../files/hyde_mertz_2009_table2.png" height="500"></p>
+</div><div class="column" style="width:66%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/vr_countries-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="tail-ratios-in-other-samples" class="slide level2 inverse">
+<h2>Tail ratios in other samples</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/other_samples-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="source" style="color: #BCAF6F">
+<p>Numbers as reported by Hyde and Mertz (2009). Dotted line: one boy per girl.</p>
+</div>
+</section>
+<section id="which-step-would-you-question" class="slide level2">
+<h2>Which step would you question?</h2>
+<p>The variance argument has a correct calculation in it.</p>
+<div class="ask">
+<p>Write down the steps from the calculation to the conclusion. At which step, if any, does the argument fail? What evidence would change your mind?</p>
+<p>Does “bigotry” describe any of the steps? Which?</p>
+</div>
+</section>
+<section id="assumptions-at-each-step" class="slide level2">
+<h2>Assumptions at each step</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Step</th>
+<th style="text-align: left;">What it assumes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1. From test scores to a share of a tail</td>
+<td style="text-align: left;">Normal curves, fitted where the data are, hold four standard deviations out. The variance ratio and the mean difference are those of the population in question. The two groups are the same size.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2. From a share of a tail to a share of a profession</td>
+<td style="text-align: left;">The test measures what the work needs. The profession draws from beyond that cutoff. Among people beyond it, the two groups enter the profession at the same rate.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3. From a share to “intrinsic”</td>
+<td style="text-align: left;">The variance ratio is a property of the two groups, and not of the country, the test or the year.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4. From a share of a profession to one applicant</td>
+<td style="text-align: left;">A person can be judged from their group’s share.</td>
+</tr>
+</tbody>
+</table>
+<p>Only step 1 is a calculation. The quotation stops at step 3.</p>
+</section>
+<section id="the-most-extreme-item-from-each-group" class="slide level2">
+<h2>The most extreme item from each group</h2>
+<p>A feed that ranks items shows the far end of a distribution too.</p>
+<p>Two groups post items. Each item’s extremity is an independent draw from the same distribution.</p>
+<p>One group posts 100 items a day, the other 10,000.</p>
+<div class="ask">
+<p>A feed shows you the single most extreme item from each group. How often is the larger group’s item the more extreme of the two?</p>
+</div>
+</section>
+<section id="one-simulated-day" class="slide level2">
+<h2>One simulated day</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/feed_strip-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="small">
+<p>Both groups draw from the same distribution. Each of the 10,100 items is equally likely to be the most extreme, so the larger group’s item is the more extreme of the two with probability <span class="math inline">\(10{,}000/10{,}100 = 0.99\)</span>.</p>
+</div>
+</section>
+<section id="the-largest-of-n" class="slide level2">
+<h2>The largest of <span class="math inline">\(n\)</span></h2>
+<div class="columns">
+<div class="column" style="width:42%;">
+<div class="small">
+<p><span class="math inline">\(P(M_n \le x) = F(x)^n\)</span></p>
+<p>Uniform<span class="math inline">\((0,1)\)</span>: <span class="math inline">\(\;E[M_n] = \dfrac{n}{n+1}\)</span></p>
+<p>Normal: <span class="math inline">\(\;E[M_n] = \mu + \sigma\,m_n\)</span></p>
+<p><span class="math inline">\(m_{100} = 2.51\)</span></p>
+<p><span class="math inline">\(m_{1000} = 3.24\)</span></p>
+<p><span class="math inline">\(m_{10{,}000} = 3.85\)</span></p>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/emax-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="small">
+<p><span class="math inline">\(P(M_{1000} &gt; 3) = 1 - \Phi(3)^{1000} = 0.74\)</span>, <span class="math inline">\(\quad P(M_{100} &gt; 3) = 1 - \Phi(3)^{100} = 0.13\)</span></p>
+</div>
+</section>
+<section id="calculation-and-interpretation" class="slide level2">
+<h2>Calculation and interpretation</h2>
+<div style="font-size: 1.25em">
+<table class="caption-top">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 38%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">The calculation gives</th>
+<th style="text-align: left;">It is read as</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(p = 0.01\)</span></td>
+<td style="text-align: left;">how often data this extreme occur when the null hypothesis is true</td>
+<td style="text-align: left;">the chance that the null hypothesis is true</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a correlation of 0.52</td>
+<td style="text-align: left;">a relationship across fifty states</td>
+<td style="text-align: left;">a relationship among the people in them</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">an 18% share of a tail</td>
+<td style="text-align: left;">a share of the tail area under two normal curves</td>
+<td style="text-align: left;">the “available pool” for a profession</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="lenses-this-week" class="slide level2">
+<h2>Lenses this week</h2>
+<ul>
+<li><strong>You have to choose, so choose, and defend it.</strong> “Pretending it was forced is its own failure.” In the null ritual nobody chose the hypothesis, the level or the test. In the variance argument the first step is a correct calculation, and the steps after it are stated as if they followed from it.</li>
+<li><strong>What are we optimizing or predicting?</strong> A state’s rate, or a person’s. A group’s average, or one of its members.</li>
+<li><strong>Who is in the data?</strong> Under the two normal curves, 1 person in 26,000 is four standard deviations out. Fifteen-year-olds in one country or another, with a variance ratio from 0.95 to 1.24.</li>
+</ul>
+<p>…and why?</p>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<blockquote>
+<p><strong>Who benefited from that choice being invisible?</strong> <strong>And would a more competent analyst have chosen differently?</strong></p>
+</blockquote>
+<div class="ask">
+<p>Put both questions to the null ritual. Then to the variance argument.</p>
+</div>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/ethics4ds\.com");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
