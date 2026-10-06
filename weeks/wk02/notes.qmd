@@ -413,7 +413,8 @@ the line measures how states differ. Reading the two ends of the line
 as the two groups' rates assumes that neither rate depends on how many
 immigrants a state has, and the native-born rate does. The section
 "Ecological regression and the constancy assumption," near the end of
-these notes, has the algebra, and the class does a case by hand.
+these notes, has the algebra, and an optional class problem does a
+case by hand.
 
 ## $R^2$
 
@@ -657,8 +658,7 @@ membership accounts for is
 $$
 R^2 = \frac{d^2}{d^2 + 4} ,
 $$
-which an optional class problem derives. In the figure $d = 0.5$, and
-the share is 6%.
+which the class derives. In the figure $d = 0.5$, and the share is 6%.
 
 ```{r stat_disc, echo=FALSE, fig.height=2.8}
 xs <- seq(-3.5, 4, by = 0.01)
@@ -1071,9 +1071,9 @@ a more competent analyst have taken steps 2 and 3?
 
 ## For the class
 
-The class starts with the two studies of infants and works a case of
-ecological regression. Its optional problems on slopes and bounds use
-the other two sections. None of the four was in the lecture.
+The class starts with the two studies of infants. Its optional
+problems on slopes, ecological regression and bounds use the other
+three sections. None of the four was in the lecture.
 
 ### Two studies of infants
 

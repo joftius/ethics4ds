@@ -219,7 +219,7 @@ window.Quarto = {
   <li><a href="#problems" id="toc-problems" class="nav-link" data-scroll-target="#problems">Problems</a>
   <ul class="collapse">
   <li><a href="#false-rejections" id="toc-false-rejections" class="nav-link" data-scroll-target="#false-rejections">1. False rejections</a></li>
-  <li><a href="#ecological-regression-and-constancy" id="toc-ecological-regression-and-constancy" class="nav-link" data-scroll-target="#ecological-regression-and-constancy">2. Ecological regression and constancy</a></li>
+  <li><a href="#group-membership-and-r2" id="toc-group-membership-and-r2" class="nav-link" data-scroll-target="#group-membership-and-r2">2. Group membership and <span class="math inline">\(R^2\)</span></a></li>
   </ul></li>
   <li><a href="#discussion-2-decisions-and-groups" id="toc-discussion-2-decisions-and-groups" class="nav-link" data-scroll-target="#discussion-2-decisions-and-groups">Discussion 2: decisions and groups</a></li>
   <li><a href="#simulation-the-most-extreme-post" id="toc-simulation-the-most-extreme-post" class="nav-link" data-scroll-target="#simulation-the-most-extreme-post">Simulation: the most extreme post</a></li>
@@ -233,7 +233,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#a-p-value-of-0.01" id="toc-a-p-value-of-0.01" class="nav-link" data-scroll-target="#a-p-value-of-0.01">3. A <span class="math inline">\(p\)</span>-value of 0.01</a></li>
   <li><a href="#aggregation-and-r2" id="toc-aggregation-and-r2" class="nav-link" data-scroll-target="#aggregation-and-r2">4. Aggregation and <span class="math inline">\(R^2\)</span></a></li>
-  <li><a href="#group-membership-and-r2" id="toc-group-membership-and-r2" class="nav-link" data-scroll-target="#group-membership-and-r2">5. Group membership and <span class="math inline">\(R^2\)</span></a></li>
+  <li><a href="#ecological-regression-and-constancy" id="toc-ecological-regression-and-constancy" class="nav-link" data-scroll-target="#ecological-regression-and-constancy">5. Ecological regression and constancy</a></li>
   <li><a href="#aggregation-and-r2-with-an-area-effect" id="toc-aggregation-and-r2-with-an-area-effect" class="nav-link" data-scroll-target="#aggregation-and-r2-with-an-area-effect">6. Aggregation and <span class="math inline">\(R^2\)</span> with an area effect</a></li>
   <li><a href="#ecological-regression-in-general" id="toc-ecological-regression-in-general" class="nav-link" data-scroll-target="#ecological-regression-in-general">7. Ecological regression in general</a></li>
   <li><a href="#two-slopes" id="toc-two-slopes" class="nav-link" data-scroll-target="#two-slopes">8. Two slopes</a></li>
@@ -312,11 +312,13 @@ Note
 <h3 class="anchored" data-anchor-id="false-rejections">1. False rejections</h3>
 <p>From last week. Of the effects a field tests for, 10% are real. Tests are run at level <span class="math inline">\(0.01\)</span> with power <span class="math inline">\(0.5\)</span>. Compute the share of rejections that are false.</p>
 </section>
-<section id="ecological-regression-and-constancy" class="level3">
-<h3 class="anchored" data-anchor-id="ecological-regression-and-constancy">2. Ecological regression and constancy</h3>
-<p>In each area <span class="math inline">\(i\)</span>, a fraction <span class="math inline">\(x_i\)</span> of the people belong to a group. The group’s rate of some outcome is <span class="math inline">\(p_i\)</span> and everyone else’s rate is <span class="math inline">\(q_i\)</span>, so the area’s rate is <span class="math inline">\(y_i = p_i x_i + q_i(1 - x_i)\)</span>. Ecological regression fits <span class="math inline">\(y_i = a + b x_i\)</span> and reads <span class="math inline">\(\hat a\)</span> as everyone else’s rate and <span class="math inline">\(\hat a + \hat b\)</span> as the group’s rate.</p>
-<p>Two areas of equal size, <span class="math inline">\(x = 0.1\)</span> and <span class="math inline">\(x = 0.3\)</span>. The group’s rate is <span class="math inline">\(p = 0.2\)</span> in both; everyone else’s rate is <span class="math inline">\(q = 0.30\)</span> in the first and <span class="math inline">\(q = 0.40\)</span> in the second. Over the two areas together, the group’s rate is <span class="math inline">\(0.2\)</span> and everyone else’s is <span class="math inline">\(0.344\)</span>.</p>
-<p>Compute the two area rates, fit the line through the two points, and read off what ecological regression reports for the group and for everyone else. Compare with <span class="math inline">\(0.2\)</span> and <span class="math inline">\(0.344\)</span>.</p>
+<section id="group-membership-and-r2" class="level3">
+<h3 class="anchored" data-anchor-id="group-membership-and-r2">2. Group membership and <span class="math inline">\(R^2\)</span></h3>
+<p>Two groups of equal size. Within each group an outcome has standard deviation 1, and the two group means differ by <span class="math inline">\(d\)</span>.</p>
+<ol type="a">
+<li><p>Show that the variance of the outcome across everyone is <span class="math inline">\(1 + d^2/4\)</span>, and that group membership accounts for a share <span class="math inline">\(R^2 = \dfrac{d^2}{d^2 + 4}\)</span> of it. Compute the share for <span class="math inline">\(d = 0.2\)</span> and for <span class="math inline">\(d = 1\)</span>.</p></li>
+<li><p>A chart shows the two group means and nothing else. What is the <span class="math inline">\(R^2\)</span> of the outcome on group membership when the data are those two numbers? What has the chart left out?</p></li>
+</ol>
 </section>
 </section>
 <section id="discussion-2-decisions-and-groups" class="level2">
@@ -458,13 +460,11 @@ Note
 </div>
 </div>
 </section>
-<section id="group-membership-and-r2" class="level3">
-<h3 class="anchored" data-anchor-id="group-membership-and-r2">5. Group membership and <span class="math inline">\(R^2\)</span></h3>
-<p>Two groups of equal size. Within each group an outcome has standard deviation 1, and the two group means differ by <span class="math inline">\(d\)</span>.</p>
-<ol type="a">
-<li><p>Show that the variance of the outcome across everyone is <span class="math inline">\(1 + d^2/4\)</span>, and that group membership accounts for a share <span class="math inline">\(R^2 = \dfrac{d^2}{d^2 + 4}\)</span> of it. Compute the share for <span class="math inline">\(d = 0.2\)</span> and for <span class="math inline">\(d = 1\)</span>.</p></li>
-<li><p>A chart shows the two group means and nothing else. What is the <span class="math inline">\(R^2\)</span> of the outcome on group membership when the data are those two numbers? What has the chart left out?</p></li>
-</ol>
+<section id="ecological-regression-and-constancy" class="level3">
+<h3 class="anchored" data-anchor-id="ecological-regression-and-constancy">5. Ecological regression and constancy</h3>
+<p>In each area <span class="math inline">\(i\)</span>, a fraction <span class="math inline">\(x_i\)</span> of the people belong to a group. The group’s rate of some outcome is <span class="math inline">\(p_i\)</span> and everyone else’s rate is <span class="math inline">\(q_i\)</span>, so the area’s rate is <span class="math inline">\(y_i = p_i x_i + q_i(1 - x_i)\)</span>. Ecological regression fits <span class="math inline">\(y_i = a + b x_i\)</span> and reads <span class="math inline">\(\hat a\)</span> as everyone else’s rate and <span class="math inline">\(\hat a + \hat b\)</span> as the group’s rate.</p>
+<p>Two areas of equal size, <span class="math inline">\(x = 0.1\)</span> and <span class="math inline">\(x = 0.3\)</span>. The group’s rate is <span class="math inline">\(p = 0.2\)</span> in both; everyone else’s rate is <span class="math inline">\(q = 0.30\)</span> in the first and <span class="math inline">\(q = 0.40\)</span> in the second. Over the two areas together, the group’s rate is <span class="math inline">\(0.2\)</span> and everyone else’s is <span class="math inline">\(0.344\)</span>.</p>
+<p>Compute the two area rates, fit the line through the two points, and read off what ecological regression reports for the group and for everyone else. Compare with <span class="math inline">\(0.2\)</span> and <span class="math inline">\(0.344\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -477,7 +477,23 @@ Note
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Split the variance into the part within the groups and the part between them. Each group’s mean is <span class="math inline">\(d/2\)</span> from the mean of everyone.</p>
+<p>Use the accounting identity <span class="math inline">\(y = p x + q(1 - x)\)</span> in each area.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Two points fix a line: the slope is <span class="math inline">\((y_2 - y_1)/(x_2 - x_1)\)</span>, then the intercept. The regression’s rate for the group is the height of the line at <span class="math inline">\(x = 1\)</span>.</p>
 </div>
 </div>
 </div>
@@ -490,30 +506,6 @@ Note
 <li><p>A report shows a regression across 50 regions with <span class="math inline">\(R^2 = 0.9\)</span>. What does that tell you about the <span class="math inline">\(R^2\)</span> of the same relationship across people? What would you need to know?</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Hint 1
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The area effect <span class="math inline">\(u_j\)</span> is the same for everyone in the area. What does averaging do to it?</p>
-</div>
-</div>
-</div>
-</section>
-<section id="ecological-regression-in-general" class="level3">
-<h3 class="anchored" data-anchor-id="ecological-regression-in-general">7. Ecological regression in general</h3>
-<p>The setting of problem 2.</p>
-<ol type="a">
-<li><p>Now in general: <span class="math inline">\(p_i = p\)</span> and <span class="math inline">\(q_i = q_0 + \gamma x_i\)</span>. Substitute into the accounting identity and show that when the shares are small the fitted slope is approximately <span class="math inline">\(p - q_0 + \gamma\)</span>. What does the regression then report as the group’s rate, and which way is it wrong when <span class="math inline">\(\gamma &lt; 0\)</span>? In problem 2, <span class="math inline">\(\gamma = 0.5\)</span>. How good is the approximation there?</p></li>
-<li><p>Freedman’s neighborhood model puts <span class="math inline">\(\hat p_i = \hat q_i = y_i\)</span>. Apply it to the two areas in problem 2. Which model is closer to the truth here, and what would you need to know to say which is closer in a case where the truth is unknown?</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -524,6 +516,30 @@ Note
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The area effect <span class="math inline">\(u_j\)</span> is the same for everyone in the area. What does averaging do to it?</p>
+</div>
+</div>
+</div>
+</section>
+<section id="ecological-regression-in-general" class="level3">
+<h3 class="anchored" data-anchor-id="ecological-regression-in-general">7. Ecological regression in general</h3>
+<p>The setting of problem 5.</p>
+<ol type="a">
+<li><p>Now in general: <span class="math inline">\(p_i = p\)</span> and <span class="math inline">\(q_i = q_0 + \gamma x_i\)</span>. Substitute into the accounting identity and show that when the shares are small the fitted slope is approximately <span class="math inline">\(p - q_0 + \gamma\)</span>. What does the regression then report as the group’s rate, and which way is it wrong when <span class="math inline">\(\gamma &lt; 0\)</span>? In problem 5, <span class="math inline">\(\gamma = 0.5\)</span>. How good is the approximation there?</p></li>
+<li><p>Freedman’s neighborhood model puts <span class="math inline">\(\hat p_i = \hat q_i = y_i\)</span>. Apply it to the two areas in problem 5. Which model is closer to the truth here, and what would you need to know to say which is closer in a case where the truth is unknown?</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Substitute <span class="math inline">\(q_i = q_0 + \gamma x_i\)</span> into <span class="math inline">\(y_i = p x_i + q_i(1 - x_i)\)</span> and collect the powers of <span class="math inline">\(x_i\)</span>.</p>
 </div>
@@ -539,7 +555,7 @@ Note
 <li><p>In Gelman, Shor, Bafumi and Park (2007), within states richer voters were more likely to vote Republican, while richer states voted Democratic. From those two facts alone, can you say which way income and vote were related across all voters? The authors add that income varies far more within states than average income does between states. What does that settle, and what does it leave open?</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -548,7 +564,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A slope is a covariance divided by a variance. Compute it between areas, within areas, and for the two together.</p>
 </div>
@@ -565,7 +581,7 @@ Note
 <li><p>Say, in one sentence each, what the bounds settle and what they leave open.</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -574,7 +590,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Set the other rate to 0 and then to 1, and check whether the rate you want stays between 0 and 1.</p>
 </div>
@@ -591,7 +607,7 @@ Note
 <li><p>(Harder.) A journal publishes an estimate only when its <span class="math inline">\(z\)</span>-value exceeds <span class="math inline">\(1.96\)</span>; a feed shows the largest of 100 <span class="math inline">\(z\)</span>-values. All the <span class="math inline">\(z\)</span>-values are true nulls. Compare the expected published value with the expected shown value, using <span class="math inline">\(E[Z \mid Z &gt; 1.96] = 2.34\)</span> from the significance filter, and say in one sentence what the two selections have in common.</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -600,7 +616,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The largest of the draws is below a value when all of them are.</p>
 </div>
@@ -616,7 +632,7 @@ Note
 <li><p>A commentator says: group 2 is 60% of the prize-winners, so group 2 should be expected to hold 60% of the jobs that need a score that high. List what has to be assumed (i) to compute the 60% and (ii) to read it as a share of jobs. Then say what further step would be needed to conclude anything about one applicant.</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -625,7 +641,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Express the cutoff in each group’s own standard deviations.</p>
 </div>
@@ -642,7 +658,7 @@ Note
 <li><p>Say what the Duncan–Davis bounds would add, and what you would need to know about a borough to say whether its bounds on graduates’ support are informative.</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -651,7 +667,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Ask what the units of the table are, and whether <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are shares of the same people.</p>
 </div>
@@ -682,7 +698,7 @@ Note
 <li>Plot the people as faint points and the area averages as large points, with both regression lines. Describe in one sentence what a reader shown only the area averages would conclude.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -691,7 +707,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For item 2: <code>areas &lt;- people |&gt; group_by(area) |&gt; summarize(X = mean(X), Y = mean(Y))</code>, then <code>summary(lm(Y ~ X, areas))$r.squared</code>.</p>
 </div>
@@ -711,7 +727,7 @@ Note
 <li>A group has 1000 posts a day. Estimate by simulation the fraction of days on which its most extreme post exceeds 3, and compare with <span class="math inline">\(1 - 0.99865^{1000}\)</span>.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -720,7 +736,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>replicate(2000, max(rnorm(100)))</code> gives 2000 maxima at <span class="math inline">\(n = 100\)</span>.</p>
 </div>

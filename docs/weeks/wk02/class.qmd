@@ -53,22 +53,19 @@ From last week. Of the effects a field tests for, 10% are real. Tests
 are run at level $0.01$ with power $0.5$. Compute the share of
 rejections that are false.
 
-### 2. Ecological regression and constancy
+### 2. Group membership and $R^2$
 
-In each area $i$, a fraction $x_i$ of the people belong to a group. The
-group's rate of some outcome is $p_i$ and everyone else's rate is
-$q_i$, so the area's rate is $y_i = p_i x_i + q_i(1 - x_i)$. Ecological
-regression fits $y_i = a + b x_i$ and reads $\hat a$ as everyone else's
-rate and $\hat a + \hat b$ as the group's rate.
+Two groups of equal size. Within each group an outcome has standard
+deviation 1, and the two group means differ by $d$.
 
-Two areas of equal size, $x = 0.1$ and $x = 0.3$. The
-group's rate is $p = 0.2$ in both; everyone else's rate is $q = 0.30$
-in the first and $q = 0.40$ in the second. Over the two areas
-together, the group's rate is $0.2$ and everyone else's is $0.344$.
+(a) Show that the variance of the outcome across everyone is
+$1 + d^2/4$, and that group membership accounts for a share
+$R^2 = \dfrac{d^2}{d^2 + 4}$ of it. Compute the share for $d = 0.2$ and
+for $d = 1$.
 
-Compute the two area rates, fit the line through the two points, and
-read off what ecological regression reports for the group and for
-everyone else. Compare with $0.2$ and $0.344$.
+(b) A chart shows the two group means and nothing else. What is the
+$R^2$ of the outcome on group membership when the data are those two
+numbers? What has the chart left out?
 
 ## Discussion 2: decisions and groups
 
@@ -204,22 +201,29 @@ Write the area average as $\bar X_j = B_j + \bar W_j$. Which of the two terms do
 The variance of an average of $n$ uncorrelated terms, each with variance $\sigma^2$, is $\sigma^2/n$. Use it for $\bar W_j$ and for $\bar\varepsilon_j$.
 :::
 
-### 5. Group membership and $R^2$
+### 5. Ecological regression and constancy
 
-Two groups of equal size. Within each group an outcome has standard
-deviation 1, and the two group means differ by $d$.
+In each area $i$, a fraction $x_i$ of the people belong to a group. The
+group's rate of some outcome is $p_i$ and everyone else's rate is
+$q_i$, so the area's rate is $y_i = p_i x_i + q_i(1 - x_i)$. Ecological
+regression fits $y_i = a + b x_i$ and reads $\hat a$ as everyone else's
+rate and $\hat a + \hat b$ as the group's rate.
 
-(a) Show that the variance of the outcome across everyone is
-$1 + d^2/4$, and that group membership accounts for a share
-$R^2 = \dfrac{d^2}{d^2 + 4}$ of it. Compute the share for $d = 0.2$ and
-for $d = 1$.
+Two areas of equal size, $x = 0.1$ and $x = 0.3$. The
+group's rate is $p = 0.2$ in both; everyone else's rate is $q = 0.30$
+in the first and $q = 0.40$ in the second. Over the two areas
+together, the group's rate is $0.2$ and everyone else's is $0.344$.
 
-(b) A chart shows the two group means and nothing else. What is the
-$R^2$ of the outcome on group membership when the data are those two
-numbers? What has the chart left out?
+Compute the two area rates, fit the line through the two points, and
+read off what ecological regression reports for the group and for
+everyone else. Compare with $0.2$ and $0.344$.
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-Split the variance into the part within the groups and the part between them. Each group's mean is $d/2$ from the mean of everyone.
+Use the accounting identity $y = p x + q(1 - x)$ in each area.
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+Two points fix a line: the slope is $(y_2 - y_1)/(x_2 - x_1)$, then the intercept. The regression's rate for the group is the height of the line at $x = 1$.
 :::
 
 ### 6. Aggregation and $R^2$ with an area effect
@@ -243,17 +247,17 @@ The area effect $u_j$ is the same for everyone in the area. What does averaging 
 
 ### 7. Ecological regression in general
 
-The setting of problem 2.
+The setting of problem 5.
 
 (a) Now in general: $p_i = p$ and $q_i = q_0 + \gamma x_i$. Substitute
 into the accounting identity and show that when the shares are small
 the fitted slope is approximately $p - q_0 + \gamma$. What does the
 regression then report as the group's rate, and which way is it wrong
-when $\gamma < 0$? In problem 2, $\gamma = 0.5$. How good is the
+when $\gamma < 0$? In problem 5, $\gamma = 0.5$. How good is the
 approximation there?
 
 (b) Freedman's neighborhood model puts $\hat p_i = \hat q_i = y_i$.
-Apply it to the two areas in problem 2. Which model is closer to the truth
+Apply it to the two areas in problem 5. Which model is closer to the truth
 here, and what would you need to know to say which is closer in a case
 where the truth is unknown?
 
