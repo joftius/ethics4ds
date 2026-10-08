@@ -1,0 +1,44 @@
+---
+title: "Teacher note: week N class"
+subtitle: "For class teachers"
+format:
+  html:
+    toc: false
+    embed-resources: true
+---
+
+<!--
+TEMPLATE (8 October 2026; ST310's template of 7 October with the wording of a
+class). One page. The table is the note: write everything under "If you read
+on" assuming it may not be read. No summary, no plan narrative, no list of
+hints (they are in the complete class sheet). Exemplar, until an ST313 note is
+converted: instructor/weeks/02-regression/teacher_note_w02.qmd in joftius/ml4ds.
+-->
+
+## Keep or rush
+
+In class order. Planned total about N of the 80 minutes.
+
+| Item | Min | | If short |
+|---|---:|---|---|
+| Discussion 1: ... | 0 | Keep | The one thing to say |
+| Problem 1: ... | 0 | Rush; cut first | The one-line fallback |
+| Coding A: ... | 0 | Rush | |
+
+: {tbl-colwidths="[32,6,16,46]"}
+
+Minimum class, about N minutes: the items to protect. With more time, add ... back first.
+
+## If you read on
+
+How it runs
+
+- Three lines at most: what students prepared and brought, the link to the complete class sheet (`https://ethics4ds.com/teachers/wkNN/class_complete.html`), what is outside the class.
+
+What students should see
+
+- The numbers.
+
+Where they get stuck
+
+- Five bullets at most.

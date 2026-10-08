@@ -11,7 +11,7 @@ execute:
 ---
 
 ::: {.callout-note}
-This is the student version of the class sheet. Parts marked **(class)** are for the class; the rest are practice. Answers are revealed in class and are not released afterwards.
+This is the student version of the class sheet. Parts marked **(class)** are for the class; the rest are practice. Answers are revealed in class.
 :::
 
 ```{r setup, include=FALSE}

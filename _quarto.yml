@@ -1,11 +1,15 @@
 project:
   type: website
   output-dir: docs
-  # From 28 September 2026: week packets live in weeks/wkNN/ (student files at
-  # the folder root, everything else under wkNN/instructor/, which is never
-  # rendered or copied). The 2022 week pages weeks/NN-*.qmd stay in the tree
-  # unrendered until they are retired. Whatever wkNN folders are in this tree
-  # are live; a week is imported (with _build_env/build.sh import) when released.
+  # Each week is weeks/wkNN/: student files at the folder root, the teacher's
+  # class sheet and the teacher note under wkNN/instructor/. The site render
+  # never renders or copies instructor/; _build_env/build.sh renders those
+  # files on their own and publishes them, with the deck that keeps its speaker
+  # notes, at docs/teachers/wkNN/, which no public page links to. The class
+  # sheet with solutions that students get the week after the class is a
+  # separate page, docs/solutions/wkNN/. The 2022 week pages weeks/NN-*.qmd
+  # stay in the tree unrendered until they are retired. Whatever wkNN folders
+  # are in this tree are live.
   render:
     - "index.qmd"
     - "about.qmd"
@@ -14,7 +18,9 @@ project:
     - "!**/instructor/**"
     - "!**/*_complete.qmd"
     - "!_build_env/**"
+    - "!_templates/**"
     - "!_instructor_rendered/**"
+    - "!_registry/**"
   # The student class sheet is copied beside its HTML so students can download
   # it to run the R code. Notes and slides sources are not copied: they carry
   # the instructor-side st313: block.
@@ -64,6 +70,12 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
+
+# Math: MathJax 4, Quarto 1.10's version when a page asks for mathjax. Set here for
+# every page because a revealjs deck with no html-math-method gets MathJax 2.7.9.
+# A deck does not set its own. The two layout rules that decks need with version 4
+# are at the end of theme/st313.scss; styles.css has the same two for the pages.
+html-math-method: mathjax
 
 editor: source
 execute:

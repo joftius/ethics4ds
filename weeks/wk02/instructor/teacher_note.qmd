@@ -1,0 +1,374 @@
+---
+week: 02
+session: class
+register: 1
+audience: class teacher (instructor-side; not for students)
+segments: see class_complete.qmd front matter (75 minutes of material and 5 of slack; production 60 min, 75%; discussion 38 min)
+lenses: [A, B, E]
+results: [R8, R9, R10, R11, R12]
+assumes: [ST102]
+---
+
+# Teacher note: Mindless statistics and sophisticated bigotry (class)
+
+## Timing
+
+| min | block |
+|------|--------------------------------------------------|
+| 0--9 | Discussion 1: the two studies of infants. Groups by study for five minutes, then the room. No verdict |
+| 9--15 | The recall question, from memory, one minute and its answer. Then problem 1 |
+| 15--18 | Feedback on problem 1: open its Solution box and go through it |
+| 18--25 | Problem 2 |
+| 25--29 | Feedback on problem 2 |
+| 29--37 | Discussion 2: decisions and groups. Put the people-and-areas plot on the screen |
+| 37--44 | Simulation: the most extreme post. The starter code is on the sheet and runs as given |
+| 44--47 | Feedback on the simulation |
+| 47--53 | Discussion 3: reading a feed |
+| 53--61 | Discussion 4: a disagreement |
+| 61--71 | Discussion 5: AI and cargo-cult statistics. The convenor's separate deck for about three minutes, then groups, then the room |
+| 71--73 | Close: one written sentence on an aggregate $R^2$ of 0.9 |
+| 73--75 | Prep task |
+| 75--80 | Slack. Week 1 ran over, so the plan is 75 minutes of material in the 80 |
+
+Discussion has 38 of the 75 minutes, and the deck 3 more. The two
+problems and the simulation have 30, feedback included.
+
+**If the room is slow.** Give each activity's feedback at its time
+even if some groups have not finished: the Solution box is the
+feedback. Take time from discussion 3 first (it can be folded into
+the simulation's feedback), then from the close. Keep discussions 2, 4
+and 5.
+
+Everything under "Optional, can be done at home" (problems 3 to 13 and
+coding A, B and C) is outside the 80 minutes. Say so. No marks are
+attached to any of it. The three prompts under "If there is time" are
+reserves.
+
+## Feedback, hints and solutions
+
+The complete sheet is the one on the screen. Each of the three
+in-class activities is followed at once by its feedback: open the
+Solution box and go through it, three or four minutes each. There is
+no separate block of solutions later.
+
+The hints for problems 1 and 2 are in the complete sheet and not in
+the student sheet: open them in order when a group has been stuck for
+a few minutes. The simulation has no hint, because its starter code
+runs as given. The hints for the optional problems are in the student
+sheet. Solutions are in the complete sheet only and are not released
+afterward.
+
+## Discussion 1: the two studies of infants
+
+The two studies were set as reading and are not in the lecture, so
+this is the only place they are discussed. Five minutes in groups,
+four with the room. The prompt is "How convincing is the study's main
+claim?" and the sheet has no subquestions.
+
+- There is no house answer. Take one reason for "convincing" and one
+  for "not convincing" from each study and leave it there. The course
+  makes no claim about whether either result has held up, and neither
+  should the class.
+- Follow-up questions, if a group is stuck: What is the main claim?
+  (The abstract states it.) How many infants? Which
+  comparisons does the abstract report, and which do the same tables
+  allow that the paper does not report?
+- The facts are in the box "The two papers" under the prompt and in
+  the notes' section "Two studies of infants," which has the tables as
+  charts. Put that section on the screen for the last two minutes.
+- In each paper some of the comparisons the data allow reached the
+  abstract and a figure, and others got a sentence of text or nothing.
+  Stop short of saying the authors chose what to report after seeing
+  the results. The papers do not show that.
+- If a student compares the text of Alexander and colleagues with its
+  Figure 1 and finds they disagree about the boys: they do. The
+  journal published an erratum in 2010 correcting the sentence; the
+  notes have it.
+- If a student has looked up whether either study has been replicated,
+  let them report what they found as their own finding, with its
+  source, and move on.
+
+## What the class works that the lecture only stated
+
+The lecture has three parts and a five-minute close, planned at 75
+minutes with 5 of slack: mindless statistics (34 minutes: cargo-cult
+statistics, the null ritual, six statements about a $p$-value),
+groups and individuals (17 minutes), and the variance argument with
+the largest of $n$ (19 minutes). The class computes with two of its results, simulates a
+third, and spends the rest of its time in discussion.
+
+- **The recall question.** In the lecture's simulation the slope was
+  the same for people and for area averages, and $R^2$ rose from
+  $0.20$ to $0.84$ (population values; $0.19$ and $0.85$ in the
+  simulated draw on the slide). "In the lecture's simulation model"
+  is part of the question, because the answer depends on the model.
+  When each area has an effect of its own, $R^2$ still rises but no
+  longer tends to 1 (optional 6). When everyone else's rate varies
+  with the group's share, as in optional 5, the slope across areas is
+  not the difference between the two groups' rates. The derivation
+  for the lecture's model is optional problem 4.
+- **Problem 1.** The lecture had the room mark six statements about
+  $p = 0.01$ true or false (all six are false) and recalled last
+  week's formula for the share of rejections that are false. The class
+  computes with it: $0.009/0.059 = 0.15$. Notes: "The null ritual."
+  The report that misreads $p = 0.01$ twice is now optional problem 3.
+- **Problem 2.** The lecture's slide on statistical discrimination had
+  two groups half a standard deviation apart, where group membership
+  accounts for 6% of the variance. The class derives $d^2/(d^2 + 4)$
+  by splitting the variance into the part within the groups and the
+  part between them (the law of total variance, which the Solution
+  names), and computes 1% at $d = 0.2$ and 20% at $d = 1$. Part (b) is
+  the link to the recall question: a chart of two group means has an
+  $R^2$ of 1. Notes: "Statistical discrimination," which gives the
+  formula with $d = 0.5$ and leaves the derivation to the class.
+- **The simulation.** The lecture gave the largest of $n$ four
+  minutes: the probability that the larger group's item is the more
+  extreme, $0.99$ for 100 items against 10,000, and one slide of
+  formulas. Those three slides are the last thing in the lecture's cut
+  order, so ask whether they were shown; the notes have the same
+  example under "The largest of $n$." Students run the starter code,
+  then predict and check $0.75$ for 1,000 against 3,000.
+- **Optional problems.** 3 is the misread $p$-value. 4 is aggregation
+  and $R^2$, the derivation behind the recall question. 5 is
+  ecological regression on two areas: area rates $0.29$ and $0.34$,
+  line $0.265 + 0.25x$, so the regression reports $0.515$ for a group
+  whose rate is $0.2$, because everyone else's rate rises with the
+  group's share. It was problem 2 until the convenor swapped it out on
+  6 October, as too close to substitution into a formula. Ecological
+  regression and the constancy assumption are not in the lecture. 6
+  and 7 continue 4 and 5. Two slopes (8) and the bounds (9) are not in
+  the lecture; the notes have both. 10 is the largest of $n$ by hand.
+  11 is the tail arithmetic of the variance argument with
+  hand-friendly constants, and 11(c) is the lecture's slide
+  "Assumptions at each step" as a question. 12 is a newspaper's table
+  of boroughs: what it identifies, the denominators, the assumption,
+  the bounds. 13 sorts three claims from the week by averages, spreads
+  and tails, and by people and places. Coding A builds the
+  people-and-areas plot, B is the largest of $n$, C is ecological
+  regression on fifty precincts.
+
+## Expected misconceptions
+
+1. **1% or 99% in problem 1.** They will want the level or its
+   complement. The answer needs the share of real effects and the
+   power: 15% here. If someone says the chance of a wrong rejection is
+   the level, the level is $P(\text{reject} \mid H_0)$ and the problem
+   asks for $P(H_0 \mid \text{reject})$.
+2. **"Averaging biases the slope."** It does not, under the lecture's
+   simulation model: both regressions estimate $\beta$. What averaging
+   changes is $R^2$, through the variance (optional 4(b) asks for that
+   word).
+3. **$d^2$ for $d^2/4$ in problem 2(a).** They take the distance
+   between the two group means as each mean's distance from the middle.
+   Each mean is $d/2$ from the mean of everyone, so the variance
+   between groups is $(d/2)^2$. With $d = 1$ the slip gives a share of
+   $1/2$ where the answer is $1/5$.
+4. **"The two bars differ, so the groups differ."** Problem 2(b). Two
+   means always fit a line perfectly. With $d = 0.2$, 99% of the
+   variation is inside the groups.
+5. **"So group averages tell you nothing."** The overcorrection. A
+   group average is a fact about the group; problem 2 says how much of
+   a member it describes, and the bounds (optional 9) say what area
+   data settle. Discussion 2 is the place for it.
+6. **"The ecological correlation is just wrong."** Robinson's $0.53$ is
+   a correct correlation between states. It answers a question about
+   states. The error is reading it as an answer about people.
+7. **"The larger group is more extreme," and "every time."** In the
+   simulation the two groups have the same distribution. Students who
+   conclude the 10,000-post group is "worse" have made the inference
+   the week is about. And the larger group's post is the more extreme
+   with probability 0.99, not 1; about two reversals in 200 days are
+   expected, and none at all in about one run in seven.
+8. **The two skimmed studies, as a verdict.** Students will want to
+   say whether Connellan et al. or Alexander et al. "replicated." The
+   course makes no claim either way and neither should the class.
+9. **"No significant difference" read as "no difference."** Alexander
+   and colleagues' looking-time analysis did not find a statistically
+   significant sex difference; the means in the text still differ.
+   Last week's material: a test that does not reject is not evidence
+   of equality.
+
+In the optional problems:
+
+10. **$0.56$ for $0.59$ in 4(a).** They have used 1 for the variance of
+    the area averages. It is $1 + 4/n$: the average of $n$ people still
+    contains a little of the within-area variation. At $n = 400$ the
+    two agree to two decimals; at $n = 1$ their formula gives 0.05
+    where the answer must be 0.20, which is the quick way to show them.
+11. **"The line is wrong," and "more areas would fix it."** In optional
+    5 the line through the two points is the least squares line and
+    the two area rates are correct. The error is reading its two ends
+    as the two groups' rates. That error is a bias, from the constancy
+    assumption, and is a different thing from what averaging does to
+    $R^2$. Under a failing constancy assumption the estimate converges
+    to the wrong number: 7(a) shows that the fitted slope contains
+    $\gamma$ however many areas there are. A related one: "the area
+    data would show if constancy failed." Sometimes they do (a curved
+    scatter, a fitted rate above 1), but a straight scatter does not
+    confirm it.
+12. **"A small group's bounds are always 0 to 1."** That was
+    Washington. In 9(a) the same-sized group has bounds of 0 to 0.125,
+    because the outcome is rarer than the group. The rule is in 9(b).
+13. **Tails read as averages.** In 11 and 13, "boys are better at
+    math" is a claim about averages and the number quoted (a
+    99th-percentile ratio) is about tails. Make them say which of the
+    three (average, spread, tail) each number is about. This is the
+    week's sensitive topic; the lecture notes open with the convenor's
+    statement that the reading of the examples is his and that
+    disagreement is not penalized. Keep it on the arithmetic (which
+    number, which group, who took the test) and on Hyde and Mertz's
+    Table 2. The variance ratio differs between countries, which
+    challenges a universal ratio and does not by itself exclude an
+    intrinsic contribution; why it differs is a causal question, for
+    next week.
+
+## On the screen
+
+- For the last two minutes of discussion 1: the notes' section "Two
+  studies of infants."
+- During problems 1 and 2: the complete sheet at the problem in hand,
+  with its boxes closed. Then the Solution box, open.
+- During discussion 2: the people-and-areas plot. It is in the
+  complete sheet (Optional, Coding A, Solution) and in the notes under
+  "Aggregation and $R^2$." The two overlapping curves in the notes
+  under "Statistical discrimination" ($d = 0.5$) are the picture of
+  problem 2, if that serves better.
+- During the simulation: the starter code. Then its Solution box.
+- During discussion 5: the convenor's separate deck.
+- During the other discussions: the prompt, and the shared document if
+  the class is using one. Do not tidy it.
+
+## Discussion prompts
+
+The sheet gives one question for each discussion and no subquestions.
+The examples and follow-up questions below are for the teacher, to use
+if a group is stuck. None of the five has a house answer.
+
+- **Discussion 2: "When is it reasonable to use information about
+  someone's group to make a decision about them?"** It follows problem
+  2, where membership of a group accounted for 1% of the variance at
+  $d = 0.2$ and 20% at $d = 1$, and it is close to the question the
+  lecture put to pairs
+  ("Is an aggregate claim about a group ever a claim about a member of
+  it?"). The plot on the screen has the area averages in a line and
+  the people in a cloud. Cases, if the room needs one: an insurer
+  pricing one driver from the claims of drivers of the same age; a
+  doctor quoting a five-year survival rate to one patient; an employer
+  screening applicants by the average of their school. Things that
+  differ between them, as possible follow-ups: whether better
+  information about the person could be had, and at what cost; whether
+  the person chose to be in the group; whether the decision is made
+  for the person or about them; who pays when the group's rate is
+  wrong for them; whether the group's average is itself the result of
+  past exclusion (the lecture's slide "Decisions from group
+  averages").
+- **Discussion 3: "A feed shows the most extreme post from each group.
+  How should readers interpret what they see?"** It follows the
+  simulation's feedback. Arguments the room may make: the shown post
+  says little about a typical post from either group, since both shown
+  posts were far from typical when the groups were identical; the
+  difference between the two shown posts can come from the number of
+  posts alone; a reader usually does not know how many posts each
+  group made, or what the feed ranks on. Possible follow-ups: What
+  would you want to know before concluding anything about a group from
+  its most extreme post? Does it change anything if the groups do
+  differ in spread (optional 10(c)(iii))? Whose job is it, the
+  reader's or the feed's? Rathje and colleagues, in the optional
+  reading, found that posts about the political out-group were shared
+  about twice as often, so the people who share select before a feed
+  ranks anything.
+- **Discussion 4: "A junior analyst disagrees with the conclusion
+  their manager wants to publish. What should they do?"** The scenario
+  is bare on purpose. Let groups ask what the disagreement is about
+  and say how their answer depends on it. Possible follow-ups: Is it
+  an error, or a choice that could reasonably have gone either way
+  (which comparison to report, which model)? Who is affected if the
+  conclusion is wrong? What can the analyst do short of refusing: ask
+  for the assumption to be stated, for a range, for the other analysis
+  to be reported beside it? What does each option cost them? From the
+  week, if wanted: Stark and Saltelli's "We can stand up for the
+  responsible use of statistics, even when that means taking personal
+  risks" (a lecture slide); Feynman's wish for the graduating class,
+  "the good luck to be somewhere where you are free to maintain the
+  kind of integrity I have described" (the notes); and the lens "You
+  have to choose, so choose, and defend it." A group may equally argue
+  that a choice which could reasonably go either way is the manager's
+  to make, provided it is stated.
+- **Discussion 5: "Could AI make cargo-cult statistics worse, or help
+  solve the problem?"** The convenor shows a separate in-class deck
+  first, with material from Luo, Kasirzadeh and Shah, "The More You
+  Automate, the Less You See: Hidden Pitfalls of AI Scientist Systems"
+  (2025, <https://arxiv.org/abs/2509.08713>). The deck is not part of
+  this packet, and the prompt stands without it. From the paper's
+  abstract: it identifies four potential failure modes in AI scientist
+  systems (inappropriate benchmark selection, data leakage, metric
+  misuse, and post-hoc selection bias), finds several of them in two
+  open-source systems, and reports that they are detected far more
+  effectively from trace logs and code than from the final paper
+  alone. About three minutes for the deck, then groups, then the room.
+  Arguments the room may make. Worse: Stark and Saltelli wrote, "The more 'powerful' and
+  'user-friendly' the software is, the more it invites cargo-cult
+  statistics," and the notes ask what they would
+  say about software that writes the analysis for you; post-hoc
+  selection is week 1's selection, run automatically. Help: a complete
+  log of what was run is the record Feynman asks for ("Details that
+  could throw doubt on your interpretation must be given, if you know
+  them"), and a tool can check an assumption that an analyst in a
+  hurry skips. Possible follow-up: who checks the output, and what
+  would they need to see?
+
+### If there is time
+
+- **A good critic.** From the 2024 class. No house answer.
+- **What was selected.** Each group takes one setting. The prompt does
+  not presume that the selection misleads or that anyone gains from
+  it; "it does not matter here" is an answer a group can defend.
+  Possible arguments:
+  - Most-improved boroughs: the table selects on a large change in a
+    measure that is partly noise. If so, the selected boroughs will on
+    average improve less the following year, and some will fall back
+    (regression to the mean, week 1's schools prompt at area level).
+    That is a statement about the average of the selected boroughs,
+    not about any one of them, and it depends on how much of a year's
+    change is noise.
+  - Top-ten posts from one side: the largest ten of a number of posts
+    the reader does not see; the simulation again.
+  - The crime map: an ecological correlation that a reader may take as
+    a fact about people; the constancy assumption is the unstated
+    step. The one to handle carefully. Keep it on the arithmetic (what
+    would the bounds say?) and off the demographic variable.
+  - Top picks: selection on a score the user does not see, from a pool
+    of unknown size. A group may argue that this selection is what the
+    user wants.
+  - Best fund managers: the largest of $n$ noisy returns (week 1's
+    winner's curse). A group may argue that some of the ranking is
+    skill; how much is the question.
+- **Two models, one number.** Freedman's Table 2 is in the notes, not
+  the lecture. These aggregate data alone do not establish which model
+  is correct. Answers a group can defend include a range (the two
+  estimates, or the bounds of optional problem 9), a qualified
+  estimate with its assumption stated, and a recommendation to get
+  data on individuals before publishing a number. The notes' table
+  also shows the survey's answer, 28%; the prompt leaves it out
+  because an analyst in this position would not have it. It is
+  outside the range between the two estimates, and inside the bounds,
+  which contain the truth by construction.
+
+## Notation
+
+In optional 5 and the optional problems that continue it, areas are
+indexed by $i$, as in Freedman: $p_i$ is the rate in the group of
+interest and $q_i$ the rate among everyone else; $x_i$ is the group's
+share of area $i$, $y_i$ the area's rate. In optional 4 and 6,
+$X_{ij} = B_j + W_{ij}$ for person $i$ in area $j$: $B_j$ is shared by
+everyone in the area (variance $\sigma_B^2$), $W_{ij}$ is the person's
+deviation (mean zero, variance $\sigma_W^2$, uncorrelated with $B_j$
+and across people). $d$ in problem 2 is the difference between two
+group means in within-group standard deviations; $G$ in its Solution
+is the group. In optional 8, $b_B$,
+$b_W$ and $b_{\text{all}}$ are the slope across area averages, the
+pooled slope within areas and the slope across everyone, and $\lambda$
+is the between-area share of the variance of $X$. $M_n$ is the largest
+of $n$ draws. The two groups in optional 11 are "group 1" and "group
+2." Register 1 throughout; the symbols $A$, $R$ and $U$ are not used
+this week (the area effect in optional 6 is a lowercase $u_j$).

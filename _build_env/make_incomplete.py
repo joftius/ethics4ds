@@ -2,13 +2,24 @@
 """Derive the ST313 student class sheet from the instructor's complete one.
 
 Usage:  make_incomplete.py <class_complete.qmd> <class.qmd>
+        make_incomplete.py --solutions <class_complete.qmd> <class_solutions.qmd>
         make_incomplete.py --check <class_complete.qmd>      (marker balance only)
+
+Three documents come from the one source (convenor, 8 October 2026). The
+teacher's class sheet is class_complete.qmd itself, published for class
+teachers only. The student sheet (class.qmd) is that file without its answers.
+The class sheet with solutions is what students are given the week after the
+class: a separate document, so that the two can differ. For now it is the
+teacher's sheet without the instructor-side front matter; what else differs is
+to be decided, and derive_solutions() below is the place for it.
 
 ST313 variant of ST310's generator (28 September 2026). The teacher file
 carries every answer in a collapsible callout that the class teacher opens on
 screen; the student file is the teacher file with those callouts removed, the
-instructor-side `st313:` front-matter block removed, and the release sentence
-written the way the convenor decided (answers are not released).
+instructor-side `st313:` front-matter block removed. The notice at the top
+says that answers are revealed in class and nothing about release: the
+complete sheet is released the week after its class by a link on the course
+page (convenor, 8 October 2026), and the sheet must read true before and after.
 
 Markers in the complete file:
   ::: {.callout-note .answer title="Solution" collapse="true"}
@@ -39,8 +50,7 @@ RELEASE = "Answers are revealed in class. Attempt each part first."
 NOTICE = (
     "::: {.callout-note}\n"
     "This is the student version of the class sheet. Parts marked **(class)** "
-    "are for the class; the rest are practice. Answers are revealed in class "
-    "and are not released afterwards.\n"
+    "are for the class; the rest are practice. Answers are revealed in class.\n"
     ":::\n"
 )
 
@@ -88,6 +98,13 @@ def strip_yaml_key(txt, key="st313"):
     out = [l for l in out if not re.match(r"^# -{4,}", l)]
     return "---\n" + "\n".join(out) + "\n---\n" + txt[m.end():]
 
+def derive_solutions(txt):
+    """The class sheet with solutions, for students. Answers are kept."""
+    txt = txt.replace(" (complete)", "", 1).replace("(complete)", "", 1)
+    txt = strip_yaml_key(txt, "st313")
+    txt = re.sub(r"(---\n.*?\n---\n)\s*<!-- Teacher version\..*?-->\n", r"\1", txt, count=1, flags=re.S)
+    return txt
+
 def derive(txt):
     out, skipping = [], False
     for line in txt.split("\n"):
@@ -121,6 +138,20 @@ if __name__ == "__main__":
         for p in problems:
             print(p, file=sys.stderr)
         sys.exit(1 if problems else 0)
+    if args and args[0] == "--solutions":
+        src, dst = args[1], args[2]
+        txt = open(src).read()
+        problems = check_markers(txt, src)
+        if problems:
+            for p in problems:
+                print(p, file=sys.stderr)
+            sys.exit(1)
+        out = derive_solutions(txt)
+        open(dst, "w").write(out)
+        # nothing backstage goes to students: no st313: block, no item or competence ids
+        n_left = len(re.findall(r"st313:|W\d\d-I\d+|CC-\d\d", out))
+        print(f"wrote {dst}: {n_left} instructor markers left (must be 0)")
+        sys.exit(1 if n_left else 0)
     src, dst = args[0], args[1]
     txt = open(src).read()
     problems = check_markers(txt, src)

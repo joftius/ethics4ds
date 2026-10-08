@@ -1,1 +1,11 @@
-/* css styles */
+/* Site stylesheet for the HTML pages (not the decks: those use theme/st313.scss).
+
+   MathJax 4 breaks an inline formula across lines and sets it at its own line
+   height. On a phone the breaking is what keeps a long formula on the screen. On a
+   wide page it splits a formula for no reason, and lines with math sit further
+   apart than the others. From tablet width up, keep an inline formula on one line
+   at the paragraph's line height. (Copied from ST310's styles.css, 8 October 2026.) */
+@media (min-width: 768px) {
+  mjx-container:not([display="true"]) { line-height: 0; }
+  mjx-container:not([display="true"]) mjx-break { white-space: nowrap !important; }
+}

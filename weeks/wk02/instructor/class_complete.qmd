@@ -1,0 +1,938 @@
+---
+title: "Mindless statistics and sophisticated bigotry"
+subtitle: "Class"
+author: "Joshua Loftus"
+format:
+  html:
+    toc: true
+execute:
+  message: false
+  warning: false
+# ---- instructor-side front matter (CONTRACT.md), nested under st313: so that Quarto
+# ---- ignores it (Quarto reserves top-level keys such as `history`); stripped from output
+st313:
+  week: 02
+  session: class
+  register: 1
+  segments:                        # sums to 80: 75 of material and 5 of slack; production 60 (75%); discussion 38
+    - {label: "discussion 1: how convincing is the main claim of the infant study you skimmed; no verdict given", minutes: 9, mode: production}
+    - {label: "the recall question on the lecture's simulation, from memory; problem 1: the share of rejections that are false (week 1), by hand", minutes: 6, mode: production}
+    - {label: "feedback on problem 1", minutes: 3, mode: exposition}
+    - {label: "problem 2: the share of variance that membership of one of two groups accounts for, by hand", minutes: 7, mode: production,
+       results: [R8]}
+    - {label: "feedback on problem 2", minutes: 4, mode: exposition}
+    - {label: "discussion 2: when is it reasonable to use information about someone's group to make a decision about them; the people-and-areas plot on the screen", minutes: 8, mode: production}
+    - {label: "simulation in R, starter code supplied: the most extreme post from each of two groups", minutes: 7, mode: production,
+       core: CC-07, results: [R12]}
+    - {label: "feedback on the simulation", minutes: 3, mode: exposition}
+    - {label: "discussion 3: how should readers interpret what a feed shows", minutes: 6, mode: production}
+    - {label: "discussion 4: a junior analyst disagrees with the conclusion their manager wants to publish", minutes: 8, mode: production}
+    - {label: "the convenor's separate in-class deck on AI scientist systems", minutes: 3, mode: exposition}
+    - {label: "discussion 5: could AI make cargo-cult statistics worse, or help solve the problem", minutes: 7, mode: production}
+    - {label: "close: one written sentence on an aggregate R-squared of 0.9", minutes: 2, mode: production}
+    - {label: "prep task for next class", minutes: 2, mode: exposition}
+    # slack: 5 (the convenor, 6 October: week 1 ran over; plan 75 in the 80)
+    - {label: "slack: overrun", minutes: 5, mode: exposition}
+  history: []
+  complications: []
+  retrieves: [S3, S4]
+  lenses: [A, B, E]
+  readings: [stark-saltelli-cargo-cult, gigerenzer-surrogate, hyde-mertz-2009, freedman-tr549, connellan-2000, alexander-2009]
+  results: [R8, R9, R10, R11, R12]
+  assumes: [ST102]
+  solutions: complete             # this file carries answers; the student file is generated
+# ---------------------------------------------------------------------------------
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+theme_set(theme_minimal())
+set.seed(313)
+```
+
+## In class
+
+1. A discussion of the study of infants you skimmed.
+2. Problem 1, by hand.
+3. Problem 2, by hand, then a discussion.
+4. One simulation in R, then a discussion.
+5. Two more discussions.
+
+Discussions are in groups of three or four, then with the room. Each
+problem, and the simulation, is gone through as soon as the room has
+tried it. Everything under "Optional, can be done at home" is practice
+for afterward.
+
+## Discussion 1: two studies of infants
+
+Sit with people who skimmed the same study as you, if you can find
+them.
+
+How convincing is the study's main claim?
+
+::: {.callout-note .answer title="The two papers" collapse="true"}
+There is no house answer, and the course makes no claim about whether
+either result has held up. The notes' section "Two studies of infants"
+has the tables as charts.
+
+Connellan and colleagues (2000). The abstract says the boys "showed a
+stronger interest in the physical-mechanical mobile while the female
+infants showed a stronger interest in the face," and ends: "The results
+of this research clearly demonstrate that sex differences are in part
+biological in origin." 102 newborns completed testing. The text
+reports two tests on Table 2: boys against girls on the mobile, and
+girls on the face against girls on the mobile. Not reported: boys
+against girls on the face, and boys on the face against boys on the
+mobile. The largest group of girls in Table 1 is the 27 of 58 with no
+preference.
+
+Alexander and colleagues (2009). 30 infants. The eye tracker gave
+total looking time and number of fixations. The abstract and Figure 1
+report fixations: the two comparisons that reached significance, of
+the four the paper set out to test. Looking time, where the analysis
+of variance did not find a statistically significant sex difference or
+sex by toy interaction, has three sentences and no figure.
+
+Which comparisons were given more room is visible in each paper. That
+does not show that the choice was made after looking at the results.
+:::
+
+## Problems
+
+Before you start, from memory: in the lecture's simulation model, when
+you average people into areas and regress the area averages, what
+happens to the slope, and what happens to $R^2$?
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+The slope stays the same. $R^2$ rises: $0.20$ among the people and
+$0.84$ across averages of 100 of them, in the lecture's numbers.
+:::
+
+### 1. False rejections
+
+From last week. Of the effects a field tests for, 10% are real. Tests
+are run at level $0.01$ with power $0.5$. Compute the share of
+rejections that are false.
+
+::: {.callout-tip .answer collapse="true" title="Hint 1"}
+Use last week's formula. Of all the tests the field runs, what fraction reject when there is no effect, and what fraction reject when there is one?
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+$P(H_0 \text{ true} \mid \text{reject}) = \dfrac{0.9 \times 0.01}{0.9 \times 0.01 + 0.1 \times 0.5} = \dfrac{0.009}{0.059} = 0.15$.
+In this field 15% of the results significant at $0.01$ are false, not
+1%. The level, $0.01$, is $P(\text{reject} \mid H_0)$. The share of
+rejections that are false is $P(H_0 \mid \text{reject})$, and it
+depends on how many of the effects tested for are real and on the
+power.
+:::
+
+### 2. Group membership and $R^2$
+
+Two groups of equal size. Within each group an outcome has standard
+deviation 1, and the two group means differ by $d$.
+
+(a) Show that the variance of the outcome across everyone is
+$1 + d^2/4$, and that group membership accounts for a share
+$R^2 = \dfrac{d^2}{d^2 + 4}$ of it. Compute the share for $d = 0.2$ and
+for $d = 1$.
+
+(b) A chart shows the two group means and nothing else. What is the
+$R^2$ of the outcome on group membership when the data are those two
+numbers? What has the chart left out?
+
+::: {.callout-tip .answer collapse="true" title="Hint 1"}
+Split the variance into the part within the groups and the part between them. Each group's mean is $d/2$ from the mean of everyone.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Within each group the variance is 1. The two group means are
+$d/2$ either side of the overall mean, each with probability $1/2$, so
+the variance between groups is $d^2/4$ and the total is $1 + d^2/4$.
+This is the law of total variance,
+$\operatorname{Var}(Y) = E[\operatorname{Var}(Y \mid G)] + \operatorname{Var}(E[Y \mid G])$,
+with $G$ the group.
+The share between groups is $\dfrac{d^2/4}{1 + d^2/4} = \dfrac{d^2}{d^2 + 4}$.
+For $d = 0.2$: $0.04/4.04 = 0.01$. For $d = 1$: $1/5 = 0.20$. (The
+lecture's picture had $d = 0.5$: $0.25/4.25 = 0.06$.)
+
+(b) 1: two points lie on a line. The chart has left out the variation
+within each group, which is between 80% and 99% of all the variation
+in (a). It is the lecture's simulation with $n$ as large as the
+group: the averages fit perfectly, and the fit says nothing about how
+well group membership predicts a person.
+:::
+
+## Discussion 2: decisions and groups
+
+When is it reasonable to use information about someone's group to make
+a decision about them?
+
+## Simulation: the most extreme post
+
+Two groups post on the same day. The extremity of each post is a draw
+from the same distribution, whichever group it comes from. One group
+posts 100 times and the other 10,000 times. A feed shows the most
+extreme post from each group.
+
+```{r feed_starter, eval=FALSE}
+# one day
+small <- rnorm(100)        # the smaller group's posts
+large <- rnorm(10000)      # the larger group's posts, same distribution
+max(small)                 # the post the feed shows from the smaller group
+max(large)                 # the post the feed shows from the larger group
+
+# 200 days: on each day, is the larger group's shown post the more extreme?
+days <- replicate(200, max(rnorm(10000)) > max(rnorm(100)))
+mean(days)                 # the fraction of days on which it is
+```
+
+1. Run the first block a few times. A typical post is at 0. How far
+   from it are the two posts the feed shows?
+2. Before you run the second block, write down the fraction you
+   expect. Then run it.
+3. Give the larger group 3,000 posts and the smaller group 1,000.
+   Write down the fraction you expect, then run it.
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r feed_solution}
+small <- rnorm(100)
+large <- rnorm(10000)
+c(small = max(small), large = max(large))
+
+mean(replicate(200, max(rnorm(10000)) > max(rnorm(100))))
+mean(replicate(200, max(rnorm(3000)) > max(rnorm(1000))))
+```
+1. Both are far from a typical post. The largest of 100 standard
+normal draws is about 2.5 on average, and the largest of 10,000 about
+3.9.
+
+2. About 0.99. Each of the 10,100 posts is equally likely to be the
+most extreme of them all, so the larger group's shown post is the more
+extreme with probability $10{,}000/10{,}100 = 0.99$. On about one day
+in a hundred it is the smaller group's. Runs differ: about one run of
+200 days in seven has no such day at all, as the run above does.
+
+3. $3{,}000/4{,}000 = 0.75$, by the same argument. With 200 days the
+simulated fraction moves by about 0.03 from run to run.
+
+The two groups draw from the same distribution. The difference between
+the posts the feed shows comes from how many posts each group made.
+:::
+
+## Discussion 3: reading a feed
+
+A feed shows the most extreme post from each group. How should readers
+interpret what they see?
+
+## Discussion 4: a disagreement
+
+A junior analyst disagrees with the conclusion their manager wants to
+publish. What should they do?
+
+## Discussion 5: AI and cargo-cult statistics
+
+Could AI make cargo-cult statistics worse, or help solve the problem?
+
+## If there is time
+
+- How do you become a good critic of a statistical claim about a
+  group? Have you seen bad statistical criticism, and what made it
+  bad?
+- Pick one of these. What was selected before you saw it, and does
+  that matter?
+  - A league table of the boroughs whose exam results improved most
+    this year.
+  - A social media feed showing the ten posts from one political side
+    that got the most reactions today.
+  - A national newspaper's map of the regions with the highest rate of
+    some crime, colored by an aggregate correlation with one
+    demographic variable.
+  - A dating app's "top picks" for each user.
+  - A ranking of the best-performing fund managers over the last year.
+- For the same aggregate data, ecological regression puts a group's
+  high-income rate at 85% and the neighborhood model puts it at 36%.
+  You have only the aggregate data and are asked for the group's
+  rate. What do you report?
+
+## To finish
+
+One sentence, individually: a regression across regions has
+$R^2 = 0.9$. What have you learned about people?
+
+## For next time
+
+Bring one argument from the news that justifies a rule or a policy by
+its consequences. Write the argument in one sentence, and list the
+cause-and-effect claims it needs to be true. Every group's examples
+will go on the screen.
+
+## Optional, can be done at home
+
+Practice for afterward: problems 3 to 13, then coding A, B and C.
+Everything can be done by hand with $\Phi(2) = 0.977$,
+$\Phi(1.82) = 0.966$ and $e^{-0.46} = 0.63$. Attempt each part before
+you open a hint.
+
+::: {.callout-warning title="Hints"}
+Do not open a hint unless you have been stuck for at least a few
+minutes, and open them in order.
+:::
+
+### 3. A $p$-value of 0.01
+
+A report of a trial says: "$p = 0.01$, so there is a 1% chance that the
+treatment does nothing, and a repeat of the trial would be significant
+99 times in 100."
+
+(a) Say what the $p$-value is the probability of. Which two of the
+six statements from the lecture has the report made?
+
+(b) What does the chance that a repeat of the trial is significant
+depend on? Suppose the repeat is run at level $0.01$, with power $0.5$
+against the effect the trial was designed to detect. Give the chance
+if the treatment has that effect, and if it does nothing.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+A $p$-value is a probability computed on the assumption that the null hypothesis is true. The probability of what event?
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) The probability, computed on the assumption that the treatment
+does nothing, of a test statistic at least as extreme as the one
+observed: $P(|T| \ge |t_{\text{obs}}| \mid H_0)$ for a two-sided test
+with statistic $T$ and observed value $t_{\text{obs}}$. The report has
+made statement 2 (the probability that the null hypothesis is true)
+and statement 6 (99% of repetitions significant).
+
+(b) On whether the treatment does anything, and if it does, on the
+power of the repeat at the true effect. With that effect the chance is
+the power, $0.5$. If the treatment does nothing it is the level,
+$0.01$. Neither is $0.99$, and the $p$-value gives neither.
+:::
+
+### 4. Aggregation and $R^2$
+
+People $i$ live in areas $j$, $n$ in each. $X_{ij} = B_j + W_{ij}$,
+where $B_j$ is shared by everyone in area $j$ and has variance
+$\sigma_B^2$ across areas, and $W_{ij}$ has mean zero and variance
+$\sigma_W^2$ and is uncorrelated with $B_j$ and across people.
+$Y_{ij} = \alpha + \beta X_{ij} + \varepsilon_{ij}$, where the errors
+have variance $\sigma^2$, are uncorrelated across people, and have
+mean zero given the $X$ values. Take $\beta = 1$, $\sigma_B^2 = 1$,
+$\sigma_W^2 = 4$ and $\sigma^2 = 20$.
+
+(a) Compute the population $R^2$ of the regression of $Y$
+on $X$ across people, and of $\bar Y_j$ on $\bar X_j$ across areas, for
+$n = 25$ and for $n = 400$.
+
+(b) Is the difference between the two $R^2$ values a
+matter of bias or of variance? Say what happens to the slope.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Write the area average as $\bar X_j = B_j + \bar W_j$. Which of the two terms does averaging shrink?
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+The variance of an average of $n$ uncorrelated terms, each with variance $\sigma^2$, is $\sigma^2/n$. Use it for $\bar W_j$ and for $\bar\varepsilon_j$.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Across people: $\operatorname{Var}(X) = 1 + 4 = 5$, so
+$R^2 = 5/(5 + 20) = 0.20$. Across areas:
+$\operatorname{Var}(\bar X_j) = 1 + 4/n$ and
+$\operatorname{Var}(\bar\varepsilon_j) = 20/n$. At $n = 25$,
+$R^2 = 1.16/(1.16 + 0.80) = 0.59$; at $n = 400$,
+$R^2 = 1.01/(1.01 + 0.05) = 0.95$.
+
+(b) Variance. Averaging divides the within-area variance of $X$ and
+the error variance by $n$ and leaves the variance between areas alone,
+so the share of variance the line accounts for rises with $n$ (at
+$n = 1$ it is the individual value). The slope is $\beta$ in both
+regressions; averaging does not bias it.
+:::
+
+### 5. Ecological regression and constancy
+
+In each area $i$, a fraction $x_i$ of the people belong to a group. The
+group's rate of some outcome is $p_i$ and everyone else's rate is
+$q_i$, so the area's rate is $y_i = p_i x_i + q_i(1 - x_i)$. Ecological
+regression fits $y_i = a + b x_i$ and reads $\hat a$ as everyone else's
+rate and $\hat a + \hat b$ as the group's rate.
+
+Two areas of equal size, $x = 0.1$ and $x = 0.3$. The
+group's rate is $p = 0.2$ in both; everyone else's rate is $q = 0.30$
+in the first and $q = 0.40$ in the second. Over the two areas
+together, the group's rate is $0.2$ and everyone else's is $0.344$.
+
+Compute the two area rates, fit the line through the two points, and
+read off what ecological regression reports for the group and for
+everyone else. Compare with $0.2$ and $0.344$.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Use the accounting identity $y = p x + q(1 - x)$ in each area.
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+Two points fix a line: the slope is $(y_2 - y_1)/(x_2 - x_1)$, then the intercept. The regression's rate for the group is the height of the line at $x = 1$.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+$y_1 = 0.1(0.2) + 0.9(0.30) = 0.29$;
+$y_2 = 0.3(0.2) + 0.7(0.40) = 0.34$. Slope
+$(0.34 - 0.29)/0.2 = 0.25$; intercept $0.29 - 0.025 = 0.265$. The
+regression reports everyone else at $0.265$ and the group at
+$0.265 + 0.25 = 0.515$, against $0.344$ and $0.2$. The group's rate is
+overstated by more than a factor of two.
+
+Everyone else's rate rises with the group's share, from $0.30$ to
+$0.40$, and the line puts that rise at the group's end. Reading the
+two ends of the line as the two rates assumes that neither rate varies
+with the group's share of the area: the *constancy assumption*.
+
+(The $0.344$: the two areas hold $0.9$ and $0.7$ of an area's people
+outside the group, so it is $(0.9 \times 0.30 + 0.7 \times 0.40)/1.6$.)
+:::
+
+### 6. Aggregation and $R^2$ with an area effect
+
+The model of problem 4.
+
+(a) Now let each area have an effect of its own, $\varepsilon_{ij} = u_j + e_{ij}$
+with $\operatorname{Var}(u_j) = 1$ and $\operatorname{Var}(e_{ij}) = 20$.
+$u_j$ and $e_{ij}$ are uncorrelated with each other and with the $X$
+values, and $e_{ij}$ is uncorrelated across people. Compute the $R^2$
+across people, the $R^2$ across areas at $n = 100$, and its limit as
+$n$ grows.
+
+(b) A report shows a regression across 50 regions with $R^2 = 0.9$.
+What does that tell you about the $R^2$ of the same relationship across
+people? What would you need to know?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+The area effect $u_j$ is the same for everyone in the area. What does averaging do to it?
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Across people: $5/(5 + 21) = 0.19$. Across areas,
+$\operatorname{Var}(\bar\varepsilon_j) = 1 + 20/100 = 1.2$, so
+$R^2 = 1.04/(1.04 + 1.2) = 0.46$. As $n$ grows, $\to 1/(1 + 1) = 0.5$.
+The area effect does not average away, so the aggregate $R^2$ no
+longer tends to 1. (The notes work the same model with
+$\operatorname{Var}(u_j) = 4$, where the limit is $0.2$ and the
+aggregate value is barely above the individual one.)
+
+(b) Very little on its own. Under the model of problem 4 it is consistent
+with an $R^2$ across people anywhere from near zero up to 0.9. With an
+area effect the $R^2$ across people can even be the higher of the two,
+when the errors are more clustered by area than $X$ is (not with the
+numbers in (a)). You need the number of people per region, the share
+of the variance of $X$ that is between regions, and the share of the
+unexplained variance that is between regions.
+:::
+
+### 7. Ecological regression in general
+
+The setting of problem 5.
+
+(a) Now in general: $p_i = p$ and $q_i = q_0 + \gamma x_i$. Substitute
+into the accounting identity and show that when the shares are small
+the fitted slope is approximately $p - q_0 + \gamma$. What does the
+regression then report as the group's rate, and which way is it wrong
+when $\gamma < 0$? In problem 5, $\gamma = 0.5$. How good is the
+approximation there?
+
+(b) Freedman's neighborhood model puts $\hat p_i = \hat q_i = y_i$.
+Apply it to the two areas in problem 5. Which model is closer to the truth
+here, and what would you need to know to say which is closer in a case
+where the truth is unknown?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Substitute $q_i = q_0 + \gamma x_i$ into $y_i = p x_i + q_i(1 - x_i)$ and collect the powers of $x_i$.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $y_i = p x_i + (q_0 + \gamma x_i)(1 - x_i) = q_0 + (p - q_0 + \gamma) x_i - \gamma x_i^2$.
+When the shares are small the quadratic term is small and the slope is
+about $p - q_0 + \gamma$, so the group's rate is reported as about
+$q_0 + (p - q_0 + \gamma) = p + \gamma$. When $\gamma < 0$ (everyone
+else's rate falls where the group is concentrated) the group's rate is
+understated. The error is the gradient in everyone else's rate,
+attributed to the group. In problem 5, $q_0 = 0.25$, so $p + \gamma = 0.7$,
+and the regression gave $0.515$: shares of $0.1$ and $0.3$ are not
+small enough for the $x^2$ term to be dropped. The line through two
+points has slope
+$(p - q_0 + \gamma) - \gamma(x_1 + x_2) = 0.45 - 0.20 = 0.25$.
+
+(b) Neighborhood model: both groups at $0.29$ in the first area and
+$0.34$ in the second. Over the two areas that is
+$(0.1 \times 0.29 + 0.3 \times 0.34)/0.4 = 0.328$ for the group and
+$(0.9 \times 0.29 + 0.7 \times 0.34)/1.6 = 0.312$ for everyone else,
+against a truth of $0.2$ and $0.344$. Here the neighborhood model is
+closer for both. To say which is closer without the truth you would
+need individual-level data for at least some areas, or a reason to
+believe one account of how the rates vary with $x$. The area data are
+compatible with both models.
+:::
+
+### 8. Two slopes
+
+Split the covariance and the variance into between-area and within-area
+parts: $\operatorname{Cov}(X, Y) = \operatorname{Cov}_B + \operatorname{Cov}_W$
+and $\operatorname{Var}(X) = \operatorname{Var}_B + \operatorname{Var}_W$.
+Suppose $\operatorname{Cov}_B = -1$, $\operatorname{Var}_B = 2$,
+$\operatorname{Cov}_W = 4$ and $\operatorname{Var}_W = 8$.
+
+(a) Compute the slope across area averages, $b_B$, the
+pooled slope within areas, $b_W$, and the slope across people,
+$b_{\text{all}}$. Check that $b_{\text{all}} = \lambda b_B + (1 - \lambda) b_W$
+with $\lambda = \operatorname{Var}_B/(\operatorname{Var}_B + \operatorname{Var}_W)$.
+
+(b) Keep the two variances and the within-area covariance. How
+negative does the slope across area averages have to be for the slope
+across people to be negative?
+
+(c) In Gelman, Shor, Bafumi and Park (2007), within states richer
+voters were more likely to vote Republican, while richer states voted
+Democratic. From those two facts alone, can you say which way income
+and vote were related across all voters? The authors add that income
+varies far more within states than average income does between
+states. What does that settle, and what does it leave open?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+A slope is a covariance divided by a variance. Compute it between areas, within areas, and for the two together.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $b_B = -1/2 = -0.5$. $b_W = 4/8 = 0.5$.
+$b_{\text{all}} = (-1 + 4)/(2 + 8) = 0.30$. With $\lambda = 0.2$:
+$0.2(-0.5) + 0.8(0.5) = 0.30$.
+
+(b) $b_{\text{all}} = 0.2\, b_B + 0.4 < 0$ needs $b_B < -2$: four
+times as steep as the slope within areas, in the other direction. A
+larger variance within areas makes the within-area slope harder to
+overturn. It does not settle the sign alone.
+
+(c) No. The slope across all voters is $\lambda b_B + (1 - \lambda) b_W$,
+so its sign depends on how steep each slope is as well as on
+$\lambda$. That income varies mostly within states says $\lambda$ is
+small, so the national slope is close to the within-state one unless
+the slope between states is many times steeper. How steep each was is
+left open by the three facts as stated. In the data the national
+relationship was positive.
+:::
+
+### 9. The method of bounds
+
+This is Freedman's section 4, optional in the reading list; the notes
+state the bounds.
+
+(a) In a district, 8% of residents belong to a group and
+1% of all residents have some outcome. Write the accounting identity
+in the group's rate $p$ and everyone else's rate $q$, and find the
+range of values each can take.
+
+(b) In Freedman's example (Washington, 1995) the group was 7.9% of
+adults and 34.4% of adults had the outcome. Find the bounds on the
+group's rate there, compare them with yours in (a), and explain what
+you find. State a rule for when the bounds on a group's rate are the
+whole of $[0, 1]$.
+
+(c) A precinct has $x = 0.5$ and $y = 0.6$. Bound both rates.
+
+(d) Say, in one sentence each, what the bounds settle and what they
+leave open.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Set the other rate to 0 and then to 1, and check whether the rate you want stays between 0 and 1.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $0.08\,p + 0.92\,q = 0.01$. With $q = 0$, $p = 0.01/0.08 = 0.125$,
+and $p$ cannot be larger. With $p = 0$, $q = 0.01/0.92 = 0.011$. So
+$p \in [0, 0.125]$ and $q \in [0, 0.011]$.
+
+(b) The number of group members with the outcome is at most the size
+of the group and at most the number of people with the outcome. In (a)
+only 1% of residents have the outcome, fewer than the 8% in the group,
+so at most one in eight of the group can have it. In Washington
+$0.079\,p + 0.921\,q = 0.344$ allows any $p$ from 0 to 1 (and $q$
+from $0.288$ to $0.374$): the group (7.9%) is smaller than both the
+people with the outcome (34.4%) and the people without it (65.6%), so
+every member of the group could have it, or none. Rule: the bounds on a group's rate are $[0, 1]$ when
+the group's share $x$ is no larger than $y$ and no larger than
+$1 - y$. In general the interval for $p$ has width
+$\min(x, 1 - x, y, 1 - y)/x$.
+
+(c) $p \in [\max(0, (0.6 - 0.5)/0.5), \min(1, 0.6/0.5)] = [0.2, 1]$, and
+by symmetry $q \in [0.2, 1]$.
+
+(d) They settle the range the two rates must lie in, given only the
+margins and no assumption. They do not say where in the range each
+rate lies.
+:::
+
+### 10. The largest of $n$
+
+$M_n$ is the largest of $n$ independent draws from a distribution with
+distribution function $F$, so $P(M_n \le x) = F(x)^n$. For an
+exponential with mean 1, $E[M_n] = 1 + \tfrac12 + \cdots + \tfrac1n$;
+the notes derive it.
+
+(a) Compute $E[M_n]$ for four draws from Uniform$(0, 1)$,
+and for four draws from an exponential with mean 1. Then compute the
+probability that the largest of 20 standard normals exceeds 2.
+
+(b) Derive $E[M_n] = n/(n + 1)$ for the uniform.
+
+(c) Two groups post items, and each item's extremity is an
+independent draw from the same continuous distribution. One group
+posts 200 items a day and the other 1,800. A feed shows the most
+extreme item from each. (i) With what probability is the larger
+group's item the more extreme of the two? (ii) In the notes the two
+groups posted 100 and 10,000 items. The expected largest of 100
+standard normals is $2.51$ and of 10,000 is $3.85$. Say what those two
+numbers do and do not say about the two groups. (iii) Now both groups
+post 1,000 items a day, and extremity is normally distributed with
+the same mean in both groups and a standard deviation 10% larger in
+the second. The expected largest of 1,000 standard normals is $3.24$.
+What are the two expected shown items, in the first group's standard
+deviations above the mean?
+
+(d) (Harder.) A journal publishes an estimate only when its $z$-value
+exceeds $1.96$; a feed shows the largest of 100 $z$-values. All the
+$z$-values are true nulls. Compare the expected published value with
+the expected shown value, using $E[Z \mid Z > 1.96] = 2.34$ from the
+significance filter, and say in one sentence what the two selections
+have in common.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+The largest of the draws is below a value when all of them are.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Uniform: $4/5 = 0.8$. Exponential:
+$1 + 1/2 + 1/3 + 1/4 = 2.08$. Normals:
+$1 - 0.977^{20} = 1 - (1 - 0.023)^{20} \approx 1 - e^{-0.46} = 0.37$.
+
+(b) $P(M_n \le x) = x^n$ on $(0,1)$, density $n x^{n-1}$, so
+$E[M_n] = \int_0^1 n x^n\,dx = n/(n + 1)$.
+
+(c) (i) With independent draws from one continuous distribution there
+are no ties, and the most extreme of all 2,000 items is equally likely
+to be any one of them, so $1{,}800/2{,}000 = 0.9$. One day in ten the
+smaller group's item is the more extreme. (With the notes' 100 and
+10,000 the same argument gives $0.99$.)
+(ii) The larger group's shown item is expected to be about 1.3
+standard deviations more extreme, and both are far from the typical
+item at zero. The numbers reflect the sizes of the two feeds. They say
+nothing about a difference between the groups, whose distributions are
+identical by construction. (iii) $3.24$ and $1.1 \times 3.24$, about
+$3.6$. A difference between the most extreme items can come from the
+number of items or from their spread, with identical typical items.
+
+(d) Published: $2.34$. Shown: $2.51$. The largest of a hundred nulls is
+a little more extreme than a null that passed the filter. Both are
+selection on the outcome: you see the value only because it was
+large, and the value you see is therefore not representative of the
+values there were.
+:::
+
+### 11. Spreads and tails (harder)
+
+Two groups have normally distributed scores with the same mean. Group
+2's standard deviation is 10% larger than group 1's. A prize goes to
+everyone more than two of group 1's standard deviations above the mean.
+
+(a) Using $\Phi(2) = 0.977$ and $\Phi(1.82) = 0.966$, compute the
+fraction of each group who win a prize, and the ratio. If the groups
+are the same size, what share of the prize-winners are from group 2?
+
+(b) Hyde and Mertz (2009) report, from US state mathematics tests, a
+mean difference $d$ between boys and girls of $-0.02$ to $0.06$ and a
+variance ratio of $1.11$ to $1.21$ (their Table 1); from one state's
+test, a boys-to-girls ratio above the 99th percentile of $2.06$ among
+white students and $0.91$ among Asian-American students; and from the
+2003 PISA test, variance ratios from $0.95$ to $1.24$ across countries
+(their Table 2). Which of these are claims about averages, which about
+spreads, and which about tails? Using part (a) and Table 2, say in two
+sentences how far a tail ratio can move when the variance ratio
+moves.
+
+(c) A commentator says: group 2 is 60% of the prize-winners, so group
+2 should be expected to hold 60% of the jobs that need a score that
+high. List what has to be assumed (i) to compute the 60% and (ii) to
+read it as a share of jobs. Then say what further step would be needed
+to conclude anything about one applicant.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Express the cutoff in each group's own standard deviations.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) The cutoff is $2$ of its own standard deviations for group 1 and
+$2/1.1 = 1.82$ for group 2. Shares: group 1, $1 - 0.977 = 0.023$;
+group 2, $1 - 0.966 = 0.034$. Ratio $0.034/0.023 \approx 1.5$. With
+groups of equal size, group 2 is $0.034/(0.034 + 0.023) = 60\%$ of the
+prize-winners. A 10% difference in spread becomes a 50% difference in
+the rate at this cutoff.
+
+(b) $d$ is about averages; the variance ratios, in both tables, about
+spreads; the 99th-percentile ratios about tails. A tail ratio
+magnifies a small difference in spread (part (a)), so it moves a lot
+when the spread moves a little, and Table 2 shows the spread ratio
+moving from $0.95$ to $1.24$ with the country. The $0.91$ against
+$2.06$ in one state's test shows the tail ratio differing between
+subgroups, so a headline number of this kind depends on which test,
+which country and which students.
+
+(c) (i) Normal distributions at the cutoff and beyond; the stated
+means and standard deviations for the population in question; groups
+of equal size. (ii) That the test measures what the jobs need; that
+the jobs draw from above that cutoff; that people above it get those
+jobs at the same rate in the two groups. The further step, from a
+share of jobs to a judgment about one applicant, is not supported by
+any of these numbers. They are statements about two distributions.
+:::
+
+### 12. Ecological inference from a table of boroughs
+
+A newspaper prints, for each of the 32 London boroughs, the share of
+adults with a degree and one party's share of the votes cast, notes
+that the correlation across boroughs is 0.6, and headlines it as a
+fact about how graduates vote.
+
+(a) Say what the table identifies and what it does not.
+
+(b) The identity $y = p x + q(1 - x)$ needs $x$ and $y$ to be shares of
+the same people. Say why they are not here, and what would have to be
+assumed about who votes for the identity to be used.
+
+(c) Granting that, state the assumption under which a regression
+across boroughs gives graduates' support for the party, and say what
+happens to the estimate if non-graduates' support rises with the
+graduate share of the borough.
+
+(d) Say what the Duncan--Davis bounds would add, and what you would
+need to know about a borough to say whether its bounds on graduates'
+support are informative.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Ask what the units of the table are, and whether $x$ and $y$ are shares of the same people.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) It identifies a relationship between two borough-level rates. It
+does not identify how graduates vote: the relationship among
+individual voters can differ from it in size and in sign.
+
+(b) $x$ is a share of adults and $y$ is a share of votes cast. The
+identity holds among voters, so $x$ would have to be the graduate
+share of the people who voted. That equals the graduate share of
+adults only if graduates and non-graduates in the borough turn out at
+the same rate.
+
+(c) Constancy, for both groups: neither graduates' support nor
+non-graduates' support varies systematically with the graduate share
+of the borough. If non-graduates' support rises with the graduate
+share, the regression attributes part of that gradient to graduates
+(most of it only when the shares are small) and overstates their
+support.
+
+(d) The range of each group's support that is compatible with the
+borough's two numbers, with no assumption. The interval for graduates
+has width $\min(x, 1 - x, y, 1 - y)/x$, so you need the borough's $x$
+and $y$: it is the whole of $[0, 1]$ when graduates are fewer than
+both the party's voters and the other voters. The correlation of 0.6
+does not tell you the width. The wider the bounds, the more of the
+headline is assumption.
+:::
+
+### 13. Three claims
+
+Three claims from this week: the main claim of the study you skimmed;
+"the foreign-born have higher incomes," read off Freedman's line; and
+Summers's sentence about the available pool. For each: is it about
+averages, spreads or tails? About people or about places? Who was in
+the data, and how did they get there? (No verdict on whether the study
+you skimmed holds up; that is not the question.)
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+The study's main claim rests on group averages (and, in Connellan and
+colleagues, on counts in three categories). It is about people: the
+102 newborns who completed testing, or 30 infants. The notes' section
+"Two studies of infants" has the detail.
+
+"The foreign-born have higher incomes" is about rates. The data are
+about places, fifty states, and the sentence reads them as about
+people. The states with more foreign-born residents are the richer
+states.
+
+Summers's sentence is about a tail, computed from a spread. It is
+about a pool of people. The variance ratio comes from particular tests
+in particular places.
+:::
+
+### Coding
+
+Open a fresh R script. You will need `ggplot2` and `dplyr`.
+
+#### A. Aggregation and $R^2$
+
+Fifty areas, one hundred people in each. Areas differ in $X$; people
+differ more.
+
+```{r coding_a_setup}
+J <- 50
+n <- 100
+area_mean_x <- rnorm(J, 0, 1)
+people <- data.frame(area = rep(1:J, each = n)) |>
+  mutate(X = area_mean_x[area] + rnorm(J * n, 0, 2),
+         Y = X + rnorm(J * n, 0, sqrt(20)))
+```
+
+1. Regress `Y` on `X` across people. Record the slope and $R^2$.
+2. Average `X` and `Y` within each area, regress the area averages,
+   and record the slope and $R^2$. Compare with what the formula from
+   problem 4 gives at $n = 100$.
+3. Plot the people as faint points and the area averages as large
+   points, with both regression lines. Describe in one sentence what a
+   reader shown only the area averages would conclude.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For item 2: `areas <- people |> group_by(area) |> summarize(X = mean(X), Y = mean(Y))`,
+then `summary(lm(Y ~ X, areas))$r.squared`.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r coding_a_solution}
+fit_people <- lm(Y ~ X, people)
+c(slope = coef(fit_people)[2], r2 = summary(fit_people)$r.squared)
+
+areas <- people |> group_by(area) |> summarize(X = mean(X), Y = mean(Y))
+fit_areas <- lm(Y ~ X, areas)
+c(slope = coef(fit_areas)[2], r2 = summary(fit_areas)$r.squared)
+
+ggplot(people, aes(X, Y)) +
+  geom_point(alpha = 0.1, size = 0.7, color = "#7C7B78") +
+  geom_point(data = areas, color = "#00204D", size = 2.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "#9B9477") +
+  geom_smooth(data = areas, method = "lm", se = FALSE, color = "#00204D")
+```
+Slopes near 1 in both regressions. The formula from problem 4 gives
+an $R^2$ of 0.20 across people and, at $n = 100$,
+$1.04/(1.04 + 0.20) = 0.84$ across areas; with fifty areas the
+realized aggregate value moves by a few hundredths from run to run.
+The reader shown the area averages sees a tight relationship.
+:::
+
+4. Add an area effect: `Y + rep(rnorm(J, 0, 1), each = n)`. Repeat 1
+   and 2. Compare with problem 6(a).
+5. Make the within-area covariance positive and the between-area
+   covariance negative: generate `Y` as
+   `-0.5 * area_mean_x[area] + 0.5 * (X - area_mean_x[area]) + noise`.
+   Check that the two slopes have opposite signs.
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r coding_a_solution_optional}
+people_u <- people |> mutate(Y = Y + rep(rnorm(J, 0, 1), each = n))
+areas_u <- people_u |> group_by(area) |> summarize(X = mean(X), Y = mean(Y))
+c(people = summary(lm(Y ~ X, people_u))$r.squared, areas = summary(lm(Y ~ X, areas_u))$r.squared)
+
+people_flip <- people |>
+  mutate(Y = -0.5 * area_mean_x[area] + 0.5 * (X - area_mean_x[area]) + rnorm(J * n, 0, 1.5))
+areas_flip <- people_flip |> group_by(area) |> summarize(X = mean(X), Y = mean(Y))
+c(people = coef(lm(Y ~ X, people_flip))[2], areas = coef(lm(Y ~ X, areas_flip))[2])
+```
+With the area effect the formula in problem 6(a) gives 0.19 across
+people and 0.46 across areas; with fifty areas the aggregate value
+varies by about 0.1 from run to run. In item 5 the slope across areas is
+negative and the slope across people positive.
+:::
+
+#### B. The largest of $n$
+
+1. Simulate the largest of $n$ standard normals, 2000 times, for
+   $n = 1, 10, 100, 1000$. Compute the mean for each $n$ and compare
+   with $2.51$ at $n = 100$ and with $\sqrt{2 \ln n}$.
+2. Plot a histogram of the 2000 maxima at $n = 100$. Where is it
+   relative to zero?
+3. Check $E[M_n] = n/(n+1)$ for the uniform at $n = 4$ and the harmonic
+   sum for the exponential at $n = 4$ by simulation.
+4. A group has 1000 posts a day. Estimate by simulation the fraction of
+   days on which its most extreme post exceeds 3, and compare with
+   $1 - 0.99865^{1000}$.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+`replicate(2000, max(rnorm(100)))` gives 2000 maxima at $n = 100$.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r coding_b_solution}
+ns <- c(1, 10, 100, 1000)
+maxima <- sapply(ns, function(n) replicate(2000, max(rnorm(n))))
+colnames(maxima) <- ns
+rbind(simulated = colMeans(maxima), approx = sqrt(2 * log(ns)))
+
+data.frame(m = maxima[, "100"]) |>
+  ggplot(aes(m)) + geom_histogram(bins = 40) +
+  geom_vline(xintercept = 0, linetype = "dotted")
+
+c(uniform_4 = mean(replicate(5000, max(runif(4)))), formula = 4 / 5)
+c(exponential_4 = mean(replicate(5000, max(rexp(4)))), formula = sum(1 / 1:4))
+
+c(simulated = mean(replicate(2000, max(rnorm(1000)) > 3)), formula = 1 - 0.99865^1000)
+```
+The simulated means track the table in the notes (about 0, 1.5, 2.5,
+3.2) and are below $\sqrt{2 \ln n}$ at every $n$ above 1. The
+histogram at $n = 100$ is centered near 2.5 with almost nothing below
+1.5: every maximum looks extreme. The 1000-post group exceeds 3 on
+about three days in four.
+:::
+
+#### C. Ecological regression on simulated precincts
+
+Fifty precincts of equal size. The group's share $x_i$ runs from 0.05
+to 0.5. The group's rate is $p = 0.3$ everywhere; everyone else's rate
+is $q_i = 0.4 + 0.4\,x_i$.
+
+1. Compute the precinct rates $y_i$ and fit `lm(y ~ x)`. Read off the
+   two rates the regression reports and compare with the truth over
+   all precincts.
+2. Compute the Duncan--Davis bounds for $p_i$ and $q_i$ in each precinct
+   and plot them against $x_i$. For which group and which precincts are
+   they informative?
+3. Set $q_i = 0.4$ (constancy holds) and repeat 1.
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r coding_c_solution}
+precincts <- data.frame(x = seq(0.05, 0.5, length.out = 50)) |>
+  mutate(p = 0.3, q = 0.4 + 0.4 * x, y = p * x + q * (1 - x))
+fit <- lm(y ~ x, precincts)
+c(others = coef(fit)[1], group = sum(coef(fit)))
+with(precincts, c(others_truth = sum((1 - x) * q) / sum(1 - x), group_truth = 0.3))
+precincts |>
+  mutate(p_lo = pmax(0, (y - (1 - x)) / x), p_hi = pmin(1, y / x),
+         q_lo = pmax(0, (y - x) / (1 - x)), q_hi = pmin(1, y / (1 - x))) |>
+  ggplot(aes(x)) +
+  geom_ribbon(aes(ymin = p_lo, ymax = p_hi), fill = "#00204D", alpha = 0.3) +
+  geom_ribbon(aes(ymin = q_lo, ymax = q_hi), fill = "#BCAF6F", alpha = 0.5) +
+  geom_hline(yintercept = 0.3, color = "#00204D", linetype = "dotted") +
+  labs(y = "rate", title = "Bounds: the group (navy), everyone else (gold)")
+precincts_c <- precincts |> mutate(q = 0.4, y = p * x + q * (1 - x))
+fit_c <- lm(y ~ x, precincts_c)
+c(others = coef(fit_c)[1], group = sum(coef(fit_c)))
+```
+With the gradient in $q$, the regression reports the group's rate at
+about 0.50 against a truth of 0.30, and everyone else's at about 0.42
+against 0.50 over all precincts: the gradient in $q$ has been moved to
+the wrong group. The shares here go up to 0.5, so the reported rate is
+well short of $p + \gamma = 0.7$. The bounds for the group are the
+whole of $[0, 1]$ in 44 of the 50 precincts (wherever $x \le y$, which
+is up to $x = 0.44$) and $[0, 0.9]$ at $x = 0.5$. The bounds for
+everyone else are narrow where $x$ is small, with width $x/(1 - x)$:
+$0.05$ at $x = 0.05$ and $0.5$ at $x = 1/3$. By $x = 0.5$ they are the
+same $[0, 0.9]$ as the group's. With constancy the regression recovers
+0.4 and 0.3 without error.
+:::
