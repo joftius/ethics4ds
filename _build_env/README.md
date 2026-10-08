@@ -9,7 +9,7 @@
 | `joftius/ethics4ds` | The site repository. Branch `main`; GitHub Pages serves `docs/` at ethics4ds.com. Agents read it and do not push to it. |
 | `elthre3/ethics4ds-work` | Its fork. Agents push branches here, named `claude/<week>-<topic>`. |
 | `weeks/wkNN/` | One week: `notes.qmd`, `slides.qmd`, `class.qmd` (generated), `_index.qmd` (the week's block on the course page), and `instructor/`. |
-| `weeks/wkNN/instructor/` | Tracked: `class_complete.qmd` and `teacher_note.qmd`. Anything else there is ignored by git and stays in Dropbox: `items.yaml`, `results.md`, board scripts, renders. |
+| `weeks/wkNN/instructor/` | Tracked: `class_complete.qmd` (the teacher's class sheet, the one source of all three class sheets) and `teacher_note.qmd`. Anything else there is ignored by git and stays in Dropbox: `items.yaml`, `results.md`, board scripts, renders. |
 | `_templates/teacher_note.qmd` | The teacher note's format: one page, a keep-or-rush table on top. |
 
 Exams, problem sets and the item bank are never in the repository. `check` fails on a path that looks like one.
@@ -43,8 +43,8 @@ Then give the convenor the compare link, from which he opens and merges the pull
 | `build` | `student`, `registry`, `instructor`, `site`, `check`. `WEEK=NN` limits the instructor step to that week. |
 | `student` | Regenerates every `weeks/wk*/class.qmd` from `instructor/class_complete.qmd` with `make_incomplete.py` (drops every `.answer` div and the `st313:` block). |
 | `registry` | Writes `_registry/results_all.md` and `_registry/items_all.yaml` (ignored by git) from the spine and each week's `instructor/results.md` and `items.yaml`, where they exist; fails on a repeated R-number or item id. |
-| `instructor` | Empties `_instructor_rendered/` (ignored by git), then renders into it, self-contained, each week's deck with speaker notes kept (`ST313_KEEP_NOTES=1`), its complete class sheet and its teacher note. These renders always execute their code. |
-| `site` | Clean render of the public site into `docs/`, using `_freeze/`. Writes `docs/CNAME` and `docs/.nojekyll`, drops `<lastmod>` from the sitemap, keeps the teacher pages already in `docs/` and adds the ones just rendered. |
+| `instructor` | Empties `_instructor_rendered/` (ignored by git), then renders into it, self-contained, each week's deck with speaker notes kept (`ST313_KEEP_NOTES=1`), the teacher's class sheet and the teacher note; and, for a week whose block links to it, the class sheet with solutions. These renders always execute their code. |
+| `site` | Clean render of the public site into `docs/`, using `_freeze/`. Writes `docs/CNAME` and `docs/.nojekyll`, drops `<lastmod>` from the sitemap, keeps the pages already in `docs/teachers/` and `docs/solutions/` and adds the ones just rendered. |
 | `check` | The gates below. Non-zero exit on a FAIL. |
 | `push "<msg>"` | `git add -A`, `check`, commit, push the current branch. Refuses on `main`. |
 | `import`, `deploy` | The Dropbox fallback, on the convenor's machine (needs `rsync`). |
@@ -55,40 +55,49 @@ Then give the convenor the compare link, from which he opens and merges the pull
 |---|---|---|
 | `weeks/wkNN/notes.html`, `slides.html` | Notes; deck with notes stripped | yes |
 | `weeks/wkNN/class.html` and `class.qmd` | Student class sheet | yes |
-| `decks-notes/wkNN/slides-instructor.html` | Deck with speaker notes | no |
-| `teachers/wkNN/class_complete.html` | Complete class sheet | from the week after its class |
+| `teachers/wkNN/slides-instructor.html` | Deck with speaker notes | no |
+| `teachers/wkNN/class_complete.html` | Teacher's class sheet | no |
 | `teachers/wkNN/teacher_note.html` | Teacher note | no |
+| `solutions/wkNN/class_solutions.html` | Class sheet with solutions | yes; it exists only from its release, the week after the class |
 
-The teacher pages are not in `search.json` or `sitemap.xml`: they are rendered one file at a time and copied in after the site render.
+`teachers/` holds everything students do not need, and nothing in it is ever linked from a public page. The pages under `teachers/` and `solutions/` are not in `search.json` or `sitemap.xml`: they are rendered one file at a time and copied in after the site render.
 
-### Releasing a complete class sheet
+### Three class sheets from one source
 
-A week's complete class sheet is released the week after its class (convenor, 8 October). The release is one line: on the "**Class:**" line of `weeks/wkNN/_index.qmd`, right after the `.qmd` link, add
+`instructor/class_complete.qmd` is the teacher's class sheet and the only one edited by hand. `make_incomplete.py` generates the other two from it:
+
+- `class.qmd`, the student sheet: no answers, no `st313:` block.
+- the class sheet with solutions, for students: a separate document from the teacher's sheet (convenor, 8 October), so that the two can differ. Today it is the teacher's sheet without the `st313:` block. What else differs is not decided; `derive_solutions()` in `make_incomplete.py` is where it goes.
+
+### Releasing a class sheet with solutions
+
+A week's class sheet with solutions is released the week after its class (convenor, 8 October). The release is one line: on the "**Class:**" line of `weeks/wkNN/_index.qmd`, right after the `.qmd` link, add
 
 ```
- · [class sheet with solutions](https://ethics4ds.com/teachers/wkNN/class_complete.html)
+ · [class sheet with solutions](https://ethics4ds.com/solutions/wkNN/class_solutions.html)
 ```
 
-then `_build_env/build.sh site` and `check`, commit, push, compare link. The URL is absolute because the teacher pages are not part of the Quarto project. Nothing else changes: `check` allows a public page to link to a complete class sheet (it warns on a link to a teacher note or to a deck with notes), and the notice at the top of the student sheet says only that answers are revealed in class.
+then `WEEK=NN _build_env/build.sh build`, commit, push, compare link. That link is what makes the build generate, render and publish the page: before it is there, no class sheet with solutions exists on the site, and `check` fails if one is published without its link or linked without being published. The URL is absolute because the page is not part of the Quarto project. Nothing else changes; the notice at the top of the student sheet says only that answers are revealed in class.
 
 ## Gates
 
 FAIL:
 
-- anything from an `instructor/` folder under `docs/weeks/`; a complete class sheet or teacher note under `docs/` outside `teachers/`; an item bank or results file anywhere under `docs/`;
-- answer boxes (`.answer`, a Solution callout) under `docs/` outside `teachers/`;
-- speaker notes (`class="notes"`) under `docs/` outside `decks-notes/`;
+- anything from an `instructor/` folder under `docs/weeks/`; a teacher's class sheet, teacher note or deck with notes under `docs/` outside `teachers/`; an item bank or results file anywhere under `docs/`;
+- answer boxes (`.answer`, a Solution callout) under `docs/` outside `teachers/` and `solutions/`;
+- speaker notes (`class="notes"`) under `docs/` outside `teachers/`;
+- a class sheet with solutions published for a week whose block does not link to it, or linked and not published; anything else under `docs/solutions/`;
 - an `st313:` block in a `.qmd` under `docs/`;
 - `docs/CNAME` wrong or `docs/.nojekyll` missing;
 - a file under an `instructor/` folder, other than `class_complete.qmd` and `teacher_note.qmd`, that a commit would include;
 - a path a commit would include that looks like an exam, a problem set, the item bank or a private folder (`private/`, `exam`, `problem_set`, `pset`, `held_problems`, `items*.yaml`, `item_bank`);
 - a week's `class.qmd` missing from `docs/`;
-- a teacher page that is not self-contained;
+- a page under `teachers/` or `solutions/` that is not self-contained;
 - a deck that loads a MathJax older than 4.
 
 WARN:
 
-- a public page links to a teacher note or to a deck with notes;
+- a page outside `teachers/` links to a page in it;
 - `quarto --version` differs from `_build_env/QUARTO_VERSION`;
 - the spine files are missing, or a week has no `instructor/results.md` (below);
 - everything `check_st313.py` prints. Its own FAIL lines (contract checks: backstage tokens in student prose, segment minutes, ids) are reported and do not change the exit status.
@@ -106,13 +115,13 @@ An agent fetches the two files with the Dropbox connector, into a folder outside
 
 If `curl` cannot reach the download host, read each file with the connector's `fetch` and write its text to the same two paths.
 
-R-numbers are spread over the spine (R1 to R3) and each week's `instructor/results.md` (week 1 has R4 to R7, week 2 R8 to R12). Those files are not tracked, so a fresh clone has none of them and `check` says so in one WARN line and skips the R-number check. To run it, fetch each live week's `results.md` the same way into `weeks/wkNN/instructor/`; git ignores it there.
+R-numbers are spread over the spine (R1 to R3) and each week's `instructor/results.md` (week 1 has R4 to R7, week 2 R8 to R12). Those files are not tracked, because each result's entry also says how the exam uses it. So a fresh clone has none of them and `check` says so in one WARN line and skips the R-number check. To run it, fetch each live week's `results.md` the same way into `weeks/wkNN/instructor/`; git ignores it there.
 
 ## Freeze, Quarto and MathJax
 
 - `execute: freeze: auto`, and `_freeze/` is committed. A site render re-executes only the pages whose source changed, so `site` in a fresh clone changes no file.
 - The instructor step re-executes its week. Run `build` without `WEEK` only when you mean to re-render every week's teacher pages.
 - The site is built with the Quarto version in `_build_env/QUARTO_VERSION`. Another version rewrites every page; `check` warns. Not every agent container has Quarto or R installed: the pinned Quarto is a tarball on the quarto-cli GitHub releases page, and R is `apt-get install r-base-core`.
-- Math is MathJax 4: `html-math-method: mathjax` at the top level of `_quarto.yml`. A deck does not set its own and must not name another URL. Version 4 breaks inline formulas across lines and makes lines with math taller; two rules at the end of `theme/st313.scss` undo that for decks, and `styles.css` has the same two for pages from 768 px up. A deck gets the rules from its theme: `theme: [default, ../../theme/st313.scss]` has them, and a deck that keeps another theme adds `theme/mathjax4.scss`, which holds the same two (week 1: `theme: [simple, ../../theme/mathjax4.scss]`).
-- The self-contained teacher pages (complete class sheets, teacher notes) load MathJax 3, as ST310's do. It does not break inline formulas, so they need no rule.
+- Math is MathJax 4: `html-math-method: mathjax` at the top level of `_quarto.yml`. A deck does not set its own and must not name another URL. Version 4 breaks inline formulas across lines and makes lines with math taller; two rules at the end of `theme/st313.scss` undo that for decks, and `styles.css` has the same two for pages from 768 px up. A deck gets the rules from the theme, so every deck uses `theme: [default, ../../theme/st313.scss]`.
+- The self-contained class sheets and teacher notes under `teachers/` and `solutions/` load MathJax 3, as ST310's teacher pages do. It does not break inline formulas, so they need no rule.
 - After a Quarto upgrade, screenshot every slide before and after and compare, before pushing the build.

@@ -9,9 +9,10 @@
 #   _build_env/build.sh build                 student, registry, instructor, site, check (WEEK=NN limits the instructor renders)
 #   _build_env/build.sh student               regenerate every weeks/wk*/class.qmd from weeks/wk*/instructor/class_complete.qmd
 #   _build_env/build.sh registry              build _registry/results_all.md and items_all.yaml from the spine and every week; check R-numbers and item ids
-#   _build_env/build.sh instructor            render the teacher pages -> _instructor_rendered/wkNN/ (deck with notes, complete class sheet, teacher note)
+#   _build_env/build.sh instructor            render the teacher pages -> _instructor_rendered/wkNN/ (deck with notes, teacher's class sheet, teacher note),
+#                                             and the class sheet with solutions for a week whose block on the course page links to it
 #   _build_env/build.sh site                  public render -> docs/ (unchanged pages come from _freeze/), teacher pages kept
-#                                             (decks with notes -> docs/decks-notes/wkNN/; complete class sheets and teacher notes -> docs/teachers/wkNN/)
+#                                             (everything for teachers -> docs/teachers/wkNN/; released class sheets with solutions -> docs/solutions/wkNN/)
 #   _build_env/build.sh check                 gates; non-zero exit on any FAIL
 #   _build_env/build.sh push "<commit message>"    stage, check, commit, push the current branch (refuses on main)
 #   _build_env/build.sh import <packet-folder> <NN>                       Dropbox fallback: copy a packet to weeks/wkNN/ (needs rsync)
@@ -89,6 +90,24 @@ sys.exit(1 if dups or d else 0)
 EOF
 }
 
+released() {   # a week's class sheet with solutions is released when its block on the course page links to it
+  grep -q "solutions/$1/class_solutions.html" "weeks/$1/_index.qmd" 2>/dev/null
+}
+
+render_out() {   # render one file under instructor/, self-contained, and move the page to its place in _instructor_rendered/
+  local src="$1" dest="$2" out="${1%.qmd}.html"
+  if ! quarto render "$src" -M embed-resources:true; then echo "RENDER FAILED: $src"; return 1; fi
+  # The output is under docs/ (project output-dir) or, if Quarto treats the file as
+  # outside the project, beside the source. Move either out.
+  if [ -e "docs/$out" ]; then
+    mv "docs/$out" "$dest"
+  elif [ -e "$out" ]; then
+    mv "$out" "$dest"
+  else
+    echo "RENDER FAILED: no output found for $src"; return 1
+  fi
+}
+
 instructor() {
   local d nn f failed=0
   # Start empty: site copies every teacher page it finds here, and a render left over from
@@ -105,22 +124,18 @@ instructor() {
       ST313_KEEP_NOTES=1 quarto render "$d/slides.qmd" -M embed-resources:true
       mv "docs/$d/slides.html" "_instructor_rendered/$nn/slides-instructor.html"
     fi
-    # The complete class sheet and the teacher note, self-contained. Nothing else in instructor/ is rendered.
+    # The teacher's class sheet and the teacher note, self-contained. Nothing else in instructor/ is rendered.
     for f in class_complete teacher_note; do
       [ -e "$d/instructor/$f.qmd" ] || continue
-      if ! quarto render "$d/instructor/$f.qmd" -M embed-resources:true; then
-        echo "RENDER FAILED: $d/instructor/$f.qmd"; failed=1; continue
-      fi
-      # The output is under docs/ (project output-dir) or, if Quarto treats the file as
-      # outside the project, beside the source. Move either out.
-      if [ -e "docs/$d/instructor/$f.html" ]; then
-        mv "docs/$d/instructor/$f.html" "_instructor_rendered/$nn/$f.html"
-      elif [ -e "$d/instructor/$f.html" ]; then
-        mv "$d/instructor/$f.html" "_instructor_rendered/$nn/$f.html"
-      else
-        echo "RENDER FAILED: no output found for $d/instructor/$f.qmd"; failed=1
-      fi
+      render_out "$d/instructor/$f.qmd" "_instructor_rendered/$nn/$f.html" || failed=1
     done
+    # The class sheet with solutions is a separate document, for students, generated from the teacher's
+    # sheet. It is made only once the week's block on the course page links to it: that link is the release.
+    if released "$nn" && [ -e "$d/instructor/class_complete.qmd" ]; then
+      python3 _build_env/make_incomplete.py --solutions "$d/instructor/class_complete.qmd" "$d/instructor/class_solutions.qmd"
+      render_out "$d/instructor/class_solutions.qmd" "_instructor_rendered/$nn/class_solutions.html" || failed=1
+      rm -f "$d/instructor/class_solutions.qmd"
+    fi
     rm -rf "docs/$d/instructor"
   done
   echo "teacher renders in _instructor_rendered/"
@@ -129,9 +144,10 @@ instructor() {
 
 site() {
   local keep d w nn f
-  # The teacher pages of weeks not re-rendered this time exist only in docs/: keep them across the clean render.
+  # The teacher pages and released solutions of weeks not re-rendered this time exist only in docs/:
+  # keep them across the clean render.
   keep=$(mktemp -d)
-  for d in decks-notes teachers; do
+  for d in teachers solutions; do
     [ -d "docs/$d" ] && mv "docs/$d" "$keep/$d"
   done
   rm -rf docs .quarto
@@ -143,24 +159,31 @@ site() {
   if [ -f docs/sitemap.xml ]; then
     grep -v '<lastmod>' docs/sitemap.xml > docs/sitemap.xml.tmp && mv docs/sitemap.xml.tmp docs/sitemap.xml
   fi
-  for d in decks-notes teachers; do
+  for d in teachers solutions; do
+    [ -d "$keep/$d" ] || continue
     mkdir -p "docs/$d"
-    [ -d "$keep/$d" ] && cp -R "$keep/$d/." "docs/$d/"
+    cp -R "$keep/$d/." "docs/$d/"
   done
   rm -rf "$keep"
   # Every week has the same file names, so the published path keeps the week.
   for w in _instructor_rendered/wk*; do
     [ -d "$w" ] || continue
     nn=$(basename "$w")
-    if [ -e "$w/slides-instructor.html" ]; then
-      mkdir -p "docs/decks-notes/$nn"
-      cp "$w/slides-instructor.html" "docs/decks-notes/$nn/"
-    fi
-    for f in class_complete teacher_note; do
+    # Everything students do not need: the deck with speaker notes, the teacher's class sheet, the teacher note.
+    for f in slides-instructor class_complete teacher_note; do
       [ -e "$w/$f.html" ] || continue
       mkdir -p "docs/teachers/$nn"
       cp "$w/$f.html" "docs/teachers/$nn/"
     done
+    if [ -e "$w/class_solutions.html" ]; then
+      mkdir -p "docs/solutions/$nn"
+      cp "$w/class_solutions.html" "docs/solutions/$nn/"
+    fi
+  done
+  # A class sheet with solutions stays published only while its week's block links to it.
+  for w in docs/solutions/wk*; do
+    [ -d "$w" ] || continue
+    released "$(basename "$w")" || rm -rf "$w"
   done
 }
 
@@ -179,15 +202,26 @@ check() {
   # ---- what is published where
   n=$(find docs -path 'docs/weeks/*/instructor*' | wc -l | tr -d ' ')
   [ "$n" -eq 0 ] || { echo "FAIL: instructor material under docs/weeks/"; fail=1; }
-  n=$(find docs \( -name '*_complete*' -o -name 'teacher_note*' \) -not -path 'docs/teachers/*' | wc -l | tr -d ' ')
-  [ "$n" -eq 0 ] || { echo "FAIL: a complete class sheet or teacher note under docs/ outside teachers/"; fail=1; }
+  n=$(find docs \( -name '*_complete*' -o -name 'teacher_note*' -o -name '*-instructor*' \) -not -path 'docs/teachers/*' | wc -l | tr -d ' ')
+  [ "$n" -eq 0 ] || { echo "FAIL: a teacher's class sheet, teacher note or deck with notes under docs/ outside teachers/"; fail=1; }
   n=$(find docs \( -name 'items*.yaml' -o -name 'items*.yml' -o -name 'results*.md' \) | wc -l | tr -d ' ')
   [ "$n" -eq 0 ] || { echo "FAIL: item bank or results file under docs/"; fail=1; }
-  # Answers: only under teachers/. In a source they are .answer divs or Solution callouts; in a page, a callout with class "answer".
-  if grep -rlq --exclude-dir=teachers -e 'title="Solution"' -e '\.answer' -e 'SOLUTION START' docs --include='*.qmd'; then echo "FAIL: answers in a .qmd under docs/"; fail=1; fi
-  if grep -rlqE --exclude-dir=teachers -e '<div class="(answer|[^"]* answer)[ "]' -e 'title="Solution"' docs --include='*.html'; then echo "FAIL: answer boxes in a page under docs/ outside teachers/"; fail=1; fi
-  # Speaker notes: only under decks-notes/.
-  if grep -rlq --exclude-dir=decks-notes 'class="notes"' docs --include='*.html'; then echo "FAIL: speaker notes under docs/ outside decks-notes/"; fail=1; fi
+  # Answers: only under teachers/ and solutions/. In a source they are .answer divs or Solution callouts; in a page, a callout with class "answer".
+  if grep -rlq --exclude-dir=teachers --exclude-dir=solutions -e 'title="Solution"' -e '\.answer' -e 'SOLUTION START' docs --include='*.qmd'; then echo "FAIL: answers in a .qmd under docs/"; fail=1; fi
+  if grep -rlqE --exclude-dir=teachers --exclude-dir=solutions -e '<div class="(answer|[^"]* answer)[ "]' -e 'title="Solution"' docs --include='*.html'; then echo "FAIL: answer boxes in a page under docs/ outside teachers/ and solutions/"; fail=1; fi
+  # Speaker notes: only under teachers/.
+  if grep -rlq --exclude-dir=teachers 'class="notes"' docs --include='*.html'; then echo "FAIL: speaker notes under docs/ outside teachers/"; fail=1; fi
+  # A class sheet with solutions is published exactly when its week's block on the course page links to it.
+  for w in weeks/wk*; do
+    [ -d "$w" ] || continue
+    n=$(basename "$w")
+    if released "$n" && [ ! -e "docs/solutions/$n/class_solutions.html" ]; then echo "FAIL: $w/_index.qmd links to a class sheet with solutions that is not in docs/ (run WEEK=${n#wk} build)"; fail=1; fi
+    if ! released "$n" && [ -e "docs/solutions/$n" ]; then echo "FAIL: docs/solutions/$n is published but $w/_index.qmd does not link to it (not released)"; fail=1; fi
+  done
+  if [ -d docs/solutions ]; then
+    n=$(find docs/solutions -type f -not -path 'docs/solutions/wk*/class_solutions.html' | wc -l | tr -d ' ')
+    [ "$n" -eq 0 ] || { echo "FAIL: something other than wkNN/class_solutions.html under docs/solutions/"; fail=1; }
+  fi
   if grep -rlq '^st313:' docs --include='*.qmd'; then echo "FAIL: st313: block in a downloadable .qmd under docs/"; fail=1; fi
   [ "$(cat docs/CNAME 2>/dev/null)" = "$SITE" ] || { echo "FAIL: docs/CNAME"; fail=1; }
   [ -e docs/.nojekyll ] || { echo "FAIL: docs/.nojekyll missing"; fail=1; }
@@ -204,15 +238,15 @@ check() {
     if [ -e "$w/class.qmd" ] && [ ! -e "docs/$w/class.qmd" ]; then echo "FAIL: $w/class.qmd not copied to docs/ (check the resources: pattern in _quarto.yml)"; fail=1; fi
   done
   # ---- teacher pages are self-contained (no _files or site_libs folder is published beside them)
-  if grep -lqE '(src|href)="[^":]*(_files|site_libs)/' docs/teachers/*/*.html docs/decks-notes/*/*.html 2>/dev/null; then echo "FAIL: a teacher page in docs/ is not self-contained"; fail=1; fi
+  if grep -lqE '(src|href)="[^":]*(_files|site_libs)/' docs/teachers/*/*.html docs/solutions/*/*.html 2>/dev/null; then echo "FAIL: a page under docs/teachers/ or docs/solutions/ is not self-contained"; fail=1; fi
   # ---- every deck uses MathJax 4 (html-math-method in _quarto.yml). A deck that ends up without a math
   # method gets MathJax 2.7.9 from reveal's plugin; one that names another URL gets that.
   if grep -rlq --include='*.html' -e "mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@[0-3]" docs; then echo "FAIL: a deck loads a MathJax older than 4 (check html-math-method in its YAML and in _quarto.yml)"; fail=1; fi
   # ---- warnings
-  # Teacher notes and decks with notes are never linked from a public page. A complete class sheet is,
-  # from the week after its class: that link is how it is released.
-  n=$(grep -rlE --include='*.html' --exclude-dir=teachers --exclude-dir=decks-notes -e 'teachers/[^"]*teacher_note' -e 'decks-notes/' docs | tr '\n' ' ' || true)
-  [ -z "$n" ] || echo "WARN: public page links to a teacher note or a deck with notes: $n"
+  # Nothing under teachers/ is linked from a public page. What students get, the week after the class,
+  # is the class sheet with solutions under solutions/.
+  n=$(grep -rlE --include='*.html' --exclude-dir=teachers -e 'href="[^"]*teachers/' docs | tr '\n' ' ' || true)
+  [ -z "$n" ] || echo "WARN: a page outside teachers/ links to a teacher page: $n"
   # The site is built with one Quarto version; another one rewrites every page.
   if [ -f _build_env/QUARTO_VERSION ] && [ "$(quarto --version 2>/dev/null)" != "$(cat _build_env/QUARTO_VERSION)" ]; then
     echo "WARN: quarto $(quarto --version 2>/dev/null) here, site built with $(cat _build_env/QUARTO_VERSION): every page will change"

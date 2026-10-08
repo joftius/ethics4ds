@@ -4,7 +4,7 @@ author: "Joshua Loftus"
 format:
   revealjs:
     slide-number: false
-    theme: [simple, ../../theme/mathjax4.scss]
+    theme: [default, ../../theme/st313.scss]
     filters: [../../_build_env/strip_notes.lua]
     fig-width: 8
     fig-height: 4.5

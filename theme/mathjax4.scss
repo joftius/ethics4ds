@@ -1,8 +1,0 @@
-/*-- scss:rules --*/
-
-// The two MathJax 4 layout rules on their own, for a deck that keeps a theme
-// other than st313.scss. Week 1 uses  theme: [simple, ../../theme/mathjax4.scss].
-// They are the same two rules as at the end of st313.scss (see the comment
-// there); a deck that uses st313.scss already has them.
-.reveal mjx-container:not([display="true"]) { line-height: 0; }
-.reveal mjx-container:not([display="true"]) mjx-break { white-space: nowrap !important; }

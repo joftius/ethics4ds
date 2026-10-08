@@ -9,7 +9,7 @@
 --   ST313_KEEP_NOTES=1 quarto render weeks/wk01/slides.qmd -M embed-resources:true
 --
 -- (the output lands in docs/; `_build_env/build.sh instructor` moves it to
--- _instructor_rendered/ and `site` publishes it at docs/decks-notes/wkNN/).
+-- _instructor_rendered/ and `site` publishes it at docs/teachers/wkNN/).
 -- Referenced from each deck's YAML as
 --   filters: [../../_build_env/strip_notes.lua]
 

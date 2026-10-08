@@ -1,14 +1,15 @@
 project:
   type: website
   output-dir: docs
-  # Each week is weeks/wkNN/: student files at the folder root, the complete
+  # Each week is weeks/wkNN/: student files at the folder root, the teacher's
   # class sheet and the teacher note under wkNN/instructor/. The site render
-  # never renders or copies instructor/; _build_env/build.sh renders those two
-  # files on their own and publishes them at the unlinked teacher paths
-  # (docs/teachers/wkNN/, and docs/decks-notes/wkNN/ for the deck with
-  # speaker notes). The 2022 week pages weeks/NN-*.qmd stay in the tree
-  # unrendered until they are retired. Whatever wkNN folders are in this tree
-  # are live.
+  # never renders or copies instructor/; _build_env/build.sh renders those
+  # files on their own and publishes them, with the deck that keeps its speaker
+  # notes, at docs/teachers/wkNN/, which no public page links to. The class
+  # sheet with solutions that students get the week after the class is a
+  # separate page, docs/solutions/wkNN/. The 2022 week pages weeks/NN-*.qmd
+  # stay in the tree unrendered until they are retired. Whatever wkNN folders
+  # are in this tree are live.
   render:
     - "index.qmd"
     - "about.qmd"

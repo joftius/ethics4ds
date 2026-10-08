@@ -1,7 +1,7 @@
-# instructor/: each week's complete class sheet and teacher note are tracked
-# (7 October 2026; the class sheet is released to students the week after its
-# class). Everything else in an instructor/ folder stays off GitHub: the item
-# bank (items.yaml), results.md, board scripts, renders.
+# instructor/: each week's teacher class sheet (class_complete.qmd) and teacher
+# note are tracked (7 October 2026). Everything else in an instructor/ folder
+# stays off GitHub: the item bank (items.yaml), results.md, board scripts,
+# renders, and the generated class_solutions.qmd.
 **/instructor/*
 !**/instructor/class_complete.qmd
 !**/instructor/teacher_note.qmd
