@@ -6,4 +6,4 @@ Why a literature of honest tests can still be wrong on average: power, the signi
 
 **Lecture:** [notes](weeks/wk01/notes.html) · [slides](weeks/wk01/slides.html)
 
-**Class:** [class sheet](weeks/wk01/class.html) ([.qmd](https://ethics4ds.com/weeks/wk01/class.qmd){download="class.qmd"})
+**Class:** [class sheet](weeks/wk01/class.html) ([.qmd](https://ethics4ds.com/weeks/wk01/class.qmd){download="class.qmd"}) · [class sheet with solutions](https://ethics4ds.com/solutions/wk01/class_solutions.html)
