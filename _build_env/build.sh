@@ -11,7 +11,7 @@
 #   _build_env/build.sh registry              build _registry/results_all.md and items_all.yaml from the spine and every week; check R-numbers and item ids
 #   _build_env/build.sh instructor            render the teacher pages -> _instructor_rendered/wkNN/ (deck with notes, complete class sheet, teacher note)
 #   _build_env/build.sh site                  public render -> docs/ (unchanged pages come from _freeze/), teacher pages kept
-#                                             (decks with notes -> docs/decks-notes/wkNN/; complete class sheets and teacher notes -> docs/class-teachers/wkNN/)
+#                                             (decks with notes -> docs/decks-notes/wkNN/; complete class sheets and teacher notes -> docs/teachers/wkNN/)
 #   _build_env/build.sh check                 gates; non-zero exit on any FAIL
 #   _build_env/build.sh push "<commit message>"    stage, check, commit, push the current branch (refuses on main)
 #   _build_env/build.sh import <packet-folder> <NN>                       Dropbox fallback: copy a packet to weeks/wkNN/ (needs rsync)
@@ -131,7 +131,7 @@ site() {
   local keep d w nn f
   # The teacher pages of weeks not re-rendered this time exist only in docs/: keep them across the clean render.
   keep=$(mktemp -d)
-  for d in decks-notes class-teachers; do
+  for d in decks-notes teachers; do
     [ -d "docs/$d" ] && mv "docs/$d" "$keep/$d"
   done
   rm -rf docs .quarto
@@ -143,7 +143,7 @@ site() {
   if [ -f docs/sitemap.xml ]; then
     grep -v '<lastmod>' docs/sitemap.xml > docs/sitemap.xml.tmp && mv docs/sitemap.xml.tmp docs/sitemap.xml
   fi
-  for d in decks-notes class-teachers; do
+  for d in decks-notes teachers; do
     mkdir -p "docs/$d"
     [ -d "$keep/$d" ] && cp -R "$keep/$d/." "docs/$d/"
   done
@@ -158,8 +158,8 @@ site() {
     fi
     for f in class_complete teacher_note; do
       [ -e "$w/$f.html" ] || continue
-      mkdir -p "docs/class-teachers/$nn"
-      cp "$w/$f.html" "docs/class-teachers/$nn/"
+      mkdir -p "docs/teachers/$nn"
+      cp "$w/$f.html" "docs/teachers/$nn/"
     done
   done
 }
@@ -179,13 +179,13 @@ check() {
   # ---- what is published where
   n=$(find docs -path 'docs/weeks/*/instructor*' | wc -l | tr -d ' ')
   [ "$n" -eq 0 ] || { echo "FAIL: instructor material under docs/weeks/"; fail=1; }
-  n=$(find docs \( -name '*_complete*' -o -name 'teacher_note*' \) -not -path 'docs/class-teachers/*' | wc -l | tr -d ' ')
-  [ "$n" -eq 0 ] || { echo "FAIL: a complete class sheet or teacher note under docs/ outside class-teachers/"; fail=1; }
+  n=$(find docs \( -name '*_complete*' -o -name 'teacher_note*' \) -not -path 'docs/teachers/*' | wc -l | tr -d ' ')
+  [ "$n" -eq 0 ] || { echo "FAIL: a complete class sheet or teacher note under docs/ outside teachers/"; fail=1; }
   n=$(find docs \( -name 'items*.yaml' -o -name 'items*.yml' -o -name 'results*.md' \) | wc -l | tr -d ' ')
   [ "$n" -eq 0 ] || { echo "FAIL: item bank or results file under docs/"; fail=1; }
-  # Answers: only under class-teachers/. In a source they are .answer divs or Solution callouts; in a page, a callout with class "answer".
-  if grep -rlq --exclude-dir=class-teachers -e 'title="Solution"' -e '\.answer' -e 'SOLUTION START' docs --include='*.qmd'; then echo "FAIL: answers in a .qmd under docs/"; fail=1; fi
-  if grep -rlqE --exclude-dir=class-teachers -e '<div class="(answer|[^"]* answer)[ "]' -e 'title="Solution"' docs --include='*.html'; then echo "FAIL: answer boxes in a page under docs/ outside class-teachers/"; fail=1; fi
+  # Answers: only under teachers/. In a source they are .answer divs or Solution callouts; in a page, a callout with class "answer".
+  if grep -rlq --exclude-dir=teachers -e 'title="Solution"' -e '\.answer' -e 'SOLUTION START' docs --include='*.qmd'; then echo "FAIL: answers in a .qmd under docs/"; fail=1; fi
+  if grep -rlqE --exclude-dir=teachers -e '<div class="(answer|[^"]* answer)[ "]' -e 'title="Solution"' docs --include='*.html'; then echo "FAIL: answer boxes in a page under docs/ outside teachers/"; fail=1; fi
   # Speaker notes: only under decks-notes/.
   if grep -rlq --exclude-dir=decks-notes 'class="notes"' docs --include='*.html'; then echo "FAIL: speaker notes under docs/ outside decks-notes/"; fail=1; fi
   if grep -rlq '^st313:' docs --include='*.qmd'; then echo "FAIL: st313: block in a downloadable .qmd under docs/"; fail=1; fi
@@ -204,14 +204,14 @@ check() {
     if [ -e "$w/class.qmd" ] && [ ! -e "docs/$w/class.qmd" ]; then echo "FAIL: $w/class.qmd not copied to docs/ (check the resources: pattern in _quarto.yml)"; fail=1; fi
   done
   # ---- teacher pages are self-contained (no _files or site_libs folder is published beside them)
-  if grep -lqE '(src|href)="[^":]*(_files|site_libs)/' docs/class-teachers/*/*.html docs/decks-notes/*/*.html 2>/dev/null; then echo "FAIL: a teacher page in docs/ is not self-contained"; fail=1; fi
+  if grep -lqE '(src|href)="[^":]*(_files|site_libs)/' docs/teachers/*/*.html docs/decks-notes/*/*.html 2>/dev/null; then echo "FAIL: a teacher page in docs/ is not self-contained"; fail=1; fi
   # ---- every deck uses MathJax 4 (html-math-method in _quarto.yml). A deck that ends up without a math
   # method gets MathJax 2.7.9 from reveal's plugin; one that names another URL gets that.
   if grep -rlq --include='*.html' -e "mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@[0-3]" docs; then echo "FAIL: a deck loads a MathJax older than 4 (check html-math-method in its YAML and in _quarto.yml)"; fail=1; fi
   # ---- warnings
   # Teacher notes and decks with notes are never linked from a public page. A complete class sheet is,
   # from the week after its class: that link is how it is released.
-  n=$(grep -rlE --include='*.html' --exclude-dir=class-teachers --exclude-dir=decks-notes -e 'class-teachers/[^"]*teacher_note' -e 'decks-notes/' docs | tr '\n' ' ' || true)
+  n=$(grep -rlE --include='*.html' --exclude-dir=teachers --exclude-dir=decks-notes -e 'teachers/[^"]*teacher_note' -e 'decks-notes/' docs | tr '\n' ' ' || true)
   [ -z "$n" ] || echo "WARN: public page links to a teacher note or a deck with notes: $n"
   # The site is built with one Quarto version; another one rewrites every page.
   if [ -f _build_env/QUARTO_VERSION ] && [ "$(quarto --version 2>/dev/null)" != "$(cat _build_env/QUARTO_VERSION)" ]; then

@@ -5,7 +5,7 @@ project:
   # class sheet and the teacher note under wkNN/instructor/. The site render
   # never renders or copies instructor/; _build_env/build.sh renders those two
   # files on their own and publishes them at the unlinked teacher paths
-  # (docs/class-teachers/wkNN/, and docs/decks-notes/wkNN/ for the deck with
+  # (docs/teachers/wkNN/, and docs/decks-notes/wkNN/ for the deck with
   # speaker notes). The 2022 week pages weeks/NN-*.qmd stay in the tree
   # unrendered until they are retired. Whatever wkNN folders are in this tree
   # are live.

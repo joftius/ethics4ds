@@ -33,7 +33,7 @@ Minimum class, about N minutes: the items to protect. With more time, add ... ba
 
 How it runs
 
-- Three lines at most: what students prepared and brought, the link to the complete class sheet (`https://ethics4ds.com/class-teachers/wkNN/class_complete.html`), what is outside the class.
+- Three lines at most: what students prepared and brought, the link to the complete class sheet (`https://ethics4ds.com/teachers/wkNN/class_complete.html`), what is outside the class.
 
 What students should see
 

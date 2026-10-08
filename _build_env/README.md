@@ -56,8 +56,8 @@ Then give the convenor the compare link, from which he opens and merges the pull
 | `weeks/wkNN/notes.html`, `slides.html` | Notes; deck with notes stripped | yes |
 | `weeks/wkNN/class.html` and `class.qmd` | Student class sheet | yes |
 | `decks-notes/wkNN/slides-instructor.html` | Deck with speaker notes | no |
-| `class-teachers/wkNN/class_complete.html` | Complete class sheet | from the week after its class |
-| `class-teachers/wkNN/teacher_note.html` | Teacher note | no |
+| `teachers/wkNN/class_complete.html` | Complete class sheet | from the week after its class |
+| `teachers/wkNN/teacher_note.html` | Teacher note | no |
 
 The teacher pages are not in `search.json` or `sitemap.xml`: they are rendered one file at a time and copied in after the site render.
 
@@ -66,7 +66,7 @@ The teacher pages are not in `search.json` or `sitemap.xml`: they are rendered o
 A week's complete class sheet is released the week after its class (convenor, 8 October). The release is one line: on the "**Class:**" line of `weeks/wkNN/_index.qmd`, right after the `.qmd` link, add
 
 ```
- · [class sheet with solutions](https://ethics4ds.com/class-teachers/wkNN/class_complete.html)
+ · [class sheet with solutions](https://ethics4ds.com/teachers/wkNN/class_complete.html)
 ```
 
 then `_build_env/build.sh site` and `check`, commit, push, compare link. The URL is absolute because the teacher pages are not part of the Quarto project. Nothing else changes: `check` allows a public page to link to a complete class sheet (it warns on a link to a teacher note or to a deck with notes), and the notice at the top of the student sheet says only that answers are revealed in class.
@@ -75,8 +75,8 @@ then `_build_env/build.sh site` and `check`, commit, push, compare link. The URL
 
 FAIL:
 
-- anything from an `instructor/` folder under `docs/weeks/`; a complete class sheet or teacher note under `docs/` outside `class-teachers/`; an item bank or results file anywhere under `docs/`;
-- answer boxes (`.answer`, a Solution callout) under `docs/` outside `class-teachers/`;
+- anything from an `instructor/` folder under `docs/weeks/`; a complete class sheet or teacher note under `docs/` outside `teachers/`; an item bank or results file anywhere under `docs/`;
+- answer boxes (`.answer`, a Solution callout) under `docs/` outside `teachers/`;
 - speaker notes (`class="notes"`) under `docs/` outside `decks-notes/`;
 - an `st313:` block in a `.qmd` under `docs/`;
 - `docs/CNAME` wrong or `docs/.nojekyll` missing;
@@ -113,6 +113,6 @@ R-numbers are spread over the spine (R1 to R3) and each week's `instructor/resul
 - `execute: freeze: auto`, and `_freeze/` is committed. A site render re-executes only the pages whose source changed, so `site` in a fresh clone changes no file.
 - The instructor step re-executes its week. Run `build` without `WEEK` only when you mean to re-render every week's teacher pages.
 - The site is built with the Quarto version in `_build_env/QUARTO_VERSION`. Another version rewrites every page; `check` warns. Not every agent container has Quarto or R installed: the pinned Quarto is a tarball on the quarto-cli GitHub releases page, and R is `apt-get install r-base-core`.
-- Math is MathJax 4: `html-math-method: mathjax` at the top level of `_quarto.yml`. A deck does not set its own and must not name another URL. Version 4 breaks inline formulas across lines and makes lines with math taller; two rules at the end of `theme/st313.scss` undo that for decks, and `styles.css` has the same two for pages from 768 px up. A deck gets the rules only if it uses the theme (`theme: [default, ../../theme/st313.scss]`).
+- Math is MathJax 4: `html-math-method: mathjax` at the top level of `_quarto.yml`. A deck does not set its own and must not name another URL. Version 4 breaks inline formulas across lines and makes lines with math taller; two rules at the end of `theme/st313.scss` undo that for decks, and `styles.css` has the same two for pages from 768 px up. A deck gets the rules from its theme: `theme: [default, ../../theme/st313.scss]` has them, and a deck that keeps another theme adds `theme/mathjax4.scss`, which holds the same two (week 1: `theme: [simple, ../../theme/mathjax4.scss]`).
 - The self-contained teacher pages (complete class sheets, teacher notes) load MathJax 3, as ST310's do. It does not break inline formulas, so they need no rule.
 - After a Quarto upgrade, screenshot every slide before and after and compare, before pushing the build.
