@@ -1,0 +1,101 @@
+---
+week: 01
+session: class
+register: 1
+audience: class teacher (instructor-side; not for students)
+segments: see class_complete.qmd front matter (sums to 80; production 70 min, 88%)
+lenses: [C, B]
+results: [R4, R5, R6, R7]
+assumes: [ST102]
+---
+
+# Teacher note -- Selection and the replication crisis (class)
+
+## Timing
+
+| min | block |
+|---|---|
+| 0--6 | Opener: one concern each on the shared doc; two sentences from memory |
+| 6--18 | Problems 1(a), 2(a), 3(a)--(b). Do not reveal answers. The sticking point is 3(b), the denominator of the bias term |
+| 18--28 | Discussion break: causes of the crisis, cultural and statistical. Groups, then the room |
+| 28--52 | Coding A.1--A.3, B.1--B.3. Part A is ten minutes at most; push everyone to B.2 and B.3 |
+| 52--59 | Reveal solutions to the in-class problems and the code; show the two survivor histograms (null, and $\theta = 1$) side by side |
+| 59--74 | Discussion prompts 1 and 2 with the room; 3 only if there is time; 4 as a fallback |
+| 74--77 | Close: one written sentence on p-hacking, cause and fix |
+| 77--80 | Prep task |
+
+If coding runs over, take the time from discussion prompt 3, not from the
+break or from prompts 1 and 2.
+
+Everything else in the notebook (1b, 2b--c, 3c, 4, coding A.4 and B.4) is
+practice. Say so. No marks are attached to any of it.
+
+## What the class works that the lecture only stated
+
+All three are in the notes, so a student who misses the class has a
+reference.
+
+- **Coding A.** The lecture asked for a prediction of the survivors'
+  mean. The class builds the survivors' distribution and checks the
+  formula. Notes: "The filter on its own".
+- **Coding B.2.** The lecture said $1 - 0.95^k$. The class finds about
+  0.16, not the independent-tests figure 0.19, because the four
+  $p$-values are dependent. Say that aloud when revealing.
+- **Problem 4** (practice). One slide in the lecture; derived in the
+  notes under "How much of the crisis does selection alone explain?".
+
+## Expected misconceptions
+
+1. **"Reproducibility" and "replication" used interchangeably.** The notes
+   define replication in one sentence. Do not spend time on it unless a
+   group builds an argument on the confusion.
+2. **"p-values can be significant at some sample sizes and not others."**
+   Half right. Larger $n$ at the same $\mu$ raises $\theta$. The wrong
+   version is that the same data can be made significant by choosing $n$
+   after the fact; that is a stopping rule and belongs with 1(b).
+   Redirect to $\theta = \mu\sqrt n/\sigma$.
+3. **"p-hacking is fraud."** The lecture's point is that the filter
+   distorts the literature with honest tests. Students who arrive with
+   "cause: incentives; fix: pre-registration" have skipped the mechanism.
+   1(b) and the closing sentence are where to make them say what
+   pre-registration changes (the reported comparison) and what it does
+   not (power).
+4. **"Correlation is not causation" as the explanation of
+   non-replication.** A confounded effect replicates perfectly well; that
+   failure comes later in the course. This week's failures are about
+   selection.
+5. **No direction on the bias.** "Away from the truth" is not an answer.
+   Upward in magnitude, always, under a magnitude filter.
+6. **3(c).** The common wrong answer is "bias" alone. The size of the bias
+   is set by the variance, through the power. The sentence to get out of
+   them: "the file-drawer effect turns variance into bias."
+
+## On the screen
+
+- During the problems: the five constants and nothing else.
+- During coding: the `generate_data()` / `one_experiment()` block.
+- At 52 min: the two survivor histograms side by side. The $\theta = 1$
+  survivors look like the null survivors.
+- During discussion: the shared document. Do not tidy it.
+
+## Discussion prompt 3, if reached
+
+- Closed funds: survivorship; advertised returns biased upward; the
+  platform benefits.
+- Most-improved schools: selection on the extreme, and regression to the
+  mean; the same schools look worse next year. Let them find it.
+- Surgeons with 50+ operations: the one where direction is not obvious.
+  Selection is on volume, not outcome. Volume may correlate with case
+  difficulty or with skill, in either direction. A filter biases the
+  outcome only if it depends on the outcome or on something correlated
+  with it.
+- Hired candidates: the rejected are unobserved. Who is in the data.
+- Top-ten posts: selection on the extreme of a large group. What you see
+  says more about the size and variance of the group's output than about
+  its center.
+
+## Notation
+
+$\mu$ is the effect, $\theta = \mu/\mathrm{se}$ the standardized effect.
+$p$ in problem 4 is the prevalence of true hypotheses among those tested;
+do not write it as $\pi$.

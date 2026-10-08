@@ -1,12 +1,25 @@
-# Never on GitHub: complete class sheets, teacher notes, board scripts, item bank, results, their renders.
-**/instructor/
-_instructor_rendered/
+# instructor/: each week's complete class sheet and teacher note are tracked
+# (7 October 2026; the class sheet is released to students the week after its
+# class). Everything else in an instructor/ folder stays off GitHub: the item
+# bank (items.yaml), results.md, board scripts, renders.
+**/instructor/*
+!**/instructor/class_complete.qmd
+!**/instructor/teacher_note.qmd
 
-# Build state. docs/ is committed: it is the site.
-_freeze/
+# Local build output: teacher renders before they are copied to docs/, and the
+# course-level registry of results and items.
+_instructor_rendered/
+_registry/
+
+# Build state. docs/ is committed: it is the site. _freeze/ is committed too,
+# so a site render re-executes only the pages whose source changed.
 .quarto/
 /.Rproj.user/
 .DS_Store
 
 /.quarto/
 **/*.quarto_ipynb
+
+# Render leftovers beside sources.
+weeks/**/*_cache/
+weeks/**/*_files/

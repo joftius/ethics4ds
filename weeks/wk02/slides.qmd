@@ -6,7 +6,6 @@ format:
     theme: [default, ../../theme/st313.scss]
     slide-number: false
     auto-stretch: false
-    html-math-method: mathjax
     filters: [../../_build_env/strip_notes.lua]
     fig-width: 8
     fig-height: 4.5
