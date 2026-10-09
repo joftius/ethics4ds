@@ -31,6 +31,7 @@ git add -A && git commit && git push -u origin HEAD
 Then give the convenor the compare link, from which he opens and merges the pull request:
 `https://github.com/joftius/ethics4ds/compare/main...elthre3:ethics4ds-work:<branch>?expand=1`
 
+- A new week: add one line to `index.qmd`, `{{< include weeks/wkNN/_index.qmd >}}`, below the others. It is the only file outside `weeks/wkNN/` that a week's branch edits by hand. Without it the week's pages are built but the course page does not show the week; `check` fails.
 - Commit everything `build` changed: sources, the generated `class.qmd`, `docs/` and `_freeze/`.
 - Run `_build_env/build.sh check` again after `git add -A` if you created files by hand: it looks at what the commit would contain. `build.sh push "<message>"` does the staging, the check, the commit and the push in that order, and refuses on `main`.
 - Never push with a FAIL line.
@@ -92,6 +93,7 @@ FAIL:
 - a file under an `instructor/` folder, other than `class_complete.qmd` and `teacher_note.qmd`, that a commit would include;
 - a path a commit would include that looks like an exam, a problem set, the item bank or a private folder (`private/`, `exam`, `problem_set`, `pset`, `held_problems`, `items*.yaml`, `item_bank`);
 - a week's `class.qmd` missing from `docs/`;
+- a week folder with no `_index.qmd`, or one whose `_index.qmd` is not included in `index.qmd` (the week would not be on the course page);
 - a page under `teachers/` or `solutions/` that is not self-contained;
 - a deck that loads a MathJax older than 4.
 
@@ -121,7 +123,7 @@ R-numbers are spread over the spine (R1 to R3) and each week's `instructor/resul
 
 - `execute: freeze: auto`, and `_freeze/` is committed. A site render re-executes only the pages whose source changed, so `site` in a fresh clone changes no file.
 - The instructor step re-executes its week. Run `build` without `WEEK` only when you mean to re-render every week's teacher pages.
-- The site is built with the Quarto version in `_build_env/QUARTO_VERSION`. Another version rewrites every page; `check` warns. Not every agent container has Quarto or R installed: the pinned Quarto is a tarball on the quarto-cli GitHub releases page, and R is `apt-get install r-base-core`.
+- The site is built with the Quarto version in `_build_env/QUARTO_VERSION`. Another version rewrites every page; `check` warns. Not every agent container has Quarto or R installed: the pinned Quarto is a tarball on the quarto-cli GitHub releases page, and R is `apt-get install r-base-core r-recommended` (without the second, `MASS` and `codetools` are missing).
 - Math is MathJax 4: `html-math-method: mathjax` at the top level of `_quarto.yml`. A deck does not set its own and must not name another URL. Version 4 breaks inline formulas across lines and makes lines with math taller; two rules at the end of `theme/st313.scss` undo that for decks, and `styles.css` has the same two for pages from 768 px up. A deck gets the rules from the theme, so every deck uses `theme: [default, ../../theme/st313.scss]`.
 - The self-contained class sheets and teacher notes under `teachers/` and `solutions/` load MathJax 3, as ST310's teacher pages do. It does not break inline formulas, so they need no rule.
 - After a Quarto upgrade, screenshot every slide before and after and compare, before pushing the build.
