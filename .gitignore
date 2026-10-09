@@ -7,7 +7,8 @@
 !**/instructor/teacher_note.qmd
 
 # Local build output: teacher renders before they are copied to docs/, and the
-# course-level registry of results and items.
+# course-level registry of results and items. _solutions/ is not ignored: each
+# week's rendered class sheet with solutions is tracked there until its release.
 _instructor_rendered/
 _registry/
 
