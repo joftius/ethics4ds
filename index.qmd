@@ -10,7 +10,8 @@ Each week has one lecture and one class (80 minutes each, lecture first). The no
 
 <!-- One block per week, each in weeks/wkNN/_index.qmd (title, one paragraph, reading,
 links). Include paths and the links inside the blocks are relative to this file.
-A week's delivery edits only its own block; nothing here changes. -->
+A new week adds its include line below, in week order, and nothing else here; after
+that it edits only its own block. -->
 
 {{< include weeks/wk01/_index.qmd >}}
 

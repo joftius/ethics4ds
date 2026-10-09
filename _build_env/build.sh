@@ -237,6 +237,11 @@ check() {
     [ -d "$w" ] || continue
     if [ -e "$w/class.qmd" ] && [ ! -e "docs/$w/class.qmd" ]; then echo "FAIL: $w/class.qmd not copied to docs/ (check the resources: pattern in _quarto.yml)"; fail=1; fi
   done
+  # ---- every week in the tree is on the course page: index.qmd includes one block per week, by name
+  for w in weeks/wk*; do
+    [ -e "$w/_index.qmd" ] || { [ -d "$w" ] && { echo "FAIL: $w has no _index.qmd (the week's block on the course page)"; fail=1; }; continue; }
+    grep -qE "^\{\{< include $w/_index\.qmd >\}\}[[:space:]]*$" index.qmd || { echo "FAIL: index.qmd does not include $w/_index.qmd, so the week is not on the course page (add the line {{< include $w/_index.qmd >}})"; fail=1; }
+  done
   # ---- teacher pages are self-contained (no _files or site_libs folder is published beside them)
   if grep -lqE '(src|href)="[^":]*(_files|site_libs)/' docs/teachers/*/*.html docs/solutions/*/*.html 2>/dev/null; then echo "FAIL: a page under docs/teachers/ or docs/solutions/ is not self-contained"; fail=1; fi
   # ---- every deck uses MathJax 4 (html-math-method in _quarto.yml). A deck that ends up without a math
