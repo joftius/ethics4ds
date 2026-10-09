@@ -6,20 +6,22 @@
 #   WEEK=03 _build_env/build.sh build
 # and commit everything it changed, docs/ and _freeze/ included. Merging the pull request publishes.
 #
-#   _build_env/build.sh build                 student, registry, instructor, site, check (WEEK=NN limits the instructor renders)
+#   _build_env/build.sh build                 student, registry, instructor, solutions, site, check (WEEK=NN limits the instructor and solutions renders)
 #   _build_env/build.sh student               regenerate every weeks/wk*/class.qmd from weeks/wk*/instructor/class_complete.qmd
 #   _build_env/build.sh registry              build _registry/results_all.md and items_all.yaml from the spine and every week; check R-numbers and item ids
-#   _build_env/build.sh instructor            render the teacher pages -> _instructor_rendered/wkNN/ (deck with notes, teacher's class sheet, teacher note),
-#                                             and the class sheet with solutions for a week whose block on the course page links to it
+#   _build_env/build.sh instructor            render the teacher pages -> _instructor_rendered/wkNN/ (deck with notes, teacher's class sheet, teacher note)
+#   _build_env/build.sh solutions             render each week's class sheet with solutions -> _solutions/wkNN/ (tracked, not published);
+#                                             a week whose source has not changed is skipped (FORCE=1 renders it again)
 #   _build_env/build.sh site                  public render -> docs/ (unchanged pages come from _freeze/), teacher pages kept
-#                                             (everything for teachers -> docs/teachers/wkNN/; released class sheets with solutions -> docs/solutions/wkNN/)
+#                                             (everything for teachers -> docs/teachers/wkNN/; for a released week, its stored class sheet
+#                                             with solutions -> docs/solutions/wkNN/)
 #   _build_env/build.sh check                 gates; non-zero exit on any FAIL
 #   _build_env/build.sh push "<commit message>"    stage, check, commit, push the current branch (refuses on main)
 #   _build_env/build.sh import <packet-folder> <NN>                       Dropbox fallback: copy a packet to weeks/wkNN/ (needs rsync)
 #   _build_env/build.sh deploy <packet-folder> <NN> "<commit message>"    Dropbox fallback: import, build, push
 #
-# WEEK=02 restricts the instructor renders to weeks/wk02/. They always execute their code, so
-# rendering a week you did not change rewrites its teacher pages for nothing.
+# WEEK=02 restricts the instructor and solutions renders to weeks/wk02/. The instructor renders always
+# execute their code, so rendering a week you did not change rewrites its teacher pages for nothing.
 # SPINE=<folder> is where results.md and readings.csv are read from. The default is the convenor's
 # Dropbox path; an agent fetches the two files to a folder outside the repository (README, "The spine files").
 set -euo pipefail
@@ -94,6 +96,23 @@ released() {   # a week's class sheet with solutions is released when its block 
   grep -q "solutions/$1/class_solutions.html" "weeks/$1/_index.qmd" 2>/dev/null
 }
 
+# The class sheet with solutions is rendered when its week is built and stored, tracked, in
+# _solutions/wkNN/ (convenor, 9 October 2026). Nothing there is published: site copies a week's
+# stored page to docs/solutions/wkNN/ only once the week's block links to it. So a release adds
+# a link and copies a file; it renders nothing and needs no R.
+SOL=_solutions
+
+sol_state() {   # current | stale | missing | none, for week $1 (wkNN)
+  local c="weeks/$1/instructor/class_complete.qmd"
+  [ -e "$c" ] || { echo none; return 0; }
+  [ -e "$SOL/$1/class_solutions.html" ] || { echo missing; return 0; }
+  if [ "$(cat "$SOL/$1/class_solutions.sha256" 2>/dev/null)" = "$(python3 _build_env/make_incomplete.py --solutions-hash "$c")" ]; then
+    echo current
+  else
+    echo stale
+  fi
+}
+
 render_out() {   # render one file under instructor/, self-contained, and move the page to its place in _instructor_rendered/
   local src="$1" dest="$2" out="${1%.qmd}.html"
   if ! quarto render "$src" -M embed-resources:true; then echo "RENDER FAILED: $src"; return 1; fi
@@ -129,25 +148,47 @@ instructor() {
       [ -e "$d/instructor/$f.qmd" ] || continue
       render_out "$d/instructor/$f.qmd" "_instructor_rendered/$nn/$f.html" || failed=1
     done
-    # The class sheet with solutions is a separate document, for students, generated from the teacher's
-    # sheet. It is made only once the week's block on the course page links to it: that link is the release.
-    if released "$nn" && [ -e "$d/instructor/class_complete.qmd" ]; then
-      python3 _build_env/make_incomplete.py --solutions "$d/instructor/class_complete.qmd" "$d/instructor/class_solutions.qmd"
-      render_out "$d/instructor/class_solutions.qmd" "_instructor_rendered/$nn/class_solutions.html" || failed=1
-      rm -f "$d/instructor/class_solutions.qmd"
-    fi
     rm -rf "docs/$d/instructor"
   done
   echo "teacher renders in _instructor_rendered/"
   return "$failed"
 }
 
+solutions() {
+  # The class sheet with solutions is a separate document, for students, generated from the teacher's
+  # sheet. It is rendered here, when the week is built, and kept in _solutions/wkNN/ with the hash of
+  # its generated source. A week whose source has not changed since its stored page was rendered is
+  # skipped, so a released page does not change under the students when another week is built.
+  # The hash covers the source only: after a change to data, packages or the theme, use FORCE=1.
+  local d nn c failed=0
+  for d in weeks/wk${WEEK:-*}; do
+    c="$d/instructor/class_complete.qmd"
+    [ -e "$c" ] || continue
+    nn=$(basename "$d")
+    if [ -z "${FORCE:-}" ] && [ "$(sol_state "$nn")" = current ]; then
+      echo "class sheet with solutions for $nn: stored page is current, not rendered again (FORCE=1 to render)"
+      continue
+    fi
+    python3 _build_env/make_incomplete.py --solutions "$c" "$d/instructor/class_solutions.qmd"
+    mkdir -p "$SOL/$nn"
+    if render_out "$d/instructor/class_solutions.qmd" "$SOL/$nn/class_solutions.html"; then
+      python3 _build_env/make_incomplete.py --solutions-hash "$c" > "$SOL/$nn/class_solutions.sha256"
+    else
+      failed=1
+    fi
+    rm -f "$d/instructor/class_solutions.qmd"
+    rm -rf "docs/$d/instructor"
+  done
+  echo "class sheets with solutions in $SOL/"
+  return "$failed"
+}
+
 site() {
   local keep d w nn f
-  # The teacher pages and released solutions of weeks not re-rendered this time exist only in docs/:
-  # keep them across the clean render.
+  # The teacher pages of weeks not re-rendered this time exist only in docs/: keep them across the
+  # clean render. docs/solutions/ is not kept: it is filled again below from _solutions/.
   keep=$(mktemp -d)
-  for d in teachers solutions; do
+  for d in teachers; do
     [ -d "docs/$d" ] && mv "docs/$d" "$keep/$d"
   done
   rm -rf docs .quarto
@@ -159,7 +200,7 @@ site() {
   if [ -f docs/sitemap.xml ]; then
     grep -v '<lastmod>' docs/sitemap.xml > docs/sitemap.xml.tmp && mv docs/sitemap.xml.tmp docs/sitemap.xml
   fi
-  for d in teachers solutions; do
+  for d in teachers; do
     [ -d "$keep/$d" ] || continue
     mkdir -p "docs/$d"
     cp -R "$keep/$d/." "docs/$d/"
@@ -175,15 +216,16 @@ site() {
       mkdir -p "docs/teachers/$nn"
       cp "$w/$f.html" "docs/teachers/$nn/"
     done
-    if [ -e "$w/class_solutions.html" ]; then
-      mkdir -p "docs/solutions/$nn"
-      cp "$w/class_solutions.html" "docs/solutions/$nn/"
-    fi
   done
-  # A class sheet with solutions stays published only while its week's block links to it.
-  for w in docs/solutions/wk*; do
+  # A class sheet with solutions is published exactly while its week's block links to it: the stored
+  # page is copied, nothing is rendered.
+  for w in weeks/wk*; do
     [ -d "$w" ] || continue
-    released "$(basename "$w")" || rm -rf "$w"
+    nn=$(basename "$w")
+    if released "$nn" && [ -e "$SOL/$nn/class_solutions.html" ]; then
+      mkdir -p "docs/solutions/$nn"
+      cp "$SOL/$nn/class_solutions.html" "docs/solutions/$nn/"
+    fi
   done
 }
 
@@ -191,12 +233,13 @@ build() {
   student
   registry
   instructor
+  solutions
   site
   check
 }
 
 check() {
-  local fail=0 n w missing
+  local fail=0 n w missing st
   local args=()
   [ -d docs ] || { echo "FAIL: no docs/ (run site first)"; return 1; }
   # ---- what is published where
@@ -211,13 +254,36 @@ check() {
   if grep -rlqE --exclude-dir=teachers --exclude-dir=solutions -e '<div class="(answer|[^"]* answer)[ "]' -e 'title="Solution"' docs --include='*.html'; then echo "FAIL: answer boxes in a page under docs/ outside teachers/ and solutions/"; fail=1; fi
   # Speaker notes: only under teachers/.
   if grep -rlq --exclude-dir=teachers 'class="notes"' docs --include='*.html'; then echo "FAIL: speaker notes under docs/ outside teachers/"; fail=1; fi
-  # A class sheet with solutions is published exactly when its week's block on the course page links to it.
+  # A class sheet with solutions is published exactly when its week's block on the course page links to it,
+  # and what is published is the stored page, made from the teacher's sheet as it is now. For a week not
+  # yet released a missing or old stored page is a WARN, for the week's own agent: it must not stop
+  # another week's push. For a released week it is a FAIL: students would get no page or an old one.
   for w in weeks/wk*; do
     [ -d "$w" ] || continue
     n=$(basename "$w")
-    if released "$n" && [ ! -e "docs/solutions/$n/class_solutions.html" ]; then echo "FAIL: $w/_index.qmd links to a class sheet with solutions that is not in docs/ (run WEEK=${n#wk} build)"; fail=1; fi
-    if ! released "$n" && [ -e "docs/solutions/$n" ]; then echo "FAIL: docs/solutions/$n is published but $w/_index.qmd does not link to it (not released)"; fail=1; fi
+    st=$(sol_state "$n")
+    if released "$n"; then
+      case "$st" in
+        missing|none) echo "FAIL: $w/_index.qmd links to a class sheet with solutions, and there is no stored page $SOL/$n/class_solutions.html (run WEEK=${n#wk} _build_env/build.sh solutions, then site; needs R)"; fail=1 ;;
+        stale) echo "FAIL: the class sheet with solutions for $n is older than $w/instructor/class_complete.qmd (run WEEK=${n#wk} _build_env/build.sh solutions, then site; needs R)"; fail=1 ;;
+      esac
+      if [ -e "$SOL/$n/class_solutions.html" ] && ! cmp -s "$SOL/$n/class_solutions.html" "docs/solutions/$n/class_solutions.html"; then
+        echo "FAIL: docs/solutions/$n/class_solutions.html is missing or is not the stored page in $SOL/$n/ (run _build_env/build.sh site)"; fail=1
+      fi
+    else
+      if [ -e "docs/solutions/$n" ]; then echo "FAIL: docs/solutions/$n is published but $w/_index.qmd does not link to it (not released)"; fail=1; fi
+      case "$st" in
+        missing) echo "WARN: no stored class sheet with solutions for $n (run WEEK=${n#wk} _build_env/build.sh build); without it the week's release has to render it" ;;
+        stale) echo "WARN: the stored class sheet with solutions for $n is older than $w/instructor/class_complete.qmd (run WEEK=${n#wk} _build_env/build.sh build)" ;;
+      esac
+    fi
   done
+  # _solutions/ holds one page and its source hash per week, and none of it is under docs/ before release.
+  if [ -d "$SOL" ]; then
+    n=$(find "$SOL" -type f -not -path "$SOL/wk*/class_solutions.html" -not -path "$SOL/wk*/class_solutions.sha256" | tr '\n' ' ')
+    [ -z "$n" ] || { echo "FAIL: something other than wkNN/class_solutions.html and its .sha256 under $SOL/: $n"; fail=1; }
+  fi
+  [ ! -e "docs/$SOL" ] || { echo "FAIL: docs/$SOL exists: the stored class sheets with solutions were published"; fail=1; }
   if [ -d docs/solutions ]; then
     n=$(find docs/solutions -type f -not -path 'docs/solutions/wk*/class_solutions.html' | wc -l | tr -d ' ')
     [ "$n" -eq 0 ] || { echo "FAIL: something other than wkNN/class_solutions.html under docs/solutions/"; fail=1; }
@@ -243,7 +309,7 @@ check() {
     grep -qE "^\{\{< include $w/_index\.qmd >\}\}[[:space:]]*$" index.qmd || { echo "FAIL: index.qmd does not include $w/_index.qmd, so the week is not on the course page (add the line {{< include $w/_index.qmd >}})"; fail=1; }
   done
   # ---- teacher pages are self-contained (no _files or site_libs folder is published beside them)
-  if grep -lqE '(src|href)="[^":]*(_files|site_libs)/' docs/teachers/*/*.html docs/solutions/*/*.html 2>/dev/null; then echo "FAIL: a page under docs/teachers/ or docs/solutions/ is not self-contained"; fail=1; fi
+  if grep -lqE '(src|href)="[^":]*(_files|site_libs)/' docs/teachers/*/*.html docs/solutions/*/*.html "$SOL"/*/*.html 2>/dev/null; then echo "FAIL: a page under docs/teachers/, docs/solutions/ or $SOL/ is not self-contained"; fail=1; fi
   # ---- every deck uses MathJax 4 (html-math-method in _quarto.yml). A deck that ends up without a math
   # method gets MathJax 2.7.9 from reveal's plugin; one that names another URL gets that.
   if grep -rlq --include='*.html' -e "mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@[0-3]" docs; then echo "FAIL: a deck loads a MathJax older than 4 (check html-math-method in its YAML and in _quarto.yml)"; fail=1; fi
@@ -296,12 +362,13 @@ deploy() {
   student
   registry
   instructor
+  solutions
   site
   push "${3:?commit message required}"
 }
 
 cmd="${1:-}"; shift || true
 case "$cmd" in
-  import|student|registry|instructor|site|build|check|push|deploy) "$cmd" "$@" ;;
-  *) sed -n '2,23p' "$0"; exit 1 ;;
+  import|student|registry|instructor|solutions|site|build|check|push|deploy) "$cmd" "$@" ;;
+  *) sed -n '2,26p' "$0"; exit 1 ;;
 esac
