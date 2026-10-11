@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joshua Loftus">
+
+<title>Consequences and causal models –  ethics 4 data science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-bb5ce4f09c3d713477d34b1921f208f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><i class="fa-solid fa-chart-simple fa-large" aria-label="chart-simple"></i> ethics 4 data science</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-references" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">references</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-references">    
+        <li>
+    <a class="dropdown-item" href="https://www.bitbybitbook.com/en/1st-ed/ethics/">
+ <span class="dropdown-text">Bit by Bit</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fairmlbook.org/">
+ <span class="dropdown-text">Fairness and Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://data-feminism.mitpress.mit.edu/">
+ <span class="dropdown-text">Data Feminism</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://rss.org.uk/RSS/media/News-and-publications/Publications/Reports%20and%20guides/A-Guide-for-Ethical-Data-Science-Final-Oct-2019.pdf">
+ <span class="dropdown-text">RSS Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice">
+ <span class="dropdown-text">ASA Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.acm.org/code-of-ethics">
+ <span class="dropdown-text">ACM Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text"><i class="fa-solid fa-house fa-large" aria-label="house"></i> content</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text"><i class="fa-solid fa-user fa-large" aria-label="user"></i> about</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#normative-ethics-four-frameworks" id="toc-normative-ethics-four-frameworks" class="nav-link" data-scroll-target="#normative-ethics-four-frameworks">Normative ethics: four frameworks</a>
+  <ul class="collapse">
+  <li><a href="#utilitarianism" id="toc-utilitarianism" class="nav-link" data-scroll-target="#utilitarianism">Utilitarianism</a></li>
+  </ul></li>
+  <li><a href="#applied-ethics-the-belmont-and-menlo-principles" id="toc-applied-ethics-the-belmont-and-menlo-principles" class="nav-link" data-scroll-target="#applied-ethics-the-belmont-and-menlo-principles">Applied ethics: the Belmont and Menlo principles</a></li>
+  <li><a href="#the-consequentialists-problem" id="toc-the-consequentialists-problem" class="nav-link" data-scroll-target="#the-consequentialists-problem">The consequentialist’s problem</a>
+  <ul class="collapse">
+  <li><a href="#hormone-therapy-and-heart-disease" id="toc-hormone-therapy-and-heart-disease" class="nav-link" data-scroll-target="#hormone-therapy-and-heart-disease">Hormone therapy and heart disease</a></li>
+  </ul></li>
+  <li><a href="#causal-models" id="toc-causal-models" class="nav-link" data-scroll-target="#causal-models">Causal models</a>
+  <ul class="collapse">
+  <li><a href="#conditioning-and-intervening" id="toc-conditioning-and-intervening" class="nav-link" data-scroll-target="#conditioning-and-intervening">Conditioning and intervening</a></li>
+  <li><a href="#the-average-treatment-effect" id="toc-the-average-treatment-effect" class="nav-link" data-scroll-target="#the-average-treatment-effect">The average treatment effect</a></li>
+  <li><a href="#prediction-and-intervention" id="toc-prediction-and-intervention" class="nav-link" data-scroll-target="#prediction-and-intervention">Prediction and intervention</a></li>
+  </ul></li>
+  <li><a href="#confounding-and-adjustment" id="toc-confounding-and-adjustment" class="nav-link" data-scroll-target="#confounding-and-adjustment">Confounding and adjustment</a>
+  <ul class="collapse">
+  <li><a href="#the-adjustment-formula" id="toc-the-adjustment-formula" class="nav-link" data-scroll-target="#the-adjustment-formula">The adjustment formula</a></li>
+  <li><a href="#randomization" id="toc-randomization" class="nav-link" data-scroll-target="#randomization">Randomization</a></li>
+  <li><a href="#the-backdoor-criterion" id="toc-the-backdoor-criterion" class="nav-link" data-scroll-target="#the-backdoor-criterion">The backdoor criterion</a></li>
+  <li><a href="#optional-berkeley-1973" id="toc-optional-berkeley-1973" class="nav-link" data-scroll-target="#optional-berkeley-1973">Optional: Berkeley, 1973</a></li>
+  </ul></li>
+  <li><a href="#optional-omitted-variable-bias" id="toc-optional-omitted-variable-bias" class="nav-link" data-scroll-target="#optional-omitted-variable-bias">Optional: omitted-variable bias</a></li>
+  <li><a href="#unobserved-confounding" id="toc-unobserved-confounding" class="nav-link" data-scroll-target="#unobserved-confounding">Unobserved confounding</a></li>
+  <li><a href="#reinforcement-learning" id="toc-reinforcement-learning" class="nav-link" data-scroll-target="#reinforcement-learning">Reinforcement learning</a></li>
+  <li><a href="#an-argument-in-prose" id="toc-an-argument-in-prose" class="nav-link" data-scroll-target="#an-argument-in-prose">An argument in prose</a></li>
+  <li><a href="#lenses" id="toc-lenses" class="nav-link" data-scroll-target="#lenses">Lenses</a></li>
+  <li><a href="#for-the-class" id="toc-for-the-class" class="nav-link" data-scroll-target="#for-the-class">For the class</a>
+  <ul class="collapse">
+  <li><a href="#effects-that-differ-between-groups" id="toc-effects-that-differ-between-groups" class="nav-link" data-scroll-target="#effects-that-differ-between-groups">Effects that differ between groups</a></li>
+  <li><a href="#more-than-one-adjustment-set" id="toc-more-than-one-adjustment-set" class="nav-link" data-scroll-target="#more-than-one-adjustment-set">More than one adjustment set</a></li>
+  </ul></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a>
+  <ul class="collapse">
+  <li><a href="#required" id="toc-required" class="nav-link" data-scroll-target="#required">Required</a></li>
+  <li><a href="#optional" id="toc-optional" class="nav-link" data-scroll-target="#optional">Optional</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Consequences and causal models</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joshua Loftus </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Important note:</strong> consequentialism, deontology, virtue ethics and pragmatic ethics are four ways of judging whether an action is right. Of these, ms4ds describes the first three, and says that they “are not mutually exclusive or exhaustive, so we do not have to choose one of them or limit our thinking to using only these ideas.” Where I write “I”, the view is mine. You are not expected to share it, and a well-argued position I think is wrong can still get full marks.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>A consequentialist judges an action by what it brings about. Utilitarianism, the best-known form, adds up the good an action does for everyone it affects. To say what an action brings about, you have to compare what would happen if it were taken with what would happen if it were not. That is a causal claim. Data show what happened to the people who took the action, which answers a different question. Large observational studies found less heart disease among women who took hormone therapy after the menopause, and a randomized trial then found more.</p>
+<p>A causal model writes down which variables affect which, and comes with a rule for working out what an intervention would do. With a model in hand, an observed difference can sometimes be turned into an estimate of an effect, by adjusting for the right variables. Which variables are the right ones depends on the model. You cannot read the model off the data, so you have to choose one and defend it.</p>
+<p>To choose between treating everyone and treating no one, a utilitarian needs only the average effect times the number of people, provided that well-being adds up across people and nobody’s outcome depends on anyone else’s treatment. That total does not say who gains and who loses. In reinforcement learning an agent learns a policy, a rule for acting, that earns a large reward, and the reward is not the same as the good the policy does: a job center judged on its placement rate does best by sending people who would have found work anyway.</p>
+</section>
+<section id="normative-ethics-four-frameworks" class="level2">
+<h2 class="anchored" data-anchor-id="normative-ethics-four-frameworks">Normative ethics: four frameworks</h2>
+<p>Consequentialism, deontology and virtue ethics are in <a href="https://joshualoftus.com/ms4ds/ethical-data-science.html#philosophy-of-ethics">ms4ds, section 3.2</a>, and all four are in the Wikipedia articles on <a href="https://en.wikipedia.org/wiki/Consequentialism">consequentialism</a>, <a href="https://en.wikipedia.org/wiki/Deontology">deontology</a>, <a href="https://en.wikipedia.org/wiki/Virtue_ethics">virtue ethics</a> and <a href="https://en.wikipedia.org/wiki/Pragmatic_ethics">pragmatic ethics</a>.</p>
+<p><strong>Consequentialism</strong> judges an action by its effects. Its best-known form is utilitarianism. Of the difficulties ms4ds lists, the one this course can help with is “uncertainty about predicting consequences.”</p>
+<p><strong>Deontology</strong> judges an action by whether it follows a rule or a duty, “rather than based on the consequences of the action,” in Wikipedia’s words. An action can be right though its consequences are bad, if it kept to the rule. Provided you know which rules you have a duty to follow, you may not need to predict consequences at all, which makes deontology simpler to apply. If a rule can never be overridden, though, you may be bound to it when following it leads somewhere terrible. Kant is the best-known deontologist.</p>
+<p><strong>Virtue ethics</strong> judges character. In Wikipedia’s words, it “prioritizes the development of moral character and dispositions (good habits).” A person acting honestly or courageously can be acting well even when a rule was broken and the outcome was bad. Virtues can conflict, and people do not agree on which traits are virtues.</p>
+<p><strong>Pragmatic ethics</strong> treats moral norms the way a scientist treats a hypothesis. A scientist can accept a hypothesis and work with it as if it were true, while expecting later work to refine or replace it. Ethical pragmatists think that “norms, principles, and moral criteria are likely to be improved as a result of inquiry.” They hold that it can be appropriate to work within any of the other three frameworks, while leaving room to move beyond it. One image for this is Neurath’s boat, which likens the gradual change of ethical norms to sailors rebuilding their ship while at sea. One criticism is that pragmatic ethics describes how people do make moral judgments rather than how they should.</p>
+<p>I have argued for a pragmatism about models, statistical and causal (<a href="https://proceedings.mlr.press/v235/loftus24a.html">Loftus 2024</a>): “Instead of asking if a model is right, correct, or accurate, we should ask if it is useful for a certain purpose.” In the same paper I borrow a distinction from Tukey (1960), one of this week’s optional readings. Conclusions should be final and well tested, so it makes sense to hold them to high standards of evidence. Decisions are temporary. We make them so that we can act, and we expect that we may need to try something else. You can decide to use a causal model without taking the model as conclusive.</p>
+<section id="utilitarianism" class="level3">
+<h3 class="anchored" data-anchor-id="utilitarianism">Utilitarianism</h3>
+<p>Utilitarianism is the consequentialism of Jeremy Bentham, regarded as its founder, and John Stuart Mill. It says to choose the action that does the greatest good for the greatest number of people. In its classical form the good is happiness, and what matters, in the Wikipedia article’s words, is “to aggregate happiness; the happiness of everyone, and not the happiness of any particular person.” Later utilitarians measure the good in other ways, for instance by how far people’s preferences are satisfied.</p>
+<p>ms4ds lists four difficulties:</p>
+<ul>
+<li>Defining utility. Someone has to say what counts as good and how to measure it. In data science this is the choice of an outcome, a metric or a loss function, and the first of the five lenses asks about it: what are we optimizing or predicting?</li>
+<li>Trading off one person’s good against another’s. A total or an average lets a gain to one person make up for a loss to another. The average treatment effect, later in these notes, is an average of this kind.</li>
+<li>Judging single acts or general rules. Act utilitarianism judges each action by its consequences. Rule utilitarianism judges a rule by the consequences of following it, and an act by whether it follows a good rule. A model that makes thousands of decisions is a rule.</li>
+<li>Predicting consequences. In ms4ds’s words, “The last issue, predicting consequences, is one where the intersection with data science is particularly relevant.”</li>
+</ul>
+<p>Data science, ms4ds says, “is usually framed (perhaps implicitly) as utilitarian because of its focus on prediction/causation (consequences) and optimization (utility).” A recommender that ranks items to raise average engagement, a lender’s model that approves loans to maximize expected profit, and an A/B test that keeps whichever version has the higher mean of some metric each add up a quantity over people and choose the action with the larger total. Each is utilitarian in form. Whether the quantity is anyone’s good is the first difficulty again: a lender’s profit is not its borrowers’ happiness. A deontologist asks of the same systems whether the people in the A/B test agreed to be experimented on, and whether anyone is treated in a way that no gain to others could justify. A virtue ethicist asks what building such a system says about the people who build it.</p>
+</section>
+</section>
+<section id="applied-ethics-the-belmont-and-menlo-principles" class="level2">
+<h2 class="anchored" data-anchor-id="applied-ethics-the-belmont-and-menlo-principles">Applied ethics: the Belmont and Menlo principles</h2>
+<p>From 1932 the United States Public Health Service ran a study in which African American men in Alabama were recruited with the promise of free health care. Most of them had syphilis. They were never told that they had it, or that they were not being treated, and they were kept from penicillin after it was known to be an effective treatment. <a href="https://joshualoftus.com/ms4ds/ethical-data-science.html#applied-ethics">ms4ds, section 3.3</a>, tells the story of the Tuskegee study. It ended in 1972, after a whistleblower came forward and newspapers took up the story. Prompted in part by it, the National Research Act of 1974 created a national commission for the protection of research subjects. The commission’s report, released in 1978, is the <a href="https://en.wikipedia.org/wiki/Belmont_Report">Belmont Report</a>, named after the conference center in Elkridge, Maryland, where part of it was drafted. It sets out three principles: respect for persons, beneficence and justice. In 2012 the Menlo Report, from the US Department of Homeland Security, adapted them for cybersecurity research and added a fourth. Together they are the <strong>Belmont–Menlo principles</strong>, here in the Menlo Report’s wording, which ms4ds quotes:</p>
+<ul>
+<li>Respect for persons: “Participation as a research subject is voluntary, and follows from informed consent; Treat individuals as autonomous agents and respect their right to determine their own best interests; …”</li>
+<li>Beneficence: “Do not harm; Maximize probable benefits and minimize probable harms; Systematically assess both risk of harm and benefit.”</li>
+<li>Justice: “Each person deserves equal consideration in how to be treated, and the benefits of research should be fairly distributed …; Selection of subjects should be fair, and burdens should be allocated equitably across impacted subjects.”</li>
+<li>Respect for law and the public interest: “Engage in legal due diligence; Be transparent in methods and results; Be accountable for actions.”</li>
+</ul>
+<p>Applied ethics does not pick one of the four frameworks. Respect for persons reads like a deontological rule, and beneficence like a consequentialist one. To maximize probable benefits you have to predict what a study, or a product, will do to the people it touches.</p>
+</section>
+<section id="the-consequentialists-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-consequentialists-problem">The consequentialist’s problem</h2>
+<p>Wikipedia states the consequentialist position like this: an act is right “if and only if the act (or in some views, the rule under which it falls) will produce, will probably produce, or is intended to produce, a greater balance of good over evil than any available alternative.” That is a comparison between actions. Only one of them is taken, so at most one of the outcomes is ever seen. The others are what would have happened, and a claim about what would have happened is a causal claim. A consequentialist cannot state their own position on an action without a causal model, because the consequences of an action are its causal effects. In <a href="https://joshualoftus.com/ms4ds/ethical-data-science.html#causality-and-ethics">ms4ds, section 3.4</a>: “Causal understanding is necessary to apply consequentialism. An observational model of the world does not tell us what consequences we can expect to result from any action which is an intervention.”</p>
+<p>In ms4ds’s example, observational data show couples happier after divorcing. That does not tell a utilitarian that everyone who can should divorce: couples who divorce were probably unhappy together, and other couples may not be.</p>
+<p>Barocas, Hardt and Narayanan open their chapter on causality, on the page before this week’s reading starts, with a pair of questions. The first is “Do 16 year-old drivers have a higher incidence rate of traffic accidents than 18 year-old drivers?” That is a difference between two conditional probabilities, and a large enough sample answers it. The second is “Would traffic fatalities decrease if we raised the legal driving age by two years?” It asks for “the effect of a hypothetical action,” and the same sample does not answer it. Older drivers also have more driving experience. The authors add that 18-year-olds who started driving late may be unusually cautious, or live where people need a car less.</p>
+<p>How often do researchers move from what happened to what should be done? Prasad, Jorgenson, Ioannidis and Cifu (2013) read the 631 original articles published in 2010 in four leading medical journals, and found 298 eligible observational studies. In 167 of the 298 (56%), the authors recommended a medical practice on the strength of their results. Only 24 of those 167 said that a randomized trial should be done first.</p>
+<section id="hormone-therapy-and-heart-disease" class="level3">
+<h3 class="anchored" data-anchor-id="hormone-therapy-and-heart-disease">Hormone therapy and heart disease</h3>
+<p>In 1996 the Nurses’ Health Study reported on 59,337 women followed for up to 16 years. Women who took estrogen with progestin after the menopause, compared with women who did not use hormones, had “a marked decrease in the risk of major coronary heart disease”: a relative risk of 0.39 (95% confidence interval 0.19 to 0.78), adjusted for the confounding variables the authors measured. They concluded that adding progestin “does not appear to attenuate the cardioprotective effects of postmenopausal estrogen therapy.” A protective effect is a claim about what taking the hormones does.</p>
+<p>The Women’s Health Initiative tested the claim. It randomized 16,608 women aged 50 to 79, all with a uterus, to estrogen with progestin or to a placebo, and it was stopped early, after a mean of 5.2 years, because of an excess of invasive breast cancer and an overall balance of risks over benefits. For coronary heart disease the hazard ratio was 1.29, with a nominal 95% interval of 1.02 to 1.63; in absolute terms, about 7 more cases per 10,000 person-years. Nominal means that the interval was computed as if this were the only outcome and the only analysis, though the trial tracked many outcomes and was analyzed repeatedly as it ran. Its conclusion was about action: the regimen “should not be initiated or continued for primary prevention” of coronary heart disease.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/hrt-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Two explanations were offered, and both can be true. One is confounding: the women who chose hormones differed from the women who did not, in ways that also affect the heart. This week’s reading uses the case as its example of confounding: “a suspected beneficial effect of hormone replacement therapy in reducing cardiovascular disease disappeared after identifying socioeconomic status as a confounding variable.” The review it cites (Humphrey, Chan and Sox 2002) pooled earlier studies. Among those that had adjusted for socioeconomic status and the major risk factors for coronary disease, the summary relative risk of coronary disease with any hormone use was 1.07 (credible interval 0.79 to 1.48).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/hrt_dag-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The gold arrow is the claim that the hormones protect the heart. The four black arrows can produce a difference between users and non-users without it.</p>
+<p>The other explanation is the comparison itself. Hernán and colleagues (2008) went back to the Nurses’ Health Study and analyzed it the way the trial was analyzed: women who started estrogen with progestin against women who did not start, both followed from the same point. Over the first two years the hazard ratio was 1.42 (0.92 to 2.20), and over the whole follow-up 0.96 (0.78 to 1.18), estimates they describe as “similar to those from the Women’s Health Initiative.” The differences that remained, they suggest, “could be largely explained by differences in the distribution of time since menopause and length of follow-up.”</p>
+<p>The same cohort gave 0.39 under one comparison, and between 0.96 and 1.42 under another, analyzed differently. A doctor deciding whether a patient should start hormones is choosing an action. The comparison that matches it is women who started against women who did not, from the same day. Women who took hormones against women who did not is a comparison of two groups of people, and it answers a question about them.</p>
+</section>
+</section>
+<section id="causal-models" class="level2">
+<h2 class="anchored" data-anchor-id="causal-models">Causal models</h2>
+<p>The reading builds a model as a program. A <strong>structural causal model</strong> is “a sequence of assignments for generating a joint distribution starting from independent noise variables.” Each variable is assigned as a function of some of the variables before it, its <em>parents</em>, and of its own noise. The <strong>causal graph</strong> has a node for each variable and an arrow into it from each of its parents. Three shapes come up over and over. The letters are the ones this course uses.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/three_shapes-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In a <strong>fork</strong>, <span class="math inline">\(Z\)</span> has arrows to both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>: it is a common cause. In a <strong>chain</strong>, <span class="math inline">\(X \to M \to Y\)</span>, the <strong>mediator</strong> <span class="math inline">\(M\)</span> is one of the routes by which <span class="math inline">\(X\)</span> affects <span class="math inline">\(Y\)</span>. In a <strong>collider</strong>, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> both have arrows into <span class="math inline">\(C\)</span>: it is a common effect. A common cause is the usual source of confounding.</p>
+<section id="conditioning-and-intervening" class="level3">
+<h3 class="anchored" data-anchor-id="conditioning-and-intervening">Conditioning and intervening</h3>
+<p>Take the reading’s first program. Whether a person exercises, <span class="math inline">\(X\)</span>, is a coin toss with probability <span class="math inline">\(1/2\)</span>. Without exercise, a person becomes overweight (<span class="math inline">\(W = 1\)</span>) with probability <span class="math inline">\(1/3\)</span> and develops heart disease (<span class="math inline">\(H = 1\)</span>) with probability <span class="math inline">\(1/3\)</span>, independently. Exercise prevents both: <span class="math display">\[
+X := U_1, \qquad
+W := \begin{cases} 0 &amp; X = 1 \\ U_2 &amp; X = 0 \end{cases}, \qquad
+H := \begin{cases} 0 &amp; X = 1 \\ U_3 &amp; X = 0 \end{cases},
+\]</span> with <span class="math inline">\(U_1 \sim \mathrm{Ber}(1/2)\)</span> and <span class="math inline">\(U_2, U_3 \sim \mathrm{Ber}(1/3)\)</span> independent, where <span class="math inline">\(\mathrm{Ber}(q)\)</span> is 1 with probability <span class="math inline">\(q\)</span> and 0 otherwise. (The reading writes <span class="math inline">\(B(q)\)</span>.) The graph is a fork, <span class="math inline">\(W \leftarrow X \to H\)</span>.</p>
+<p>The probability of heart disease is <span class="math inline">\(P(H = 1) = P(X = 0)\,P(U_3 = 1) = \tfrac12 \cdot \tfrac13 = \tfrac16\)</span>. Now observe that someone is overweight. That happens only without exercise, so <span class="math inline">\(X = 0\)</span>, and <span class="math display">\[
+P(H = 1 \mid W = 1) = \tfrac13 .
+\]</span> Overweight people have twice the rate of heart disease of the population as a whole, <span class="math inline">\(1/3\)</span> against <span class="math inline">\(1/6\)</span>. Would a program that changed people’s weight change their heart disease? Changing weight is an action on <span class="math inline">\(W\)</span>. In the program it means replacing the line that assigns <span class="math inline">\(W\)</span> by a constant, <span class="math inline">\(W := 1\)</span> or <span class="math inline">\(W := 0\)</span>, and leaving every other line alone. In the graph, that deletes the arrow into <span class="math inline">\(W\)</span> and keeps the arrow from <span class="math inline">\(X\)</span> to <span class="math inline">\(H\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/program_do-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Do that, and <span class="math inline">\(H\)</span> still depends only on <span class="math inline">\(X\)</span> and <span class="math inline">\(U_3\)</span>: <span class="math display">\[
+P(H = 1 \mid do(W := 1)) = \tfrac16 = P(H = 1 \mid do(W := 0)).
+\]</span> Setting the weight does nothing to the heart. Observing the weight told you about the exercise, and the exercise is what affects the heart.</p>
+<p>The reading’s second program reverses one arrow: weight drives exercise, <span class="math inline">\(W \to X \to H\)</span>. Overweight people exercise with probability <span class="math inline">\(1/2\)</span> and nobody else does. There, conditioning on <span class="math inline">\(W = 1\)</span> and setting <span class="math inline">\(W := 1\)</span> both give <span class="math inline">\(1/6\)</span>, so the two can agree. Whether they do depends on the graph.</p>
+<p><span class="math inline">\(P(Y \mid X = x)\)</span> describes the people for whom <span class="math inline">\(X\)</span> happened to be <span class="math inline">\(x\)</span>. <span class="math inline">\(P(Y \mid do(X := x))\)</span> describes what would happen if <span class="math inline">\(X\)</span> were set to <span class="math inline">\(x\)</span> for everyone, which in the graph means deleting every arrow into <span class="math inline">\(X\)</span> and fixing its value. The reading’s definition: “We say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>confounded</strong> when the causal effect of action <span class="math inline">\(X := x\)</span> on <span class="math inline">\(Y\)</span> does not coincide with the corresponding conditional probability.”</p>
+</section>
+<section id="the-average-treatment-effect" class="level3">
+<h3 class="anchored" data-anchor-id="the-average-treatment-effect">The average treatment effect</h3>
+<p>For a binary <span class="math inline">\(X\)</span>, the <strong>average treatment effect</strong> is <span class="math display">\[
+\text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)],
+\]</span> the difference in the mean of <span class="math inline">\(Y\)</span> between a world where everyone is treated and one where nobody is. Each term deletes the arrows into <span class="math inline">\(X\)</span> and sets <span class="math inline">\(X\)</span> to the same value for everyone. “Causal effects are population quantities,” as the reading says. The effect on one person, or on one group, can differ from it. “This policy causes better outcomes” is a statement about a quantity like this one. The observed difference <span class="math inline">\(E[Y \mid X = 1] - E[Y \mid X = 0]\)</span> is a statement about who happened to be treated.</p>
+<p>Suppose <span class="math inline">\(Y\)</span> measures how well off a person is, on a scale on which gains and losses can be added across people, and nobody’s outcome depends on anyone else’s treatment. Then treating all <span class="math inline">\(n\)</span> people in a population rather than none changes the expected total of <span class="math inline">\(Y\)</span> by <span class="math inline">\(n \times \text{ATE}\)</span>. That is the comparison a utilitarian makes between those two actions, and it needs nothing else. In the total a gain to one person offsets a loss to another, so a positive average treatment effect is consistent with some people being made worse off. Justice, the third Belmont principle, concerns who receives the benefits of research and who bears its burdens. Asked of a policy, the same question is not answered by the average. Effects within groups say more, and a trial can estimate them for groups defined by what was known before treatment. The effect on one person is never observed, because each person is either treated or not.</p>
+</section>
+<section id="prediction-and-intervention" class="level3">
+<h3 class="anchored" data-anchor-id="prediction-and-intervention">Prediction and intervention</h3>
+<p>Figure 1 of <a href="https://proceedings.mlr.press/v235/loftus24a.html">my 2024 paper</a> has three graphs, redrawn here.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/three_dags-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Its caption ends: “It is possible that the accuracy of some function <span class="math inline">\(f(X)\)</span> in predicting <span class="math inline">\(Y\)</span> is equal in all cases.” A policy that changes <span class="math inline">\(X\)</span> in order to change <span class="math inline">\(Y\)</span> works only in the first. Under the other two, setting <span class="math inline">\(X\)</span> leaves <span class="math inline">\(Y\)</span> alone; to change <span class="math inline">\(Y\)</span> you would act on <span class="math inline">\(Y\)</span> or on its causes, which in the third include <span class="math inline">\(Z\)</span>. “If we expect a model to also tell us what happens when we intervene on variables, then […] models with equal predictive accuracy are no longer equivalent. We become responsible to choose one of them.”</p>
+</section>
+</section>
+<section id="confounding-and-adjustment" class="level2">
+<h2 class="anchored" data-anchor-id="confounding-and-adjustment">Confounding and adjustment</h2>
+<p>Say you want to argue that a job-search course for people out of work should be expanded, because the people who took it were more often in work six months later. In a version with numbers chosen to work by hand, a thousand people are registered with a job center, which refers some of them to the course. It refers people who worked in the previous year more readily, because it judges them ready. In this version everyone referred attends and nobody else does, so referral and attendance are the same. Write <span class="math inline">\(Z = 1\)</span> for worked in the previous year, <span class="math inline">\(X = 1\)</span> for attended the course, and <span class="math inline">\(Y = 1\)</span> for in work six months later.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">attended (<span class="math inline">\(X = 1\)</span>)</th>
+<th style="text-align: left;">did not attend (<span class="math inline">\(X = 0\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">worked last year (<span class="math inline">\(Z = 1\)</span>), 500 people</td>
+<td style="text-align: left;">400, of whom 280 in work (70%)</td>
+<td style="text-align: left;">100, of whom 60 in work (60%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">did not (<span class="math inline">\(Z = 0\)</span>), 500 people</td>
+<td style="text-align: left;">100, of whom 40 in work (40%)</td>
+<td style="text-align: left;">400, of whom 120 in work (30%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">total, 1,000 people</td>
+<td style="text-align: left;">500, of whom 320 in work (64%)</td>
+<td style="text-align: left;">500, of whom 180 in work (36%)</td>
+</tr>
+</tbody>
+</table>
+<p>Of the people who attended, 64% are in work, against 36% of those who did not. A press release would say the course raises employment by 28 percentage points. Now read the rows. Among people who worked last year, 70% of attenders are in work against 60% of the others. Among people who did not, 40% against 30%. Within each row the difference is 10 points.</p>
+<p>The numbers came from this graph:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/course_dag-1.png" class="img-fluid figure-img" width="288"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(Z\)</span> pushes people onto the course: 80% of those who worked last year attend, against 20% of the others. <span class="math inline">\(Z\)</span> also makes people more employable, whether or not they attend. Attenders are in work more often partly because of the course and partly because of who was sent. The 28 points mixes the two.</p>
+<section id="the-adjustment-formula" class="level3">
+<h3 class="anchored" data-anchor-id="the-adjustment-formula">The adjustment formula</h3>
+<p>Intervening on <span class="math inline">\(X\)</span> deletes the arrow <span class="math inline">\(Z \to X\)</span>. Everyone attends, or nobody does, and <span class="math inline">\(Z\)</span> keeps the distribution it had. So the mean outcome under <span class="math inline">\(do(X := 1)\)</span> is the within-row rate for attenders, averaged over the rows with weights given by how common each row is: <span class="math display">\[
+\begin{aligned}
+E[Y \mid do(X := 1)] &amp;= \sum_z E[Y \mid X = 1, Z = z]\, P(Z = z) \\
+&amp;= 0.7 \times 0.5 + 0.4 \times 0.5 = 0.55 .
+\end{aligned}
+\]</span> Likewise <span class="math inline">\(E[Y \mid do(X := 0)] = 0.6 \times 0.5 + 0.3 \times 0.5 = 0.45\)</span>, and the average treatment effect is <span class="math inline">\(0.10\)</span>. In general, <span class="math display">\[
+\boxed{\;P(Y = y \mid do(X := x)) = \sum_z P(Y = y \mid X = x, Z = z)\, P(Z = z)\;}
+\]</span> when <span class="math inline">\(Z\)</span> satisfies the backdoor criterion below, and every value of <span class="math inline">\(Z\)</span> that occurs includes some people with <span class="math inline">\(X = x\)</span> (otherwise <span class="math inline">\(P(Y = y \mid X = x, Z = z)\)</span> is not defined). This is the <strong>adjustment formula</strong>. The reading writes it with the parents of <span class="math inline">\(X\)</span> in place of <span class="math inline">\(Z\)</span>, and calls computing it “controlling for” a set of variables: estimate the effect “separately in every slice of the population defined by a condition <span class="math inline">\(Z = z\)</span>,” then average the slices, each weighted by its share of the population.</p>
+<p>The observed comparison weights the rows differently. It weights each row by its share of the people who attended, or of the people who did not: <span class="math display">\[
+\begin{aligned}
+P(Y = 1 \mid X = 1) &amp;= \frac{0.7 \times 400 + 0.4 \times 100}{500} = 0.64, \\
+P(Y = 1 \mid X = 0) &amp;= \frac{0.6 \times 100 + 0.3 \times 400}{500} = 0.36 .
+\end{aligned}
+\]</span> The attenders come mostly from the <span class="math inline">\(Z = 1\)</span> row and the others mostly from the <span class="math inline">\(Z = 0\)</span> row, and the two rows have different rates of being in work whatever people do. The extra 18 points come from the referral policy sending to the course the people who would more often find work anyway.</p>
+</section>
+<section id="randomization" class="level3">
+<h3 class="anchored" data-anchor-id="randomization">Randomization</h3>
+<p>Suppose the center had referred people at random, half of each row, and as before everyone referred had attended. Then attenders would come half from each row, and so would the others. The shares in work to expect are <span class="math display">\[
+\begin{aligned}
+P(Y = 1 \mid X = 1) &amp;= 0.5 \times 0.7 + 0.5 \times 0.4 = 0.55, \\
+P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45 .
+\end{aligned}
+\]</span> The observed difference is now the effect, apart from the chance variation of one random draw. Randomizing deletes the arrow into <span class="math inline">\(X\)</span> in the world itself, so the observed comparison and the interventional one coincide. In the reading’s words, “the goal of a randomized controlled trial is to break natural inclination.” Randomization also deletes arrows from variables nobody measured, which adjustment cannot do.</p>
+<p>In practice some people offered a course do not take it, and some people not offered it find one elsewhere. Randomizing the offer then gives the effect of the offer, not of attending. A trial’s <em>arms</em> are the groups people were assigned to, and a comparison by arm, whatever each person then did, is an <strong>intention-to-treat analysis</strong>. The hormone trial’s main analysis was of this kind, and it is the analysis Hernán and colleagues emulated.</p>
+</section>
+<section id="the-backdoor-criterion" class="level3">
+<h3 class="anchored" data-anchor-id="the-backdoor-criterion">The backdoor criterion</h3>
+<p>A <em>backdoor path</em> from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span> is a path between them that starts with an arrow into <span class="math inline">\(X\)</span>. In the course example there is one, <span class="math inline">\(X \leftarrow Z \to Y\)</span>. In the standard statement, which the reading cites to Pearl, a set of variables <span class="math inline">\(Z\)</span> satisfies the <strong>backdoor criterion</strong> for the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> if</p>
+<ol type="1">
+<li>no variable in <span class="math inline">\(Z\)</span> is a descendant of <span class="math inline">\(X\)</span>, and</li>
+<li><span class="math inline">\(Z\)</span> blocks every backdoor path from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span>.</li>
+</ol>
+<p>A path through a fork or a chain is blocked by conditioning on the variable in the middle. Colliders work differently, as the reading explains; none of the backdoor paths in these notes goes through one. When <span class="math inline">\(Z\)</span> satisfies the criterion, the adjustment formula with that <span class="math inline">\(Z\)</span> gives <span class="math inline">\(P(Y = y \mid do(X := x))\)</span>.</p>
+<p>The first condition says what not to adjust for. A mediator <span class="math inline">\(M\)</span> on <span class="math inline">\(X \to M \to Y\)</span> is a descendant of <span class="math inline">\(X\)</span>. Adjusting for it removes the part of the effect that runs through <span class="math inline">\(M\)</span>. What is left is not the total effect, which is what a decision to change <span class="math inline">\(X\)</span> needs. If nothing else affects both <span class="math inline">\(M\)</span> and <span class="math inline">\(Y\)</span>, it is the direct effect, the part that does not pass through <span class="math inline">\(M\)</span>. The reading lists three cases: controlling for a confounder removes confounding, and controlling for a mediator “will eliminate some of the causal influence of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>.” Its third case is the collider. So “control for everything you measured” is not a safe default. You decide which variables to hold fixed from the graph, and someone has to draw the graph.</p>
+</section>
+<section id="optional-berkeley-1973" class="level3">
+<h3 class="anchored" data-anchor-id="optional-berkeley-1973">Optional: Berkeley, 1973</h3>
+<p>The reading starts from the 1973 admissions to graduate programs at the University of California, Berkeley: 44% of the 8,442 men who applied were admitted, and 35% of the 4,321 women. In the six largest departments, which R has as <code>UCBAdmissions</code>, 44.5% of 2,691 men and 30.4% of 1,835 women were admitted. Department by department the comparison goes the other way in four of the six.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/berkeley-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The reading’s Table 5.1 has 520 men applying to department B and 60% admitted, where <code>UCBAdmissions</code>, which cites the same 1975 paper, has 560 and 63%. Nothing here depends on the difference.</p>
+<p>A reversal like this is called Simpson’s paradox. The arithmetic is the course table’s: the overall rates weight each department by who applied to it, and women applied more often to departments that admitted fewer applicants. Which comparison is the right one depends on the question and on the graph. If sex affects which department a person applies to, and department affects admission, then department is a mediator. Comparing within departments asks whether women and men who applied to the same department were treated differently. Comparing overall asks whether women ended up admitted less often. The reading adds that the data record nothing about qualifications, and asks why women applied to the departments they did: perhaps others were unwelcoming. You cannot tell which story is right from the admissions data.</p>
+</section>
+</section>
+<section id="optional-omitted-variable-bias" class="level2">
+<h2 class="anchored" data-anchor-id="optional-omitted-variable-bias">Optional: omitted-variable bias</h2>
+<p>The same argument works for a regression slope. Take a linear structural causal model with independent, mean-zero noise: <span class="math display">\[
+Z := U_Z, \qquad X := \alpha Z + U_X, \qquad Y := \beta X + \gamma Z + U_Y .
+\]</span> The graph is the course graph again: <span class="math inline">\(Z \to X\)</span>, <span class="math inline">\(Z \to Y\)</span>, <span class="math inline">\(X \to Y\)</span>. Intervening on <span class="math inline">\(X\)</span> deletes the first arrow, so <span class="math inline">\(E[Y \mid do(X := x)] = \beta x + \gamma E[Z] = \beta x\)</span>, and raising <span class="math inline">\(X\)</span> by one unit raises the mean of <span class="math inline">\(Y\)</span> by <span class="math inline">\(\beta\)</span>.</p>
+<p>Now regress <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> alone, as someone with data on <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> only would. The population slope is <span class="math inline">\(\operatorname{Cov}(X, Y)/\operatorname{Var}(X)\)</span>. Substituting for <span class="math inline">\(Y\)</span>, <span class="math display">\[
+\operatorname{Cov}(X, Y) = \beta \operatorname{Var}(X) + \gamma \operatorname{Cov}(X, Z),
+\qquad
+\operatorname{Cov}(X, Z) = \alpha \operatorname{Var}(Z),
+\]</span> because <span class="math inline">\(U_Y\)</span> is independent of <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span>, and <span class="math inline">\(U_X\)</span> is independent of <span class="math inline">\(Z\)</span>. So <span class="math display">\[
+\boxed{\;\begin{aligned}
+\text{slope of } Y \text{ on } X &amp;= \beta + \gamma\,\frac{\operatorname{Cov}(X, Z)}{\operatorname{Var}(X)} \\
+&amp;= \beta + \gamma \alpha \frac{\operatorname{Var}(Z)}{\alpha^2 \operatorname{Var}(Z) + \operatorname{Var}(U_X)}
+\end{aligned}\;}
+\]</span> The second term is the <strong>omitted-variable bias</strong>: <span class="math inline">\(\gamma\)</span>, the effect of the left-out variable on <span class="math inline">\(Y\)</span> with <span class="math inline">\(X\)</span> held fixed (its own arrow into <span class="math inline">\(Y\)</span>), times the slope of the left-out variable on <span class="math inline">\(X\)</span>. Its sign is the sign of <span class="math inline">\(\gamma\alpha\)</span>, the product of the two arrows out of <span class="math inline">\(Z\)</span>. With <span class="math inline">\(\alpha = \gamma = 1\)</span>, <span class="math inline">\(\beta = 0.5\)</span> and both variances 1, the slope is <span class="math inline">\(0.5 + 1 \times 1 \times 1/2 = 1.0\)</span>, double the effect. With <span class="math inline">\(\beta = 0\)</span> the slope is <span class="math inline">\(0.5\)</span> and the effect is zero. <span class="math inline">\(X\)</span> predicts <span class="math inline">\(Y\)</span>, and intervening on <span class="math inline">\(X\)</span> does nothing: the third graph in Figure 1, with numbers.</p>
+<p>This is a bias. The slope converges to <span class="math inline">\(\beta + \gamma\alpha \operatorname{Var}(Z)/\operatorname{Var}(X)\)</span> as the sample grows, so more data gives the same wrong answer with a narrower interval.</p>
+<p>Fitting <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> together (<code>lm(Y ~ X + Z)</code> in R) is a regression with two predictors. Its coefficient on <span class="math inline">\(X\)</span> is the slope of <span class="math inline">\(Y\)</span> on the part of <span class="math inline">\(X\)</span> that <span class="math inline">\(Z\)</span> does not predict: regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span>, keep the residuals, and regress <span class="math inline">\(Y\)</span> on them. In this model the regression of <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span> has slope <span class="math inline">\(\alpha\)</span>, the residual is <span class="math inline">\(U_X\)</span>, and <span class="math display">\[
+\frac{\operatorname{Cov}(Y, U_X)}{\operatorname{Var}(U_X)} = \frac{\beta \operatorname{Var}(U_X)}{\operatorname{Var}(U_X)} = \beta ,
+\]</span> because <span class="math inline">\(Z\)</span> and <span class="math inline">\(U_Y\)</span> are independent of <span class="math inline">\(U_X\)</span>. So the coefficient on <span class="math inline">\(X\)</span> converges to <span class="math inline">\(\beta\)</span>, the effect. In this linear model that coefficient is the effect the adjustment formula gives.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X))[<span class="st">"X"</span>]        <span class="co"># Y on X alone</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        X 
+0.9907263 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z))[<span class="st">"X"</span>]    <span class="co"># Y on X and Z</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        X 
+0.4976666 </code></pre>
+</div>
+</div>
+<p>When you own the program you can check a claim about <span class="math inline">\(do(\cdot)\)</span> directly: replace the line for <span class="math inline">\(X\)</span> by a constant and run the lines below it again.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Y_do1 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(n)     <span class="co"># everyone gets X = 1; Z untouched</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Y_do0 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(n)     <span class="co"># everyone gets X = 0</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y_do1) <span class="sc">-</span> <span class="fu">mean</span>(Y_do0)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4912589</code></pre>
+</div>
+</div>
+<p>Repeating the first simulation 200 times at each of four sample sizes shows the difference between bias and variance. Both estimates vary less as the sample grows. The slope of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> alone settles on 1.0, and the coefficient from the fit with <span class="math inline">\(Z\)</span> settles on the effect, 0.5.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>one_sample <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> X <span class="sc">+</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fu">coef</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X))[<span class="dv">2</span>], <span class="fu">coef</span>(<span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> Z))[<span class="dv">2</span>])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(<span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">200</span>, <span class="dv">1000</span>, <span class="dv">5000</span>), <span class="cf">function</span>(n) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">one_sample</span>(n))      <span class="co"># 2 rows, 200 columns</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">n =</span> n, <span class="at">slope =</span> <span class="fu">c</span>(est[<span class="dv">1</span>, ], est[<span class="dv">2</span>, ]),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">fit =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Y on X alone"</span>, <span class="st">"Y on X and Z"</span>), <span class="at">each =</span> <span class="dv">200</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sims, <span class="fu">aes</span>(<span class="fu">factor</span>(n), slope, <span class="at">color =</span> fit)) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>), <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> two, <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"sample size"</span>, <span class="at">y =</span> <span class="st">"coefficient on X"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/ovb_sizes-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="unobserved-confounding" class="level2">
+<h2 class="anchored" data-anchor-id="unobserved-confounding">Unobserved confounding</h2>
+<p>The adjustment formula needs every back door blocked, and the graph that says which back doors exist is drawn by the analyst. For the job-search course I put one variable behind the referral. A colleague could put two: work last year, <span class="math inline">\(Z\)</span>, and something unmeasured, <span class="math inline">\(U\)</span>, say motivation, which also pushes people onto the course and into work. The reading draws such variables with dashed arrows.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/unobs_dag-1.png" class="img-fluid figure-img" width="288"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Under my graph, adjusting for <span class="math inline">\(Z\)</span> gives the effect, 10 points. Under the colleague’s graph the back door through <span class="math inline">\(U\)</span> is still open. If <span class="math inline">\(U\)</span> pushes people both onto the course and into work, as motivation would, the 10 points is likely to overstate the effect, and the data cannot say by how much. The data on <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> are the same under both graphs, and fit both. To decide between them you need arguments about what sends people onto the course and what helps them find work, and regression output will not supply them.</p>
+<p>A randomized trial is the case where the analyst knows what decided who was assigned the treatment, because the analyst decided it: the arrow into the assignment comes from a coin, so the comparison of the arms has no back door, measured or not. That is why the hormone trial was taken to settle a question that many adjusted observational estimates had not. Most policies cannot be tried that way first. Then the graph is an argument, and a consequentialist’s case for the policy stands or falls with it.</p>
+</section>
+<section id="reinforcement-learning" class="level2">
+<h2 class="anchored" data-anchor-id="reinforcement-learning">Reinforcement learning</h2>
+<p><strong>Notation:</strong> this section uses the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
+<p>An agent observes a <strong>state</strong> <span class="math inline">\(S\)</span>, takes an <strong>action</strong> <span class="math inline">\(A\)</span>, and receives a <strong>reward</strong> <span class="math inline">\(R\)</span>. A <strong>policy</strong> <span class="math inline">\(\pi\)</span> is a rule that chooses the action from the state, <span class="math inline">\(A = \pi(S)\)</span>, and learning means changing the policy to make the expected reward, <span class="math inline">\(E_\pi[R]\)</span>, large, where <span class="math inline">\(E_\pi\)</span> is the expectation when the agent acts by <span class="math inline">\(\pi\)</span>. The <strong>utility</strong> <span class="math inline">\(U\)</span> is what we care about. A consequentialist would choose the policy whose expected utility <span class="math inline">\(E_\pi[U]\)</span> is largest. The agent is given <span class="math inline">\(R\)</span> instead, because <span class="math inline">\(R\)</span> can be measured and <span class="math inline">\(U\)</span> often cannot: in the job center below, <span class="math inline">\(U\)</span> needs what would have happened without the course. <span class="math inline">\(R\)</span> and <span class="math inline">\(U\)</span> can come apart.</p>
+<p>Amodei and colleagues (2016) use a cleaning robot as a running example. In these letters, the state is what the robot’s camera shows, the actions are where to move and whether to clean, and the utility is a clean room. If the reward is for not seeing any mess, the robot can earn it by closing its eyes, or by covering the mess with something it cannot see through.</p>
+<p>Now a variant of the job center, with 100 places on the course, which helps some people more than others. Of people who worked last year, 70% are in work six months later if they take the course and 64% if they do not; of people who did not work last year, 40% and 14%. The state is a person’s record, the action is to refer or not, and the center is judged on the share of the people it refers who are in work, its placement rate. That rate is its reward. Referring 100 people who worked last year earns a rate of 70% and puts 6 more people in work, on average, than would be in work without the course. Referring 100 who did not earns 40% and puts 26 more in work. A center judged on its placement rate refers the first group; a utilitarian counting the jobs the course creates refers the second, and so serves the people who need the course most.</p>
+<p>Choosing people who would have done well anyway is called cream skimming. Heckman, Heinrich and Smith (2002) studied it in US job-training centers funded under the Job Training Partnership Act, which were judged partly on employment rates. They found the short-run measures “weakly, and sometimes perversely, related to long run impacts.” They also found that cream skimming made little difference to the programs’ efficiency, in either direction, unlike the invented numbers above, and concluded: “Opposition to cream skimming must come on equity grounds.” Equity here is about who is served; efficiency is about the total.</p>
+<p>Each of the four difficulties of utilitarianism becomes a choice someone makes in building such an agent. Defining utility becomes choosing <span class="math inline">\(R\)</span>, a measurable stand-in for <span class="math inline">\(U\)</span>, and in both examples the two come apart. Trading off between people becomes adding the reward up over the people the agent serves; the placement rate counts only the people referred. Judging acts or rules becomes choosing a policy, a rule that treats alike everyone in the same state. Judging each action on its own and judging the rule can give different answers: when a rule has to treat different situations alike, as a model that sees only a few variables about each person does; when places are limited, so that one referral uses a place another person could have had; and when people respond to the rule itself. Predicting consequences becomes choosing a model of what the actions do, which is a causal model.</p>
+<p>Is <span class="math inline">\(E_\pi[U]\)</span> a causal quantity? It can be read as one, the expected utility if the agent’s actions were set by <span class="math inline">\(\pi\)</span>, but that reading needs assumptions beyond this week’s. An intervention in this week’s sense sets a variable for everyone in a population. Here one agent follows a rule. The people and systems it acts on may respond to what it does, sometimes adversarially, and what happens to one of them can depend on what was done to others. Causal reinforcement learning, a subfield surveyed by Deng, Jiang, Long and Zhang (2023), brings causal models into reinforcement learning.</p>
+<p>These letters clash with the ones used for prediction, which most of the course uses.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">prediction</th>
+<th style="text-align: left;">reinforcement learning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(A\)</span></td>
+<td style="text-align: left;">sensitive attribute: something a person <em>is</em></td>
+<td style="text-align: left;">action: something an agent <em>does</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(R\)</span></td>
+<td style="text-align: left;">risk score, with <span class="math inline">\(\hat Y = 1\{R \ge t\}\)</span></td>
+<td style="text-align: left;">reward</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(U\)</span></td>
+<td style="text-align: left;">unobserved variable</td>
+<td style="text-align: left;">utility</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(S\)</span>, <span class="math inline">\(\pi\)</span></td>
+<td style="text-align: left;">not used</td>
+<td style="text-align: left;">state, policy</td>
+</tr>
+</tbody>
+</table>
+<p>If you read about reinforcement learning you will meet these letters with these meanings. New letters invented for this course would teach a convention nobody else uses. Two rules are enough. Material that uses the reinforcement-learning letters says so in one line at the top, as this section does. And the two sets of letters are never mixed inside one diagram or one derivation. A classifier described as an agent takes its prediction <span class="math inline">\(\hat Y\)</span> as its action, which reinforcement learning would write as <span class="math inline">\(A\)</span>. Mixing the two there would give <span class="math inline">\(A\)</span> two meanings in one line.</p>
+</section>
+<section id="an-argument-in-prose" class="level2">
+<h2 class="anchored" data-anchor-id="an-argument-in-prose">An argument in prose</h2>
+<p>A council says: “Pupils who go to their school’s breakfast club have better attendance and better test results. We will fund a breakfast club in each of our schools, because breakfast clubs improve results.” The argument assumes a graph, and drawing it shows what evidence the council would need.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/club_dag-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The council’s action is funding, which changes whether a school has a club. Its evidence compares pupils who go with pupils who do not, and nobody chose who goes by tossing a coin. Family circumstances can affect both whether a pupil goes and how the pupil does at school, so they open a back door. Attendance is a mediator, one route by which going could improve results. A comparison that matches the action is schools with a club against schools without one, and the strongest version is a trial in which some schools are given a club at random.</p>
+</section>
+<section id="lenses" class="level2">
+<h2 class="anchored" data-anchor-id="lenses">Lenses</h2>
+<p>What are we optimizing or predicting? The job center optimizes its placement rate, not the jobs the course creates, and the cleaning robot what its camera shows, not the room.</p>
+<p>Which comparison gets reported? Attenders against non-attenders, or attenders against non-attenders within each row of the table. Women who took hormones against women who did not, or women who started against women who did not, followed from the same day. In each pair the first comparison comes with the data, and the second is the one an action needs. In the course table the first is nearly three times the second. In the hormone studies the first gave 0.39, and the second gave 1.42 over the first two years (interval 0.92 to 2.20) and 0.96 over the whole follow-up (0.78 to 1.18), estimates the authors call similar to the trial’s. And the average effect, or the effects within groups defined before treatment. The first is all a utilitarian choosing between everyone and no one needs; the second is closer to what the Belmont principle of justice asks about.</p>
+<p>You have to choose, so choose, and defend it. “Pretending it was forced is its own failure.” Which variables to adjust for follows from a graph, and you drew the graph. A colleague can draw another that fits the same numbers. The backdoor criterion narrows the choice. Given a graph, it tells you which sets are valid. Drawing the graph is up to you. Declining to draw one does not remove the choice. The argument you are reading has usually drawn it already, as “<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>”, without saying so.</p>
+<p>And why? The observational comparison comes free with the data. The interventional one needs a graph, and a graph is an argument that someone can attack. Whoever is making the case for a policy has a reason to prefer the first.</p>
+</section>
+<section id="for-the-class" class="level2">
+<h2 class="anchored" data-anchor-id="for-the-class">For the class</h2>
+<section id="effects-that-differ-between-groups" class="level3">
+<h3 class="anchored" data-anchor-id="effects-that-differ-between-groups">Effects that differ between groups</h3>
+<p>In the course table, attending adds 10 points in both rows. Effects can differ between rows, and then the average treatment effect depends on how common each row is. If the within-row effects were <span class="math inline">\(0.06\)</span> for <span class="math inline">\(Z = 1\)</span> and <span class="math inline">\(0.26\)</span> for <span class="math inline">\(Z = 0\)</span>, the average treatment effect would be <span class="math inline">\(0.06\,P(Z = 1) + 0.26\,P(Z = 0)\)</span>: <span class="math inline">\(0.16\)</span> when the rows are equal in size, and <span class="math inline">\(0.08\)</span> in a population where 90% have <span class="math inline">\(Z = 1\)</span>. The reading calls such effects heterogeneous. An average treatment effect belongs to a population, so before you carry one to a new population, ask whether the two have the same mix.</p>
+<p>A decision is usually a change from what happens now, not a choice between everyone and no one. Sending everyone to the course changes <span class="math inline">\(X\)</span> only for the 500 people who did not attend, 100 with <span class="math inline">\(Z = 1\)</span> and 400 with <span class="math inline">\(Z = 0\)</span>. With the effects above, the overall rate would rise by <span class="math inline">\((100 \times 0.06 + 400 \times 0.26)/1000 = 0.11\)</span>. That is the effect among the people who did not attend, <span class="math inline">\(0.22\)</span>, times their share, one half. The average treatment effect, <span class="math inline">\(0.16\)</span>, compares everyone attending with nobody attending, which is a different question. Outside this example, offering the course to everyone would not make everyone attend.</p>
+</section>
+<section id="more-than-one-adjustment-set" class="level3">
+<h3 class="anchored" data-anchor-id="more-than-one-adjustment-set">More than one adjustment set</h3>
+<p>A graph can allow more than one valid adjustment set. Add to the course graph a variable <span class="math inline">\(W\)</span> with an arrow into <span class="math inline">\(Y\)</span> and no other arrows, such as the distance from a person’s home to the nearest large employer. <span class="math inline">\(W\)</span> is on no backdoor path, so <span class="math inline">\(\{Z\}\)</span> and <span class="math inline">\(\{Z, W\}\)</span> are both valid, and in a linear model the coefficient on <span class="math inline">\(X\)</span> converges to <span class="math inline">\(\beta\)</span> either way. The choice between them is about variance, not bias. Adding <span class="math inline">\(W\)</span> removes some of the unexplained variation in <span class="math inline">\(Y\)</span>, so the estimate from <span class="math inline">\(\{Z, W\}\)</span> is usually less variable.</p>
+</section>
+</section>
+<section id="readings" class="level2">
+<h2 class="anchored" data-anchor-id="readings">Readings</h2>
+<p>Skim the Wikipedia articles, and read the fairmlbook pages closely enough to follow their examples.</p>
+<section id="required" class="level3">
+<h3 class="anchored" data-anchor-id="required">Required</h3>
+<ul>
+<li>Barocas, Hardt and Narayanan, <em>Fairness and Machine Learning</em>, <a href="https://fairmlbook.org/pdf/fairmlbook.pdf">chapter 5, Causality</a>, from “The limitations of observation” through “Confounding” (pages 105 to 116).</li>
+<li><a href="https://joshualoftus.com/ms4ds/ethical-data-science.html">ms4ds, chapter 3</a>, sections 3.2 (philosophy of ethics) and 3.3 (applied ethics), a re-read.</li>
+<li>Skim the Wikipedia articles <a href="https://en.wikipedia.org/wiki/Consequentialism">Consequentialism</a>, <a href="https://en.wikipedia.org/wiki/Deontology">Deontology</a>, <a href="https://en.wikipedia.org/wiki/Virtue_ethics">Virtue ethics</a>, <a href="https://en.wikipedia.org/wiki/Pragmatic_ethics">Pragmatic ethics</a> and <a href="https://en.wikipedia.org/wiki/Belmont_Report">Belmont Report</a>.</li>
+</ul>
+</section>
+<section id="optional" class="level3">
+<h3 class="anchored" data-anchor-id="optional">Optional</h3>
+<ul>
+<li>Cunningham, <em>Causal Inference: The Mixtape</em>, <a href="https://mixtape-1ed.netlify.app/">first edition</a>, section 1.2 and sections 3.1 to 3.1.4. The site mixtape.scunning.com now has a second edition, with different section numbers.</li>
+<li>Tukey, <a href="https://doi.org/10.1080/00401706.1960.10489909">Conclusions vs Decisions</a> (<em>Technometrics</em> 2(4), 1960, 423–433).</li>
+<li>Bross, <a href="https://doi.org/10.1080/00031305.1974.10479092">The Role of the Statistician: Scientist or Shoe Clerk</a> (<em>The American Statistician</em> 28(4), 1974, 126–127).</li>
+</ul>
+<p>Cited in the text and not assigned: ms4ds, section 3.4, “Causality and ethics”; Grodstein, Stampfer, Manson and colleagues, “Postmenopausal estrogen and progestin use and the risk of cardiovascular disease” (<em>New England Journal of Medicine</em> 335, 1996, 453–461); Writing Group for the Women’s Health Initiative Investigators, “Risks and benefits of estrogen plus progestin in healthy postmenopausal women” (<em>JAMA</em> 288, 2002, 321–333); Humphrey, Chan and Sox, “Postmenopausal hormone replacement therapy and the primary prevention of cardiovascular disease” (<em>Annals of Internal Medicine</em> 137, 2002, 273–284), the review the reading cites; Hernán, Alonso, Logan and colleagues, “Observational studies analyzed like randomized experiments” (<em>Epidemiology</em> 19, 2008, 766–779); Prasad, Jorgenson, Ioannidis and Cifu, “Observational studies often make clinical practice recommendations” (<em>Journal of Clinical Epidemiology</em> 66, 2013, 361–366); Bickel, Hammel and O’Connell, “Sex bias in graduate admissions: data from Berkeley” (<em>Science</em> 187, 1975, 398–404); Pearl, <em>Causality</em> (2009), for the backdoor criterion; Loftus, <a href="https://proceedings.mlr.press/v235/loftus24a.html">Position: The Causal Revolution Needs Scientific Pragmatism</a> (ICML 2024); Deng, Jiang, Long and Zhang, <a href="https://openreview.net/forum?id=qqnttX9LPo">Causal Reinforcement Learning: A Survey</a> (<em>Transactions on Machine Learning Research</em>, 2023); Amodei, Olah, Steinhardt, Christiano, Schulman and Mané, <a href="https://arxiv.org/abs/1606.06565">Concrete Problems in AI Safety</a> (2016); Heckman, Heinrich and Smith, <a href="https://www.nber.org/papers/w9002">The Performance of Performance Standards</a> (NBER Working Paper 9002, 2002).</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ethics4ds\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Joshua Loftus">
+  <title>{{&lt; fa solid chart-simple size=large &gt;}} ethics 4 data science – Consequences and causal models</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-d05d304e8c9a7d1cfef100a4140e2625.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Consequences and causal models</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Joshua Loftus
+</div>
+</div>
+</div>
+
+</section>
+<section id="section" class="slide level2 inverse">
+<h2></h2>
+<h3 id="week-3">Week 3</h3>
+<p>Part 1: Normative and applied ethics</p>
+<p>Part 2: Causal models</p>
+<p>Part 3: Confounding and adjustment</p>
+<p>Part 4: Reinforcement learning</p>
+</section>
+<section>
+<section id="part-1-normative-and-applied-ethics" class="title-slide slide level1 center">
+<h1>Part 1: Normative and applied ethics</h1>
+
+</section>
+<section id="normative-ethics-four-frameworks" class="slide level2">
+<h2>Normative ethics: four frameworks</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">judges an action by</th>
+<th style="text-align: left;">a difficulty</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Consequentialism</td>
+<td style="text-align: left;">its effects</td>
+<td style="text-align: left;">predicting consequences</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Deontology</td>
+<td style="text-align: left;">whether it follows a rule or a duty</td>
+<td style="text-align: left;">a rule kept where it leads somewhere terrible</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Virtue ethics</td>
+<td style="text-align: left;">the character it expresses</td>
+<td style="text-align: left;">virtues conflict</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pragmatic ethics</td>
+<td style="text-align: left;">norms held like hypotheses, revised by inquiry</td>
+<td style="text-align: left;">how people judge, or how they should?</td>
+</tr>
+</tbody>
+</table>
+<p>These approaches are not mutually exclusive or exhaustive, so we do not have to choose one of them or limit our thinking to using only these ideas.</p>
+<div class="source">
+<p>ms4ds, section 3.2.2 (the last line) and sections 3.2.2.1 to 3.2.2.3 (the first three rows); Wikipedia, Deontology and Pragmatic ethics.</p>
+</div>
+</section>
+<section id="which-framework" class="slide level2">
+<h2>Which framework?</h2>
+<p>A hospital is deciding whether to use a model to choose which patients get a follow-up call after discharge.</p>
+<ol type="1">
+<li>“A good doctor would not hand that judgment to a score.”</li>
+<li>“Use it. In the pilot, readmissions fell.”</li>
+<li>“Try it on one ward, watch what happens, and change the rules as we learn.”</li>
+<li>“Don’t. Patients never agreed to their records being used this way.”</li>
+</ol>
+<div class="ask">
+<p>Which framework is each argument using? Which of them would you need data to settle?</p>
+</div>
+</section>
+<section id="consequentialism" class="slide level2">
+<h2>Consequentialism</h2>
+<blockquote>
+<p>An act is right “if and only if the act (or in some views, the rule under which it falls) will produce, will probably produce, or is intended to produce, a greater balance of good over evil than any available alternative.”</p>
+</blockquote>
+<div class="source">
+<p>Wikipedia, Consequentialism.</p>
+</div>
+<p>Causal understanding is necessary to apply consequentialism. An observational model of the world does not tell us what consequences we can expect to result from any action which is an intervention.</p>
+<div class="source">
+<p>ms4ds, section 3.4.</p>
+</div>
+<div class="leave">
+<p>Only one of the alternatives is taken. What the others would have brought about is never observed.</p>
+</div>
+</section>
+<section id="utilitarianism" class="slide level2">
+<h2>Utilitarianism</h2>
+<p>Consequentialism’s best-known form, from Bentham and Mill: choose the action that does the greatest good for the greatest number. What matters is “to aggregate happiness; the happiness of everyone, and not the happiness of any particular person.”</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">a difficulty</th>
+<th style="text-align: left;">in data science</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">defining utility</td>
+<td style="text-align: left;">choosing the outcome, the metric or the loss</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trading off between people</td>
+<td style="text-align: left;">adding up gains and losses over people</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">judging acts or rules</td>
+<td style="text-align: left;">one decision, or the model that makes all of them</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">predicting consequences</td>
+<td style="text-align: left;">effects of actions, not associations</td>
+</tr>
+</tbody>
+</table>
+<div class="source">
+<p>ms4ds, section 3.2.2.1 (the four difficulties); Wikipedia, Consequentialism (the quotation).</p>
+</div>
+</section>
+<section id="utilitarian-language" class="slide level2">
+<h2>Utilitarian language</h2>
+<p>Data science is usually framed (perhaps implicitly) as utilitarian because of its focus on prediction/causation (consequences) and optimization (utility).</p>
+<div class="source">
+<p>ms4ds, section 3.2.2, discussion questions.</p>
+</div>
+<div class="ask">
+<p>Choose a data science task: a recommender, a credit score, an A/B test. Say it in utilitarian language: whose good, measured how, added up over whom? Then give one objection a deontologist or a virtue ethicist would make.</p>
+</div>
+</section>
+<section id="the-belmont-and-menlo-principles" class="slide level2">
+<h2>The Belmont and Menlo principles</h2>
+<ul>
+<li>1932 to 1972: the Tuskegee study. Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.</li>
+<li>1974: the National Research Act creates a national commission for the protection of research subjects.</li>
+<li>1978: the Belmont Report. Respect for persons, beneficence, justice.</li>
+<li>2012: the Menlo Report adds respect for law and the public interest.</li>
+</ul>
+<blockquote>
+<p>Beneficence, in the Menlo Report’s words: “Do not harm; Maximize probable benefits and minimize probable harms; Systematically assess both risk of harm and benefit.”</p>
+</blockquote>
+<div class="source">
+<p>ms4ds, section 3.3.1, which quotes the Menlo Report (2012); Wikipedia, Belmont Report.</p>
+</div>
+</section></section>
+<section>
+<section id="part-2-causal-models" class="title-slide slide level1 center">
+<h1>Part 2: Causal models</h1>
+
+</section>
+<section id="observational-studies-that-recommend-a-practice" class="slide level2 inverse">
+<h2>Observational studies that recommend a practice</h2>
+<p>The 631 original articles in four leading medical journals in 2010 included 298 eligible observational studies.</p>
+<p>The authors recommended a medical practice in 167 (56%).</p>
+<p>Of those 167, 24 said a randomized trial should be done first.</p>
+<div class="source" style="color: #BCAF6F">
+<p>Prasad, Jorgenson, Ioannidis and Cifu (2013), <em>Journal of Clinical Epidemiology</em> 66, 361–366. The journals: <em>New England Journal of Medicine</em>, <em>Lancet</em>, <em>JAMA</em>, <em>Annals of Internal Medicine</em>.</p>
+</div>
+</section>
+<section id="hormone-therapy-1996" class="slide level2">
+<h2>Hormone therapy, 1996</h2>
+<p>Nurses’ Health Study: 59,337 women, followed for up to 16 years. Women taking estrogen with progestin after the menopause, against women not using hormones:</p>
+<p>relative risk of major coronary heart disease 0.39 (95% interval 0.19 to 0.78), adjusted for the confounders the authors measured.</p>
+<blockquote>
+<p>“The addition of progestin does not appear to attenuate the cardioprotective effects of postmenopausal estrogen therapy.”</p>
+</blockquote>
+<div class="source">
+<p>Grodstein and colleagues (1996), <em>New England Journal of Medicine</em> 335, 453–461.</p>
+</div>
+<div class="ask">
+<p>A trial randomizes women to estrogen with progestin or to a placebo. Write down the ratio you expect for coronary heart disease.</p>
+</div>
+</section>
+<section id="hormone-therapy-2002-and-2008" class="slide level2">
+<h2>Hormone therapy, 2002 and 2008</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/hrt-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote>
+<p>Estrogen with progestin “should not be initiated or continued for primary prevention of CHD.”</p>
+</blockquote>
+<div class="source">
+<p>Writing Group for the Women’s Health Initiative Investigators (2002), <em>JAMA</em> 288, 321–333. Hernán and colleagues (2008), <em>Epidemiology</em> 19, 766–779.</p>
+</div>
+</section>
+<section id="two-explanations" class="slide level2">
+<h2>Two explanations</h2>
+<p>Confounding:</p>
+<blockquote>
+<p>“a suspected beneficial effect of hormone replacement therapy in reducing cardiovascular disease disappeared after identifying socioeconomic status as a confounding variable.”</p>
+</blockquote>
+<div class="source">
+<p>fairmlbook, chapter 5, citing Humphrey, Chan and Sox (2002): in studies adjusted for socioeconomic status and the major coronary risk factors, relative risk 1.07 (credible interval 0.79 to 1.48).</p>
+</div>
+<p>The comparison: starters against non-starters, followed from the same point, gave estimates “similar to those from the Women’s Health Initiative.”</p>
+<div class="source">
+<p>Hernán and colleagues (2008).</p>
+</div>
+<div class="leave">
+<p>Which comparison gets reported? Women who took hormones against women who did not, or starters against non-starters.</p>
+</div>
+</section>
+<section id="structural-causal-models" class="slide level2">
+<h2>Structural causal models</h2>
+<blockquote>
+<p>“a sequence of assignments for generating a joint distribution starting from independent noise variables.”</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/three_shapes-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(Z\)</span> a common cause, <span class="math inline">\(M\)</span> a mediator, <span class="math inline">\(C\)</span> a common effect.</p>
+<div class="source">
+<p>fairmlbook, chapter 5, “Causal models” and “Causal graphs.”</p>
+</div>
+</section>
+<section id="exercise-weight-and-heart-disease" class="slide level2">
+<h2>Exercise, weight and heart disease</h2>
+<p><span class="math inline">\(U_1 \sim \mathrm{Ber}(1/2)\)</span>, <span class="math inline">\(\;U_2, U_3 \sim \mathrm{Ber}(1/3)\)</span>, independent; <span class="math inline">\(\mathrm{Ber}(q)\)</span> is 1 with probability <span class="math inline">\(q\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ol type="1">
+<li><span class="math inline">\(X := U_1\)</span> (exercise)</li>
+<li><span class="math inline">\(W :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(0\)</span> else <span class="math inline">\(U_2\)</span> (overweight)</li>
+<li><span class="math inline">\(H :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(0\)</span> else <span class="math inline">\(U_3\)</span> (heart disease)</li>
+</ol>
+</div><div class="column" style="width:30%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/program_dag-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<p>Apart from the noise, an arrow into a variable comes from each variable its line uses: <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> are both computed from <span class="math inline">\(X\)</span>.</p>
+<div class="ask">
+<p>Compute <span class="math inline">\(P(H = 1)\)</span> and <span class="math inline">\(P(H = 1 \mid W = 1)\)</span>.</p>
+</div>
+<div class="source">
+<p>fairmlbook, chapter 5, “A first example.”</p>
+</div>
+</section>
+<section id="conditioning-and-intervening" class="slide level2">
+<h2>Conditioning and intervening</h2>
+<p><span class="math inline">\(P(H = 1) = \tfrac12 \cdot \tfrac13 = \tfrac16\)</span>, <span class="math inline">\(\qquad P(H = 1 \mid W = 1) = \tfrac13\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:68%;">
+<p><span class="math inline">\(do(W := 1)\)</span>: replace line 2 by <span class="math inline">\(W := 1\)</span>. In the graph, the arrow into <span class="math inline">\(W\)</span> is deleted.</p>
+<p><span class="math inline">\(P(H = 1 \mid do(W := 1)) = \tfrac16\)</span>.</p>
+</div><div class="column" style="width:32%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/program_do-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<blockquote>
+<p>“The substitution <span class="math inline">\(W := 1\)</span> does not correspond to a conditioning on <span class="math inline">\(W = 1\)</span>. One is an action, albeit inconsequential in this case.”</p>
+</blockquote>
+<p><span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>confounded</strong> when <span class="math inline">\(P(Y = y \mid do(X := x)) \ne P(Y = y \mid X = x)\)</span>.</p>
+<div class="source">
+<p>fairmlbook, chapter 5, “A first example” and “Confounding.”</p>
+</div>
+</section>
+<section id="the-average-treatment-effect" class="slide level2">
+<h2>The average treatment effect</h2>
+<p><span class="math display">\[
+\text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)]
+\]</span></p>
+<p>Each term deletes the arrows into <span class="math inline">\(X\)</span> and sets <span class="math inline">\(X\)</span> to the same value for everyone.</p>
+<blockquote>
+<p>“Causal effects are population quantities. They refer to effects averaged over the whole population. Often the effect of treatment varies greatly from one individual or group of individuals to another.”</p>
+</blockquote>
+<p>The observed difference <span class="math inline">\(E[Y \mid X = 1] - E[Y \mid X = 0]\)</span> compares the people who happened to be treated with the people who were not.</p>
+<div class="source">
+<p>fairmlbook, chapter 5, “Causal effects.”</p>
+</div>
+</section>
+<section id="adding-up-over-people" class="slide level2">
+<h2>Adding up over people</h2>
+<p>Suppose <span class="math inline">\(Y\)</span> measures how well off a person is, on a scale that adds up across people, and nobody’s outcome depends on anyone else’s treatment. Then treating all <span class="math inline">\(n\)</span> people rather than none changes the expected total of <span class="math inline">\(Y\)</span> by <span class="math inline">\(n \times \text{ATE}\)</span>: the utilitarian’s comparison of the two actions.</p>
+<p>A gain to one person offsets a loss to another. A positive ATE is consistent with some people being made worse off.</p>
+<div class="ask">
+<p>Justice, in the Belmont Report, concerns who receives the benefits of research and who bears its burdens. For a policy, what would you need to know besides the ATE?</p>
+</div>
+<div class="source">
+<p>Wikipedia, Belmont Report.</p>
+</div>
+</section>
+<section id="prediction-and-intervention" class="slide level2">
+<h2>Prediction and intervention</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/three_dags-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote>
+<p>“If we expect a model to also tell us what happens when we intervene on variables, then […] models with equal predictive accuracy are no longer equivalent. We become responsible to choose one of them.”</p>
+</blockquote>
+<div class="source">
+<p>Figure 1 of Loftus (2024), “Position: The Causal Revolution Needs Scientific Pragmatism,” ICML.</p>
+</div>
+</section>
+<section id="draw-the-graph" class="slide level2">
+<h2>Draw the graph</h2>
+<div class="ask">
+<p>Use hormone use, heart disease, socioeconomic status and age. Draw the graph the 1996 conclusion needs, then add arrows that would make women taking hormones look healthier even if the hormones did nothing.</p>
+</div>
+</section>
+<section id="hormone-therapy-one-graph" class="slide level2">
+<h2>Hormone therapy: one graph</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/hrt_dag-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The gold arrow is the claim that the hormones protect the heart. The four black arrows can produce a difference between users and non-users without it.</p>
+</section></section>
+<section>
+<section id="part-3-confounding-and-adjustment" class="title-slide slide level1 center">
+<h1>Part 3: Confounding and adjustment</h1>
+
+</section>
+<section id="a-job-search-course" class="slide level2">
+<h2>A job-search course</h2>
+<p>A job center refers some of the 1,000 people registered with it to a job-search course. Everyone referred attends, and nobody else does. Six months later:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">attended</th>
+<th style="text-align: left;">did not attend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1,000 people</td>
+<td style="text-align: left;">500, of whom 320 in work (64%)</td>
+<td style="text-align: left;">500, of whom 180 in work (36%)</td>
+</tr>
+</tbody>
+</table>
+<div class="ask">
+<p>How much does the course raise the chance of being in work? Write down a number, or what else you would need to know.</p>
+</div>
+</section>
+<section id="the-rows" class="slide level2">
+<h2>The rows</h2>
+<div class="columns">
+<div class="column" style="width:68%;">
+<div class="small">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">attended (<span class="math inline">\(X = 1\)</span>)</th>
+<th style="text-align: left;">did not (<span class="math inline">\(X = 0\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">worked last year (<span class="math inline">\(Z = 1\)</span>), 500</td>
+<td style="text-align: left;">400, of whom 280 in work (70%)</td>
+<td style="text-align: left;">100, of whom 60 (60%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">did not (<span class="math inline">\(Z = 0\)</span>), 500</td>
+<td style="text-align: left;">100, of whom 40 in work (40%)</td>
+<td style="text-align: left;">400, of whom 120 (30%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">total, 1,000</td>
+<td style="text-align: left;">500, of whom 320 in work (64%)</td>
+<td style="text-align: left;">500, of whom 180 (36%)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div><div class="column" style="width:32%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/course_dag-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<p><span class="math inline">\(Z\)</span> = worked last year, <span class="math inline">\(X\)</span> = attended the course, <span class="math inline">\(Y\)</span> = in work six months later.</p>
+</section>
+<section id="the-adjustment-formula" class="slide level2">
+<h2>The adjustment formula</h2>
+<p><span class="math inline">\(Z\)</span> worked last year, <span class="math inline">\(X\)</span> attended, <span class="math inline">\(Y\)</span> in work. <span class="math inline">\(do(X := 1)\)</span> deletes the arrow <span class="math inline">\(Z \to X\)</span>, and <span class="math inline">\(Z\)</span> keeps its distribution:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E[Y \mid do(X := 1)] &amp;= \sum_z E[Y \mid X = 1, Z = z]\,P(Z = z) \\
+&amp;= 0.7 \times 0.5 + 0.4 \times 0.5 = 0.55 \\
+E[Y \mid do(X := 0)] &amp;= 0.6 \times 0.5 + 0.3 \times 0.5 = 0.45
+\end{aligned}
+\]</span></p>
+<p>The average treatment effect is <span class="math inline">\(0.10\)</span>.</p>
+<div class="leave">
+<p><span class="math inline">\(P(Y = y \mid do(X := x)) = \sum_z P(Y = y \mid X = x, Z = z)\,P(Z = z)\)</span> when <span class="math inline">\(Z\)</span> satisfies the backdoor criterion (later in the lecture), and every value of <span class="math inline">\(Z\)</span> includes people with <span class="math inline">\(X = x\)</span>.</p>
+</div>
+</section>
+<section id="the-observed-comparison" class="slide level2">
+<h2>The observed comparison</h2>
+<p><span class="math inline">\(Z\)</span> worked last year, <span class="math inline">\(X\)</span> attended, <span class="math inline">\(Y\)</span> in work. Each row is weighted by its share of attenders, or of non-attenders:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(Y = 1 \mid X = 1) &amp;= \frac{0.7 \times 400 + 0.4 \times 100}{500} = 0.64 \\
+P(Y = 1 \mid X = 0) &amp;= \frac{0.6 \times 100 + 0.3 \times 400}{500} = 0.36
+\end{aligned}
+\]</span></p>
+<p>Attenders come mostly from the <span class="math inline">\(Z = 1\)</span> row, where more people find work whether or not they attend.</p>
+</section>
+<section id="referral-at-random" class="slide level2">
+<h2>Referral at random</h2>
+<p>Same people, same rows. The center now refers half of each row, chosen at random; everyone referred attends, and nobody else does.</p>
+<div class="ask">
+<p>Compute the share in work you would expect among those who attended, and among those who did not. Compare the difference with the average treatment effect.</p>
+</div>
+</section>
+<section id="randomization" class="slide level2">
+<h2>Randomization</h2>
+<p>Half of each row attends, chosen at random. The shares to expect:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(Y = 1 \mid X = 1) &amp;= 0.5 \times 0.7 + 0.5 \times 0.4 = 0.55 \\
+P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
+\end{aligned}
+\]</span></p>
+<p>The observed difference is the effect, apart from the chance variation of one draw.</p>
+<blockquote>
+<p>“The goal of a randomized controlled trial is to break natural inclination.”</p>
+</blockquote>
+<div class="source">
+<p>fairmlbook, chapter 5, “Randomization.”</p>
+</div>
+</section>
+<section id="the-backdoor-criterion" class="slide level2">
+<h2>The backdoor criterion</h2>
+<p>A backdoor path from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span> starts with an arrow into <span class="math inline">\(X\)</span>: here, <span class="math inline">\(X \leftarrow Z \to Y\)</span>.</p>
+<p><span class="math inline">\(Z\)</span> satisfies the <strong>backdoor criterion</strong> if</p>
+<ol type="1">
+<li>no variable in <span class="math inline">\(Z\)</span> is a descendant of <span class="math inline">\(X\)</span>, and</li>
+<li><span class="math inline">\(Z\)</span> blocks every backdoor path from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span>.</li>
+</ol>
+<p>A path through a fork or a chain is blocked by conditioning on the variable in the middle.</p>
+<blockquote>
+<p>Controlling for a mediator “will eliminate some of the causal influence of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>.”</p>
+</blockquote>
+<div class="source">
+<p>The criterion: Pearl (2009), <em>Causality</em>, as cited in fairmlbook, chapter 5. The quotation: fairmlbook, chapter 5, “Confounding.”</p>
+</div>
+</section>
+<section id="unobserved-confounding" class="slide level2">
+<h2>Unobserved confounding</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unobs_dag-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:60%;">
+<p><span class="math inline">\(U\)</span>: something unmeasured, such as motivation, that pushes people onto the course and into work.</p>
+<p>Under the graph without <span class="math inline">\(U\)</span>, adjusting for <span class="math inline">\(Z\)</span> gives the effect. Under this one, the back door through <span class="math inline">\(U\)</span> stays open, and the 10 points probably overstates the effect.</p>
+<p>The data on <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> fit both graphs.</p>
+</div></div>
+</section></section>
+<section>
+<section id="part-4-reinforcement-learning" class="title-slide slide level1 center">
+<h1>Part 4: Reinforcement learning</h1>
+
+</section>
+<section id="reinforcement-learning" class="slide level2">
+<h2>Reinforcement learning</h2>
+<p><strong>Notation:</strong> in this part, the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
+<p>An agent observes a state <span class="math inline">\(S\)</span>, takes an action <span class="math inline">\(A = \pi(S)\)</span> and receives a reward <span class="math inline">\(R\)</span>. The policy <span class="math inline">\(\pi\)</span> is a rule for acting. Learning means changing <span class="math inline">\(\pi\)</span> to make <span class="math inline">\(E_\pi[R]\)</span> large, the expected reward when the agent acts by <span class="math inline">\(\pi\)</span>.</p>
+<p>The good we care about is <span class="math inline">\(U\)</span>. A consequentialist would choose the policy with the largest <span class="math inline">\(E_\pi[U]\)</span>; the agent is given <span class="math inline">\(R\)</span> instead.</p>
+<p>Whether <span class="math inline">\(E_\pi[U]\)</span> is a causal quantity depends on further assumptions. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.</p>
+</section>
+<section id="a-cleaning-robot" class="slide level2">
+<h2>A cleaning robot</h2>
+<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
+<p><span class="math inline">\(S\)</span>: what the robot’s camera shows. <span class="math inline">\(A\)</span>: where to move, and whether to clean. <span class="math inline">\(R\)</span>: 1 when no mess is in view. <span class="math inline">\(U\)</span>: a clean room.</p>
+<p>Rewarded for not seeing any mess, the robot can earn full reward by closing its eyes, or by covering the mess with something it cannot see through.</p>
+<div class="source">
+<p>Amodei, Olah, Steinhardt, Christiano, Schulman and Mané (2016), “Concrete Problems in AI Safety,” sections 2 and 4.</p>
+</div>
+</section>
+<section id="a-job-center-as-an-agent" class="slide level2">
+<h2>A job center as an agent</h2>
+<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
+<p>A variant of the lecture’s job center: it has 100 places on the course, which here helps some people more than others.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">in work six months later, with the course</th>
+<th style="text-align: left;">without it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">worked last year</td>
+<td style="text-align: left;">70%</td>
+<td style="text-align: left;">64%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">did not</td>
+<td style="text-align: left;">40%</td>
+<td style="text-align: left;">14%</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(S\)</span>: a person’s record. <span class="math inline">\(A\)</span>: refer or not. <span class="math inline">\(R\)</span>: the share of those referred who are in work, the center’s performance measure. <span class="math inline">\(U\)</span>: the number in work because of the course.</p>
+<div class="ask">
+<p>Whom does a center judged on <span class="math inline">\(R\)</span> send? Whom would a utilitarian send?</p>
+</div>
+</section>
+<section id="cream-skimming" class="slide level2">
+<h2>Cream skimming</h2>
+<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
+<p>Send 100 who worked last year: <span class="math inline">\(R\)</span> = 70%, and <span class="math inline">\(U\)</span> = 6 more people in work. Send 100 who did not: <span class="math inline">\(R\)</span> = 40%, and <span class="math inline">\(U\)</span> = 26 more.</p>
+<p>Choosing people who would have found work anyway is called cream skimming. US job-training centers funded under the Job Training Partnership Act were judged partly on employment rates. Economists who studied them found that cream skimming changed the programs’ efficiency little, in either direction, and concluded that “opposition to cream skimming must come on equity grounds.”</p>
+<div class="source">
+<p>Heckman, Heinrich and Smith (2002), “The Performance of Performance Standards,” NBER Working Paper 9002, abstract and section VIII. They also found the short-run measures “weakly, and sometimes perversely, related to long run impacts.”</p>
+</div>
+</section>
+<section id="utilitarianism-with-a-reward" class="slide level2">
+<h2>Utilitarianism with a reward</h2>
+<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
+<p>An agent judges a policy only by the reward it expects. That is consequentialism, with the good defined by whoever chose <span class="math inline">\(R\)</span>.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">a difficulty of utilitarianism</th>
+<th style="text-align: left;">in building the agent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">defining utility</td>
+<td style="text-align: left;">someone chooses <span class="math inline">\(R\)</span>, and <span class="math inline">\(R\)</span> is not <span class="math inline">\(U\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trading off between people</td>
+<td style="text-align: left;">reward is added up over the people served</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">judging acts or rules</td>
+<td style="text-align: left;">the policy is a rule: it treats alike everyone in the same state</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">predicting consequences</td>
+<td style="text-align: left;">a model of what the actions do, which is a causal model</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lenses-this-week" class="slide level2">
+<h2>Lenses this week</h2>
+<ul>
+<li><strong>What are we optimizing or predicting?</strong> The center’s placement rate, or the jobs the course creates.</li>
+<li><strong>Which comparison gets reported?</strong> Attenders against non-attenders, overall or within rows. Women who took hormones against women who did not, or starters against non-starters. The average effect, or the effects within groups defined before treatment.</li>
+<li><strong>You have to choose, so choose, and defend it.</strong> The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph; it does not draw the graph. “Pretending it was forced is its own failure.”</li>
+</ul>
+<p>…and why?</p>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<div class="ask">
+<p>Does consequentialism become more or less defensible once you have to write the causal model down?</p>
+</div>
+<p>For next time: bring one score or algorithm used to make decisions about people, with what it measures and what it stands in for.</p>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/ethics4ds\.com");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
