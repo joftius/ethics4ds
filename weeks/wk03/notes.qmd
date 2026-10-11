@@ -872,8 +872,8 @@ measures "weakly, and sometimes perversely, related to long run
 impacts." They also found that cream skimming made little difference
 to the programs' efficiency, in either direction, unlike the invented
 numbers above, and concluded: "Opposition to cream skimming must come
-on equity grounds." In those programs, then, the case against cream
-skimming rests on who is served, not on the total.
+on equity grounds." Equity here is about who is served; efficiency is
+about the total.
 
 Each of the four difficulties of utilitarianism becomes a choice
 someone makes in building such an agent. Defining utility becomes
