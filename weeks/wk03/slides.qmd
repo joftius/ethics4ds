@@ -22,30 +22,34 @@ knitr:
 st313:
   week: 03
   session: lecture
-  register: 1                      # the two register-2 slides in part 4 each declare it in their first line; the collision table sets both registers side by side (spine section 5 allows the glossary level)
-  segments:                        # sums to 80: 75 of material and 5 of slack; production 24 (30%)
-    # part 1, four ways to judge an action: 19
+  register: 1                      # schema key. The reinforcement-learning slide in part 4 declares its letters in its first line; the notation table sets the prediction letters and the reinforcement-learning letters side by side (spine section 5 allows the glossary level). Student-facing text never says "register" (convenor, 11 October)
+  segments:                        # sums to 80: 75 of material and 5 of slack; production 27 (34%)
+    # part 1, normative and applied ethics: 18
     - {label: "plan", minutes: 1, mode: exposition}
-    - {label: "four frameworks: what each judges and its difficulty", minutes: 3, mode: exposition}
-    - {label: "pairs: which framework is each of four arguments about one decision using; which would need data", minutes: 3, mode: production}
-    - {label: "Tuskegee, the National Research Act, Belmont and Menlo; beneficence as the consequentialist clause", minutes: 2, mode: exposition}
-    - {label: "consequentialism as a comparison between actions; ms4ds 3.4", minutes: 2, mode: exposition}
+    - {label: "normative ethics: four frameworks, what each judges and its difficulty", minutes: 3, mode: exposition}
+    - {label: "pairs: which framework is each of four arguments about one decision using (listed out of the table's order); which would need data", minutes: 3, mode: production}
+    - {label: "consequentialism as a comparison between actions; ms4ds 3.4, causal understanding is necessary to apply it", minutes: 1, mode: exposition}
+    - {label: "utilitarianism: Bentham and Mill, aggregate happiness; ms4ds's four difficulties and what each is in data science", minutes: 3, mode: exposition}
+    - {label: "pairs: a data science task in utilitarian language, and an objection from another framework (ms4ds 3.2.2, discussion)", minutes: 3, mode: production}
+    - {label: "applied ethics: Tuskegee, the National Research Act, Belmont and Menlo; beneficence as the consequentialist clause", minutes: 2, mode: exposition}
+    - {label: "causality and ethics, ms4ds 3.4: divorce (utilitarian), Kant's universal law (deontological), stress and appetite (virtue)", minutes: 2, mode: exposition}
+    # part 2, causal models: 25
     - {label: "dark: observational studies that recommend a practice (Prasad and colleagues 2013)", minutes: 1, mode: exposition}
     - {label: "hormone therapy 1996: the observational estimate and its causal conclusion", minutes: 1, mode: exposition}
     - {label: "written commitment: the ratio a randomized trial would find", minutes: 2, mode: production}
     - {label: "the trial and the emulation: four estimates", minutes: 2, mode: exposition}
     - {label: "two explanations: confounding (the reading, Humphrey) and the comparison (Hernan)", minutes: 2, mode: exposition}
-    # part 2, causal models: 15
     - {label: "structural causal models; fork, chain, collider", minutes: 2, mode: exposition}
-    - {label: "the reading's first program: students compute P(H = 1) and P(H = 1 | W = 1)", minutes: 3, mode: production}
-    - {label: "conditioning and intervening: do(W := 1); confounded", minutes: 2, mode: exposition,
+    - {label: "the reading's first example, exercise, weight and heart disease, with its graph: students compute P(H = 1) and P(H = 1 | W = 1)", minutes: 3, mode: production}
+    - {label: "conditioning and intervening: do(W := 1) replaces the line for W and deletes the arrow into W; confounded", minutes: 2, mode: exposition,
        introduces: [CC-10], core: CC-10, results: [R13]}
     - {label: "the average treatment effect", minutes: 2, mode: exposition, results: [R13]}
+    - {label: "adding up over people: n times the ATE is the utilitarian's comparison of everyone with no one, if Y adds across people and there is no interference; gains offset losses; Belmont's justice asks who bears them", minutes: 2, mode: exposition}
     - {label: "prediction and intervention: three graphs (Loftus 2024, Figure 1)", minutes: 2, mode: exposition}
     - {label: "pairs: draw the graph for hormone use and heart disease; one graph from the room", minutes: 3, mode: production,
        introduces: [CC-08], core: CC-08}
     - {label: "one graph for hormone use on the screen", minutes: 1, mode: exposition}
-    # part 3, confounding and adjustment: 26
+    # part 3, confounding and adjustment: 18
     - {label: "a job-search course: written commitment from the totals", minutes: 2, mode: production}
     - {label: "the rows and the graph", minutes: 2, mode: exposition,
        introduces: [CC-09], core: CC-09}
@@ -54,17 +58,15 @@ st313:
     - {label: "compute: referral at random", minutes: 3, mode: production}
     - {label: "randomization deletes the arrow into X", minutes: 1, mode: exposition}
     - {label: "the backdoor criterion; what not to adjust for", minutes: 3, mode: exposition, results: [R14]}
-    - {label: "dark: Berkeley 1973, Simpson's paradox as one figure", minutes: 2, mode: exposition}
-    - {label: "omitted-variable bias in covariances", minutes: 4, mode: exposition, results: [R15]}
-    - {label: "dark: omitted-variable bias simulated", minutes: 1, mode: exposition}
     - {label: "unobserved confounding: two graphs, the same data", minutes: 2, mode: exposition}
-    - {label: "dark: inverse probability weighting gives the same 0.55", minutes: 2, mode: exposition, results: [R16]}
-    # part 4, two registers and close: 15
-    - {label: "the sequential-decision register declared; the consequentialist as an agent; R and U", minutes: 3, mode: exposition, register: 2}
-    - {label: "the collisions, at the level of the glossary (spine section 5 allows both registers there)", minutes: 1, mode: exposition, register: 2}
+    - {label: "dark: inverse probability weighting gives the same 0.55", minutes: 1, mode: exposition, results: [R16]}
+    # part 4, reinforcement learning: 4
+    - {label: "reinforcement learning, its letters declared; a policy is a rule judged by its consequences; whether E_pi[U] is causal depends on further assumptions (causal reinforcement learning is a subfield); R and U", minutes: 3, mode: exposition, register: 2}
+    - {label: "the same letters with two meanings, at the level of the glossary (spine section 5 allows both there)", minutes: 1, mode: exposition, register: 2}
+    # part 5, drawing an argument's graph, and close: 10
     - {label: "transfer item, individually in writing: the graph a council's argument presupposes", minutes: 5, mode: production, item: W03-I1}
     - {label: "one graph for the council's argument", minutes: 1, mode: exposition}
-    - {label: "lenses this week", minutes: 2, mode: exposition}
+    - {label: "lenses this week", minutes: 1, mode: exposition}
     - {label: "the question that splits the room: hands, and one reason from each side; the task for next time on the same slide", minutes: 3, mode: production}
     # slack: 5 (as in week 2: plan 75 in the 80)
     - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 5, mode: exposition}
@@ -73,7 +75,7 @@ st313:
   retrieves: [S4]
   lenses: [C, E]
   readings: [fairmlbook-ch5a, ms4ds-ch3-normative, wiki-consequentialism, wiki-belmont-report]
-  results: [R13, R14, R15, R16]
+  results: [R13, R14, R16]          # R15, omitted-variable bias, is in the notes (optional section) and optional class problem 3, not in the lecture
   assumes: [ST102]
   figures: []
 # ---------------------------------------------------------------------------------
@@ -140,26 +142,28 @@ draw_dag <- function(nodes, edges, dashed = character(0), highlight = character(
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 75 in the 80: part 1 19, part 2 15, part 3 26, part 4 15, then 5 of slack. Dark = rush or skip.
+Compress: the five parts. Plan 75 in the 80: part 1 18, part 2 25, part 3 18, part 4 4, part 5 10, then 5 of slack. Dark = rush or skip.
 
-Cut order: (1) weighting, (2) the simulation of omitted-variable bias, (3) Berkeley, (4) the observational studies that recommend a practice. Do not cut the transfer item or the question at the end.
+Cut order: (1) weighting, (2) the observational studies that recommend a practice. Do not cut the transfer item or the question at the end.
 
-Pace: 0:19 structural causal models, 0:34 the job-search course, 1:00 two registers, 1:15 end.
+Pace: 0:18 Part 2; 0:43 the job-search course; 1:01 reinforcement learning; 1:05 the council's argument; 1:15 end.
 :::
 
 ### Week 3
 
-Part 1: Four ways to judge an action
+Part 1: Normative and applied ethics
 
 Part 2: Causal models
 
 Part 3: Confounding and adjustment
 
-Part 4: Two registers
+Part 4: Reinforcement learning
 
-# Part 1: Four ways to judge an action
+Part 5: Drawing an argument's graph
 
-## Four frameworks
+# Part 1: Normative and applied ethics
+
+## Normative ethics: four frameworks
 
 ::: {.notes}
 They read these: one line each. The consequentialist's difficulty is the one this course can help with.
@@ -167,15 +171,15 @@ They read these: one line each. The consequentialist's difficulty is the one thi
 
 | | judges an action by | a difficulty |
 |:---|:---|:---|
-| Consequentialism | its effects | "predicting consequences" |
+| Consequentialism | its effects | predicting consequences |
 | Deontology | whether it follows a rule or a duty | a rule kept where it leads somewhere terrible |
 | Virtue ethics | the character it expresses | virtues conflict |
 | Pragmatic ethics | norms held like hypotheses, revised by inquiry | how people judge, or how they should? |
 
-> "These approaches are not mutually exclusive or exhaustive, so we do not have to choose one of them or limit our thinking to using only these ideas."
+> These approaches are not mutually exclusive or exhaustive, so we do not have to choose one of them or limit our thinking to using only these ideas.
 
 ::: {.source}
-ms4ds, section 3.2.2 (the quotation) and sections 3.2.2.1 to 3.2.2.3 (the first three rows); Wikipedia, Deontology and Pragmatic ethics.
+ms4ds, section 3.2.2 (the block quote) and sections 3.2.2.1 to 3.2.2.3 (the first three rows); Wikipedia, Deontology and Pragmatic ethics.
 :::
 
 ## Which framework?
@@ -186,13 +190,68 @@ Pairs, two minutes, then hands for each argument. Then ask which of the four wou
 
 A hospital is deciding whether to use a model to choose which patients get a follow-up call after discharge.
 
-1. "Use it. In the pilot, readmissions fell."
-2. "Don't. Patients never agreed to their records being used this way."
-3. "A good doctor would not hand that judgment to a score."
-4. "Try it on one ward, watch what happens, and change the rules as we learn."
+1. "A good doctor would not hand that judgment to a score."
+2. "Use it. In the pilot, readmissions fell."
+3. "Try it on one ward, watch what happens, and change the rules as we learn."
+4. "Don't. Patients never agreed to their records being used this way."
 
 ::: {.ask}
 Which framework is each argument using? Which of them would you need data to settle?
+:::
+
+## Consequentialism
+
+::: {.notes}
+"Than any available alternative": a comparison between actions, only one of which is taken. Then ms4ds: the comparison needs causal understanding.
+:::
+
+> An act is right "if and only if the act (or in some views, the rule under which it falls) will produce, will probably produce, or is intended to produce, a greater balance of good over evil than any available alternative."
+
+::: {.source}
+Wikipedia, Consequentialism.
+:::
+
+Only one of the alternatives is taken. What the others would have brought about is never observed.
+
+> Causal understanding is necessary to apply consequentialism. An observational model of the world does not tell us what consequences we can expect to result from any action which is an intervention.
+
+::: {.source}
+ms4ds, section 3.4.
+:::
+
+## Utilitarianism
+
+::: {.notes}
+Bentham and Mill. Everyone's happiness counts, and nobody's counts for more. Then each difficulty and what it is in data science.
+:::
+
+Consequentialism's best-known form, from Bentham and Mill: choose the action that does the greatest good for the greatest number. What matters is "to aggregate happiness; the happiness of everyone, and not the happiness of any particular person."
+
+| a difficulty | in data science |
+|:---|:---|
+| defining utility | choosing the outcome, the metric or the loss |
+| trading off between people | adding up gains and losses over people |
+| judging acts or rules | one decision, or the model that makes all of them |
+| predicting consequences | effects of actions, not associations |
+
+::: {.source}
+ms4ds, section 3.2.2.1 (the four difficulties); Wikipedia, Consequentialism (the quotation).
+:::
+
+## Utilitarian language
+
+::: {.notes}
+Pairs, two minutes; two pairs report. If a pair is stuck: an A/B test that keeps whichever version has the higher average time in the app.
+:::
+
+> Data science is usually framed (perhaps implicitly) as utilitarian because of its focus on prediction/causation (consequences) and optimization (utility).
+
+::: {.source}
+ms4ds, section 3.2.2, discussion questions.
+:::
+
+::: {.ask}
+Choose a data science task: a recommender, a credit score, an A/B test. Say it in utilitarian language: whose good, measured how, added up over whom? Then give one objection a deontologist or a virtue ethicist would make.
 :::
 
 ## The Belmont and Menlo principles
@@ -201,7 +260,7 @@ Which framework is each argument using? Which of them would you need data to set
 The history in one breath: Tuskegee, 1932 to 1972; the National Research Act, 1974; the report, 1978. Beneficence is the consequentialist clause.
 :::
 
-- 1932 to 1972: the Tuskegee study. Men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.
+- 1932 to 1972: the Tuskegee study. Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.
 - 1974: the National Research Act creates a national commission for the protection of research subjects.
 - 1978: the Belmont Report. Respect for persons, beneficence, justice.
 - 2012: the Menlo Report adds respect for law and the public interest.
@@ -212,23 +271,21 @@ The history in one breath: Tuskegee, 1932 to 1972; the National Research Act, 19
 ms4ds, section 3.3.1, which quotes the Menlo Report (2012); Wikipedia, Belmont Report.
 :::
 
-## Consequentialism
+## Causality and ethics
 
 ::: {.notes}
-"Than any available alternative": a comparison between actions, only one of which is taken.
+One example for each of three frameworks, all from ms4ds 3.4. Kant's test needs a counterfactual: everyone obliged to follow the rule.
 :::
 
-> An act is right "if and only if the act (or in some views, the rule under which it falls) will produce, will probably produce, or is intended to produce, a greater balance of good over evil than any available alternative."
-
-::: {.source}
-Wikipedia, Consequentialism.
-:::
-
-> "Causal understanding is necessary to apply consequentialism. An observational model of the world does not tell us what consequences we can expect to result from any action which is an intervention."
+- Utilitarian: in observational data, couples are happier after divorcing. Should everyone who can, divorce? Those who divorced were probably unhappy together, and other couples may not be.
+- Deontological: Kant's "Act only according to that maxim whereby you can, at the same time, will that it should become a universal law." To decide what you could will as a law, ms4ds asks what would happen if everyone were obliged to follow it.
+- Virtue: stress can increase appetite, so promoting moderation may mean reducing stress.
 
 ::: {.source}
 ms4ds, section 3.4.
 :::
+
+# Part 2: Causal models
 
 ## Observational studies that recommend a practice {.inverse}
 
@@ -321,8 +378,6 @@ Hernán and colleagues (2008).
 Which comparison gets reported? Women who took hormones against women who did not, or starters against non-starters.
 :::
 
-# Part 2: Causal models
-
 ## Structural causal models
 
 ::: {.notes}
@@ -349,17 +404,29 @@ $Z$ a common cause, $M$ a mediator, $C$ a common effect.
 fairmlbook, chapter 5, "Causal models" and "Causal graphs."
 :::
 
-## The reading's first program
+## Exercise, weight and heart disease
 
 ::: {.notes}
-Alone, then compare with a neighbor. Both numbers from the room before the next slide.
+The reading's first example. Alone, then compare with a neighbor. Both numbers from the room before the next slide.
 :::
 
 $U_1 \sim B(1/2)$, $\;U_2, U_3 \sim B(1/3)$, independent; $B(q)$ is 1 with probability $q$.
 
-1. $X := U_1$ $\quad$ (exercise)
-2. $W :=$ if $X = 1$ then $0$ else $U_2$ $\quad$ (overweight)
-3. $H :=$ if $X = 1$ then $0$ else $U_3$ $\quad$ (heart disease)
+:::: {.columns}
+::: {.column width="70%"}
+1. $X := U_1$ (exercise)
+2. $W :=$ if $X = 1$ then $0$ else $U_2$ (overweight)
+3. $H :=$ if $X = 1$ then $0$ else $U_3$ (heart disease)
+:::
+::: {.column width="30%"}
+```{r program_dag, fig.width=3, fig.height=2}
+draw_dag(data.frame(name = c("X", "W", "H"), x = c(1, 0, 2), y = c(1, 0, 0)),
+         data.frame(from = c("X", "X"), to = c("W", "H")), r = 0.26, ylim = c(-0.35, 1.35))
+```
+:::
+::::
+
+Apart from the noise, an arrow into a variable comes from each variable its line uses: $W$ and $H$ are both computed from $X$.
 
 ::: {.ask}
 Compute $P(H = 1)$ and $P(H = 1 \mid W = 1)$.
@@ -372,12 +439,25 @@ fairmlbook, chapter 5, "A first example."
 ## Conditioning and intervening
 
 ::: {.notes}
-Overweight people have twice the population's rate. Replacing the line for W changes nothing for H. Definition of confounded from the reading.
+Overweight people have twice the population's rate. Intervening replaces the line for W, which deletes the arrow into W; H is unchanged. Definition of confounded from the reading.
 :::
 
 $P(H = 1) = \tfrac12 \cdot \tfrac13 = \tfrac16$, $\qquad P(H = 1 \mid W = 1) = \tfrac13$.
 
-Replace line 2 by $W := 1$ and keep the others: $\quad P(H = 1 \mid do(W := 1)) = \tfrac16$.
+:::: {.columns}
+::: {.column width="68%"}
+$do(W := 1)$: replace line 2 by $W := 1$. In the graph, the arrow into $W$ is deleted.
+
+$P(H = 1 \mid do(W := 1)) = \tfrac16$.
+:::
+::: {.column width="32%"}
+```{r program_do, fig.width=3, fig.height=1.8}
+draw_dag(data.frame(panel = "after do(W := 1)", name = c("X", "W", "H"), x = c(1, 0, 2), y = c(1, 0, 0)),
+         data.frame(panel = "after do(W := 1)", from = "X", to = "H"), r = 0.26, strip_size = 22,
+         ylim = c(-0.3, 1.3))
+```
+:::
+::::
 
 > "The substitution $W := 1$ does not correspond to a conditioning on $W = 1$. One is an action, albeit inconsequential in this case. The other is an observation from which we can draw inferences."
 
@@ -397,12 +477,32 @@ $$
 \text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)]
 $$
 
+Each term deletes the arrows into $X$ and sets $X$ to the same value for everyone.
+
 > "Causal effects are population quantities. They refer to effects averaged over the whole population. Often the effect of treatment varies greatly from one individual or group of individuals to another."
 
 The observed difference $E[Y \mid X = 1] - E[Y \mid X = 0]$ compares the people who happened to be treated with the people who were not.
 
 ::: {.source}
 fairmlbook, chapter 5, "Causal effects."
+:::
+
+## Adding up over people
+
+::: {.notes}
+Both conditions matter: well-being that adds up, and no interference. Answer to listen for: the effects within groups defined before treatment; one person's effect is never observed.
+:::
+
+Suppose $Y$ measures how well off a person is, on a scale that adds up across people, and nobody's outcome depends on anyone else's treatment. Then treating all $n$ people rather than none changes the expected total of $Y$ by $n \times \text{ATE}$: the utilitarian's comparison of the two actions.
+
+A gain to one person offsets a loss to another. A positive ATE is consistent with some people being made worse off.
+
+::: {.ask}
+Justice, in the Belmont Report, concerns who receives the benefits of research and who bears its burdens. For a policy, what would you need to know besides the ATE?
+:::
+
+::: {.source}
+Wikipedia, Belmont Report.
 :::
 
 ## Prediction and intervention
@@ -595,93 +695,6 @@ A path through a fork or a chain is blocked by conditioning on the variable in t
 The criterion: Pearl (2009), *Causality*, as cited in fairmlbook, chapter 5. The quotation: fairmlbook, chapter 5, "Confounding."
 :::
 
-## Berkeley, 1973 {.inverse}
-
-::: {.notes}
-Compress: overall, men were admitted more often; in four of the six largest departments, women were. The overall rates weight departments by who applied. Which comparison answers which question depends on the graph.
-:::
-
-```{r berkeley, fig.height=2.6}
-ucb <- as.data.frame(UCBAdmissions) |>
-  group_by(Dept, Gender) |>
-  summarize(applied = sum(Freq), admitted = sum(Freq[Admit == "Admitted"]), .groups = "drop") |>
-  mutate(rate = admitted / applied, Dept = as.character(Dept))
-overall <- as.data.frame(UCBAdmissions) |>
-  group_by(Gender) |>
-  summarize(applied = sum(Freq), admitted = sum(Freq[Admit == "Admitted"]), .groups = "drop") |>
-  mutate(rate = admitted / applied, Dept = "all six")
-bind_rows(ucb, overall) |>
-  mutate(Dept = factor(Dept, levels = c("all six", LETTERS[1:6]))) |>
-  ggplot(aes(Dept, rate, color = Gender, size = applied)) +
-  geom_point() +
-  scale_color_manual(values = two_dark, labels = c("men", "women")) +
-  scale_size_area(max_size = 12, guide = "none") +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 0.9)) +
-  labs(x = "department", y = "admitted", color = NULL) +
-  dark + theme(legend.position = "top")
-```
-
-With $d$ running over the six departments,
-
-$$
-P(\text{admit} \mid \text{woman}) = \sum_d P(d \mid \text{woman})\,P(\text{admit} \mid d, \text{woman})
-$$
-
-::: {.source style="color: #BCAF6F"}
-R's `UCBAdmissions`, from Bickel, Hammel and O'Connell (1975), *Science* 187. Point size: applicants. The reading's Table 5.1 has 520 men and 60% admitted in department B, where R has 560 and 63%.
-:::
-
-## Omitted-variable bias
-
-::: {.notes}
-The course graph with straight lines. The slope's limit is not beta; more data, the same wrong answer.
-:::
-
-$Z := U_Z$, $\;X := \alpha Z + U_X$, $\;Y := \beta X + \gamma Z + U_Y$, with independent mean-zero noise. Then $E[Y \mid do(X := x)] = \beta x$, and the slope of $Y$ on $X$ alone is
-
-$$
-\begin{aligned}
-\frac{\operatorname{Cov}(X, Y)}{\operatorname{Var}(X)} &= \frac{\beta \operatorname{Var}(X) + \gamma \operatorname{Cov}(X, Z)}{\operatorname{Var}(X)} \\
-&= \beta + \gamma\alpha\,\frac{\operatorname{Var}(Z)}{\alpha^2\operatorname{Var}(Z) + \operatorname{Var}(U_X)}
-\end{aligned}
-$$
-
-With $\alpha = \gamma = 1$, $\beta = 0.5$ and unit variances, the slope is $1.0$ and the effect $0.5$.
-
-::: {.leave}
-A bias: as $n$ grows the slope converges to the wrong number.
-:::
-
-## Omitted-variable bias, simulated {.inverse}
-
-::: {.notes}
-Skip if behind. 200 samples at each size: the spread shrinks around 1.0 for Y on X alone, around 0.5 with Z.
-:::
-
-```{r ovb_sizes, fig.height=3.9}
-set.seed(3)
-one_sample <- function(n) {
-  Z <- rnorm(n); X <- Z + rnorm(n); Y <- 0.5 * X + Z + rnorm(n)
-  c(alone = unname(coef(lm(Y ~ X))[2]), with_Z = unname(coef(lm(Y ~ X + Z))[2]))
-}
-sizes <- c(50, 200, 1000, 5000)
-sims <- do.call(rbind, lapply(sizes, function(n) {
-  est <- t(replicate(200, one_sample(n)))
-  data.frame(n = n, fit = rep(c("Y on X alone", "Y on X and Z"), each = 200), slope = c(est[, 1], est[, 2]))
-}))
-ggplot(sims, aes(factor(n), slope, color = fit)) +
-  geom_hline(yintercept = c(0.5, 1), linetype = "dotted", color = "white") +
-  geom_jitter(width = 0.2, height = 0, alpha = 0.4, size = 1.2) +
-  scale_color_manual(values = two_dark, name = NULL) +
-  guides(color = guide_legend(override.aes = list(size = 5, alpha = 1))) +
-  labs(x = "sample size", y = "coefficient on X") +
-  dark + theme(legend.position = "top")
-```
-
-::: {.source style="color: #BCAF6F"}
-$\alpha = \gamma = 1$, $\beta = 0.5$, unit variances. The code is in the notes.
-:::
-
 ## Unobserved confounding
 
 ::: {.notes}
@@ -723,41 +736,43 @@ $$
 
 An attender from the $Z = 0$ row counts for $1/0.2 = 5$ people. The price is variance.
 
-# Part 4: Two registers
+# Part 4: Reinforcement learning
 
-## The sequential-decision register
+## Reinforcement learning
 
 ::: {.notes}
-Declared in the first line. The consequentialist as an agent; R is what the agent can see, U what we care about.
+Letters declared in the first line. A policy is a rule, so this judges rules, not single acts. Say "can be read as causal", not "is causal": one agent is not a treated population, and others may react to it.
 :::
 
-**Notation:** this slide uses the sequential-decision register: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
+**Notation:** this slide uses the letters of reinforcement learning: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
 
-An agent observes a state $S$ and takes an action $A = \pi(S)$, then receives a reward $R$.
+An agent observes a state $S$, takes an action $A = \pi(S)$ and receives a reward $R$. The policy $\pi$ is a rule.
 
-A consequentialist: of the available policies, choose one with the largest expected utility, $E_\pi[U]$.
+Judging the rule by its consequences: of the available policies, choose one with the largest expected utility, $E_\pi[U]$, the expectation when the agent acts by $\pi$.
 
-$E_\pi$ is an expectation when the actions are set by $\pi$. That is a causal quantity.
+Whether $E_\pi[U]$ is a causal quantity depends on further assumptions. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.
 
 An agent that learns a policy is given $R$ and learns to make $R$ large. $R$ is not $U$.
 
-## Collisions
+## Two meanings for the same letters
 
 ::: {.notes}
 Taught once. Two rules: declare in one line at the top; never mix inside one diagram or derivation.
 :::
 
-**Notation:** the prediction register and the sequential-decision register, side by side.
+**Notation:** prediction and reinforcement learning, side by side.
 
-| | prediction register | sequential-decision register |
+| | prediction | reinforcement learning |
 |:---|:---|:---|
 | $A$ | sensitive attribute: something a person *is* | action: something an agent *does* |
 | $R$ | risk score; the prediction is $\hat Y = 1\{R \ge t\}$ at threshold $t$ | reward |
 | $U$ | unobserved variable | utility |
 | $S$, $\pi$ | not used | state, policy |
 
-1. Material that uses the decision register says so in one line at the top.
+1. Material that uses the reinforcement-learning letters says so in one line at the top.
 2. The two are never mixed inside one diagram or derivation.
+
+# Part 5: Drawing an argument's graph
 
 ## An argument in prose
 
@@ -799,7 +814,7 @@ The council observed pupils who go against pupils who don't. Its action changes 
 Each lens, what it referred to this week. Then the question on the next slide.
 :::
 
-- **Which comparison gets reported?** Attenders against non-attenders, overall or within rows. Women who took hormones against women who did not, or starters against non-starters. $P(Y \mid X = 1)$ against $P(Y \mid X = 0)$, or $P(Y \mid do(X := 1))$ against $P(Y \mid do(X := 0))$.
+- **Which comparison gets reported?** Attenders against non-attenders, overall or within rows. Women who took hormones against women who did not, or starters against non-starters. $P(Y \mid X = 1)$ against $P(Y \mid X = 0)$, or $P(Y \mid do(X := 1))$ against $P(Y \mid do(X := 0))$. The average effect, or the effects within groups defined before treatment.
 - **You have to choose, so choose, and defend it.** The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph; it does not draw the graph. "Pretending it was forced is its own failure."
 
 ...and why?

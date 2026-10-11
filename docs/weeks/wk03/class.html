@@ -218,16 +218,15 @@ window.Quarto = {
    
   <ul>
   <li><a href="#in-class" id="toc-in-class" class="nav-link active" data-scroll-target="#in-class">In class</a></li>
-  <li><a href="#discussion-1-the-arguments-you-brought" id="toc-discussion-1-the-arguments-you-brought" class="nav-link" data-scroll-target="#discussion-1-the-arguments-you-brought">Discussion 1: the arguments you brought</a></li>
+  <li><a href="#discussion-1-absurd-trolley-problems" id="toc-discussion-1-absurd-trolley-problems" class="nav-link" data-scroll-target="#discussion-1-absurd-trolley-problems">Discussion 1: absurd trolley problems</a></li>
+  <li><a href="#discussion-2-the-arguments-you-brought" id="toc-discussion-2-the-arguments-you-brought" class="nav-link" data-scroll-target="#discussion-2-the-arguments-you-brought">Discussion 2: the arguments you brought</a></li>
   <li><a href="#problems" id="toc-problems" class="nav-link" data-scroll-target="#problems">Problems</a>
   <ul class="collapse">
   <li><a href="#conditioning-and-intervening" id="toc-conditioning-and-intervening" class="nav-link" data-scroll-target="#conditioning-and-intervening">1. Conditioning and intervening</a></li>
   <li><a href="#adjusting-for-a-confounder" id="toc-adjusting-for-a-confounder" class="nav-link" data-scroll-target="#adjusting-for-a-confounder">2. Adjusting for a confounder</a></li>
   </ul></li>
-  <li><a href="#discussion-2-correlation-and-causation" id="toc-discussion-2-correlation-and-causation" class="nav-link" data-scroll-target="#discussion-2-correlation-and-causation">Discussion 2: correlation and causation</a></li>
-  <li><a href="#simulation-intervening-in-a-program" id="toc-simulation-intervening-in-a-program" class="nav-link" data-scroll-target="#simulation-intervening-in-a-program">Simulation: intervening in a program</a></li>
-  <li><a href="#discussion-3-causality-and-reproducibility" id="toc-discussion-3-causality-and-reproducibility" class="nav-link" data-scroll-target="#discussion-3-causality-and-reproducibility">Discussion 3: causality and reproducibility</a></li>
-  <li><a href="#discussion-4-writing-the-model-down" id="toc-discussion-4-writing-the-model-down" class="nav-link" data-scroll-target="#discussion-4-writing-the-model-down">Discussion 4: writing the model down</a></li>
+  <li><a href="#discussion-3-a-model-that-decides-about-people" id="toc-discussion-3-a-model-that-decides-about-people" class="nav-link" data-scroll-target="#discussion-3-a-model-that-decides-about-people">Discussion 3: a model that decides about people</a></li>
+  <li><a href="#discussion-4-the-case-for-one-framework" id="toc-discussion-4-the-case-for-one-framework" class="nav-link" data-scroll-target="#discussion-4-the-case-for-one-framework">Discussion 4: the case for one framework</a></li>
   <li><a href="#if-there-is-time" id="toc-if-there-is-time" class="nav-link" data-scroll-target="#if-there-is-time">If there is time</a></li>
   <li><a href="#to-finish" id="toc-to-finish" class="nav-link" data-scroll-target="#to-finish">To finish</a></li>
   <li><a href="#for-next-time" id="toc-for-next-time" class="nav-link" data-scroll-target="#for-next-time">For next time</a></li>
@@ -236,7 +235,7 @@ window.Quarto = {
   <li><a href="#omitted-variable-bias" id="toc-omitted-variable-bias" class="nav-link" data-scroll-target="#omitted-variable-bias">3. Omitted-variable bias</a></li>
   <li><a href="#choosing-an-adjustment-set" id="toc-choosing-an-adjustment-set" class="nav-link" data-scroll-target="#choosing-an-adjustment-set">4. Choosing an adjustment set</a></li>
   <li><a href="#the-graph-behind-an-argument" id="toc-the-graph-behind-an-argument" class="nav-link" data-scroll-target="#the-graph-behind-an-argument">5. The graph behind an argument</a></li>
-  <li><a href="#two-registers" id="toc-two-registers" class="nav-link" data-scroll-target="#two-registers">6. Two registers</a></li>
+  <li><a href="#prediction-letters-and-reinforcement-learning-letters" id="toc-prediction-letters-and-reinforcement-learning-letters" class="nav-link" data-scroll-target="#prediction-letters-and-reinforcement-learning-letters">6. Prediction letters and reinforcement-learning letters</a></li>
   <li><a href="#inverse-probability-weighting-harder" id="toc-inverse-probability-weighting-harder" class="nav-link" data-scroll-target="#inverse-probability-weighting-harder">7. Inverse probability weighting (harder)</a></li>
   <li><a href="#hormone-therapy" id="toc-hormone-therapy" class="nav-link" data-scroll-target="#hormone-therapy">8. Hormone therapy</a></li>
   <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a></li>
@@ -289,24 +288,32 @@ Note
 <section id="in-class" class="level2">
 <h2 class="anchored" data-anchor-id="in-class">In class</h2>
 <ol type="1">
+<li>A game, then a discussion of it.</li>
 <li>A discussion of the arguments you brought.</li>
-<li>Problem 1, by hand.</li>
-<li>Problem 2, by hand, then a discussion.</li>
-<li>One simulation in R, then a discussion.</li>
-<li>One more discussion.</li>
+<li>Problems 1 and 2, by hand.</li>
+<li>A discussion of a model that makes decisions about people.</li>
+<li>A debate, then a vote.</li>
 </ol>
-<p>Discussions are in groups of three or four, then with the room. Each problem, and the simulation, is gone through as soon as the room has tried it. Everything under “Optional, can be done at home” is practice for afterward.</p>
+<p>Discussions 1 to 3 are in groups of three or four, then with the room. For discussion 4 the room splits into four parts. Each problem is gone through as soon as the room has tried it. Everything under “Optional, can be done at home” is practice for afterward.</p>
 </section>
-<section id="discussion-1-the-arguments-you-brought" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-1-the-arguments-you-brought">Discussion 1: the arguments you brought</h2>
+<section id="discussion-1-absurd-trolley-problems" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-1-absurd-trolley-problems">Discussion 1: absurd trolley problems</h2>
+<p>In your group, open <a href="https://neal.fun/absurd-trolley-problems/">Absurd Trolley Problems</a> on one device and play for about six minutes, choosing together. Note the scenarios where the group disagreed, and the ones you personally found hard to choose.</p>
+<ol type="1">
+<li>Take one scenario where the group disagreed. Which framework was each side using?</li>
+<li>Did any of your choices depend on a prediction of what would happen? How sure of it were you?</li>
+</ol>
+</section>
+<section id="discussion-2-the-arguments-you-brought" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-2-the-arguments-you-brought">Discussion 2: the arguments you brought</h2>
 <p>Put your arguments side by side and choose one.</p>
 <ol type="1">
-<li>What is the action, and which outcome does the argument count?</li>
+<li>What is the action, and which outcome does the argument count? Whose good is counted, and whose is left out?</li>
 <li>Draw the causal graph the argument needs, with an arrow for each cause-and-effect claim you listed. Mark the action.</li>
 <li>Try to draw a second graph that fits the same evidence and under which the action does nothing. If the evidence makes every such graph hard to believe, say what in the evidence does that.</li>
-<li>How could the analysis go wrong if the first graph is wrong? What would the consequences of the wrong conclusion be, and for whom?</li>
+<li>Argue against the policy without disputing any of its causal claims. Which framework are you using?</li>
 </ol>
-<p>Each group’s graphs, or what rules a rival out, go on the screen.</p>
+<p>Each group’s graph, and its argument from question 4, go on the screen.</p>
 </section>
 <section id="problems" class="level2">
 <h2 class="anchored" data-anchor-id="problems">Problems</h2>
@@ -365,39 +372,33 @@ Note
 </ol>
 </section>
 </section>
-<section id="discussion-2-correlation-and-causation" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-2-correlation-and-causation">Discussion 2: correlation and causation</h2>
-<p>“Correlation (more generally, association) is not causation.” This is true and important, but can it be misused?</p>
-</section>
-<section id="simulation-intervening-in-a-program" class="level2">
-<h2 class="anchored" data-anchor-id="simulation-intervening-in-a-program">Simulation: intervening in a program</h2>
-<p>The job center from the lecture, as a program. As in the lecture, everyone referred attends and nobody else does. Each line generates one variable from the ones above it.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)                        <span class="co"># worked last year</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>))   <span class="co"># attended the course</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># in work six months later</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])             <span class="co"># attenders against the others</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<section id="discussion-3-a-model-that-decides-about-people" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-3-a-model-that-decides-about-people">Discussion 3: a model that decides about people</h2>
+<p>Think of a predictive algorithm that makes, or helps to make, decisions with large effects on people: which applicants get a loan, which patients a GP sees first, which benefit claims are checked for fraud. Choose one in your group.</p>
 <ol type="1">
-<li>Run it. Compare the difference with the lecture’s table.</li>
-<li>Compute the adjusted difference: the difference between attenders and non-attenders within <span class="math inline">\(Z = 1\)</span> and within <span class="math inline">\(Z = 0\)</span>, averaged with weights <code>mean(Z == 1)</code> and <code>mean(Z == 0)</code>.</li>
-<li>Intervene. Replace the line for <code>X</code> by <code>X &lt;- rep(1, n)</code>, run the line for <code>Y</code> again, and record <code>mean(Y)</code>. Do the same with <code>X &lt;- rep(0, n)</code>. Compare the difference with your answer to 2.</li>
-<li>The center changes its referrals to 0.95 for <span class="math inline">\(Z = 1\)</span> and 0.05 for <span class="math inline">\(Z = 0\)</span>. Before you run anything, write down what you expect for the differences in 1 and in 3. Then run it.</li>
+<li>Describe the scenario: who uses the model, what it predicts, from what data, and what is decided with it.</li>
+<li>Half the groups take the four Belmont–Menlo principles, and half take the five Cs (consent; clarity; consistency and trust; control and transparency; consequences). For each one, say what would have to be in place: a feature of the system, or a procedure around it.</li>
+<li>Which of your requirements could be checked only with a causal claim?</li>
 </ol>
+<p>Two or three groups describe their scenario and its requirements to the room.</p>
 </section>
-<section id="discussion-3-causality-and-reproducibility" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-3-causality-and-reproducibility">Discussion 3: causality and reproducibility</h2>
-<p>Can causality be useful in the context of reproducibility?</p>
-</section>
-<section id="discussion-4-writing-the-model-down" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-4-writing-the-model-down">Discussion 4: writing the model down</h2>
-<p>Does consequentialism become more or less defensible once you have to write the causal model down? Answer it first for the argument your group drew at the start.</p>
+<section id="discussion-4-the-case-for-one-framework" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-4-the-case-for-one-framework">Discussion 4: the case for one framework</h2>
+<p>The room splits into four parts. Each part prepares the strongest case it can for one statement.</p>
+<ol type="1">
+<li>Ethical data science and AI development requires us to lean mostly on consequentialist ethics.</li>
+<li>Ethical data science and AI development requires us to lean mostly on deontological ethics.</li>
+<li>Ethical data science and AI development requires us to lean mostly on virtue ethics.</li>
+<li>Ethical data science and AI development requires us to lean mostly on pragmatic ethics.</li>
+</ol>
+<p>Five minutes to prepare, then a minute for each part. Each case should answer the strongest objection to it. For consequentialism, one objection is the lecture’s last question: does it become more or less defensible once you have to write the causal model down?</p>
+<p>Then everyone votes, whichever part they argued for. Which account are you most convinced of: consequentialist, deontological, virtue or pragmatic ethics, a combination, or none of them?</p>
 </section>
 <section id="if-there-is-time" class="level2">
 <h2 class="anchored" data-anchor-id="if-there-is-time">If there is time</h2>
 <ul>
-<li>Can causality be useful for designing and communicating studies?</li>
+<li>“Correlation (more generally, association) is not causation.” This is true and important, but can it be misused?</li>
+<li>Can causality be useful in the context of reproducibility? In designing and communicating studies?</li>
 <li>A company tests two versions of its app on its users, without telling them, to see which version keeps them using the app longer. Which of the Belmont–Menlo principles does this touch? How would each of the four frameworks judge it?</li>
 <li>Find a sentence in a news report of an observational study that avoids saying “causes” but implies a cause. What graph does it assume?</li>
 </ul>
@@ -412,7 +413,7 @@ Note
 </section>
 <section id="optional-can-be-done-at-home" class="level2">
 <h2 class="anchored" data-anchor-id="optional-can-be-done-at-home">Optional, can be done at home</h2>
-<p>Practice for afterward: problems 3 to 8, then coding A and B. The problems can be done by hand. Attempt each part before you open a hint.</p>
+<p>Practice for afterward: problems 3 to 8, then coding A to C. The problems can be done by hand. Attempt each part before you open a hint.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Hints">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -511,12 +512,12 @@ Note
 </div>
 </div>
 </section>
-<section id="two-registers" class="level3">
-<h3 class="anchored" data-anchor-id="two-registers">6. Two registers</h3>
-<p>The decision whether to prescribe hormone therapy to prevent heart disease can be written in either register.</p>
+<section id="prediction-letters-and-reinforcement-learning-letters" class="level3">
+<h3 class="anchored" data-anchor-id="prediction-letters-and-reinforcement-learning-letters">6. Prediction letters and reinforcement-learning letters</h3>
+<p>The decision whether to prescribe hormone therapy to prevent heart disease can be written with the letters used for prediction or with those of reinforcement learning.</p>
 <ol type="a">
-<li><p>Write it in the prediction register. Say what the treatment, the outcome and a confounder are, and write the quantity a doctor needs with <span class="math inline">\(do(\cdot)\)</span>.</p></li>
-<li><p>Write it in the sequential-decision register, with the one-line declaration at the top. Say what the state, the action, the reward, the policy and the utility are.</p></li>
+<li><p>Write it with the letters used for prediction. Say what the treatment, the outcome and a confounder are, and write the quantity a doctor needs with <span class="math inline">\(do(\cdot)\)</span>.</p></li>
+<li><p>Write it with the letters of reinforcement learning, with the one-line declaration at the top. Say what the state, the action, the reward, the policy and the utility are.</p></li>
 <li><p>Which letters would mean different things if you used them in both answers?</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
@@ -592,13 +593,13 @@ Note
 <section id="a.-prediction-and-intervention" class="level4">
 <h4 class="anchored" data-anchor-id="a.-prediction-and-intervention">A. Prediction and intervention</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># program 1: X causes Y</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n); Y1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> X1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># program 2: Z causes both</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Z2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n); X2 <span class="ot">&lt;-</span> Z2 <span class="sc">+</span> <span class="fu">rnorm</span>(n); Y2 <span class="ot">&lt;-</span> Z2 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># program 3: X causes Y through M</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>X3 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n); M3 <span class="ot">&lt;-</span> X3 <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n); Y3 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> M3 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># program 1: X causes Y</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n); Y1 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> X1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># program 2: Z causes both</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Z2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n); X2 <span class="ot">&lt;-</span> Z2 <span class="sc">+</span> <span class="fu">rnorm</span>(n); Y2 <span class="ot">&lt;-</span> Z2 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># program 3: X causes Y through M</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>X3 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n); M3 <span class="ot">&lt;-</span> X3 <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n); Y3 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> M3 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
 <li>Write down the slope of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> you expect in each program. Then fit <code>lm</code> and compare.</li>
@@ -625,15 +626,15 @@ Note
 <section id="b.-adjustment-and-weighting-on-data" class="level4">
 <h4 class="anchored" data-anchor-id="b.-adjustment-and-weighting-on-data">B. Adjustment and weighting on data</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">X =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">400</span>), <span class="at">passed =</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">120</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">1</span>, <span class="at">count =</span> passed),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">0</span>, <span class="at">count =</span> n <span class="sc">-</span> passed)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Z, X, Y, count) <span class="sc">|&gt;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">uncount</span>(count)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(students)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">X =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">400</span>), <span class="at">passed =</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">120</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">1</span>, <span class="at">count =</span> passed),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">0</span>, <span class="at">count =</span> n <span class="sc">-</span> passed)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Z, X, Y, count) <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">uncount</span>(count)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(students)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1000</code></pre>
 </div>
@@ -657,6 +658,39 @@ Note
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For 3: <code>students |&gt; group_by(Z) |&gt; mutate(e = mean(X)) |&gt; ungroup()</code>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="c.-intervening-in-a-program" class="level4">
+<h4 class="anchored" data-anchor-id="c.-intervening-in-a-program">C. Intervening in a program</h4>
+<p>The job center from the lecture, as a program. As in the lecture, everyone referred attends and nobody else does. Each line generates one variable from the ones above it.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)                        <span class="co"># worked last year</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>))   <span class="co"># attended the course</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># in work six months later</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])             <span class="co"># attenders against the others</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol type="1">
+<li>Run it. Compare the difference with the lecture’s table.</li>
+<li>Compute the adjusted difference: the difference between attenders and non-attenders within <span class="math inline">\(Z = 1\)</span> and within <span class="math inline">\(Z = 0\)</span>, averaged with weights <code>mean(Z == 1)</code> and <code>mean(Z == 0)</code>.</li>
+<li>Intervene. Replace the line for <code>X</code> by <code>X &lt;- rep(1, n)</code>, run the line for <code>Y</code> again, and record <code>mean(Y)</code>. Do the same with <code>X &lt;- rep(0, n)</code>. Compare the difference with your answer to 2.</li>
+<li>The center changes its referrals to 0.95 for <span class="math inline">\(Z = 1\)</span> and 0.05 for <span class="math inline">\(Z = 0\)</span>. Before you run anything, write down what you expect for the differences in 1 and in 3. Then run it.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For step 3, replace the line for <code>X</code> and leave the line for <code>Z</code> alone. Then run the line for <code>Y</code> again, so that it uses the new <code>X</code>.</p>
 </div>
 </div>
 </div>

@@ -13,9 +13,10 @@ execute:
 st313:
   week: 03
   session: class
-  register: 1                      # optional problem 6 declares register 2 for its part (b) only
-  segments:                        # sums to 80: 75 of material and 5 of slack; production 64 (80%); discussion 35
-    - {label: "discussion 1: the arguments brought from the news; the graph each needs and a rival graph, or what in the evidence rules one out; every group's answer on the screen", minutes: 14, mode: production,
+  register: 1                      # schema key; optional problem 6 declares the reinforcement-learning letters for its part (b) only. Student-facing text never says "register" (convenor, 11 October)
+  segments:                        # sums to 80: 75 of material and 5 of slack; production 67 (84%); discussion 48. Discussions after the convenor's own week 3 class deck (11 October); the R simulation is optional coding C
+    - {label: "discussion 1: Absurd Trolley Problems (neal.fun) in groups; where the group disagreed and which framework each side used; choices that turned on a prediction", minutes: 10, mode: production}
+    - {label: "discussion 2: the arguments brought from the news; whose good is counted; the graph each needs and a rival graph, or what in the evidence rules one out; an argument against the policy that accepts its causal claims", minutes: 12, mode: production,
        core: CC-08}
     - {label: "the recall question on the adjustment formula, from memory; problem 1: conditioning and intervening, by hand", minutes: 8, mode: production,
        core: CC-10, results: [R13]}
@@ -23,12 +24,8 @@ st313:
     - {label: "problem 2: adjusting for a confounder in a 2x2x2 table, effects that differ between rows, by hand", minutes: 9, mode: production,
        core: CC-09, results: [R14]}
     - {label: "feedback on problem 2", minutes: 3, mode: exposition}
-    - {label: "discussion 2: can 'correlation is not causation' be misused (2024 prompt)", minutes: 6, mode: production}
-    - {label: "simulation in R, starter code supplied: naive, adjusted and interventional differences; a new referral policy", minutes: 10, mode: production,
-       results: [R13, R14]}
-    - {label: "feedback on the simulation", minutes: 3, mode: exposition}
-    - {label: "discussion 3: causality and reproducibility (2024 prompt)", minutes: 7, mode: production}
-    - {label: "discussion 4: does consequentialism become more or less defensible once you write the causal model down", minutes: 8, mode: production}
+    - {label: "discussion 3: a predictive algorithm that makes decisions about people; what the Belmont-Menlo principles (half the groups) or the five Cs (the other half) require of it; which requirement needs a causal claim", minutes: 13, mode: production}
+    - {label: "discussion 4: four parts of the room each argue that ethical data science should lean mostly on one framework, answering the strongest objection; then a vote", minutes: 13, mode: production}
     - {label: "close: one written sentence on conditioning and intervening", minutes: 2, mode: production}
     - {label: "prep task for next class", minutes: 2, mode: exposition}
     # slack: 5 (as in week 2: plan 75 in the 80)
@@ -72,31 +69,58 @@ draw_dag <- function(nodes, edges, r = 0.22, xlim = c(-0.5, 2.5), ylim = c(-0.4,
 
 ## In class
 
-1. A discussion of the arguments you brought.
-2. Problem 1, by hand.
-3. Problem 2, by hand, then a discussion.
-4. One simulation in R, then a discussion.
-5. One more discussion.
+1. A game, then a discussion of it.
+2. A discussion of the arguments you brought.
+3. Problems 1 and 2, by hand.
+4. A discussion of a model that makes decisions about people.
+5. A debate, then a vote.
 
-Discussions are in groups of three or four, then with the room. Each
-problem, and the simulation, is gone through as soon as the room has
-tried it. Everything under "Optional, can be done at home" is practice
-for afterward.
+Discussions 1 to 3 are in groups of three or four, then with the room.
+For discussion 4 the room splits into four parts. Each problem is gone
+through as soon as the room has tried it. Everything under "Optional,
+can be done at home" is practice for afterward.
 
-## Discussion 1: the arguments you brought
+## Discussion 1: absurd trolley problems
+
+In your group, open
+[Absurd Trolley Problems](https://neal.fun/absurd-trolley-problems/)
+on one device and play for about six minutes, choosing together. Note
+the scenarios where the group disagreed, and the ones you personally
+found hard to choose.
+
+1. Take one scenario where the group disagreed. Which framework was
+   each side using?
+2. Did any of your choices depend on a prediction of what would happen?
+   How sure of it were you?
+
+::: {.callout-note .answer title="Frameworks on the track" collapse="true"}
+In the original problem, pulling the lever to save five people at the
+cost of one is what a consequentialist who counts lives would do.
+Refusing to pull it, because diverting the trolley makes you the cause
+of one death while doing nothing lets five die, is one deontological
+answer: it rests on a difference between doing and allowing. Other
+deontologists allow pulling the lever, by the doctrine of double
+effect: the one death is foreseen but not intended. A virtue ethicist
+asks what a good person would do there, and can answer either way. Where a choice turned on a prediction, the consequentialist's
+answer depended on a causal claim, and the game gives no way to check
+it.
+:::
+
+## Discussion 2: the arguments you brought
 
 Put your arguments side by side and choose one.
 
 1. What is the action, and which outcome does the argument count?
+   Whose good is counted, and whose is left out?
 2. Draw the causal graph the argument needs, with an arrow for each
    cause-and-effect claim you listed. Mark the action.
 3. Try to draw a second graph that fits the same evidence and under
    which the action does nothing. If the evidence makes every such
    graph hard to believe, say what in the evidence does that.
-4. How could the analysis go wrong if the first graph is wrong? What
-   would the consequences of the wrong conclusion be, and for whom?
+4. Argue against the policy without disputing any of its causal
+   claims. Which framework are you using?
 
-Each group's graphs, or what rules a rival out, go on the screen.
+Each group's graph, and its argument from question 4, go on the screen.
 
 ::: {.callout-note .answer title="Rival graphs" collapse="true"}
 Most arguments have a rival graph of one of two kinds: a common cause
@@ -111,6 +135,16 @@ is left to question includes chance, whether what the coin assigned is
 the action the argument is about (some people do not take what they
 are assigned), and whether the people in the trial are like the people
 the policy is for.
+:::
+
+::: {.callout-note .answer title="Accepting the causal claims" collapse="true"}
+A utilitarian who accepts every causal claim can still object that the
+outcome counted is not the good that matters, or that the count leaves
+out people the policy affects. A deontologist can object that the
+policy breaks a rule, such as consent, whatever its effects. A virtue
+ethicist can object that it expresses a vice, such as indifference to
+the people it harms. These are disagreements about what matters, and
+better evidence for the causal claims does not settle them.
 :::
 
 ## Problems
@@ -251,85 +285,83 @@ unmeasured, such as motivation, pushed students both to use the app and
 to pass, adjusting for $Z$ would not give the effect.
 :::
 
-## Discussion 2: correlation and causation
+## Discussion 3: a model that decides about people
 
-"Correlation (more generally, association) is not causation." This is
-true and important, but can it be misused?
+Think of a predictive algorithm that makes, or helps to make, decisions
+with large effects on people: which applicants get a loan, which
+patients a GP sees first, which benefit claims are checked for fraud.
+Choose one in your group.
 
-## Simulation: intervening in a program
+1. Describe the scenario: who uses the model, what it predicts, from
+   what data, and what is decided with it.
+2. Half the groups take the four Belmont--Menlo principles, and half
+   take the five Cs (consent; clarity; consistency and trust; control
+   and transparency; consequences). For each one, say what would have
+   to be in place: a feature of the system, or a procedure around it.
+3. Which of your requirements could be checked only with a causal
+   claim?
 
-The job center from the lecture, as a program. As in the lecture,
-everyone referred attends and nobody else does. Each line generates one
-variable from the ones above it.
+Two or three groups describe their scenario and its requirements to the
+room.
 
-```{r course_starter, eval=FALSE}
-n <- 10000
-Z <- rbinom(n, 1, 0.5)                        # worked last year
-X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))   # attended the course
-Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)    # in work six months later
-mean(Y[X == 1]) - mean(Y[X == 0])             # attenders against the others
-```
+::: {.callout-note .answer title="An example: suggestions for GPs" collapse="true"}
+A model suggests treatments to NHS GPs, to help them get through
+patient cases faster. It needs private information about each patient,
+and may store it. It would need, among other things:
 
-1. Run it. Compare the difference with the lecture's table.
-2. Compute the adjusted difference: the difference between attenders
-   and non-attenders within $Z = 1$ and within $Z = 0$, averaged with
-   weights `mean(Z == 1)` and `mean(Z == 0)`.
-3. Intervene. Replace the line for `X` by `X <- rep(1, n)`, run the
-   line for `Y` again, and record `mean(Y)`. Do the same with
-   `X <- rep(0, n)`. Compare the difference with your answer to 2.
-4. The center changes its referrals to 0.95 for $Z = 1$ and 0.05 for
-   $Z = 0$. Before you run anything, write down what you expect for the
-   differences in 1 and in 3. Then run it.
+- informed consent from the patient, or from someone legally acting
+  for them, to the use and storage of their data, and the data held
+  securely or not at all (respect for persons; consent);
+- a clear account to the patient of how the model is used, how their
+  data is used and what happens to the data afterward (clarity;
+  consistency and trust; beneficence);
+- no use of the model for a patient who says no (control and
+  transparency; beneficence);
+- high accuracy, since a wrong suggestion can harm a patient
+  (beneficence);
+- a model that is demonstrably fair across demographic groups, since
+  there are documented cases of medical algorithms biased by race or by
+  sex (justice; consistency and trust);
+- storage and processing that meet data-protection law such as the
+  GDPR (respect for law and the public interest);
+- care that its records cannot be combined with other sources to
+  identify patients (consequences).
 
-::: {.callout-tip .answer collapse="true" title="Hint 1"}
-For step 3, replace the line for `X` and leave the line for `Z` alone. Then run the line for `Y` again, so that it uses the new `X`.
+Accuracy is a property of the predictions. Whether patients do better
+when their GP uses the suggestions than when the GP does not is an
+effect, and that requirement needs a causal claim.
 :::
 
-::: {.callout-note .answer title="Solution" collapse="true"}
-```{r course_solution}
-n <- 10000
-Z <- rbinom(n, 1, 0.5)
-X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))
-Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)
-observed <- mean(Y[X == 1]) - mean(Y[X == 0])
-d1 <- mean(Y[X == 1 & Z == 1]) - mean(Y[X == 0 & Z == 1])   # within Z = 1
-d0 <- mean(Y[X == 1 & Z == 0]) - mean(Y[X == 0 & Z == 0])   # within Z = 0
-adjusted <- d1 * mean(Z == 1) + d0 * mean(Z == 0)
-Y1 <- rbinom(n, 1, 0.3 + 0.1 * 1 + 0.3 * Z)    # everyone attends
-Y0 <- rbinom(n, 1, 0.3 + 0.1 * 0 + 0.3 * Z)    # nobody attends
-c(observed = observed, adjusted = adjusted, intervened = mean(Y1) - mean(Y0))
+## Discussion 4: the case for one framework
 
-X95 <- rbinom(n, 1, ifelse(Z == 1, 0.95, 0.05))
-Y95 <- rbinom(n, 1, 0.3 + 0.1 * X95 + 0.3 * Z)
-mean(Y95[X95 == 1]) - mean(Y95[X95 == 0])      # observed, new referrals
-```
-1. About $0.28$, the table's $0.64 - 0.36$.
+The room splits into four parts. Each part prepares the strongest case
+it can for one statement.
 
-2. About $0.10$.
+1. Ethical data science and AI development requires us to lean mostly
+   on consequentialist ethics.
+2. Ethical data science and AI development requires us to lean mostly
+   on deontological ethics.
+3. Ethical data science and AI development requires us to lean mostly
+   on virtue ethics.
+4. Ethical data science and AI development requires us to lean mostly
+   on pragmatic ethics.
 
-3. About $0.10$: intervening deletes the arrow $Z \to X$, and the
-adjusted difference estimates the same quantity.
+Five minutes to prepare, then a minute for each part.
+Each case should answer the strongest objection to it. For
+consequentialism, one objection is the lecture's last question: does it
+become more or less defensible once you have to write the causal model
+down?
 
-4. The observed difference grows to about
-$(0.95 \times 0.7 + 0.05 \times 0.4) - (0.05 \times 0.6 + 0.95 \times 0.3) = 0.685 - 0.315 = 0.37$.
-The effect of the course stays at $0.10$: the referral policy changes
-who attends, not what the course does. Each run differs from these
-numbers by a few hundredths.
-:::
-
-## Discussion 3: causality and reproducibility
-
-Can causality be useful in the context of reproducibility?
-
-## Discussion 4: writing the model down
-
-Does consequentialism become more or less defensible once you have to
-write the causal model down? Answer it first for the argument your group
-drew at the start.
+Then everyone votes, whichever part they argued for. Which account are
+you most convinced of: consequentialist, deontological, virtue or
+pragmatic ethics, a combination, or none of them?
 
 ## If there is time
 
-- Can causality be useful for designing and communicating studies?
+- "Correlation (more generally, association) is not causation." This
+  is true and important, but can it be misused?
+- Can causality be useful in the context of reproducibility? In
+  designing and communicating studies?
 - A company tests two versions of its app on its users, without telling
   them, to see which version keeps them using the app longer. Which of
   the Belmont--Menlo principles does this touch? How would each of the
@@ -351,7 +383,7 @@ will go on the screen.
 
 ## Optional, can be done at home
 
-Practice for afterward: problems 3 to 8, then coding A and B. The
+Practice for afterward: problems 3 to 8, then coding A to C. The
 problems can be done by hand. Attempt each part before you open a hint.
 
 ::: {.callout-warning title="Hints"}
@@ -472,18 +504,19 @@ students who use the library more with those who use it less answers a
 question about those students.
 :::
 
-### 6. Two registers
+### 6. Prediction letters and reinforcement-learning letters
 
 The decision whether to prescribe hormone therapy to prevent heart
-disease can be written in either register.
+disease can be written with the letters used for prediction or with
+those of reinforcement learning.
 
-(a) Write it in the prediction register. Say what the treatment, the
-outcome and a confounder are, and write the quantity a doctor needs
-with $do(\cdot)$.
+(a) Write it with the letters used for prediction. Say what the
+treatment, the outcome and a confounder are, and write the quantity a
+doctor needs with $do(\cdot)$.
 
-(b) Write it in the sequential-decision register, with the one-line
-declaration at the top. Say what the state, the action, the reward,
-the policy and the utility are.
+(b) Write it with the letters of reinforcement learning, with the
+one-line declaration at the top. Say what the state, the action, the
+reward, the policy and the utility are.
 
 (c) Which letters would mean different things if you used them in both
 answers?
@@ -500,16 +533,16 @@ A doctor needs $P(Y = 1 \mid do(X := 1))$ against
 $P(Y = 1 \mid do(X := 0))$, not $P(Y = 1 \mid X = 1)$ against
 $P(Y = 1 \mid X = 0)$.
 
-(b) **Notation:** this answer uses the sequential-decision register,
-$S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility. $S$ is
+(b) **Notation:** this answer uses the letters of reinforcement
+learning, $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility. $S$ is
 the patient's state: age, time since the menopause, risk factors. $A$ is
 prescribe or do not. $\pi$ is the prescribing rule from state to
 action. $R$ is a measured reward, such as no heart attack recorded in
 five years. $U$ is what we care about: her health, including breast
 cancer, stroke and fractures as well as the heart.
 
-(c) $A$, $R$ and $U$. In the prediction register they are a sensitive
-attribute, a risk score and an unobserved variable.
+(c) $A$, $R$ and $U$. With the letters used for prediction they are a
+sensitive attribute, a risk score and an unobserved variable.
 :::
 
 ### 7. Inverse probability weighting (harder)
@@ -702,4 +735,66 @@ c(mean = mean(trials), sd = sd(trials))
 trial with a standard deviation of about 0.03. Randomization removes
 the bias without any model of $Z$, and the price is that a single trial
 can miss by a few points.
+:::
+
+#### C. Intervening in a program
+
+The job center from the lecture, as a program. As in the lecture,
+everyone referred attends and nobody else does. Each line generates one
+variable from the ones above it.
+
+```{r course_starter, eval=FALSE}
+n <- 10000
+Z <- rbinom(n, 1, 0.5)                        # worked last year
+X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))   # attended the course
+Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)    # in work six months later
+mean(Y[X == 1]) - mean(Y[X == 0])             # attenders against the others
+```
+
+1. Run it. Compare the difference with the lecture's table.
+2. Compute the adjusted difference: the difference between attenders
+   and non-attenders within $Z = 1$ and within $Z = 0$, averaged with
+   weights `mean(Z == 1)` and `mean(Z == 0)`.
+3. Intervene. Replace the line for `X` by `X <- rep(1, n)`, run the
+   line for `Y` again, and record `mean(Y)`. Do the same with
+   `X <- rep(0, n)`. Compare the difference with your answer to 2.
+4. The center changes its referrals to 0.95 for $Z = 1$ and 0.05 for
+   $Z = 0$. Before you run anything, write down what you expect for the
+   differences in 1 and in 3. Then run it.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For step 3, replace the line for `X` and leave the line for `Z` alone. Then run the line for `Y` again, so that it uses the new `X`.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r course_solution}
+set.seed(313)    # the sheet's seed, so this output does not depend on the chunks above it
+n <- 10000
+Z <- rbinom(n, 1, 0.5)
+X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))
+Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)
+observed <- mean(Y[X == 1]) - mean(Y[X == 0])
+d1 <- mean(Y[X == 1 & Z == 1]) - mean(Y[X == 0 & Z == 1])   # within Z = 1
+d0 <- mean(Y[X == 1 & Z == 0]) - mean(Y[X == 0 & Z == 0])   # within Z = 0
+adjusted <- d1 * mean(Z == 1) + d0 * mean(Z == 0)
+Y1 <- rbinom(n, 1, 0.3 + 0.1 * 1 + 0.3 * Z)    # everyone attends
+Y0 <- rbinom(n, 1, 0.3 + 0.1 * 0 + 0.3 * Z)    # nobody attends
+c(observed = observed, adjusted = adjusted, intervened = mean(Y1) - mean(Y0))
+
+X95 <- rbinom(n, 1, ifelse(Z == 1, 0.95, 0.05))
+Y95 <- rbinom(n, 1, 0.3 + 0.1 * X95 + 0.3 * Z)
+mean(Y95[X95 == 1]) - mean(Y95[X95 == 0])      # observed, new referrals
+```
+1. About $0.28$, the table's $0.64 - 0.36$.
+
+2. About $0.10$.
+
+3. About $0.10$: intervening deletes the arrow $Z \to X$, and the
+adjusted difference estimates the same quantity.
+
+4. The observed difference grows to about
+$(0.95 \times 0.7 + 0.05 \times 0.4) - (0.05 \times 0.6 + 0.95 \times 0.3) = 0.685 - 0.315 = 0.37$.
+The effect of the course stays at $0.10$: the referral policy changes
+who attends, not what the course does. Each run differs from these
+numbers by a few hundredths.
 :::

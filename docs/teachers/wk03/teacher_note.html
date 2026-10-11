@@ -2352,48 +2352,42 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Discussion 1: the arguments they brought, the graph each needs, and a rival graph or what rules one out</td>
-<td style="text-align: right;">14</td>
+<td>Discussion 1: Absurd Trolley Problems, and which framework each side of a disagreement used</td>
+<td style="text-align: right;">10</td>
+<td>Rush</td>
+<td>Play for four minutes; one disagreement from the room</td>
+</tr>
+<tr class="even">
+<td>Discussion 2: the arguments they brought: whose good counts, the graph, a rival graph, and an argument against the policy that accepts its causal claims</td>
+<td style="text-align: right;">12</td>
 <td>Keep</td>
 <td>Two groups’ graphs on the screen instead of every group’s</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Problem 1: conditioning and intervening, with feedback</td>
 <td style="text-align: right;">11</td>
 <td>Keep</td>
 <td>Work (b) to (d) together; say (e): nothing points into <span class="math inline">\(X\)</span>, so observing <span class="math inline">\(X\)</span> and setting it agree</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Problem 2: adjusting for a confounder, with feedback</td>
 <td style="text-align: right;">12</td>
 <td>Keep</td>
 <td>(a) and (b) only; give (d), 0.18</td>
 </tr>
-<tr class="even">
-<td>Discussion 2: can “correlation is not causation” be misused</td>
-<td style="text-align: right;">6</td>
-<td>Rush; cut first</td>
-<td>One answer from the room</td>
-</tr>
 <tr class="odd">
-<td>Simulation: intervening in a program, with feedback</td>
+<td>Discussion 3: what the Belmont–Menlo principles or the five Cs require of a model that decides about people</td>
 <td style="text-align: right;">13</td>
 <td>Rush</td>
-<td>Take predictions for step 4, then run the solution on the screen</td>
+<td>Show the GP example and ask each group for one requirement it would add</td>
 </tr>
 <tr class="even">
-<td>Discussion 3: causality and reproducibility</td>
-<td style="text-align: right;">7</td>
-<td>Rush; cut second</td>
-<td></td>
+<td>Discussion 4: four parts of the room make the case for one framework each, then the vote</td>
+<td style="text-align: right;">13</td>
+<td>Keep</td>
+<td>Three minutes to prepare, one sentence from each part, then the vote</td>
 </tr>
 <tr class="odd">
-<td>Discussion 4: writing the causal model down</td>
-<td style="text-align: right;">8</td>
-<td>Keep</td>
-<td>Hands for “more” and “less”, one reason from each side</td>
-</tr>
-<tr class="even">
 <td>To finish, and the task for next time</td>
 <td style="text-align: right;">4</td>
 <td>Keep</td>
@@ -2401,28 +2395,32 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Minimum class, about 50 minutes: discussion 1, problems 1 and 2, discussion 4 and the task for next time. With more time, add the simulation back first.</p>
+<p>Minimum class, about 45 minutes: discussion 2, problems 1 and 2, discussion 4 in its short form and the task for next time. With more time, add discussion 3 back first.</p>
 </section>
 <section id="if-you-read-on" class="level2">
 <h2 class="anchored" data-anchor-id="if-you-read-on">If you read on</h2>
 <p>How it runs</p>
 <ul>
 <li>Students bring one argument from the news that justifies a rule or a policy by its consequences, with the cause-and-effect claims it needs. Open the <a href="https://ethics4ds.com/teachers/wk03/class_complete.html">complete class sheet</a> on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers.</li>
+<li>Discussion 1 needs one phone or laptop per group for <a href="https://neal.fun/absurd-trolley-problems/">Absurd Trolley Problems</a>. Groups will not finish the game; stop them at six minutes.</li>
+<li>Discussion 3: give half the groups the Belmont–Menlo principles and half the five Cs.</li>
+<li>Discussion 4: split the room into four parts by where people sit, and keep to five minutes of preparation and a minute each. Everyone votes for the account they find most convincing, which need not be the one they argued for; count hands or use a poll.</li>
 <li>Problem 2(c) to (e) was not in the lecture: effects that differ between rows, so the average treatment effect depends on the population’s mix, and a decision is compared with today, not with nobody treated. Both are in the notes, under “For the class”.</li>
-<li>Everything headed “Optional, can be done at home” is outside the class.</li>
+<li>Everything headed “Optional, can be done at home” is outside the class, including the R simulation (coding C).</li>
 </ul>
 <p>What students should see</p>
 <ul>
 <li>Problem 1: <span class="math inline">\(P(W = 1) = 0.4\)</span> and <span class="math inline">\(P(X = 0 \mid W = 1) = 0.75\)</span>; <span class="math inline">\(P(H = 1 \mid W = 1) = 0.325\)</span> against <span class="math inline">\(P(H = 1 \mid W = 0) = 0.2\)</span>; <span class="math inline">\(P(H = 1 \mid do(W := 0)) = 0.25\)</span>; the average treatment effect of exercise is <span class="math inline">\(-0.3\)</span>.</li>
 <li>Problem 2: 0.74 against 0.38 observed; 0.65 against 0.50 adjusted, an effect of 0.15; 0.10 and 0.20 within the rows; 0.18 in the second school. For (e), 0.56 today against 0.65 if every student used the app; among today’s non-users the effect is 0.18, the same as (d) because they have the second school’s mix.</li>
-<li>Simulation: about 0.28 observed, about 0.10 adjusted and about 0.10 by intervening; with referrals at 0.95 and 0.05, about 0.37 observed and still 0.10.</li>
+<li>Discussion 3: requirements stated as mechanisms (an opt-out, an audit by group, a data-retention rule), and the distinction between accuracy and the effect of using the model.</li>
 </ul>
 <p>Where they get stuck</p>
 <ul>
+<li>Discussion 2, question 4: arguing about the causal claims again. Ask them to grant every claim and object anyway.</li>
 <li>Problem 1(c): forgetting that <span class="math inline">\(W = 1\)</span> also happens with exercise, at rate 0.2, or not conditioning on <span class="math inline">\(X\)</span> before treating <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> as independent.</li>
 <li>Problem 2(b): weighting each row by its share of users, which gives back 0.74, instead of its share of all students.</li>
 <li>Calling the 28 points “biased” without saying of what. As a description of attenders against non-attenders it is correct; as an estimate of the effect it is biased.</li>
-<li>The simulation: re-running the line for <code>X</code> after setting it, or not re-running the line for <code>Y</code>.</li>
+<li>Discussion 4: parts that attack the other frameworks instead of making the case for their own. Ask for their best case first.</li>
 <li>Colliders are in the reading and not in this class. If a group’s rival graph has one, note it and move on.</li>
 </ul>
 </section>

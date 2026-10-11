@@ -42,31 +42,45 @@ draw_dag <- function(nodes, edges, r = 0.22, xlim = c(-0.5, 2.5), ylim = c(-0.4,
 
 ## In class
 
-1. A discussion of the arguments you brought.
-2. Problem 1, by hand.
-3. Problem 2, by hand, then a discussion.
-4. One simulation in R, then a discussion.
-5. One more discussion.
+1. A game, then a discussion of it.
+2. A discussion of the arguments you brought.
+3. Problems 1 and 2, by hand.
+4. A discussion of a model that makes decisions about people.
+5. A debate, then a vote.
 
-Discussions are in groups of three or four, then with the room. Each
-problem, and the simulation, is gone through as soon as the room has
-tried it. Everything under "Optional, can be done at home" is practice
-for afterward.
+Discussions 1 to 3 are in groups of three or four, then with the room.
+For discussion 4 the room splits into four parts. Each problem is gone
+through as soon as the room has tried it. Everything under "Optional,
+can be done at home" is practice for afterward.
 
-## Discussion 1: the arguments you brought
+## Discussion 1: absurd trolley problems
+
+In your group, open
+[Absurd Trolley Problems](https://neal.fun/absurd-trolley-problems/)
+on one device and play for about six minutes, choosing together. Note
+the scenarios where the group disagreed, and the ones you personally
+found hard to choose.
+
+1. Take one scenario where the group disagreed. Which framework was
+   each side using?
+2. Did any of your choices depend on a prediction of what would happen?
+   How sure of it were you?
+
+## Discussion 2: the arguments you brought
 
 Put your arguments side by side and choose one.
 
 1. What is the action, and which outcome does the argument count?
+   Whose good is counted, and whose is left out?
 2. Draw the causal graph the argument needs, with an arrow for each
    cause-and-effect claim you listed. Mark the action.
 3. Try to draw a second graph that fits the same evidence and under
    which the action does nothing. If the evidence makes every such
    graph hard to believe, say what in the evidence does that.
-4. How could the analysis go wrong if the first graph is wrong? What
-   would the consequences of the wrong conclusion be, and for whom?
+4. Argue against the policy without disputing any of its causal
+   claims. Which framework are you using?
 
-Each group's graphs, or what rules a rival out, go on the screen.
+Each group's graph, and its argument from question 4, go on the screen.
 
 ## Problems
 
@@ -123,49 +137,55 @@ average treatment effect of the app there?
 (e) A head teacher asks whether to buy the app for every student. Which
 of your numbers would you report, and what would you say about it?
 
-## Discussion 2: correlation and causation
+## Discussion 3: a model that decides about people
 
-"Correlation (more generally, association) is not causation." This is
-true and important, but can it be misused?
+Think of a predictive algorithm that makes, or helps to make, decisions
+with large effects on people: which applicants get a loan, which
+patients a GP sees first, which benefit claims are checked for fraud.
+Choose one in your group.
 
-## Simulation: intervening in a program
+1. Describe the scenario: who uses the model, what it predicts, from
+   what data, and what is decided with it.
+2. Half the groups take the four Belmont--Menlo principles, and half
+   take the five Cs (consent; clarity; consistency and trust; control
+   and transparency; consequences). For each one, say what would have
+   to be in place: a feature of the system, or a procedure around it.
+3. Which of your requirements could be checked only with a causal
+   claim?
 
-The job center from the lecture, as a program. As in the lecture,
-everyone referred attends and nobody else does. Each line generates one
-variable from the ones above it.
+Two or three groups describe their scenario and its requirements to the
+room.
 
-```{r course_starter, eval=FALSE}
-n <- 10000
-Z <- rbinom(n, 1, 0.5)                        # worked last year
-X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))   # attended the course
-Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)    # in work six months later
-mean(Y[X == 1]) - mean(Y[X == 0])             # attenders against the others
-```
+## Discussion 4: the case for one framework
 
-1. Run it. Compare the difference with the lecture's table.
-2. Compute the adjusted difference: the difference between attenders
-   and non-attenders within $Z = 1$ and within $Z = 0$, averaged with
-   weights `mean(Z == 1)` and `mean(Z == 0)`.
-3. Intervene. Replace the line for `X` by `X <- rep(1, n)`, run the
-   line for `Y` again, and record `mean(Y)`. Do the same with
-   `X <- rep(0, n)`. Compare the difference with your answer to 2.
-4. The center changes its referrals to 0.95 for $Z = 1$ and 0.05 for
-   $Z = 0$. Before you run anything, write down what you expect for the
-   differences in 1 and in 3. Then run it.
+The room splits into four parts. Each part prepares the strongest case
+it can for one statement.
 
-## Discussion 3: causality and reproducibility
+1. Ethical data science and AI development requires us to lean mostly
+   on consequentialist ethics.
+2. Ethical data science and AI development requires us to lean mostly
+   on deontological ethics.
+3. Ethical data science and AI development requires us to lean mostly
+   on virtue ethics.
+4. Ethical data science and AI development requires us to lean mostly
+   on pragmatic ethics.
 
-Can causality be useful in the context of reproducibility?
+Five minutes to prepare, then a minute for each part.
+Each case should answer the strongest objection to it. For
+consequentialism, one objection is the lecture's last question: does it
+become more or less defensible once you have to write the causal model
+down?
 
-## Discussion 4: writing the model down
-
-Does consequentialism become more or less defensible once you have to
-write the causal model down? Answer it first for the argument your group
-drew at the start.
+Then everyone votes, whichever part they argued for. Which account are
+you most convinced of: consequentialist, deontological, virtue or
+pragmatic ethics, a combination, or none of them?
 
 ## If there is time
 
-- Can causality be useful for designing and communicating studies?
+- "Correlation (more generally, association) is not causation." This
+  is true and important, but can it be misused?
+- Can causality be useful in the context of reproducibility? In
+  designing and communicating studies?
 - A company tests two versions of its app on its users, without telling
   them, to see which version keeps them using the app longer. Which of
   the Belmont--Menlo principles does this touch? How would each of the
@@ -187,7 +207,7 @@ will go on the screen.
 
 ## Optional, can be done at home
 
-Practice for afterward: problems 3 to 8, then coding A and B. The
+Practice for afterward: problems 3 to 8, then coding A to C. The
 problems can be done by hand. Attempt each part before you open a hint.
 
 ::: {.callout-warning title="Hints"}
@@ -259,18 +279,19 @@ than the effect, with its arrows.
 The university's evidence compares students. Its action changes opening hours. Are those the same thing?
 :::
 
-### 6. Two registers
+### 6. Prediction letters and reinforcement-learning letters
 
 The decision whether to prescribe hormone therapy to prevent heart
-disease can be written in either register.
+disease can be written with the letters used for prediction or with
+those of reinforcement learning.
 
-(a) Write it in the prediction register. Say what the treatment, the
-outcome and a confounder are, and write the quantity a doctor needs
-with $do(\cdot)$.
+(a) Write it with the letters used for prediction. Say what the
+treatment, the outcome and a confounder are, and write the quantity a
+doctor needs with $do(\cdot)$.
 
-(b) Write it in the sequential-decision register, with the one-line
-declaration at the top. Say what the state, the action, the reward,
-the policy and the utility are.
+(b) Write it with the letters of reinforcement learning, with the
+one-line declaration at the top. Say what the state, the action, the
+reward, the policy and the utility are.
 
 (c) Which letters would mean different things if you used them in both
 answers?
@@ -371,5 +392,34 @@ nrow(students)
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 For 3: `students |> group_by(Z) |> mutate(e = mean(X)) |> ungroup()`.
+:::
+
+#### C. Intervening in a program
+
+The job center from the lecture, as a program. As in the lecture,
+everyone referred attends and nobody else does. Each line generates one
+variable from the ones above it.
+
+```{r course_starter, eval=FALSE}
+n <- 10000
+Z <- rbinom(n, 1, 0.5)                        # worked last year
+X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))   # attended the course
+Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)    # in work six months later
+mean(Y[X == 1]) - mean(Y[X == 0])             # attenders against the others
+```
+
+1. Run it. Compare the difference with the lecture's table.
+2. Compute the adjusted difference: the difference between attenders
+   and non-attenders within $Z = 1$ and within $Z = 0$, averaged with
+   weights `mean(Z == 1)` and `mean(Z == 0)`.
+3. Intervene. Replace the line for `X` by `X <- rep(1, n)`, run the
+   line for `Y` again, and record `mean(Y)`. Do the same with
+   `X <- rep(0, n)`. Compare the difference with your answer to 2.
+4. The center changes its referrals to 0.95 for $Z = 1$ and 0.05 for
+   $Z = 0$. Before you run anything, write down what you expect for the
+   differences in 1 and in 3. Then run it.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For step 3, replace the line for `X` and leave the line for `Z` alone. Then run the line for `Y` again, so that it uses the new `X`.
 :::
 

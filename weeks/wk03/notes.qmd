@@ -6,7 +6,7 @@ author: "Joshua Loftus"
 st313:
   week: 03
   session: notes
-  register: 1                    # the section "Two registers" declares register 2 in its first line; its glossary table sets both registers side by side (spine section 5 allows the glossary level)
+  register: 1                    # schema key. The section "Reinforcement learning" declares its letters in its first line; its table sets the prediction letters and the reinforcement-learning letters side by side (spine section 5 allows the glossary level). Student-facing text never says "register" (convenor, 11 October)
   segments: []                   # notes carry no timing; the lecture and class files do
   history: [{minutes: 2, buys: "the Tuskegee study, the National Research Act and the Belmont Report: where the applied principles came from, and why beneficence is a consequentialist clause"}]
   complications: []
@@ -33,13 +33,15 @@ marks.
 
 ## Summary
 
-A consequentialist judges an action by what it brings about. To say
-what an action brings about, you have to compare what would happen if
-it were taken with what would happen if it were not. That is a causal
-claim. Data show what happened to the people who took the action,
-which answers a different question. Large observational studies found
-less heart disease among women who took hormone therapy after the
-menopause, and a randomized trial then found more.
+A consequentialist judges an action by what it brings about.
+Utilitarianism, the best-known form, adds up the good an action does
+for everyone it affects. To say what an action brings about, you have
+to compare what would happen if it were taken with what would happen if
+it were not. That is a causal claim. Data show what happened to the
+people who took the action, which answers a different question. Large
+observational studies found less heart disease among women who took
+hormone therapy after the menopause, and a randomized trial then found
+more.
 
 A causal model writes down which variables affect which, and comes
 with a rule for working out what an intervention would do. With a
@@ -47,6 +49,14 @@ model in hand, an observed difference can sometimes be turned into an
 estimate of an effect, by adjusting for the right variables. Which
 variables are the right ones depends on the model. You cannot read the
 model off the data, so you have to choose one and defend it.
+
+To choose between treating everyone and treating no one, a utilitarian
+needs only the average effect times the number of people, provided that
+well-being adds up across people and nobody's outcome depends on anyone
+else's treatment. That total does not say who gains and who loses. In
+reinforcement learning an agent learns a policy, a rule for acting,
+that earns a large reward, and the reward is not the same as the good
+the policy does.
 
 ```{r setup, echo=FALSE, message=FALSE}
 library(ggplot2)
@@ -95,7 +105,7 @@ draw_dag <- function(nodes, edges, dashed = character(0), highlight = character(
 }
 ```
 
-## Four ways to judge an action
+## Normative ethics: four frameworks
 
 Consequentialism, deontology and virtue ethics are in
 [ms4ds, section 3.2](https://joshualoftus.com/ms4ds/ethical-data-science.html#philosophy-of-ethics),
@@ -106,13 +116,8 @@ and all four are in the Wikipedia articles on
 [pragmatic ethics](https://en.wikipedia.org/wiki/Pragmatic_ethics).
 
 **Consequentialism** judges an action by its effects. Its best-known
-form is utilitarianism: choose the action that does the greatest good
-for the greatest number of people. ms4ds lists its difficulties:
-defining utility, trading off one person's good against another's,
-deciding whether to judge single acts or general rules, and "uncertainty
-about predicting consequences. The last issue, predicting consequences,
-is one where the intersection with data science is particularly
-relevant."
+form is utilitarianism. Of the difficulties ms4ds lists, the one this
+course can help with is "uncertainty about predicting consequences."
 
 **Deontology** judges an action by whether it follows a rule or a duty,
 "rather than based on the consequences of the action," in Wikipedia's
@@ -152,7 +157,50 @@ them so that we can act, and we expect that we may need to try
 something else. You can decide to use a causal model without taking
 the model as conclusive.
 
-### The Belmont and Menlo principles
+### Utilitarianism
+
+Utilitarianism is the consequentialism of Jeremy Bentham, regarded as
+its founder, and John Stuart Mill. It says to choose the action that
+does the greatest good for the greatest number of people. In its
+classical form the good is happiness, and what matters, in the
+Wikipedia article's words, is "to aggregate happiness; the happiness of
+everyone, and not the happiness of any particular person." Later
+utilitarians measure the good in other ways, for instance by how far
+people's preferences are satisfied.
+
+ms4ds lists four difficulties:
+
+- Defining utility. Someone has to say what counts as good and how to
+  measure it. In data science this is the choice of an outcome, a
+  metric or a loss function, and the first of the five lenses asks
+  about it: what are we optimizing or predicting?
+- Trading off one person's good against another's. A total or an
+  average lets a gain to one person make up for a loss to another. The
+  average treatment effect, later in these notes, is an average of this
+  kind.
+- Judging single acts or general rules. Act utilitarianism judges each
+  action by its consequences. Rule utilitarianism judges a rule by the
+  consequences of following it, and an act by whether it follows a good
+  rule. A model that makes thousands of decisions is a rule.
+- Predicting consequences. In ms4ds's words, "The last issue,
+  predicting consequences, is one where the intersection with data
+  science is particularly relevant."
+
+Data science, ms4ds says, "is usually framed (perhaps implicitly) as
+utilitarian because of its focus on prediction/causation
+(consequences) and optimization (utility)." A recommender that ranks
+items to raise average engagement, a lender's model that approves loans
+to maximize expected profit, and an A/B test that keeps whichever
+version has the higher mean of some metric each add up a quantity over
+people and choose the action with the larger total. Each is utilitarian
+in form. Whether the quantity is anyone's good is the first difficulty
+again: a lender's profit is not its borrowers' happiness. A
+deontologist asks of the same systems whether the people in the A/B
+test agreed to be experimented on, and whether anyone is treated in a
+way that no gain to others could justify. A virtue ethicist asks what
+building such a system says about the people who build it.
+
+## Applied ethics: the Belmont and Menlo principles
 
 From 1932 the United States Public Health Service ran a study in which
 African American men in Alabama were recruited with the promise of free
@@ -209,6 +257,18 @@ In [ms4ds, section 3.4](https://joshualoftus.com/ms4ds/ethical-data-science.html
 "Causal understanding is necessary to apply consequentialism. An
 observational model of the world does not tell us what consequences we
 can expect to result from any action which is an intervention."
+
+ms4ds's utilitarian example is divorce. Observational data show
+couples happier after divorcing, but that does not mean everyone who
+can should divorce, because couples who divorce were probably unhappy
+together, and other couples may not be. For the deontologist it takes
+Kant's categorical imperative: "Act only according to that maxim
+whereby you can, at the same time, will that it should become a
+universal law." Whether you could will mandatory divorce, or mandatory
+marriage, as a universal law depends on what would happen if everyone
+were obliged to follow it, which is a counterfactual. For the virtue
+ethicist, stress can increase appetite, so promoting the virtue of
+moderation may mean reducing stress.
 
 Barocas, Hardt and Narayanan open their chapter on causality, on the
 page before this week's reading starts, with a pair of questions. The
@@ -372,7 +432,19 @@ population as a whole, $1/3$ against $1/6$. Would a program
 that changed people's weight change their heart disease? Changing
 weight is an action on $W$. In the program it means replacing the line
 that assigns $W$ by a constant, $W := 1$ or $W := 0$, and leaving every
-other line alone. Do that, and $H$ still depends only on $X$ and $U_3$:
+other line alone. In the graph, that deletes the arrow into $W$ and
+keeps the arrow from $X$ to $H$.
+
+```{r program_do, echo=FALSE, fig.height=2.2, fig.width=6}
+pp <- c("the program", "after do(W := 1)")
+nodes <- data.frame(panel = rep(pp, each = 3), name = rep(c("X", "W", "H"), 2),
+                    x = rep(c(1, 0, 2), 2), y = rep(c(1, 0, 0), 2))
+edges <- data.frame(panel = c(pp[1], pp[1], pp[2]), from = "X", to = c("W", "H", "H"))
+nodes$panel <- factor(nodes$panel, levels = pp); edges$panel <- factor(edges$panel, levels = pp)
+draw_dag(nodes, edges) + theme(strip.clip = "off", strip.text = element_text(size = 11, margin = margin(t = 2, b = 6)))
+```
+
+Do that, and $H$ still depends only on $X$ and $U_3$:
 $$
 P(H = 1 \mid do(W := 1)) = \tfrac16 = P(H = 1 \mid do(W := 0)).
 $$
@@ -399,12 +471,28 @@ $$
 \text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)],
 $$
 the difference in the mean of $Y$ between a world where everyone is
-treated and one where nobody is. "Causal effects are population
-quantities," as the reading says. The effect on one person, or on one
-group, can differ from it. "This policy causes better outcomes" is a
-statement about a quantity like this one. The observed difference
-$E[Y \mid X = 1] - E[Y \mid X = 0]$ is a statement about who happened
-to be treated.
+treated and one where nobody is. Each term deletes the arrows into $X$
+and sets $X$ to the same value for everyone. "Causal effects are
+population quantities," as the reading says. The effect on one person,
+or on one group, can differ from it. "This policy causes better
+outcomes" is a statement about a quantity like this one. The observed
+difference $E[Y \mid X = 1] - E[Y \mid X = 0]$ is a statement about who
+happened to be treated.
+
+Suppose $Y$ measures how well off a person is, on a scale on which
+gains and losses can be added across people, and nobody's outcome
+depends on anyone else's treatment. Then treating all $n$ people in a
+population rather than none changes the expected total of $Y$ by
+$n \times \text{ATE}$. That is the comparison a utilitarian makes
+between those two actions, and it needs nothing else. In the total a
+gain to one person offsets a loss to another, so a positive average
+treatment effect is consistent with some people being made worse off.
+Justice, the third Belmont principle, concerns who receives the
+benefits of research and who bears its burdens. Asked of a policy, the
+same question is not answered by the average. Effects within groups say more,
+and a trial can estimate them for groups defined by what was known
+before treatment. The effect on one person is never observed, because
+each person is either treated or not.
 
 ### Prediction and intervention
 
@@ -568,7 +656,7 @@ is the collider. So "control for everything you measured" is not a
 safe default. You decide which variables to hold fixed from the graph,
 and someone has to draw the graph.
 
-### Berkeley, 1973
+### Optional: Berkeley, 1973
 
 The reading starts from the 1973 admissions to graduate programs at the
 University of California, Berkeley: 44% of the 8,442 men who applied were
@@ -614,7 +702,7 @@ data record nothing about qualifications, and asks why women applied to
 the departments they did: perhaps others were unwelcoming. You cannot
 tell which story is right from the admissions data.
 
-## Omitted-variable bias
+## Optional: omitted-variable bias
 
 The same argument works for a regression slope. Take a linear
 structural causal model with independent, mean-zero noise:
@@ -745,77 +833,7 @@ estimates had not. Most policies cannot be tried that way first. Then
 the graph is an argument, and a consequentialist's case for the policy
 stands or falls with it.
 
-## An argument in prose
-
-A council says: "Pupils who go to their school's breakfast club have
-better attendance and better test results. We will fund a breakfast
-club in each of our schools, because breakfast clubs improve results."
-The argument assumes a graph, and drawing it shows what evidence the
-council would need.
-
-```{r club_dag, echo=FALSE, fig.height=2.4, fig.width=7}
-draw_dag(data.frame(name = c("funding", "goes to the club", "attendance", "test results", "family circumstances"),
-                    x = c(-0.9, 0.5, 1.45, 2.45, 1.45), y = c(0.6, 0.6, -0.05, 0.6, 1.3)),
-         data.frame(from = c("funding", "goes to the club", "goes to the club", "attendance",
-                             "family circumstances", "family circumstances"),
-                    to = c("goes to the club", "attendance", "test results", "test results",
-                           "goes to the club", "test results")),
-         boxes = TRUE, xlim = c(-1.6, 3.3), ylim = c(-0.3, 1.55))
-```
-
-The council's action is funding, which changes whether a school has a
-club. Its evidence compares pupils who go with pupils who do not, and
-nobody chose who goes by tossing a coin. Family circumstances can
-affect both whether a pupil goes and how the pupil does at school, so
-they open a back door. Attendance is a mediator, one route by which
-going could improve results. A comparison that matches the action is
-schools with a club against schools without one, and the strongest
-version is a trial in which some schools are given a club at random.
-
-## Two registers
-
-**Notation:** this section uses the sequential-decision register:
-$S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
-
-The consequentialist's question can also be put in the language of
-reinforcement learning. An agent observes a
-**state** $S$, takes an **action** $A$, and receives a **reward** $R$.
-A **policy** $\pi$ is a rule that chooses the action from the state,
-$A = \pi(S)$. The **utility** $U$ is what we care about. In this
-register the consequentialist says: of the available policies, choose
-one whose expected utility $E_\pi[U]$ is largest, where $E_\pi$ is the
-expectation when the actions are chosen by $\pi$. That expectation is
-about acting. The actions are set by the policy, so it is a causal
-quantity, and records of what agents happened to do do not give it
-directly. An agent that learns a policy is given $R$, a number it can
-observe after each action, and learns to make $R$ large. $R$ and $U$
-are different quantities, and an agent can raise one while lowering the
-other.
-
-These letters collide with the prediction register, which most of the
-course uses.
-
-| | prediction register | sequential-decision register |
-|:---|:---|:---|
-| $A$ | sensitive attribute: something a person *is* | action: something an agent *does* |
-| $R$ | risk score, with $\hat Y = 1\{R \ge t\}$ | reward |
-| $U$ | unobserved variable | utility |
-| $S$, $\pi$ | not used | state, policy |
-
-If you read about reinforcement learning you will meet these letters
-with these meanings. New letters invented for this course would teach a
-convention nobody else uses. Two rules are enough. Material that uses
-the decision register says so in one line at the top, as this section
-does. And the two registers are never mixed inside one diagram or one
-derivation. A classifier described as an agent takes its prediction
-$\hat Y$ as its action, and the decision register would write that
-action as $A$. Mixing the registers there would give $A$ two meanings
-in one line.
-
 ## Inverse probability weighting
-
-**Notation:** back to the prediction register: $X$ the treatment (as in
-the reading), $Z$ the adjustment set, $Y$ the outcome.
 
 There is a second way to reach the adjustment formula's answer, using
 one summary of who gets treated. Let
@@ -876,6 +894,88 @@ $Z$. If $Z$ satisfies the backdoor criterion, treatment is ignorable
 given $Z$, so with $e(Z)$ strictly between 0 and 1 the same identity
 holds, $E[XY/e(Z)] = E[Y(1)]$.
 
+## Reinforcement learning
+
+**Notation:** this section uses the letters of reinforcement learning:
+$S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
+
+The consequentialist's question can also be put in the language of
+reinforcement learning. An agent observes a **state** $S$, takes an
+**action** $A$, and receives a **reward** $R$. A **policy** $\pi$ is a
+rule that chooses the action from the state, $A = \pi(S)$. The
+**utility** $U$ is what we care about. In these terms the
+consequentialist says: of the available policies, choose one whose
+expected utility $E_\pi[U]$ is largest, where $E_\pi$ is the
+expectation when the agent acts by $\pi$. A policy is a rule for
+choosing actions, so this judges a rule by its consequences. If the
+policy can use everything about the state, the best policy also picks
+the best action in every state, and judging acts and judging rules
+agree. They can come apart when a rule has to treat different
+situations alike, as a model that sees only a few variables about each
+person does.
+
+Is $E_\pi[U]$ a causal quantity? It can be read as one, the expected
+utility if the agent's actions were set by $\pi$, but that reading
+needs assumptions beyond this week's. An intervention in this week's
+sense sets a variable for everyone in a population. Here one agent
+follows a rule. The people and systems it acts on may respond to what
+it does, sometimes adversarially, and what happens to one of them can
+depend on what was done to others. Causal reinforcement learning, a
+subfield surveyed by Deng, Jiang, Long and Zhang (2023), brings causal
+models into reinforcement learning.
+
+An agent that learns a policy is given $R$, a number it can observe
+after each action, and learns to make $R$ large. $R$ and $U$ are
+different quantities, and an agent can raise one while lowering the
+other.
+
+These letters clash with the ones used for prediction, which most of
+the course uses.
+
+| | prediction | reinforcement learning |
+|:---|:---|:---|
+| $A$ | sensitive attribute: something a person *is* | action: something an agent *does* |
+| $R$ | risk score, with $\hat Y = 1\{R \ge t\}$ | reward |
+| $U$ | unobserved variable | utility |
+| $S$, $\pi$ | not used | state, policy |
+
+If you read about reinforcement learning you will meet these letters
+with these meanings. New letters invented for this course would teach a
+convention nobody else uses. Two rules are enough. Material that uses
+the reinforcement-learning letters says so in one line at the top, as
+this section does. And the two sets of letters are never mixed inside
+one diagram or one derivation. A classifier described as an agent takes
+its prediction $\hat Y$ as its action, which reinforcement learning
+would write as $A$. Mixing the two there would give $A$ two meanings in
+one line.
+
+## An argument in prose
+
+A council says: "Pupils who go to their school's breakfast club have
+better attendance and better test results. We will fund a breakfast
+club in each of our schools, because breakfast clubs improve results."
+The argument assumes a graph, and drawing it shows what evidence the
+council would need.
+
+```{r club_dag, echo=FALSE, fig.height=2.4, fig.width=7}
+draw_dag(data.frame(name = c("funding", "goes to the club", "attendance", "test results", "family circumstances"),
+                    x = c(-0.9, 0.5, 1.45, 2.45, 1.45), y = c(0.6, 0.6, -0.05, 0.6, 1.3)),
+         data.frame(from = c("funding", "goes to the club", "goes to the club", "attendance",
+                             "family circumstances", "family circumstances"),
+                    to = c("goes to the club", "attendance", "test results", "test results",
+                           "goes to the club", "test results")),
+         boxes = TRUE, xlim = c(-1.6, 3.3), ylim = c(-0.3, 1.55))
+```
+
+The council's action is funding, which changes whether a school has a
+club. Its evidence compares pupils who go with pupils who do not, and
+nobody chose who goes by tossing a coin. Family circumstances can
+affect both whether a pupil goes and how the pupil does at school, so
+they open a back door. Attendance is a mediator, one route by which
+going could improve results. A comparison that matches the action is
+schools with a club against schools without one, and the strongest
+version is a trial in which some schools are given a club at random.
+
 ## Lenses
 
 Which comparison gets reported? Attenders against non-attenders, or
@@ -887,7 +987,10 @@ needs. In the course table the first is nearly three times the second.
 In the hormone studies the first gave 0.39, and the second gave 1.42
 over the first two years (interval 0.92 to 2.20) and 0.96 over the
 whole follow-up (0.78 to 1.18), estimates the authors call similar to
-the trial's.
+the trial's. And the average effect, or the effects within groups
+defined before treatment. The first is all a utilitarian choosing
+between everyone and no one needs; the second is closer to what the
+Belmont principle of justice asks about.
 
 You have to choose, so choose, and defend it. "Pretending it was forced
 is its own failure." Which variables to adjust for follows from a graph,
@@ -989,4 +1092,6 @@ and O'Connell, "Sex bias in graduate admissions: data from Berkeley"
 (*Science* 187, 1975, 398--404); Pearl, *Causality* (2009), for the
 backdoor criterion; Loftus,
 [Position: The Causal Revolution Needs Scientific Pragmatism](https://proceedings.mlr.press/v235/loftus24a.html)
-(ICML 2024).
+(ICML 2024); Deng, Jiang, Long and Zhang,
+[Causal Reinforcement Learning: A Survey](https://openreview.net/forum?id=qqnttX9LPo)
+(*Transactions on Machine Learning Research*, 2023).

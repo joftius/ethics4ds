@@ -149,18 +149,19 @@ Joshua Loftus
 <section id="section" class="slide level2 inverse">
 <h2></h2>
 <h3 id="week-3">Week 3</h3>
-<p>Part 1: Four ways to judge an action</p>
+<p>Part 1: Normative and applied ethics</p>
 <p>Part 2: Causal models</p>
 <p>Part 3: Confounding and adjustment</p>
-<p>Part 4: Two registers</p>
+<p>Part 4: Reinforcement learning</p>
+<p>Part 5: Drawing an argument’s graph</p>
 </section>
 <section>
-<section id="part-1-four-ways-to-judge-an-action" class="title-slide slide level1 center">
-<h1>Part 1: Four ways to judge an action</h1>
+<section id="part-1-normative-and-applied-ethics" class="title-slide slide level1 center">
+<h1>Part 1: Normative and applied ethics</h1>
 
 </section>
-<section id="four-frameworks" class="slide level2">
-<h2>Four frameworks</h2>
+<section id="normative-ethics-four-frameworks" class="slide level2">
+<h2>Normative ethics: four frameworks</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -178,7 +179,7 @@ Joshua Loftus
 <tr class="odd">
 <td style="text-align: left;">Consequentialism</td>
 <td style="text-align: left;">its effects</td>
-<td style="text-align: left;">“predicting consequences”</td>
+<td style="text-align: left;">predicting consequences</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Deontology</td>
@@ -198,29 +199,94 @@ Joshua Loftus
 </tbody>
 </table>
 <blockquote>
-<p>“These approaches are not mutually exclusive or exhaustive, so we do not have to choose one of them or limit our thinking to using only these ideas.”</p>
+<p>These approaches are not mutually exclusive or exhaustive, so we do not have to choose one of them or limit our thinking to using only these ideas.</p>
 </blockquote>
 <div class="source">
-<p>ms4ds, section 3.2.2 (the quotation) and sections 3.2.2.1 to 3.2.2.3 (the first three rows); Wikipedia, Deontology and Pragmatic ethics.</p>
+<p>ms4ds, section 3.2.2 (the block quote) and sections 3.2.2.1 to 3.2.2.3 (the first three rows); Wikipedia, Deontology and Pragmatic ethics.</p>
 </div>
 </section>
 <section id="which-framework" class="slide level2">
 <h2>Which framework?</h2>
 <p>A hospital is deciding whether to use a model to choose which patients get a follow-up call after discharge.</p>
 <ol type="1">
-<li>“Use it. In the pilot, readmissions fell.”</li>
-<li>“Don’t. Patients never agreed to their records being used this way.”</li>
 <li>“A good doctor would not hand that judgment to a score.”</li>
+<li>“Use it. In the pilot, readmissions fell.”</li>
 <li>“Try it on one ward, watch what happens, and change the rules as we learn.”</li>
+<li>“Don’t. Patients never agreed to their records being used this way.”</li>
 </ol>
 <div class="ask">
 <p>Which framework is each argument using? Which of them would you need data to settle?</p>
 </div>
 </section>
+<section id="consequentialism" class="slide level2">
+<h2>Consequentialism</h2>
+<blockquote>
+<p>An act is right “if and only if the act (or in some views, the rule under which it falls) will produce, will probably produce, or is intended to produce, a greater balance of good over evil than any available alternative.”</p>
+</blockquote>
+<div class="source">
+<p>Wikipedia, Consequentialism.</p>
+</div>
+<p>Only one of the alternatives is taken. What the others would have brought about is never observed.</p>
+<blockquote>
+<p>Causal understanding is necessary to apply consequentialism. An observational model of the world does not tell us what consequences we can expect to result from any action which is an intervention.</p>
+</blockquote>
+<div class="source">
+<p>ms4ds, section 3.4.</p>
+</div>
+</section>
+<section id="utilitarianism" class="slide level2">
+<h2>Utilitarianism</h2>
+<p>Consequentialism’s best-known form, from Bentham and Mill: choose the action that does the greatest good for the greatest number. What matters is “to aggregate happiness; the happiness of everyone, and not the happiness of any particular person.”</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">a difficulty</th>
+<th style="text-align: left;">in data science</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">defining utility</td>
+<td style="text-align: left;">choosing the outcome, the metric or the loss</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trading off between people</td>
+<td style="text-align: left;">adding up gains and losses over people</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">judging acts or rules</td>
+<td style="text-align: left;">one decision, or the model that makes all of them</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">predicting consequences</td>
+<td style="text-align: left;">effects of actions, not associations</td>
+</tr>
+</tbody>
+</table>
+<div class="source">
+<p>ms4ds, section 3.2.2.1 (the four difficulties); Wikipedia, Consequentialism (the quotation).</p>
+</div>
+</section>
+<section id="utilitarian-language" class="slide level2">
+<h2>Utilitarian language</h2>
+<blockquote>
+<p>Data science is usually framed (perhaps implicitly) as utilitarian because of its focus on prediction/causation (consequences) and optimization (utility).</p>
+</blockquote>
+<div class="source">
+<p>ms4ds, section 3.2.2, discussion questions.</p>
+</div>
+<div class="ask">
+<p>Choose a data science task: a recommender, a credit score, an A/B test. Say it in utilitarian language: whose good, measured how, added up over whom? Then give one objection a deontologist or a virtue ethicist would make.</p>
+</div>
+</section>
 <section id="the-belmont-and-menlo-principles" class="slide level2">
 <h2>The Belmont and Menlo principles</h2>
 <ul>
-<li>1932 to 1972: the Tuskegee study. Men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.</li>
+<li>1932 to 1972: the Tuskegee study. Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.</li>
 <li>1974: the National Research Act creates a national commission for the protection of research subjects.</li>
 <li>1978: the Belmont Report. Respect for persons, beneficence, justice.</li>
 <li>2012: the Menlo Report adds respect for law and the public interest.</li>
@@ -232,20 +298,21 @@ Joshua Loftus
 <p>ms4ds, section 3.3.1, which quotes the Menlo Report (2012); Wikipedia, Belmont Report.</p>
 </div>
 </section>
-<section id="consequentialism" class="slide level2">
-<h2>Consequentialism</h2>
-<blockquote>
-<p>An act is right “if and only if the act (or in some views, the rule under which it falls) will produce, will probably produce, or is intended to produce, a greater balance of good over evil than any available alternative.”</p>
-</blockquote>
-<div class="source">
-<p>Wikipedia, Consequentialism.</p>
-</div>
-<blockquote>
-<p>“Causal understanding is necessary to apply consequentialism. An observational model of the world does not tell us what consequences we can expect to result from any action which is an intervention.”</p>
-</blockquote>
+<section id="causality-and-ethics" class="slide level2">
+<h2>Causality and ethics</h2>
+<ul>
+<li>Utilitarian: in observational data, couples are happier after divorcing. Should everyone who can, divorce? Those who divorced were probably unhappy together, and other couples may not be.</li>
+<li>Deontological: Kant’s “Act only according to that maxim whereby you can, at the same time, will that it should become a universal law.” To decide what you could will as a law, ms4ds asks what would happen if everyone were obliged to follow it.</li>
+<li>Virtue: stress can increase appetite, so promoting moderation may mean reducing stress.</li>
+</ul>
 <div class="source">
 <p>ms4ds, section 3.4.</p>
 </div>
+</section></section>
+<section>
+<section id="part-2-causal-models" class="title-slide slide level1 center">
+<h1>Part 2: Causal models</h1>
+
 </section>
 <section id="observational-studies-that-recommend-a-practice" class="slide level2 inverse">
 <h2>Observational studies that recommend a practice</h2>
@@ -304,11 +371,6 @@ Joshua Loftus
 <div class="leave">
 <p>Which comparison gets reported? Women who took hormones against women who did not, or starters against non-starters.</p>
 </div>
-</section></section>
-<section>
-<section id="part-2-causal-models" class="title-slide slide level1 center">
-<h1>Part 2: Causal models</h1>
-
 </section>
 <section id="structural-causal-models" class="slide level2">
 <h2>Structural causal models</h2>
@@ -329,14 +391,28 @@ Joshua Loftus
 <p>fairmlbook, chapter 5, “Causal models” and “Causal graphs.”</p>
 </div>
 </section>
-<section id="the-readings-first-program" class="slide level2">
-<h2>The reading’s first program</h2>
+<section id="exercise-weight-and-heart-disease" class="slide level2">
+<h2>Exercise, weight and heart disease</h2>
 <p><span class="math inline">\(U_1 \sim B(1/2)\)</span>, <span class="math inline">\(\;U_2, U_3 \sim B(1/3)\)</span>, independent; <span class="math inline">\(B(q)\)</span> is 1 with probability <span class="math inline">\(q\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:70%;">
 <ol type="1">
-<li><span class="math inline">\(X := U_1\)</span> <span class="math inline">\(\quad\)</span> (exercise)</li>
-<li><span class="math inline">\(W :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(0\)</span> else <span class="math inline">\(U_2\)</span> <span class="math inline">\(\quad\)</span> (overweight)</li>
-<li><span class="math inline">\(H :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(0\)</span> else <span class="math inline">\(U_3\)</span> <span class="math inline">\(\quad\)</span> (heart disease)</li>
+<li><span class="math inline">\(X := U_1\)</span> (exercise)</li>
+<li><span class="math inline">\(W :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(0\)</span> else <span class="math inline">\(U_2\)</span> (overweight)</li>
+<li><span class="math inline">\(H :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(0\)</span> else <span class="math inline">\(U_3\)</span> (heart disease)</li>
 </ol>
+</div><div class="column" style="width:30%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/program_dag-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<p>Apart from the noise, an arrow into a variable comes from each variable its line uses: <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> are both computed from <span class="math inline">\(X\)</span>.</p>
 <div class="ask">
 <p>Compute <span class="math inline">\(P(H = 1)\)</span> and <span class="math inline">\(P(H = 1 \mid W = 1)\)</span>.</p>
 </div>
@@ -347,7 +423,21 @@ Joshua Loftus
 <section id="conditioning-and-intervening" class="slide level2">
 <h2>Conditioning and intervening</h2>
 <p><span class="math inline">\(P(H = 1) = \tfrac12 \cdot \tfrac13 = \tfrac16\)</span>, <span class="math inline">\(\qquad P(H = 1 \mid W = 1) = \tfrac13\)</span>.</p>
-<p>Replace line 2 by <span class="math inline">\(W := 1\)</span> and keep the others: <span class="math inline">\(\quad P(H = 1 \mid do(W := 1)) = \tfrac16\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:68%;">
+<p><span class="math inline">\(do(W := 1)\)</span>: replace line 2 by <span class="math inline">\(W := 1\)</span>. In the graph, the arrow into <span class="math inline">\(W\)</span> is deleted.</p>
+<p><span class="math inline">\(P(H = 1 \mid do(W := 1)) = \tfrac16\)</span>.</p>
+</div><div class="column" style="width:32%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/program_do-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
 <blockquote>
 <p>“The substitution <span class="math inline">\(W := 1\)</span> does not correspond to a conditioning on <span class="math inline">\(W = 1\)</span>. One is an action, albeit inconsequential in this case. The other is an observation from which we can draw inferences.”</p>
 </blockquote>
@@ -361,12 +451,24 @@ Joshua Loftus
 <p><span class="math display">\[
 \text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)]
 \]</span></p>
+<p>Each term deletes the arrows into <span class="math inline">\(X\)</span> and sets <span class="math inline">\(X\)</span> to the same value for everyone.</p>
 <blockquote>
 <p>“Causal effects are population quantities. They refer to effects averaged over the whole population. Often the effect of treatment varies greatly from one individual or group of individuals to another.”</p>
 </blockquote>
 <p>The observed difference <span class="math inline">\(E[Y \mid X = 1] - E[Y \mid X = 0]\)</span> compares the people who happened to be treated with the people who were not.</p>
 <div class="source">
 <p>fairmlbook, chapter 5, “Causal effects.”</p>
+</div>
+</section>
+<section id="adding-up-over-people" class="slide level2">
+<h2>Adding up over people</h2>
+<p>Suppose <span class="math inline">\(Y\)</span> measures how well off a person is, on a scale that adds up across people, and nobody’s outcome depends on anyone else’s treatment. Then treating all <span class="math inline">\(n\)</span> people rather than none changes the expected total of <span class="math inline">\(Y\)</span> by <span class="math inline">\(n \times \text{ATE}\)</span>: the utilitarian’s comparison of the two actions.</p>
+<p>A gain to one person offsets a loss to another. A positive ATE is consistent with some people being made worse off.</p>
+<div class="ask">
+<p>Justice, in the Belmont Report, concerns who receives the benefits of research and who bears its burdens. For a policy, what would you need to know besides the ATE?</p>
+</div>
+<div class="source">
+<p>Wikipedia, Belmont Report.</p>
 </div>
 </section>
 <section id="prediction-and-intervention" class="slide level2">
@@ -555,54 +657,6 @@ P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 <p>The criterion: Pearl (2009), <em>Causality</em>, as cited in fairmlbook, chapter 5. The quotation: fairmlbook, chapter 5, “Confounding.”</p>
 </div>
 </section>
-<section id="berkeley-1973" class="slide level2 inverse">
-<h2>Berkeley, 1973</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/berkeley-1.png" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>With <span class="math inline">\(d\)</span> running over the six departments,</p>
-<p><span class="math display">\[
-P(\text{admit} \mid \text{woman}) = \sum_d P(d \mid \text{woman})\,P(\text{admit} \mid d, \text{woman})
-\]</span></p>
-<div class="source" style="color: #BCAF6F">
-<p>R’s <code>UCBAdmissions</code>, from Bickel, Hammel and O’Connell (1975), <em>Science</em> 187. Point size: applicants. The reading’s Table 5.1 has 520 men and 60% admitted in department B, where R has 560 and 63%.</p>
-</div>
-</section>
-<section id="omitted-variable-bias" class="slide level2">
-<h2>Omitted-variable bias</h2>
-<p><span class="math inline">\(Z := U_Z\)</span>, <span class="math inline">\(\;X := \alpha Z + U_X\)</span>, <span class="math inline">\(\;Y := \beta X + \gamma Z + U_Y\)</span>, with independent mean-zero noise. Then <span class="math inline">\(E[Y \mid do(X := x)] = \beta x\)</span>, and the slope of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> alone is</p>
-<p><span class="math display">\[
-\begin{aligned}
-\frac{\operatorname{Cov}(X, Y)}{\operatorname{Var}(X)} &amp;= \frac{\beta \operatorname{Var}(X) + \gamma \operatorname{Cov}(X, Z)}{\operatorname{Var}(X)} \\
-&amp;= \beta + \gamma\alpha\,\frac{\operatorname{Var}(Z)}{\alpha^2\operatorname{Var}(Z) + \operatorname{Var}(U_X)}
-\end{aligned}
-\]</span></p>
-<p>With <span class="math inline">\(\alpha = \gamma = 1\)</span>, <span class="math inline">\(\beta = 0.5\)</span> and unit variances, the slope is <span class="math inline">\(1.0\)</span> and the effect <span class="math inline">\(0.5\)</span>.</p>
-<div class="leave">
-<p>A bias: as <span class="math inline">\(n\)</span> grows the slope converges to the wrong number.</p>
-</div>
-</section>
-<section id="omitted-variable-bias-simulated" class="slide level2 inverse">
-<h2>Omitted-variable bias, simulated</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/ovb_sizes-1.png" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="source" style="color: #BCAF6F">
-<p><span class="math inline">\(\alpha = \gamma = 1\)</span>, <span class="math inline">\(\beta = 0.5\)</span>, unit variances. The code is in the notes.</p>
-</div>
-</section>
 <section id="unobserved-confounding" class="slide level2">
 <h2>Unobserved confounding</h2>
 <div class="columns">
@@ -634,21 +688,21 @@ E\!\left[\frac{XY}{e(Z)}\right] = E\big[E[Y \mid X = 1, Z]\big] = E[Y \mid do(X 
 <p>An attender from the <span class="math inline">\(Z = 0\)</span> row counts for <span class="math inline">\(1/0.2 = 5\)</span> people. The price is variance.</p>
 </section></section>
 <section>
-<section id="part-4-two-registers" class="title-slide slide level1 center">
-<h1>Part 4: Two registers</h1>
+<section id="part-4-reinforcement-learning" class="title-slide slide level1 center">
+<h1>Part 4: Reinforcement learning</h1>
 
 </section>
-<section id="the-sequential-decision-register" class="slide level2">
-<h2>The sequential-decision register</h2>
-<p><strong>Notation:</strong> this slide uses the sequential-decision register: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
-<p>An agent observes a state <span class="math inline">\(S\)</span> and takes an action <span class="math inline">\(A = \pi(S)\)</span>, then receives a reward <span class="math inline">\(R\)</span>.</p>
-<p>A consequentialist: of the available policies, choose one with the largest expected utility, <span class="math inline">\(E_\pi[U]\)</span>.</p>
-<p><span class="math inline">\(E_\pi\)</span> is an expectation when the actions are set by <span class="math inline">\(\pi\)</span>. That is a causal quantity.</p>
+<section id="reinforcement-learning" class="slide level2">
+<h2>Reinforcement learning</h2>
+<p><strong>Notation:</strong> this slide uses the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
+<p>An agent observes a state <span class="math inline">\(S\)</span>, takes an action <span class="math inline">\(A = \pi(S)\)</span> and receives a reward <span class="math inline">\(R\)</span>. The policy <span class="math inline">\(\pi\)</span> is a rule.</p>
+<p>Judging the rule by its consequences: of the available policies, choose one with the largest expected utility, <span class="math inline">\(E_\pi[U]\)</span>, the expectation when the agent acts by <span class="math inline">\(\pi\)</span>.</p>
+<p>Whether <span class="math inline">\(E_\pi[U]\)</span> is a causal quantity depends on further assumptions. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.</p>
 <p>An agent that learns a policy is given <span class="math inline">\(R\)</span> and learns to make <span class="math inline">\(R\)</span> large. <span class="math inline">\(R\)</span> is not <span class="math inline">\(U\)</span>.</p>
 </section>
-<section id="collisions" class="slide level2">
-<h2>Collisions</h2>
-<p><strong>Notation:</strong> the prediction register and the sequential-decision register, side by side.</p>
+<section id="two-meanings-for-the-same-letters" class="slide level2">
+<h2>Two meanings for the same letters</h2>
+<p><strong>Notation:</strong> prediction and reinforcement learning, side by side.</p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -658,8 +712,8 @@ E\!\left[\frac{XY}{e(Z)}\right] = E\big[E[Y \mid X = 1, Z]\big] = E[Y \mid do(X 
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
-<th style="text-align: left;">prediction register</th>
-<th style="text-align: left;">sequential-decision register</th>
+<th style="text-align: left;">prediction</th>
+<th style="text-align: left;">reinforcement learning</th>
 </tr>
 </thead>
 <tbody>
@@ -686,9 +740,14 @@ E\!\left[\frac{XY}{e(Z)}\right] = E\big[E[Y \mid X = 1, Z]\big] = E[Y \mid do(X 
 </tbody>
 </table>
 <ol type="1">
-<li>Material that uses the decision register says so in one line at the top.</li>
+<li>Material that uses the reinforcement-learning letters says so in one line at the top.</li>
 <li>The two are never mixed inside one diagram or derivation.</li>
 </ol>
+</section></section>
+<section>
+<section id="part-5-drawing-an-arguments-graph" class="title-slide slide level1 center">
+<h1>Part 5: Drawing an argument’s graph</h1>
+
 </section>
 <section id="an-argument-in-prose" class="slide level2">
 <h2>An argument in prose</h2>
@@ -720,7 +779,7 @@ E\!\left[\frac{XY}{e(Z)}\right] = E\big[E[Y \mid X = 1, Z]\big] = E[Y \mid do(X 
 <section id="lenses-this-week" class="slide level2">
 <h2>Lenses this week</h2>
 <ul>
-<li><strong>Which comparison gets reported?</strong> Attenders against non-attenders, overall or within rows. Women who took hormones against women who did not, or starters against non-starters. <span class="math inline">\(P(Y \mid X = 1)\)</span> against <span class="math inline">\(P(Y \mid X = 0)\)</span>, or <span class="math inline">\(P(Y \mid do(X := 1))\)</span> against <span class="math inline">\(P(Y \mid do(X := 0))\)</span>.</li>
+<li><strong>Which comparison gets reported?</strong> Attenders against non-attenders, overall or within rows. Women who took hormones against women who did not, or starters against non-starters. <span class="math inline">\(P(Y \mid X = 1)\)</span> against <span class="math inline">\(P(Y \mid X = 0)\)</span>, or <span class="math inline">\(P(Y \mid do(X := 1))\)</span> against <span class="math inline">\(P(Y \mid do(X := 0))\)</span>. The average effect, or the effects within groups defined before treatment.</li>
 <li><strong>You have to choose, so choose, and defend it.</strong> The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph; it does not draw the graph. “Pretending it was forced is its own failure.”</li>
 </ul>
 <p>…and why?</p>
