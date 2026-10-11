@@ -90,9 +90,10 @@ average, and with what weights?
 ### 1. Conditioning and intervening
 
 A program in the style of the reading's. $U_1, \dots, U_5$ are
-independent, with $U_1 \sim B(0.5)$, $U_2 \sim B(0.6)$,
-$U_3 \sim B(0.2)$, $U_4 \sim B(0.4)$ and $U_5 \sim B(0.1)$, where
-$B(0.6)$ is 1 with probability 0.6 and 0 otherwise.
+independent, with $U_1 \sim \mathrm{Ber}(0.5)$, $U_2 \sim \mathrm{Ber}(0.6)$,
+$U_3 \sim \mathrm{Ber}(0.2)$, $U_4 \sim \mathrm{Ber}(0.4)$ and
+$U_5 \sim \mathrm{Ber}(0.1)$, where $\mathrm{Ber}(0.6)$ is 1 with
+probability 0.6 and 0 otherwise.
 
 1. $X := U_1$ (exercise)
 2. $W :=$ if $X = 1$ then $U_3$ else $U_2$ (overweight)
@@ -207,7 +208,7 @@ will go on the screen.
 
 ## Optional, can be done at home
 
-Practice for afterward: problems 3 to 8, then coding A to C. The
+Practice for afterward: problems 3 to 7, then coding A to C. The
 problems can be done by hand. Attempt each part before you open a hint.
 
 ::: {.callout-warning title="Hints"}
@@ -300,28 +301,7 @@ answers?
 For (a), what does the doctor choose, and what could affect both that choice and heart disease? For (b), what does the doctor know when choosing?
 :::
 
-### 7. Inverse probability weighting (harder)
-
-Let $e(Z) = P(X = 1 \mid Z)$, strictly between 0 and 1, and suppose $Z$
-satisfies the backdoor criterion.
-
-(a) Show that
-$E[XY/e(Z)] = \sum_z E[Y \mid X = 1, Z = z]\,P(Z = z)$ by conditioning
-on $Z$ first.
-
-(b) Write the matching expression for $E[Y \mid do(X := 0)]$, and check
-both on the table in problem 2.
-
-(c) How many students does each app user stand for, in each row, and
-why?
-
-(d) Why are values of $e(Z)$ near zero a problem in a sample?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-$XY$ is zero unless $X = 1$, so $E[XY \mid Z] = E[Y \mid X = 1, Z]\,P(X = 1 \mid Z)$.
-:::
-
-### 8. Hormone therapy
+### 7. Hormone therapy
 
 (a) The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first
 two years, 0.96 over the whole follow-up) come from the same cohort.
@@ -364,7 +344,7 @@ X3 <- sqrt(2) * rnorm(n); M3 <- X3 + sqrt(2) * rnorm(n); Y3 <- 0.5 * M3 + rnorm(
 In each program, which statements after the one for $X$ use $X$, directly or through a variable computed from it? Those are the ones whose values change when you set $X$.
 :::
 
-#### B. Adjustment and weighting on data
+#### B. Adjustment on data
 
 ```{r coding_b_setup}
 cells <- data.frame(Z = c(1, 1, 0, 0), X = c(1, 0, 1, 0),
@@ -382,16 +362,13 @@ nrow(students)
    their difference.
 2. Compute the adjusted difference: the difference in pass rates within
    each value of $Z$, averaged with weights $P(Z = z)$.
-3. Compute $e(Z)$, the share of users within each value of $Z$, attach
-   it to each student, and compute `mean(X * Y / e)` and
-   `mean((1 - X) * Y / (1 - e))`.
-4. A randomized version: give each of 1,000 students the app with
+3. A randomized version: give each of 1,000 students the app with
    probability 0.5, whatever their $Z$, and draw whether they pass from
    the table's rates. Compute the difference in pass rates. Repeat 200
    times. What is the average difference, and how much does it vary?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For 3: `students |> group_by(Z) |> mutate(e = mean(X)) |> ungroup()`.
+For 2: `students |> group_by(Z) |> summarize(...)` gives one row for each value of $Z$; compute the difference in pass rates and the share of students in each row there.
 :::
 
 #### C. Intervening in a program
@@ -408,7 +385,7 @@ Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)    # in work six months later
 mean(Y[X == 1]) - mean(Y[X == 0])             # attenders against the others
 ```
 
-1. Run it. Compare the difference with the lecture's table.
+1. Run it. Compare the difference with the lecture's first job-center table (64% against 36%).
 2. Compute the adjusted difference: the difference between attenders
    and non-attenders within $Z = 1$ and within $Z = 0$, averaged with
    weights `mean(Z == 1)` and `mean(Z == 0)`.

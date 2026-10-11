@@ -6,17 +6,17 @@ author: "Joshua Loftus"
 st313:
   week: 03
   session: notes
-  register: 1                    # schema key. The section "Reinforcement learning" declares its letters in its first line; its table sets the prediction letters and the reinforcement-learning letters side by side (spine section 5 allows the glossary level). Student-facing text never says "register" (convenor, 11 October)
+  register: 1                    # schema key. The section "Reinforcement learning" declares its letters in its first line; its table sets the prediction letters and the reinforcement-learning letters side by side (spine section 5 allows the glossary level). Since 11 October the table is in the notes only, not on a slide. Student-facing text never says "register"
   segments: []                   # notes carry no timing; the lecture and class files do
   history: [{minutes: 2, buys: "the Tuskegee study, the National Research Act and the Belmont Report: where the applied principles came from, and why beneficence is a consequentialist clause"}]
   complications: []
-  retrieves: [S4]
+  retrieves: [S4, S2]             # S2: lens A, recalled for the reward
   introduces: [CC-08, CC-09, CC-10]
-  lenses: [C, E]
+  lenses: [A, C, E]               # A recalled for the reward in "Reinforcement learning"
   spine_first_encounter: [S1, S6]
   readings: [fairmlbook-ch5a, ms4ds-ch3-normative, wiki-consequentialism, wiki-deontology, wiki-virtue-ethics,
              wiki-pragmatic-ethics, wiki-belmont-report, mixtape-dags, tukey-conclusions-decisions, bross-shoe-clerk]
-  results: [R13, R14, R15, R16]
+  results: [R13, R14, R15]         # R16, weighting, is not taught (convenor, 11 October)
   assumes: [ST102]
   figures: []                    # every figure is drawn in R from published numbers or from R's UCBAdmissions
 # ---------------------------------------------------------------------------------
@@ -56,7 +56,8 @@ well-being adds up across people and nobody's outcome depends on anyone
 else's treatment. That total does not say who gains and who loses. In
 reinforcement learning an agent learns a policy, a rule for acting,
 that earns a large reward, and the reward is not the same as the good
-the policy does.
+the policy does: a job center judged on its placement rate does best by
+sending people who would have found work anyway.
 
 ```{r setup, echo=FALSE, message=FALSE}
 library(ggplot2)
@@ -258,17 +259,10 @@ In [ms4ds, section 3.4](https://joshualoftus.com/ms4ds/ethical-data-science.html
 observational model of the world does not tell us what consequences we
 can expect to result from any action which is an intervention."
 
-ms4ds's utilitarian example is divorce. Observational data show
-couples happier after divorcing, but that does not mean everyone who
-can should divorce, because couples who divorce were probably unhappy
-together, and other couples may not be. For the deontologist it takes
-Kant's categorical imperative: "Act only according to that maxim
-whereby you can, at the same time, will that it should become a
-universal law." Whether you could will mandatory divorce, or mandatory
-marriage, as a universal law depends on what would happen if everyone
-were obliged to follow it, which is a counterfactual. For the virtue
-ethicist, stress can increase appetite, so promoting the virtue of
-moderation may mean reducing stress.
+In ms4ds's example, observational data show couples happier after
+divorcing. That does not tell a utilitarian that everyone who can
+should divorce: couples who divorce were probably unhappy together,
+and other couples may not be.
 
 Barocas, Hardt and Narayanan open their chapter on causality, on the
 page before this week's reading starts, with a pair of questions. The
@@ -416,8 +410,9 @@ X := U_1, \qquad
 W := \begin{cases} 0 & X = 1 \\ U_2 & X = 0 \end{cases}, \qquad
 H := \begin{cases} 0 & X = 1 \\ U_3 & X = 0 \end{cases},
 $$
-with $U_1 \sim B(1/2)$ and $U_2, U_3 \sim B(1/3)$ independent, where
-$B(1/3)$ is 1 with probability $1/3$ and 0 otherwise. The graph is a
+with $U_1 \sim \mathrm{Ber}(1/2)$ and $U_2, U_3 \sim \mathrm{Ber}(1/3)$
+independent, where $\mathrm{Ber}(q)$ is 1 with probability $q$ and 0
+otherwise. (The reading writes $B(q)$.) The graph is a
 fork, $W \leftarrow X \to H$.
 
 The probability of heart disease is
@@ -516,7 +511,7 @@ change $Y$ works only in the first. Under the other two, setting $X$
 leaves $Y$ alone; to change $Y$ you would act on $Y$ or on its causes,
 which in the third include $Z$.
 "If we expect a model to also tell us what happens when we intervene on
-variables, then these models with equal predictive accuracy are no
+variables, then [...] models with equal predictive accuracy are no
 longer equivalent. We become responsible to choose one of them."
 
 ## Confounding and adjustment
@@ -833,86 +828,66 @@ estimates had not. Most policies cannot be tried that way first. Then
 the graph is an argument, and a consequentialist's case for the policy
 stands or falls with it.
 
-## Inverse probability weighting
-
-There is a second way to reach the adjustment formula's answer, using
-one summary of who gets treated. Let
-$$
-e(Z) = P(X = 1 \mid Z),
-$$
-the probability of treatment given $Z$, assumed to be strictly between
-0 and 1. In the course table, $e(1) = 0.8$ and $e(0) = 0.2$. If $Z$
-satisfies the backdoor criterion,
-$$
-\boxed{\;E\!\left[\frac{X\,Y}{e(Z)}\right] = E[Y \mid do(X := 1)]\;}
-$$
-The proof is iterated expectation. Condition on $Z$ first:
-$$
-E\!\left[\frac{XY}{e(Z)}\right] = E\!\left[\, E\!\left[\frac{XY}{e(Z)} \,\Big|\, Z\right] \right]
-= E\!\left[\frac{E[XY \mid Z]}{e(Z)}\right].
-$$
-Inside, $XY$ is zero unless $X = 1$, so
-$E[XY \mid Z] = E[Y \mid X = 1, Z]\,P(X = 1 \mid Z) = E[Y \mid X = 1, Z]\,e(Z)$,
-and the $e(Z)$ cancels:
-$$
-E\!\left[\frac{XY}{e(Z)}\right] = E\big[\,E[Y \mid X = 1, Z]\,\big] = \sum_z E[Y \mid X = 1, Z = z]\,P(Z = z),
-$$
-which is the adjustment formula. The same argument with $1 - X$ and
-$1 - e(Z)$ gives $E[Y \mid do(X := 0)]$, and the difference of the two
-is the average treatment effect.
-
-On the course table,
-$$
-\begin{aligned}
-E\!\left[\frac{XY}{e(Z)}\right] &= 0.5 \times 0.8 \times \frac{0.7}{0.8} + 0.5 \times 0.2 \times \frac{0.4}{0.2} = 0.35 + 0.20 = 0.55, \\
-E\!\left[\frac{(1-X)Y}{1-e(Z)}\right] &= 0.5 \times 0.2 \times \frac{0.6}{0.2} + 0.5 \times 0.8 \times \frac{0.3}{0.8} = 0.30 + 0.15 = 0.45,
-\end{aligned}
-$$
-the 0.55 and 0.45 from before.
-
-The weights make the treated look like the whole population. An
-attender from the $Z = 0$ row was unlikely to be referred,
-$e(0) = 0.2$, so each one counts for $1/0.2 = 5$ people like them, and
-an attender from the $Z = 1$ row counts for $1/0.8 = 1.25$. Weighted
-that way, the attenders have the population's mix of $Z$, the mix they
-would have under $do(X := 1)$.
-
-The estimator is $\frac1n \sum_i X_i Y_i / e(Z_i)$, for $n$ people
-drawn independently from the population. When $e$ is known, as in an
-experiment that randomizes with these probabilities, the estimator is
-unbiased. Its average over repeated samples and repeated assignments is
-$E[Y \mid do(X := 1)]$. In observational data $e$ has to be estimated
-as well. The price of weighting is variance. When $e(Z)$ is small the
-weights are large, and a few heavily weighted people can move the
-estimate a long way.
-
-In the potential-outcomes notation used in economics and epidemiology,
-$E[Y \mid do(X := 1)]$ is written $E[Y(1)]$, the mean outcome if
-everyone were treated. The condition used there is that treatment is
-*ignorable* given $Z$, meaning that $Y(1)$ is independent of $X$ given
-$Z$. If $Z$ satisfies the backdoor criterion, treatment is ignorable
-given $Z$, so with $e(Z)$ strictly between 0 and 1 the same identity
-holds, $E[XY/e(Z)] = E[Y(1)]$.
-
 ## Reinforcement learning
 
 **Notation:** this section uses the letters of reinforcement learning:
 $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
 
-The consequentialist's question can also be put in the language of
-reinforcement learning. An agent observes a **state** $S$, takes an
-**action** $A$, and receives a **reward** $R$. A **policy** $\pi$ is a
-rule that chooses the action from the state, $A = \pi(S)$. The
-**utility** $U$ is what we care about. In these terms the
-consequentialist says: of the available policies, choose one whose
-expected utility $E_\pi[U]$ is largest, where $E_\pi$ is the
-expectation when the agent acts by $\pi$. A policy is a rule for
-choosing actions, so this judges a rule by its consequences. If the
-policy can use everything about the state, the best policy also picks
-the best action in every state, and judging acts and judging rules
-agree. They can come apart when a rule has to treat different
-situations alike, as a model that sees only a few variables about each
-person does.
+An agent observes a **state** $S$, takes an **action** $A$, and receives
+a **reward** $R$. A **policy** $\pi$ is a rule that chooses the action
+from the state, $A = \pi(S)$, and learning means changing the policy to
+make the expected reward, $E_\pi[R]$, large, where $E_\pi$ is the
+expectation when the agent acts by $\pi$. The **utility** $U$ is what
+we care about. A consequentialist would choose the policy whose
+expected utility $E_\pi[U]$ is largest. The agent is given $R$ instead,
+because $R$ can be measured and $U$ often cannot: in the job center
+below, $U$ needs what would have happened without the course. $R$ and
+$U$ can come apart.
+
+Amodei and colleagues (2016) use a cleaning robot as a running example.
+In these letters, the state is what the robot's camera shows, the
+actions are where to move and whether to clean, and the utility is a
+clean room. If the reward is for not seeing any mess, the robot can
+earn it by closing its eyes, or by covering the mess with something it
+cannot see through.
+
+Now a variant of the job center, with 100 places on the course, which
+helps some people more than others. Of people who worked last year, 70% are in work six months
+later if they take the course and 64% if they do not; of people who did
+not work last year, 40% and 14%. The state is a person's record, the
+action is to refer or not, and the center is judged on the share of
+the people it refers who are in work, its placement rate. That rate is
+its reward. Referring 100 people who worked last year earns a rate of
+70% and puts 6 more people in work, on average, than would be in work
+without the course. Referring 100 who did not earns 40% and puts 26 more
+in work. A center judged on its placement rate refers the first group;
+a utilitarian counting the jobs the course creates refers the second,
+and so serves the people who need the course most.
+
+Choosing people who would have done well anyway is called cream
+skimming. Heckman, Heinrich and Smith (2002) studied it in US
+job-training centers funded under the Job Training Partnership Act,
+which were judged partly on employment rates. They found the short-run
+measures "weakly, and sometimes perversely, related to long run
+impacts." They also found that cream skimming made little difference
+to the programs' efficiency, in either direction, unlike the invented
+numbers above, and concluded: "Opposition to cream skimming must come
+on equity grounds." In those programs, then, the case against cream
+skimming rests on who is served, not on the total.
+
+Each of the four difficulties of utilitarianism becomes a choice
+someone makes in building such an agent. Defining utility becomes
+choosing $R$, a measurable stand-in for $U$, and in both examples the
+two come apart. Trading off between people becomes adding the reward up
+over the people the agent serves; the placement rate counts only the
+people referred. Judging acts or rules becomes choosing a policy, a
+rule that treats alike everyone in the same state. Judging each action
+on its own and judging the rule can give different answers: when a rule
+has to treat different situations alike, as a model that sees only a
+few variables about each person does; when places are limited, so that
+one referral uses a place another person could have had; and when
+people respond to the rule itself. Predicting consequences becomes
+choosing a model of what the actions do, which is a causal model.
 
 Is $E_\pi[U]$ a causal quantity? It can be read as one, the expected
 utility if the agent's actions were set by $\pi$, but that reading
@@ -923,11 +898,6 @@ it does, sometimes adversarially, and what happens to one of them can
 depend on what was done to others. Causal reinforcement learning, a
 subfield surveyed by Deng, Jiang, Long and Zhang (2023), brings causal
 models into reinforcement learning.
-
-An agent that learns a policy is given $R$, a number it can observe
-after each action, and learns to make $R$ large. $R$ and $U$ are
-different quantities, and an agent can raise one while lowering the
-other.
 
 These letters clash with the ones used for prediction, which most of
 the course uses.
@@ -977,6 +947,10 @@ schools with a club against schools without one, and the strongest
 version is a trial in which some schools are given a club at random.
 
 ## Lenses
+
+What are we optimizing or predicting? The job center optimizes its
+placement rate, not the jobs the course creates, and the cleaning robot
+what its camera shows, not the room.
 
 Which comparison gets reported? Attenders against non-attenders, or
 attenders against non-attenders within each row of the table. Women who
@@ -1094,4 +1068,9 @@ backdoor criterion; Loftus,
 [Position: The Causal Revolution Needs Scientific Pragmatism](https://proceedings.mlr.press/v235/loftus24a.html)
 (ICML 2024); Deng, Jiang, Long and Zhang,
 [Causal Reinforcement Learning: A Survey](https://openreview.net/forum?id=qqnttX9LPo)
-(*Transactions on Machine Learning Research*, 2023).
+(*Transactions on Machine Learning Research*, 2023); Amodei, Olah,
+Steinhardt, Christiano, Schulman and Mané,
+[Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)
+(2016); Heckman, Heinrich and Smith,
+[The Performance of Performance Standards](https://www.nber.org/papers/w9002)
+(NBER Working Paper 9002, 2002).

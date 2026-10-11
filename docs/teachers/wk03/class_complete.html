@@ -2369,8 +2369,7 @@ window.Quarto = {
   <li><a href="#choosing-an-adjustment-set" id="toc-choosing-an-adjustment-set" class="nav-link" data-scroll-target="#choosing-an-adjustment-set">4. Choosing an adjustment set</a></li>
   <li><a href="#the-graph-behind-an-argument" id="toc-the-graph-behind-an-argument" class="nav-link" data-scroll-target="#the-graph-behind-an-argument">5. The graph behind an argument</a></li>
   <li><a href="#prediction-letters-and-reinforcement-learning-letters" id="toc-prediction-letters-and-reinforcement-learning-letters" class="nav-link" data-scroll-target="#prediction-letters-and-reinforcement-learning-letters">6. Prediction letters and reinforcement-learning letters</a></li>
-  <li><a href="#inverse-probability-weighting-harder" id="toc-inverse-probability-weighting-harder" class="nav-link" data-scroll-target="#inverse-probability-weighting-harder">7. Inverse probability weighting (harder)</a></li>
-  <li><a href="#hormone-therapy" id="toc-hormone-therapy" class="nav-link" data-scroll-target="#hormone-therapy">8. Hormone therapy</a></li>
+  <li><a href="#hormone-therapy" id="toc-hormone-therapy" class="nav-link" data-scroll-target="#hormone-therapy">7. Hormone therapy</a></li>
   <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a></li>
   </ul></li>
   </ul>
@@ -2503,7 +2502,7 @@ window.Quarto = {
 </div>
 <section id="conditioning-and-intervening" class="level3">
 <h3 class="anchored" data-anchor-id="conditioning-and-intervening">1. Conditioning and intervening</h3>
-<p>A program in the style of the reading’s. <span class="math inline">\(U_1, \dots, U_5\)</span> are independent, with <span class="math inline">\(U_1 \sim B(0.5)\)</span>, <span class="math inline">\(U_2 \sim B(0.6)\)</span>, <span class="math inline">\(U_3 \sim B(0.2)\)</span>, <span class="math inline">\(U_4 \sim B(0.4)\)</span> and <span class="math inline">\(U_5 \sim B(0.1)\)</span>, where <span class="math inline">\(B(0.6)\)</span> is 1 with probability 0.6 and 0 otherwise.</p>
+<p>A program in the style of the reading’s. <span class="math inline">\(U_1, \dots, U_5\)</span> are independent, with <span class="math inline">\(U_1 \sim \mathrm{Ber}(0.5)\)</span>, <span class="math inline">\(U_2 \sim \mathrm{Ber}(0.6)\)</span>, <span class="math inline">\(U_3 \sim \mathrm{Ber}(0.2)\)</span>, <span class="math inline">\(U_4 \sim \mathrm{Ber}(0.4)\)</span> and <span class="math inline">\(U_5 \sim \mathrm{Ber}(0.1)\)</span>, where <span class="math inline">\(\mathrm{Ber}(0.6)\)</span> is 1 with probability 0.6 and 0 otherwise.</p>
 <ol type="1">
 <li><span class="math inline">\(X := U_1\)</span> (exercise)</li>
 <li><span class="math inline">\(W :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(U_3\)</span> else <span class="math inline">\(U_2\)</span> (overweight)</li>
@@ -2746,7 +2745,7 @@ window.Quarto = {
 </section>
 <section id="optional-can-be-done-at-home" class="level2">
 <h2 class="anchored" data-anchor-id="optional-can-be-done-at-home">Optional, can be done at home</h2>
-<p>Practice for afterward: problems 3 to 8, then coding A to C. The problems can be done by hand. Attempt each part before you open a hint.</p>
+<p>Practice for afterward: problems 3 to 7, then coding A to C. The problems can be done by hand. Attempt each part before you open a hint.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Hints">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2952,14 +2951,12 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="inverse-probability-weighting-harder" class="level3">
-<h3 class="anchored" data-anchor-id="inverse-probability-weighting-harder">7. Inverse probability weighting (harder)</h3>
-<p>Let <span class="math inline">\(e(Z) = P(X = 1 \mid Z)\)</span>, strictly between 0 and 1, and suppose <span class="math inline">\(Z\)</span> satisfies the backdoor criterion.</p>
+<section id="hormone-therapy" class="level3">
+<h3 class="anchored" data-anchor-id="hormone-therapy">7. Hormone therapy</h3>
 <ol type="a">
-<li><p>Show that <span class="math inline">\(E[XY/e(Z)] = \sum_z E[Y \mid X = 1, Z = z]\,P(Z = z)\)</span> by conditioning on <span class="math inline">\(Z\)</span> first.</p></li>
-<li><p>Write the matching expression for <span class="math inline">\(E[Y \mid do(X := 0)]\)</span>, and check both on the table in problem 2.</p></li>
-<li><p>How many students does each app user stand for, in each row, and why?</p></li>
-<li><p>Why are values of <span class="math inline">\(e(Z)\)</span> near zero a problem in a sample?</p></li>
+<li><p>The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first two years, 0.96 over the whole follow-up) come from the same cohort. Which comparison did each make?</p></li>
+<li><p>Draw a graph under which the 1996 estimate is confounded.</p></li>
+<li><p>Which comparison matches the decision a doctor makes, and why?</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
@@ -2973,7 +2970,7 @@ window.Quarto = {
 </div>
 <div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(XY\)</span> is zero unless <span class="math inline">\(X = 1\)</span>, so <span class="math inline">\(E[XY \mid Z] = E[Y \mid X = 1, Z]\,P(X = 1 \mid Z)\)</span>.</p>
+<p>For (a), ask who is compared with whom in each analysis.</p>
 </div>
 </div>
 </div>
@@ -2988,51 +2985,6 @@ window.Quarto = {
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-23" class="callout-23-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="a">
-<li><p><span class="math inline">\(E[XY/e(Z)] = E\big[E[XY \mid Z]/e(Z)\big]\)</span>, and <span class="math inline">\(E[XY \mid Z] = E[Y \mid X = 1, Z]\,e(Z)\)</span>, so the <span class="math inline">\(e(Z)\)</span> cancels and <span class="math inline">\(E[XY/e(Z)] = E\big[E[Y \mid X = 1, Z]\big] = \sum_z E[Y \mid X = 1, Z = z]\,P(Z = z)\)</span>, the adjustment formula.</p></li>
-<li><p><span class="math inline">\(E[(1 - X)Y/(1 - e(Z))] = \sum_z E[Y \mid X = 0, Z = z]\,P(Z = z)\)</span>. In the table <span class="math inline">\(e(1) = 0.8\)</span> and <span class="math inline">\(e(0) = 0.2\)</span>: <span class="math inline">\(0.5 \times 0.8 \times 0.8/0.8 + 0.5 \times 0.2 \times 0.5/0.2 = 0.40 + 0.25 = 0.65\)</span>, and <span class="math inline">\(0.5 \times 0.2 \times 0.7/0.2 + 0.5 \times 0.8 \times 0.3/0.8 = 0.35 + 0.15 = 0.50\)</span>, as in problem 2.</p></li>
-<li><p>Only 20% of the students who did not pass last year used the app, so each user among them stands for <span class="math inline">\(1/0.2 = 5\)</span> students like them; among those who passed, 80% used it, so each stands for <span class="math inline">\(1/0.8 = 1.25\)</span>. Weighted, the users have the whole school’s mix of <span class="math inline">\(Z\)</span>.</p></li>
-<li><p>The weights are large, and a few heavily weighted students can move the estimate a long way: the estimator’s variance is large. If <span class="math inline">\(e(z) = 0\)</span> for some <span class="math inline">\(z\)</span>, nobody with that <span class="math inline">\(Z\)</span> was treated, and the data say nothing about the treated outcome there.</p></li>
-</ol>
-</div>
-</div>
-</div>
-</section>
-<section id="hormone-therapy" class="level3">
-<h3 class="anchored" data-anchor-id="hormone-therapy">8. Hormone therapy</h3>
-<ol type="a">
-<li><p>The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first two years, 0.96 over the whole follow-up) come from the same cohort. Which comparison did each make?</p></li>
-<li><p>Draw a graph under which the 1996 estimate is confounded.</p></li>
-<li><p>Which comparison matches the decision a doctor makes, and why?</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Hint 1
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For (a), ask who is compared with whom in each analysis.</p>
-</div>
-</div>
-</div>
-<div class="answer callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="a">
 <li><p>1996: women who took estrogen with progestin against women who did not use hormones, adjusted for measured confounders. 2008: women who started against women who did not start, both followed from the same point, analyzed as the trial was.</p></li>
@@ -3063,7 +3015,7 @@ window.Quarto = {
 <li>In program 2, fit <code>lm(Y2 ~ X2 + Z2)</code>. In program 3, fit <code>lm(Y3 ~ X3 + M3)</code>. Compare the coefficients on <span class="math inline">\(X\)</span> with your answers to 2.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3072,14 +3024,14 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>In each program, which statements after the one for <span class="math inline">\(X\)</span> use <span class="math inline">\(X\)</span>, directly or through a variable computed from it? Those are the ones whose values change when you set <span class="math inline">\(X\)</span>.</p>
 </div>
 </div>
 </div>
 <div class="answer callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3088,7 +3040,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-27" class="callout-27-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(<span class="fu">lm</span>(Y1 <span class="sc">~</span> X1))[<span class="dv">2</span>], <span class="fu">coef</span>(<span class="fu">lm</span>(Y2 <span class="sc">~</span> X2))[<span class="dv">2</span>], <span class="fu">coef</span>(<span class="fu">lm</span>(Y3 <span class="sc">~</span> X3))[<span class="dv">2</span>])</span>
@@ -3120,8 +3072,8 @@ effect 1.99 -0.01 0.54</code></pre>
 </div>
 </div>
 </section>
-<section id="b.-adjustment-and-weighting-on-data" class="level4">
-<h4 class="anchored" data-anchor-id="b.-adjustment-and-weighting-on-data">B. Adjustment and weighting on data</h4>
+<section id="b.-adjustment-on-data" class="level4">
+<h4 class="anchored" data-anchor-id="b.-adjustment-on-data">B. Adjustment on data</h4>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">X =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">400</span>), <span class="at">passed =</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">120</span>))</span>
@@ -3139,11 +3091,10 @@ effect 1.99 -0.01 0.54</code></pre>
 <ol type="1">
 <li>Compute the pass rates of users and non-users from <code>students</code>, and their difference.</li>
 <li>Compute the adjusted difference: the difference in pass rates within each value of <span class="math inline">\(Z\)</span>, averaged with weights <span class="math inline">\(P(Z = z)\)</span>.</li>
-<li>Compute <span class="math inline">\(e(Z)\)</span>, the share of users within each value of <span class="math inline">\(Z\)</span>, attach it to each student, and compute <code>mean(X * Y / e)</code> and <code>mean((1 - X) * Y / (1 - e))</code>.</li>
 <li>A randomized version: give each of 1,000 students the app with probability 0.5, whatever their <span class="math inline">\(Z\)</span>, and draw whether they pass from the table’s rates. Compute the difference in pass rates. Repeat 200 times. What is the average difference, and how much does it vary?</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3152,14 +3103,14 @@ effect 1.99 -0.01 0.54</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>For 3: <code>students |&gt; group_by(Z) |&gt; mutate(e = mean(X)) |&gt; ungroup()</code>.</p>
+<p>For 2: <code>students |&gt; group_by(Z) |&gt; summarize(...)</code> gives one row for each value of <span class="math inline">\(Z\)</span>; compute the difference in pass rates and the share of students in each row there.</p>
 </div>
 </div>
 </div>
 <div class="answer callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3168,7 +3119,7 @@ effect 1.99 -0.01 0.54</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span> <span class="fu">group_by</span>(X) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">rate =</span> <span class="fu">mean</span>(Y))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3187,25 +3138,17 @@ effect 1.99 -0.01 0.54</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.15</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>students <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Z) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">e =</span> <span class="fu">mean</span>(X)) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">do1 =</span> <span class="fu">mean</span>(X <span class="sc">*</span> Y <span class="sc">/</span> e), <span class="at">do0 =</span> <span class="fu">mean</span>((<span class="dv">1</span> <span class="sc">-</span> X) <span class="sc">*</span> Y <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> e)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 x 2
-    do1   do0
-  &lt;dbl&gt; &lt;dbl&gt;
-1  0.65   0.5</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="cf">function</span>(z, x) {</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(z <span class="sc">==</span> <span class="dv">1</span>, <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.7</span>), <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>one_trial <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">each =</span> <span class="dv">500</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fu">rate</span>(Z, X))</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">one_trial</span>())</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(trials), <span class="at">sd =</span> <span class="fu">sd</span>(trials))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> <span class="cf">function</span>(z, x) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(z <span class="sc">==</span> <span class="dv">1</span>, <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.7</span>), <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>one_trial <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">each =</span> <span class="dv">500</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="fu">rate</span>(Z, X))</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">200</span>, <span class="fu">one_trial</span>())</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(trials), <span class="at">sd =</span> <span class="fu">sd</span>(trials))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      mean         sd 
 0.15053886 0.03160671 </code></pre>
@@ -3214,7 +3157,6 @@ effect 1.99 -0.01 0.54</code></pre>
 <ol type="1">
 <li><p>0.74 and 0.38, a difference of 0.36.</p></li>
 <li><p>0.15.</p></li>
-<li><p>0.65 and 0.50, the adjustment formula’s numbers.</p></li>
 <li><p>The average is close to 0.15, and the differences vary from trial to trial with a standard deviation of about 0.03. Randomization removes the bias without any model of <span class="math inline">\(Z\)</span>, and the price is that a single trial can miss by a few points.</p></li>
 </ol>
 </div>
@@ -3225,20 +3167,20 @@ effect 1.99 -0.01 0.54</code></pre>
 <h4 class="anchored" data-anchor-id="c.-intervening-in-a-program">C. Intervening in a program</h4>
 <p>The job center from the lecture, as a program. As in the lecture, everyone referred attends and nobody else does. Each line generates one variable from the ones above it.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)                        <span class="co"># worked last year</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>))   <span class="co"># attended the course</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># in work six months later</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])             <span class="co"># attenders against the others</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)                        <span class="co"># worked last year</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>))   <span class="co"># attended the course</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># in work six months later</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])             <span class="co"># attenders against the others</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
-<li>Run it. Compare the difference with the lecture’s table.</li>
+<li>Run it. Compare the difference with the lecture’s first job-center table (64% against 36%).</li>
 <li>Compute the adjusted difference: the difference between attenders and non-attenders within <span class="math inline">\(Z = 1\)</span> and within <span class="math inline">\(Z = 0\)</span>, averaged with weights <code>mean(Z == 1)</code> and <code>mean(Z == 0)</code>.</li>
 <li>Intervene. Replace the line for <code>X</code> by <code>X &lt;- rep(1, n)</code>, run the line for <code>Y</code> again, and record <code>mean(Y)</code>. Do the same with <code>X &lt;- rep(0, n)</code>. Compare the difference with your answer to 2.</li>
 <li>The center changes its referrals to 0.95 for <span class="math inline">\(Z = 1\)</span> and 0.05 for <span class="math inline">\(Z = 0\)</span>. Before you run anything, write down what you expect for the differences in 1 and in 3. Then run it.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3247,14 +3189,14 @@ effect 1.99 -0.01 0.54</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-30" class="callout-30-contents callout-collapse collapse">
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For step 3, replace the line for <code>X</code> and leave the line for <code>Z</code> alone. Then run the line for <code>Y</code> again, so that it uses the new <code>X</code>.</p>
 </div>
 </div>
 </div>
 <div class="answer callout callout-style-default callout-note callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3263,28 +3205,28 @@ effect 1.99 -0.01 0.54</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">313</span>)    <span class="co"># the sheet&#39;s seed, so this output does not depend on the chunks above it</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>))</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">1</span>])   <span class="co"># within Z = 1</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>d0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">0</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">0</span>])   <span class="co"># within Z = 0</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>adjusted <span class="ot">&lt;-</span> d1 <span class="sc">*</span> <span class="fu">mean</span>(Z <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">+</span> d0 <span class="sc">*</span> <span class="fu">mean</span>(Z <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># everyone attends</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># nobody attends</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">observed =</span> observed, <span class="at">adjusted =</span> adjusted, <span class="at">intervened =</span> <span class="fu">mean</span>(Y1) <span class="sc">-</span> <span class="fu">mean</span>(Y0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">313</span>)    <span class="co"># the sheet&#39;s seed, so this output does not depend on the chunks above it</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>))</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">1</span>])   <span class="co"># within Z = 1</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>d0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">0</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Z <span class="sc">==</span> <span class="dv">0</span>])   <span class="co"># within Z = 0</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>adjusted <span class="ot">&lt;-</span> d1 <span class="sc">*</span> <span class="fu">mean</span>(Z <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">+</span> d0 <span class="sc">*</span> <span class="fu">mean</span>(Z <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># everyone attends</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)    <span class="co"># nobody attends</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">observed =</span> observed, <span class="at">adjusted =</span> adjusted, <span class="at">intervened =</span> <span class="fu">mean</span>(Y1) <span class="sc">-</span> <span class="fu">mean</span>(Y0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  observed   adjusted intervened 
  0.2813623  0.1046528  0.1067000 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>X95 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.95</span>, <span class="fl">0.05</span>))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Y95 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X95 <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y95[X95 <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y95[X95 <span class="sc">==</span> <span class="dv">0</span>])      <span class="co"># observed, new referrals</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>X95 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">ifelse</span>(Z <span class="sc">==</span> <span class="dv">1</span>, <span class="fl">0.95</span>, <span class="fl">0.05</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Y95 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span> <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> X95 <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> Z)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y95[X95 <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y95[X95 <span class="sc">==</span> <span class="dv">0</span>])      <span class="co"># observed, new referrals</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3798091</code></pre>
 </div>

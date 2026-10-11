@@ -236,8 +236,7 @@ window.Quarto = {
   <li><a href="#choosing-an-adjustment-set" id="toc-choosing-an-adjustment-set" class="nav-link" data-scroll-target="#choosing-an-adjustment-set">4. Choosing an adjustment set</a></li>
   <li><a href="#the-graph-behind-an-argument" id="toc-the-graph-behind-an-argument" class="nav-link" data-scroll-target="#the-graph-behind-an-argument">5. The graph behind an argument</a></li>
   <li><a href="#prediction-letters-and-reinforcement-learning-letters" id="toc-prediction-letters-and-reinforcement-learning-letters" class="nav-link" data-scroll-target="#prediction-letters-and-reinforcement-learning-letters">6. Prediction letters and reinforcement-learning letters</a></li>
-  <li><a href="#inverse-probability-weighting-harder" id="toc-inverse-probability-weighting-harder" class="nav-link" data-scroll-target="#inverse-probability-weighting-harder">7. Inverse probability weighting (harder)</a></li>
-  <li><a href="#hormone-therapy" id="toc-hormone-therapy" class="nav-link" data-scroll-target="#hormone-therapy">8. Hormone therapy</a></li>
+  <li><a href="#hormone-therapy" id="toc-hormone-therapy" class="nav-link" data-scroll-target="#hormone-therapy">7. Hormone therapy</a></li>
   <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a></li>
   </ul></li>
   </ul>
@@ -320,7 +319,7 @@ Note
 <p>Before you start, from memory: what does the adjustment formula average, and with what weights?</p>
 <section id="conditioning-and-intervening" class="level3">
 <h3 class="anchored" data-anchor-id="conditioning-and-intervening">1. Conditioning and intervening</h3>
-<p>A program in the style of the reading’s. <span class="math inline">\(U_1, \dots, U_5\)</span> are independent, with <span class="math inline">\(U_1 \sim B(0.5)\)</span>, <span class="math inline">\(U_2 \sim B(0.6)\)</span>, <span class="math inline">\(U_3 \sim B(0.2)\)</span>, <span class="math inline">\(U_4 \sim B(0.4)\)</span> and <span class="math inline">\(U_5 \sim B(0.1)\)</span>, where <span class="math inline">\(B(0.6)\)</span> is 1 with probability 0.6 and 0 otherwise.</p>
+<p>A program in the style of the reading’s. <span class="math inline">\(U_1, \dots, U_5\)</span> are independent, with <span class="math inline">\(U_1 \sim \mathrm{Ber}(0.5)\)</span>, <span class="math inline">\(U_2 \sim \mathrm{Ber}(0.6)\)</span>, <span class="math inline">\(U_3 \sim \mathrm{Ber}(0.2)\)</span>, <span class="math inline">\(U_4 \sim \mathrm{Ber}(0.4)\)</span> and <span class="math inline">\(U_5 \sim \mathrm{Ber}(0.1)\)</span>, where <span class="math inline">\(\mathrm{Ber}(0.6)\)</span> is 1 with probability 0.6 and 0 otherwise.</p>
 <ol type="1">
 <li><span class="math inline">\(X := U_1\)</span> (exercise)</li>
 <li><span class="math inline">\(W :=\)</span> if <span class="math inline">\(X = 1\)</span> then <span class="math inline">\(U_3\)</span> else <span class="math inline">\(U_2\)</span> (overweight)</li>
@@ -413,7 +412,7 @@ Note
 </section>
 <section id="optional-can-be-done-at-home" class="level2">
 <h2 class="anchored" data-anchor-id="optional-can-be-done-at-home">Optional, can be done at home</h2>
-<p>Practice for afterward: problems 3 to 8, then coding A to C. The problems can be done by hand. Attempt each part before you open a hint.</p>
+<p>Practice for afterward: problems 3 to 7, then coding A to C. The problems can be done by hand. Attempt each part before you open a hint.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Hints">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -537,14 +536,12 @@ Note
 </div>
 </div>
 </section>
-<section id="inverse-probability-weighting-harder" class="level3">
-<h3 class="anchored" data-anchor-id="inverse-probability-weighting-harder">7. Inverse probability weighting (harder)</h3>
-<p>Let <span class="math inline">\(e(Z) = P(X = 1 \mid Z)\)</span>, strictly between 0 and 1, and suppose <span class="math inline">\(Z\)</span> satisfies the backdoor criterion.</p>
+<section id="hormone-therapy" class="level3">
+<h3 class="anchored" data-anchor-id="hormone-therapy">7. Hormone therapy</h3>
 <ol type="a">
-<li><p>Show that <span class="math inline">\(E[XY/e(Z)] = \sum_z E[Y \mid X = 1, Z = z]\,P(Z = z)\)</span> by conditioning on <span class="math inline">\(Z\)</span> first.</p></li>
-<li><p>Write the matching expression for <span class="math inline">\(E[Y \mid do(X := 0)]\)</span>, and check both on the table in problem 2.</p></li>
-<li><p>How many students does each app user stand for, in each row, and why?</p></li>
-<li><p>Why are values of <span class="math inline">\(e(Z)\)</span> near zero a problem in a sample?</p></li>
+<li><p>The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first two years, 0.96 over the whole follow-up) come from the same cohort. Which comparison did each make?</p></li>
+<li><p>Draw a graph under which the 1996 estimate is confounded.</p></li>
+<li><p>Which comparison matches the decision a doctor makes, and why?</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -557,30 +554,6 @@ Note
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(XY\)</span> is zero unless <span class="math inline">\(X = 1\)</span>, so <span class="math inline">\(E[XY \mid Z] = E[Y \mid X = 1, Z]\,P(X = 1 \mid Z)\)</span>.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="hormone-therapy" class="level3">
-<h3 class="anchored" data-anchor-id="hormone-therapy">8. Hormone therapy</h3>
-<ol type="a">
-<li><p>The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first two years, 0.96 over the whole follow-up) come from the same cohort. Which comparison did each make?</p></li>
-<li><p>Draw a graph under which the 1996 estimate is confounded.</p></li>
-<li><p>Which comparison matches the decision a doctor makes, and why?</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Hint 1
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For (a), ask who is compared with whom in each analysis.</p>
 </div>
@@ -607,7 +580,7 @@ Note
 <li>In program 2, fit <code>lm(Y2 ~ X2 + Z2)</code>. In program 3, fit <code>lm(Y3 ~ X3 + M3)</code>. Compare the coefficients on <span class="math inline">\(X\)</span> with your answers to 2.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -616,15 +589,15 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>In each program, which statements after the one for <span class="math inline">\(X\)</span> use <span class="math inline">\(X\)</span>, directly or through a variable computed from it? Those are the ones whose values change when you set <span class="math inline">\(X\)</span>.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="b.-adjustment-and-weighting-on-data" class="level4">
-<h4 class="anchored" data-anchor-id="b.-adjustment-and-weighting-on-data">B. Adjustment and weighting on data</h4>
+<section id="b.-adjustment-on-data" class="level4">
+<h4 class="anchored" data-anchor-id="b.-adjustment-on-data">B. Adjustment on data</h4>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">X =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">400</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">400</span>), <span class="at">passed =</span> <span class="fu">c</span>(<span class="dv">320</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">120</span>))</span>
@@ -642,11 +615,10 @@ Note
 <ol type="1">
 <li>Compute the pass rates of users and non-users from <code>students</code>, and their difference.</li>
 <li>Compute the adjusted difference: the difference in pass rates within each value of <span class="math inline">\(Z\)</span>, averaged with weights <span class="math inline">\(P(Z = z)\)</span>.</li>
-<li>Compute <span class="math inline">\(e(Z)\)</span>, the share of users within each value of <span class="math inline">\(Z\)</span>, attach it to each student, and compute <code>mean(X * Y / e)</code> and <code>mean((1 - X) * Y / (1 - e))</code>.</li>
 <li>A randomized version: give each of 1,000 students the app with probability 0.5, whatever their <span class="math inline">\(Z\)</span>, and draw whether they pass from the table’s rates. Compute the difference in pass rates. Repeat 200 times. What is the average difference, and how much does it vary?</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -655,9 +627,9 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>For 3: <code>students |&gt; group_by(Z) |&gt; mutate(e = mean(X)) |&gt; ungroup()</code>.</p>
+<p>For 2: <code>students |&gt; group_by(Z) |&gt; summarize(...)</code> gives one row for each value of <span class="math inline">\(Z\)</span>; compute the difference in pass rates and the share of students in each row there.</p>
 </div>
 </div>
 </div>
@@ -673,13 +645,13 @@ Note
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[X <span class="sc">==</span> <span class="dv">0</span>])             <span class="co"># attenders against the others</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
-<li>Run it. Compare the difference with the lecture’s table.</li>
+<li>Run it. Compare the difference with the lecture’s first job-center table (64% against 36%).</li>
 <li>Compute the adjusted difference: the difference between attenders and non-attenders within <span class="math inline">\(Z = 1\)</span> and within <span class="math inline">\(Z = 0\)</span>, averaged with weights <code>mean(Z == 1)</code> and <code>mean(Z == 0)</code>.</li>
 <li>Intervene. Replace the line for <code>X</code> by <code>X &lt;- rep(1, n)</code>, run the line for <code>Y</code> again, and record <code>mean(Y)</code>. Do the same with <code>X &lt;- rep(0, n)</code>. Compare the difference with your answer to 2.</li>
 <li>The center changes its referrals to 0.95 for <span class="math inline">\(Z = 1\)</span> and 0.05 for <span class="math inline">\(Z = 0\)</span>. Before you run anything, write down what you expect for the differences in 1 and in 3. Then run it.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -688,7 +660,7 @@ Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For step 3, replace the line for <code>X</code> and leave the line for <code>Z</code> alone. Then run the line for <code>Y</code> again, so that it uses the new <code>X</code>.</p>
 </div>
