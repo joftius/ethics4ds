@@ -47,23 +47,37 @@ library(dplyr)
 theme_set(theme_minimal())
 set.seed(313)
 
-# Causal graphs: letters in circles, one panel per value of `panel`.
-draw_dag <- function(nodes, edges, r = 0.22, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4)) {
+# Causal graphs: letters in circles, one panel per value of `panel`. A circle's size is
+# fixed on the page, in inches, while the figure's size decides how many inches a data
+# unit is. draw_dag measures both on the graphics device open when it is called, and
+# stops every arrow `gap` inches short of the circles.
+draw_dag <- function(nodes, edges, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4), gap = 0.05) {
   if (!"panel" %in% names(nodes)) { nodes$panel <- ""; edges$panel <- "" }
+  dot <- 10; stroke <- 0.5; lw <- 0.5
+  p <- ggplot() +
+    geom_point(data = nodes, aes(x, y), size = dot, shape = 21, fill = "white", stroke = stroke) +
+    geom_text(data = nodes, aes(x, y, label = name), size = 4.5) +
+    facet_wrap(~ panel, nrow = 1) +
+    coord_fixed(xlim = xlim, ylim = ylim) +
+    theme_void()
+  # inches per data unit: the panels share what the strips and spacing leave of the figure
+  inch <- function(u, f) f(u, "in", valueOnly = TRUE)
+  g <- ggplotGrob(p)
+  pp <- ggplot_build(p)$layout$panel_params[[1]]
+  per_unit <- min((dev.size("in")[1] - sum(inch(g$widths, grid::convertWidth))) /
+                    (length(unique(nodes$panel)) * diff(pp$x.range)),
+                  (dev.size("in")[2] - sum(inch(g$heights, grid::convertHeight))) / diff(pp$y.range))
+  # R draws a circle of radius 0.375 times its font size (shape 21); outline included
+  r <- 0.375 * (dot * .pt + stroke * .stroke / 2) / 72 + stroke * .stroke / 2 / 96 / 2
   e <- edges |>
     left_join(nodes, by = c("panel", "from" = "name")) |> rename(x0 = x, y0 = y) |>
     left_join(nodes, by = c("panel", "to" = "name")) |>
     mutate(len = sqrt((x - x0)^2 + (y - y0)^2), ux = (x - x0) / len, uy = (y - y0) / len,
-           xs = x0 + (r + 0.02) * ux, ys = y0 + (r + 0.02) * uy,
-           xe = x - (r + 0.02) * ux, ye = y - (r + 0.02) * uy)
-  ggplot() +
-    geom_point(data = nodes, aes(x, y), size = 10, shape = 21, fill = "white") +
-    geom_text(data = nodes, aes(x, y, label = name), size = 4.5) +
-    geom_segment(data = e, aes(x = xs, y = ys, xend = xe, yend = ye),
-                 arrow = arrow(length = unit(0.18, "cm"), type = "closed"), linewidth = 0.5) +
-    facet_wrap(~ panel, nrow = 1) +
-    coord_fixed(xlim = xlim, ylim = ylim) +
-    theme_void()
+           # the end also clears half the line width, which the rounded tip adds
+           s0 = (r + gap) / per_unit, s1 = (r + gap + lw * .pt / 96 / 2) / per_unit,
+           xs = x0 + s0 * ux, ys = y0 + s0 * uy, xe = x - s1 * ux, ye = y - s1 * uy)
+  p + geom_segment(data = e, aes(x = xs, y = ys, xend = xe, yend = ye),
+                   arrow = arrow(length = unit(0.18, "cm"), type = "closed"), linewidth = lw)
 }
 ```
 
@@ -436,7 +450,7 @@ draw_dag(data.frame(name = c("Z", "X", "M", "Y", "W"),
                     x = c(1, 0, 1, 2, 2.9), y = c(1.1, 0, -0.3, 0, 1.1)),
          data.frame(from = c("Z", "Z", "X", "M", "X", "W"),
                     to = c("X", "Y", "M", "Y", "Y", "Y")),
-         r = 0.17, xlim = c(-0.5, 3.4), ylim = c(-0.6, 1.4))
+         xlim = c(-0.5, 3.4), ylim = c(-0.6, 1.4))
 ```
 
 (a) List the backdoor paths from $X$ to $Y$.
