@@ -307,55 +307,6 @@ Joshua Loftus
 <p>Prasad, Jorgenson, Ioannidis and Cifu (2013), <em>Journal of Clinical Epidemiology</em> 66, 361–366. The journals: <em>New England Journal of Medicine</em>, <em>Lancet</em>, <em>JAMA</em>, <em>Annals of Internal Medicine</em>.</p>
 </div>
 </section>
-<section id="hormone-therapy-1996" class="slide level2">
-<h2>Hormone therapy, 1996</h2>
-<p>Nurses’ Health Study: 59,337 women, followed for up to 16 years. Women taking estrogen with progestin after the menopause, against women not using hormones:</p>
-<p>relative risk of major coronary heart disease 0.39 (95% interval 0.19 to 0.78), adjusted for the confounders the authors measured.</p>
-<blockquote>
-<p>“The addition of progestin does not appear to attenuate the cardioprotective effects of postmenopausal estrogen therapy.”</p>
-</blockquote>
-<div class="source">
-<p>Grodstein and colleagues (1996), <em>New England Journal of Medicine</em> 335, 453–461.</p>
-</div>
-<div class="ask">
-<p>A trial randomizes women to estrogen with progestin or to a placebo. Write down the ratio you expect for coronary heart disease.</p>
-</div>
-</section>
-<section id="hormone-therapy-2002-and-2008" class="slide level2">
-<h2>Hormone therapy, 2002 and 2008</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/hrt-1.png" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<blockquote>
-<p>Estrogen with progestin “should not be initiated or continued for primary prevention of CHD.”</p>
-</blockquote>
-<div class="source">
-<p>Writing Group for the Women’s Health Initiative Investigators (2002), <em>JAMA</em> 288, 321–333. Hernán and colleagues (2008), <em>Epidemiology</em> 19, 766–779.</p>
-</div>
-</section>
-<section id="two-explanations" class="slide level2">
-<h2>Two explanations</h2>
-<p>Confounding:</p>
-<blockquote>
-<p>“a suspected beneficial effect of hormone replacement therapy in reducing cardiovascular disease disappeared after identifying socioeconomic status as a confounding variable.”</p>
-</blockquote>
-<div class="source">
-<p>fairmlbook, chapter 5, citing Humphrey, Chan and Sox (2002): in studies adjusted for socioeconomic status and the major coronary risk factors, relative risk 1.07 (credible interval 0.79 to 1.48).</p>
-</div>
-<p>The comparison: starters against non-starters, followed from the same point, gave estimates “similar to those from the Women’s Health Initiative.”</p>
-<div class="source">
-<p>Hernán and colleagues (2008).</p>
-</div>
-<div class="leave">
-<p>Which comparison gets reported? Women who took hormones against women who did not, or starters against non-starters.</p>
-</div>
-</section>
 <section id="structural-causal-models" class="slide level2">
 <h2>Structural causal models</h2>
 <blockquote>
@@ -472,25 +423,6 @@ Joshua Loftus
 <div class="source">
 <p>Figure 1 of Loftus (2024), “Position: The Causal Revolution Needs Scientific Pragmatism,” ICML.</p>
 </div>
-</section>
-<section id="draw-the-graph" class="slide level2">
-<h2>Draw the graph</h2>
-<div class="ask">
-<p>Use hormone use, heart disease, socioeconomic status and age. Draw the graph the 1996 conclusion needs, then add arrows that would make women taking hormones look healthier even if the hormones did nothing.</p>
-</div>
-</section>
-<section id="hormone-therapy-one-graph" class="slide level2">
-<h2>Hormone therapy: one graph</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/hrt_dag-1.png" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The gold arrow is the claim that the hormones protect the heart. The four black arrows can produce a difference between users and non-users without it.</p>
 </section></section>
 <section>
 <section id="part-3-confounding-and-adjustment" class="title-slide slide level1 center">
@@ -524,6 +456,25 @@ Joshua Loftus
 <div class="ask">
 <p>How much does the course raise the chance of being in work? Write down a number, or what else you would need to know.</p>
 </div>
+</section>
+<section id="draw-the-graph" class="slide level2">
+<h2>Draw the graph</h2>
+<div class="ask">
+<p>A press release says the course raises the chance of being in work by 28 percentage points. Use three variables: attended the course, in work six months later and worked last year. Draw the graph the press release needs. Then add arrows, from worked last year or from any other variable you think matters, that would make attenders look better even if the course did nothing.</p>
+</div>
+</section>
+<section id="the-job-center-one-graph" class="slide level2">
+<h2>The job center: one graph</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/course_words-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The gold arrow is the claim that the course helps people find work. The two black arrows can produce a difference between attenders and non-attenders without it.</p>
 </section>
 <section id="the-rows" class="slide level2">
 <h2>The rows</h2>
@@ -759,7 +710,7 @@ P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 <h2>Lenses this week</h2>
 <ul>
 <li><strong>What are we optimizing or predicting?</strong> The center’s placement rate, or the jobs the course creates.</li>
-<li><strong>Which comparison gets reported?</strong> Attenders against non-attenders, overall or within rows. Women who took hormones against women who did not, or starters against non-starters. The average effect, or the effects within groups defined before treatment.</li>
+<li><strong>Which comparison gets reported?</strong> Attenders against non-attenders, overall or within rows. The average effect, or the effects within groups defined before treatment.</li>
 <li><strong>You have to choose, so choose, and defend it.</strong> The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph; it does not draw the graph. “Pretending it was forced is its own failure.”</li>
 </ul>
 <p>…and why?</p>
