@@ -1,5 +1,5 @@
 ---
-title: "Consequences and causal models"
+title: "Ethics and causation"
 author: "Joshua Loftus"
 # ---- instructor-side front matter (CONTRACT.md), nested under st313: so that Quarto
 # ---- ignores it (Quarto reserves top-level keys such as `history`); stripped from output
@@ -18,7 +18,7 @@ st313:
              wiki-pragmatic-ethics, wiki-belmont-report, mixtape-dags, tukey-conclusions-decisions, bross-shoe-clerk]
   results: [R13, R14, R15]         # R16, weighting, is not taught (convenor, 11 October)
   assumes: [ST102]
-  figures: []                    # every figure is drawn in R from published numbers or from R's UCBAdmissions
+  figures: []                    # every figure is drawn in R: from published numbers, from R's UCBAdmissions, or from the notes' own invented examples, which the text says are invented
 # ---------------------------------------------------------------------------------
 ---
 
@@ -242,6 +242,29 @@ persons reads like a deontological rule, and beneficence like a
 consequentialist one. To maximize probable benefits you have to predict
 what a study, or a product, will do to the people it touches.
 
+### The five Cs
+
+[ms4ds, section 3.3.2](https://joshualoftus.com/ms4ds/ethical-data-science.html#the-five-cs-framework)
+summarizes a practical framework for data work from Loukides, Mason
+and Patil's book *Ethics and Data Science*, the five Cs:
+
+- Consent: data are collected only from people who explicitly agreed,
+  knowing what would be collected and what it may be used for. Informed
+  consent is part of Belmont's respect for persons.
+- Clarity: people should understand what their consent allows, which
+  user agreements often make hard, even for well-informed readers.
+- Consistency and trust: when a system behaves consistently, people can
+  predict what it will do and decide whether to trust it. Many
+  controversies in data science began with behavior people did not
+  expect.
+- Control and transparency: after consenting, people should still be
+  able to see the status of their data and opt in or out of particular
+  uses.
+- Consequences: the unintended consequences of some kinds of data
+  existing should be anticipated. Children, and sensitive data such as
+  genome sequences, may need extra protection, and combining sources can
+  re-identify people.
+
 ## The consequentialist's problem
 
 Wikipedia states the consequentialist position like this: an act is
@@ -258,6 +281,15 @@ In [ms4ds, section 3.4](https://joshualoftus.com/ms4ds/ethical-data-science.html
 "Causal understanding is necessary to apply consequentialism. An
 observational model of the world does not tell us what consequences we
 can expect to result from any action which is an intervention."
+
+```{r alternatives, echo=FALSE, fig.height=1.9, fig.width=7, fig.alt="A choice branches into the action taken, whose consequences are seen, and an alternative, drawn dashed, whose consequences are never seen."}
+draw_dag(data.frame(name = c("choice", "action taken", "alternative", "consequences seen", "never seen"),
+                    x = c(0, 1.9, 1.9, 4.2, 4.2), y = c(0.5, 1, 0, 1, 0)),
+         data.frame(from = c("choice", "choice", "action taken", "alternative"),
+                    to = c("action taken", "alternative", "consequences seen", "never seen")),
+         dashed = c("choice alternative", "alternative never seen"),
+         boxes = TRUE, xlim = c(-0.8, 5.3), ylim = c(-0.3, 1.3))
+```
 
 In ms4ds's example, observational data show couples happier after
 divorcing. That does not tell a utilitarian that everyone who can
@@ -283,6 +315,21 @@ and found 298 eligible observational studies. In 167 of the 298 (56%),
 the authors recommended a medical practice on the strength of their
 results. Only 24 of those 167 said that a
 randomized trial should be done first.
+
+```{r prasad, echo=FALSE, fig.height=1.8, fig.width=7, fig.alt="Bars: 298 observational studies; 167 of them recommended a medical practice; 24 of those said a randomized trial should come first."}
+prasad <- data.frame(label = c("observational studies", "recommended a practice", "of those, asked for a trial first"),
+                     n = c(298, 167, 24))
+prasad$label <- factor(prasad$label, levels = rev(prasad$label))
+ggplot(prasad, aes(n, label, fill = label)) +
+  geom_col(width = 0.7, show.legend = FALSE) +
+  geom_text(aes(label = n), hjust = -0.25, size = 4) +
+  scale_fill_manual(values = setNames(c(cgray, gold, navy), levels(prasad$label)[3:1])) +
+  scale_x_continuous(limits = c(0, 340), expand = c(0, 0)) +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL) +
+  theme(axis.text.x = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        axis.text.y = element_text(size = 11))
+```
 
 ### Hormone therapy and heart disease
 
@@ -452,7 +499,7 @@ $1/2$ and nobody else does. There, conditioning on $W = 1$ and setting
 $W := 1$ both give $1/6$, so the two can agree. Whether they do depends
 on the graph.
 
-$P(Y \mid X = x)$ describes the people for whom $X$ happened to be $x$.
+$P(Y \mid X = x)$ describes the people whose $X$ happened to be $x$.
 $P(Y \mid do(X := x))$ describes what would happen if $X$ were set to
 $x$ for everyone, which in the graph means deleting every arrow into
 $X$ and fixing its value. The reading's definition: "We say that $X$
@@ -487,7 +534,21 @@ benefits of research and who bears its burdens. Asked of a policy, the
 same question is not answered by the average. Effects within groups say more,
 and a trial can estimate them for groups defined by what was known
 before treatment. The effect on one person is never observed, because
-each person is either treated or not.
+each person is either treated or not. If it could be, ten people might
+look like the bars below: an average effect of 1 and a total of 10,
+with three people made worse off.
+
+```{r gains, echo=FALSE, fig.height=2, fig.width=6, fig.alt="Bars for ten imagined people: seven gain between 1 and 4, three lose between 1 and 3; a dashed line marks the average, 1."}
+gains <- data.frame(person = factor(1:10), effect = c(4, 3, 3, 2, 2, 1, 1, -1, -2, -3))
+ggplot(gains, aes(person, effect, fill = effect > 0)) +
+  geom_col(width = 0.7, show.legend = FALSE) +
+  geom_hline(yintercept = 0, color = cgray) +
+  geom_hline(yintercept = mean(gains$effect), linetype = "dashed", color = navy) +
+  annotate("text", x = 10.45, y = 1.6, label = "ATE = 1", hjust = 1, color = navy, size = 3.8) +
+  scale_fill_manual(values = c(`TRUE` = gold, `FALSE` = slate)) +
+  labs(x = "ten imagined people", y = "gain") +
+  theme(panel.grid.major.x = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank())
+```
 
 ### Prediction and intervention
 
@@ -529,9 +590,9 @@ later.
 
 | | attended ($X = 1$) | did not attend ($X = 0$) |
 |:---|:---|:---|
-| worked last year ($Z = 1$), 500 people | 400, of whom 280 in work (70%) | 100, of whom 60 in work (60%) |
-| did not ($Z = 0$), 500 people | 100, of whom 40 in work (40%) | 400, of whom 120 in work (30%) |
-| total, 1,000 people | 500, of whom 320 in work (64%) | 500, of whom 180 in work (36%) |
+| worked last year ($Z = 1$), 500 people | 280 of 400 in work (70%) | 60 of 100 in work (60%) |
+| did not ($Z = 0$), 500 people | 40 of 100 in work (40%) | 120 of 400 in work (30%) |
+| total, 1,000 people | 320 of 500 in work (64%) | 180 of 500 in work (36%) |
 
 Of the people who attended, 64% are in work, against 36% of those who
 did not. A press release would say the course raises employment by 28
@@ -844,12 +905,54 @@ because $R$ can be measured and $U$ often cannot: in the job center
 below, $U$ needs what would have happened without the course. $R$ and
 $U$ can come apart.
 
+```{r rl_loop, echo=FALSE, fig.height=1.7, fig.width=6, fig.alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."}
+loop_boxes <- data.frame(x = c(0, 3), y = c(0, 0), label = c("atop(agent, policy~pi)", "environment"))
+loop_top <- data.frame(x = 0.62, y = 0.28, xend = 2.28, yend = 0.28)
+loop_bottom <- data.frame(x = 2.28, y = -0.28, xend = 0.62, yend = -0.28)
+loop_text <- data.frame(x = c(1.45, 1.45), y = c(1.12, -1.12),
+                        label = c("action~italic(A)", "state~italic(S)*','~reward~italic(R)"))
+ggplot() +
+  geom_curve(data = loop_top, aes(x = x, y = y, xend = xend, yend = yend), curvature = -0.35,
+             arrow = arrow(length = unit(0.2, "cm"), type = "closed"), linewidth = 0.5) +
+  geom_curve(data = loop_bottom, aes(x = x, y = y, xend = xend, yend = yend), curvature = -0.35,
+             arrow = arrow(length = unit(0.2, "cm"), type = "closed"), linewidth = 0.5) +
+  geom_label(data = loop_boxes, aes(x, y, label = label), parse = TRUE, size = 4.5,
+             label.padding = unit(0.5, "lines")) +
+  geom_text(data = loop_text, aes(x, y, label = label), parse = TRUE, size = 4.2) +
+  coord_cartesian(xlim = c(-0.9, 3.9), ylim = c(-1.3, 1.3)) +
+  theme_void()
+```
+
 Amodei and colleagues (2016) use a cleaning robot as a running example.
 In these letters, the state is what the robot's camera shows, the
 actions are where to move and whether to clean, and the utility is a
 clean room. If the reward is for not seeing any mess, the robot can
 earn it by closing its eyes, or by covering the mess with something it
 cannot see through.
+
+```{r robot, echo=FALSE, fig.height=2.3, fig.width=7, fig.alt="Three rooms, each earning reward 1. Left: the robot cleans, and its view shows no mess. Middle: it closes its eyes, and the mess stays. Right: it covers the mess, which stays under the cover."}
+panels <- c("cleans", "closes its eyes", "covers the mess")
+room <- data.frame(panel = factor(panels, levels = panels))
+cone <- do.call(rbind, lapply(panels[c(1, 3)], function(p)
+  data.frame(panel = p, x = c(2.6, 9.6, 9.6), y = c(2.3, 7.4, 3.0))))
+mess <- data.frame(panel = rep(panels[2:3], each = 2), x = c(7.6, 8.4, 7.6, 8.4), y = c(5.0, 4.3, 5.0, 4.3))
+cover <- data.frame(panel = panels[3], xmin = 6.5, xmax = 9.7, ymin = 3.2, ymax = 6.1)
+caption <- data.frame(panel = panels, x = 5, y = -1.6,
+                      label = c("italic(R)==1*', room clean'", "italic(R)==1*', room dirty'", "italic(R)==1*', room dirty'"))
+for (d in c("cone", "mess", "cover", "caption")) {
+  z <- get(d); z$panel <- factor(z$panel, levels = panels); assign(d, z)
+}
+ggplot() +
+  geom_rect(data = room, aes(xmin = 0, xmax = 10, ymin = 0, ymax = 8), fill = NA, color = slate, linewidth = 0.6) +
+  geom_polygon(data = cone, aes(x, y), fill = gold, alpha = 0.5) +
+  geom_point(data = mess, aes(x, y), size = 5, color = khaki) +
+  geom_rect(data = cover, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), fill = cgray, alpha = 0.8) +
+  geom_point(data = data.frame(x = 2, y = 2), aes(x, y), size = 6, color = navy) +
+  geom_text(data = caption, aes(x, y, label = label), parse = TRUE, size = 3.8) +
+  facet_wrap(~ panel, nrow = 1) +
+  coord_fixed(xlim = c(-0.3, 10.3), ylim = c(-2.4, 8.3)) +
+  theme_void() + theme(strip.text = element_text(size = 11), panel.spacing = unit(1.2, "lines"))
+```
 
 Now a variant of the job center, with 100 places on the course, which
 helps some people more than others. Of people who worked last year, 70% are in work six months
@@ -863,6 +966,22 @@ without the course. Referring 100 who did not earns 40% and puts 26 more
 in work. A center judged on its placement rate refers the first group;
 a utilitarian counting the jobs the course creates refers the second,
 and so serves the people who need the course most.
+
+```{r skim, echo=FALSE, fig.height=2.2, fig.width=6, fig.alt="Two panels of invented numbers for the variant job center. Placement rate: 70 percent if it sends people who worked last year, 40 percent if it sends those who did not. Extra people in work: 6 against 26."}
+skim <- data.frame(group = factor(rep(c("worked last year", "did not"), 2), levels = c("worked last year", "did not")),
+                   panel = factor(rep(c("R", "U"), each = 2), levels = c("R", "U"),
+                                  labels = c("italic(R)*':'~placement~rate", "italic(U)*':'~extra~people~'in'~work")),
+                   value = c(70, 40, 6, 26), shown = c("70%", "40%", "6", "26"))
+ggplot(skim, aes(group, value, fill = group)) +
+  geom_col(width = 0.6, show.legend = FALSE) +
+  geom_text(aes(label = shown), vjust = -0.4, size = 3.8) +
+  facet_wrap(~ panel, scales = "free_y", labeller = label_parsed) +
+  scale_fill_manual(values = two) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
+  coord_cartesian(clip = "off") +
+  labs(x = "the 100 people sent", y = NULL) +
+  theme(axis.text.y = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
 
 Choosing people who would have done well anyway is called cream
 skimming. Heckman, Heinrich and Smith (2002) studied it in US

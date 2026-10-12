@@ -8,7 +8,7 @@
 
 <meta name="author" content="Joshua Loftus">
 
-<title>Consequences and causal models –  ethics 4 data science</title>
+<title>Ethics and causation –  ethics 4 data science</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -222,7 +222,10 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#utilitarianism" id="toc-utilitarianism" class="nav-link" data-scroll-target="#utilitarianism">Utilitarianism</a></li>
   </ul></li>
-  <li><a href="#applied-ethics-the-belmont-and-menlo-principles" id="toc-applied-ethics-the-belmont-and-menlo-principles" class="nav-link" data-scroll-target="#applied-ethics-the-belmont-and-menlo-principles">Applied ethics: the Belmont and Menlo principles</a></li>
+  <li><a href="#applied-ethics-the-belmont-and-menlo-principles" id="toc-applied-ethics-the-belmont-and-menlo-principles" class="nav-link" data-scroll-target="#applied-ethics-the-belmont-and-menlo-principles">Applied ethics: the Belmont and Menlo principles</a>
+  <ul class="collapse">
+  <li><a href="#the-five-cs" id="toc-the-five-cs" class="nav-link" data-scroll-target="#the-five-cs">The five Cs</a></li>
+  </ul></li>
   <li><a href="#the-consequentialists-problem" id="toc-the-consequentialists-problem" class="nav-link" data-scroll-target="#the-consequentialists-problem">The consequentialist’s problem</a>
   <ul class="collapse">
   <li><a href="#hormone-therapy-and-heart-disease" id="toc-hormone-therapy-and-heart-disease" class="nav-link" data-scroll-target="#hormone-therapy-and-heart-disease">Hormone therapy and heart disease</a></li>
@@ -263,7 +266,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Consequences and causal models</h1>
+<h1 class="title">Ethics and causation</h1>
 </div>
 
 
@@ -324,13 +327,42 @@ window.Quarto = {
 <li>Respect for law and the public interest: “Engage in legal due diligence; Be transparent in methods and results; Be accountable for actions.”</li>
 </ul>
 <p>Applied ethics does not pick one of the four frameworks. Respect for persons reads like a deontological rule, and beneficence like a consequentialist one. To maximize probable benefits you have to predict what a study, or a product, will do to the people it touches.</p>
+<section id="the-five-cs" class="level3">
+<h3 class="anchored" data-anchor-id="the-five-cs">The five Cs</h3>
+<p><a href="https://joshualoftus.com/ms4ds/ethical-data-science.html#the-five-cs-framework">ms4ds, section 3.3.2</a> summarizes a practical framework for data work from Loukides, Mason and Patil’s book <em>Ethics and Data Science</em>, the five Cs:</p>
+<ul>
+<li>Consent: data are collected only from people who explicitly agreed, knowing what would be collected and what it may be used for. Informed consent is part of Belmont’s respect for persons.</li>
+<li>Clarity: people should understand what their consent allows, which user agreements often make hard, even for well-informed readers.</li>
+<li>Consistency and trust: when a system behaves consistently, people can predict what it will do and decide whether to trust it. Many controversies in data science began with behavior people did not expect.</li>
+<li>Control and transparency: after consenting, people should still be able to see the status of their data and opt in or out of particular uses.</li>
+<li>Consequences: the unintended consequences of some kinds of data existing should be anticipated. Children, and sensitive data such as genome sequences, may need extra protection, and combining sources can re-identify people.</li>
+</ul>
+</section>
 </section>
 <section id="the-consequentialists-problem" class="level2">
 <h2 class="anchored" data-anchor-id="the-consequentialists-problem">The consequentialist’s problem</h2>
 <p>Wikipedia states the consequentialist position like this: an act is right “if and only if the act (or in some views, the rule under which it falls) will produce, will probably produce, or is intended to produce, a greater balance of good over evil than any available alternative.” That is a comparison between actions. Only one of them is taken, so at most one of the outcomes is ever seen. The others are what would have happened, and a claim about what would have happened is a causal claim. A consequentialist cannot state their own position on an action without a causal model, because the consequences of an action are its causal effects. In <a href="https://joshualoftus.com/ms4ds/ethical-data-science.html#causality-and-ethics">ms4ds, section 3.4</a>: “Causal understanding is necessary to apply consequentialism. An observational model of the world does not tell us what consequences we can expect to result from any action which is an intervention.”</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/alternatives-1.png" class="img-fluid figure-img" alt="A choice branches into the action taken, whose consequences are seen, and an alternative, drawn dashed, whose consequences are never seen." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>In ms4ds’s example, observational data show couples happier after divorcing. That does not tell a utilitarian that everyone who can should divorce: couples who divorce were probably unhappy together, and other couples may not be.</p>
 <p>Barocas, Hardt and Narayanan open their chapter on causality, on the page before this week’s reading starts, with a pair of questions. The first is “Do 16 year-old drivers have a higher incidence rate of traffic accidents than 18 year-old drivers?” That is a difference between two conditional probabilities, and a large enough sample answers it. The second is “Would traffic fatalities decrease if we raised the legal driving age by two years?” It asks for “the effect of a hypothetical action,” and the same sample does not answer it. Older drivers also have more driving experience. The authors add that 18-year-olds who started driving late may be unusually cautious, or live where people need a car less.</p>
 <p>How often do researchers move from what happened to what should be done? Prasad, Jorgenson, Ioannidis and Cifu (2013) read the 631 original articles published in 2010 in four leading medical journals, and found 298 eligible observational studies. In 167 of the 298 (56%), the authors recommended a medical practice on the strength of their results. Only 24 of those 167 said that a randomized trial should be done first.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/prasad-1.png" class="img-fluid figure-img" alt="Bars: 298 observational studies; 167 of them recommended a medical practice; 24 of those said a randomized trial should come first." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <section id="hormone-therapy-and-heart-disease" class="level3">
 <h3 class="anchored" data-anchor-id="hormone-therapy-and-heart-disease">Hormone therapy and heart disease</h3>
 <p>In 1996 the Nurses’ Health Study reported on 59,337 women followed for up to 16 years. Women who took estrogen with progestin after the menopause, compared with women who did not use hormones, had “a marked decrease in the risk of major coronary heart disease”: a relative risk of 0.39 (95% confidence interval 0.19 to 0.78), adjusted for the confounding variables the authors measured. They concluded that adding progestin “does not appear to attenuate the cardioprotective effects of postmenopausal estrogen therapy.” A protective effect is a claim about what taking the hormones does.</p>
@@ -395,14 +427,23 @@ P(H = 1 \mid W = 1) = \tfrac13 .
 P(H = 1 \mid do(W := 1)) = \tfrac16 = P(H = 1 \mid do(W := 0)).
 \]</span> Setting the weight does nothing to the heart. Observing the weight told you about the exercise, and the exercise is what affects the heart.</p>
 <p>The reading’s second program reverses one arrow: weight drives exercise, <span class="math inline">\(W \to X \to H\)</span>. Overweight people exercise with probability <span class="math inline">\(1/2\)</span> and nobody else does. There, conditioning on <span class="math inline">\(W = 1\)</span> and setting <span class="math inline">\(W := 1\)</span> both give <span class="math inline">\(1/6\)</span>, so the two can agree. Whether they do depends on the graph.</p>
-<p><span class="math inline">\(P(Y \mid X = x)\)</span> describes the people for whom <span class="math inline">\(X\)</span> happened to be <span class="math inline">\(x\)</span>. <span class="math inline">\(P(Y \mid do(X := x))\)</span> describes what would happen if <span class="math inline">\(X\)</span> were set to <span class="math inline">\(x\)</span> for everyone, which in the graph means deleting every arrow into <span class="math inline">\(X\)</span> and fixing its value. The reading’s definition: “We say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>confounded</strong> when the causal effect of action <span class="math inline">\(X := x\)</span> on <span class="math inline">\(Y\)</span> does not coincide with the corresponding conditional probability.”</p>
+<p><span class="math inline">\(P(Y \mid X = x)\)</span> describes the people whose <span class="math inline">\(X\)</span> happened to be <span class="math inline">\(x\)</span>. <span class="math inline">\(P(Y \mid do(X := x))\)</span> describes what would happen if <span class="math inline">\(X\)</span> were set to <span class="math inline">\(x\)</span> for everyone, which in the graph means deleting every arrow into <span class="math inline">\(X\)</span> and fixing its value. The reading’s definition: “We say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>confounded</strong> when the causal effect of action <span class="math inline">\(X := x\)</span> on <span class="math inline">\(Y\)</span> does not coincide with the corresponding conditional probability.”</p>
 </section>
 <section id="the-average-treatment-effect" class="level3">
 <h3 class="anchored" data-anchor-id="the-average-treatment-effect">The average treatment effect</h3>
 <p>For a binary <span class="math inline">\(X\)</span>, the <strong>average treatment effect</strong> is <span class="math display">\[
 \text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)],
 \]</span> the difference in the mean of <span class="math inline">\(Y\)</span> between a world where everyone is treated and one where nobody is. Each term deletes the arrows into <span class="math inline">\(X\)</span> and sets <span class="math inline">\(X\)</span> to the same value for everyone. “Causal effects are population quantities,” as the reading says. The effect on one person, or on one group, can differ from it. “This policy causes better outcomes” is a statement about a quantity like this one. The observed difference <span class="math inline">\(E[Y \mid X = 1] - E[Y \mid X = 0]\)</span> is a statement about who happened to be treated.</p>
-<p>Suppose <span class="math inline">\(Y\)</span> measures how well off a person is, on a scale on which gains and losses can be added across people, and nobody’s outcome depends on anyone else’s treatment. Then treating all <span class="math inline">\(n\)</span> people in a population rather than none changes the expected total of <span class="math inline">\(Y\)</span> by <span class="math inline">\(n \times \text{ATE}\)</span>. That is the comparison a utilitarian makes between those two actions, and it needs nothing else. In the total a gain to one person offsets a loss to another, so a positive average treatment effect is consistent with some people being made worse off. Justice, the third Belmont principle, concerns who receives the benefits of research and who bears its burdens. Asked of a policy, the same question is not answered by the average. Effects within groups say more, and a trial can estimate them for groups defined by what was known before treatment. The effect on one person is never observed, because each person is either treated or not.</p>
+<p>Suppose <span class="math inline">\(Y\)</span> measures how well off a person is, on a scale on which gains and losses can be added across people, and nobody’s outcome depends on anyone else’s treatment. Then treating all <span class="math inline">\(n\)</span> people in a population rather than none changes the expected total of <span class="math inline">\(Y\)</span> by <span class="math inline">\(n \times \text{ATE}\)</span>. That is the comparison a utilitarian makes between those two actions, and it needs nothing else. In the total a gain to one person offsets a loss to another, so a positive average treatment effect is consistent with some people being made worse off. Justice, the third Belmont principle, concerns who receives the benefits of research and who bears its burdens. Asked of a policy, the same question is not answered by the average. Effects within groups say more, and a trial can estimate them for groups defined by what was known before treatment. The effect on one person is never observed, because each person is either treated or not. If it could be, ten people might look like the bars below: an average effect of 1 and a total of 10, with three people made worse off.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/gains-1.png" class="img-fluid figure-img" alt="Bars for ten imagined people: seven gain between 1 and 4, three lose between 1 and 3; a dashed line marks the average, 1." width="576"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="prediction-and-intervention" class="level3">
 <h3 class="anchored" data-anchor-id="prediction-and-intervention">Prediction and intervention</h3>
@@ -438,18 +479,18 @@ P(H = 1 \mid do(W := 1)) = \tfrac16 = P(H = 1 \mid do(W := 0)).
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">worked last year (<span class="math inline">\(Z = 1\)</span>), 500 people</td>
-<td style="text-align: left;">400, of whom 280 in work (70%)</td>
-<td style="text-align: left;">100, of whom 60 in work (60%)</td>
+<td style="text-align: left;">280 of 400 in work (70%)</td>
+<td style="text-align: left;">60 of 100 in work (60%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">did not (<span class="math inline">\(Z = 0\)</span>), 500 people</td>
-<td style="text-align: left;">100, of whom 40 in work (40%)</td>
-<td style="text-align: left;">400, of whom 120 in work (30%)</td>
+<td style="text-align: left;">40 of 100 in work (40%)</td>
+<td style="text-align: left;">120 of 400 in work (30%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">total, 1,000 people</td>
-<td style="text-align: left;">500, of whom 320 in work (64%)</td>
-<td style="text-align: left;">500, of whom 180 in work (36%)</td>
+<td style="text-align: left;">320 of 500 in work (64%)</td>
+<td style="text-align: left;">180 of 500 in work (36%)</td>
 </tr>
 </tbody>
 </table>
@@ -609,8 +650,35 @@ Z := U_Z, \qquad X := \alpha Z + U_X, \qquad Y := \beta X + \gamma Z + U_Y .
 <h2 class="anchored" data-anchor-id="reinforcement-learning">Reinforcement learning</h2>
 <p><strong>Notation:</strong> this section uses the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
 <p>An agent observes a <strong>state</strong> <span class="math inline">\(S\)</span>, takes an <strong>action</strong> <span class="math inline">\(A\)</span>, and receives a <strong>reward</strong> <span class="math inline">\(R\)</span>. A <strong>policy</strong> <span class="math inline">\(\pi\)</span> is a rule that chooses the action from the state, <span class="math inline">\(A = \pi(S)\)</span>, and learning means changing the policy to make the expected reward, <span class="math inline">\(E_\pi[R]\)</span>, large, where <span class="math inline">\(E_\pi\)</span> is the expectation when the agent acts by <span class="math inline">\(\pi\)</span>. The <strong>utility</strong> <span class="math inline">\(U\)</span> is what we care about. A consequentialist would choose the policy whose expected utility <span class="math inline">\(E_\pi[U]\)</span> is largest. The agent is given <span class="math inline">\(R\)</span> instead, because <span class="math inline">\(R\)</span> can be measured and <span class="math inline">\(U\)</span> often cannot: in the job center below, <span class="math inline">\(U\)</span> needs what would have happened without the course. <span class="math inline">\(R\)</span> and <span class="math inline">\(U\)</span> can come apart.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/rl_loop-1.png" class="img-fluid figure-img" alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent." width="576"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Amodei and colleagues (2016) use a cleaning robot as a running example. In these letters, the state is what the robot’s camera shows, the actions are where to move and whether to clean, and the utility is a clean room. If the reward is for not seeing any mess, the robot can earn it by closing its eyes, or by covering the mess with something it cannot see through.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/robot-1.png" class="img-fluid figure-img" alt="Three rooms, each earning reward 1. Left: the robot cleans, and its view shows no mess. Middle: it closes its eyes, and the mess stays. Right: it covers the mess, which stays under the cover." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Now a variant of the job center, with 100 places on the course, which helps some people more than others. Of people who worked last year, 70% are in work six months later if they take the course and 64% if they do not; of people who did not work last year, 40% and 14%. The state is a person’s record, the action is to refer or not, and the center is judged on the share of the people it refers who are in work, its placement rate. That rate is its reward. Referring 100 people who worked last year earns a rate of 70% and puts 6 more people in work, on average, than would be in work without the course. Referring 100 who did not earns 40% and puts 26 more in work. A center judged on its placement rate refers the first group; a utilitarian counting the jobs the course creates refers the second, and so serves the people who need the course most.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/skim-1.png" class="img-fluid figure-img" alt="Two panels of invented numbers for the variant job center. Placement rate: 70 percent if it sends people who worked last year, 40 percent if it sends those who did not. Extra people in work: 6 against 26." width="576"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Choosing people who would have done well anyway is called cream skimming. Heckman, Heinrich and Smith (2002) studied it in US job-training centers funded under the Job Training Partnership Act, which were judged partly on employment rates. They found the short-run measures “weakly, and sometimes perversely, related to long run impacts.” They also found that cream skimming made little difference to the programs’ efficiency, in either direction, unlike the invented numbers above, and concluded: “Opposition to cream skimming must come on equity grounds.” Equity here is about who is served; efficiency is about the total.</p>
 <p>Each of the four difficulties of utilitarianism becomes a choice someone makes in building such an agent. Defining utility becomes choosing <span class="math inline">\(R\)</span>, a measurable stand-in for <span class="math inline">\(U\)</span>, and in both examples the two come apart. Trading off between people becomes adding the reward up over the people the agent serves; the placement rate counts only the people referred. Judging acts or rules becomes choosing a policy, a rule that treats alike everyone in the same state. Judging each action on its own and judging the rule can give different answers: when a rule has to treat different situations alike, as a model that sees only a few variables about each person does; when places are limited, so that one referral uses a place another person could have had; and when people respond to the rule itself. Predicting consequences becomes choosing a model of what the actions do, which is a causal model.</p>
 <p>Is <span class="math inline">\(E_\pi[U]\)</span> a causal quantity? It can be read as one, the expected utility if the agent’s actions were set by <span class="math inline">\(\pi\)</span>, but that reading needs assumptions beyond this week’s. An intervention in this week’s sense sets a variable for everyone in a population. Here one agent follows a rule. The people and systems it acts on may respond to what it does, sometimes adversarially, and what happens to one of them can depend on what was done to others. Causal reinforcement learning, a subfield surveyed by Deng, Jiang, Long and Zhang (2023), brings causal models into reinforcement learning.</p>

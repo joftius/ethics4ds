@@ -1,5 +1,5 @@
 ---
-title: "Consequences and causal models"
+title: "Ethics and causation"
 subtitle: "Class"
 author: "Joshua Loftus"
 format:
@@ -120,8 +120,8 @@ outcome is passing this year ($Y = 1$).
 
 | | used the app ($X = 1$) | did not ($X = 0$) |
 |:---|:---|:---|
-| passed last year ($Z = 1$), 500 students | 400, of whom 320 passed (80%) | 100, of whom 70 passed (70%) |
-| did not ($Z = 0$), 500 students | 100, of whom 50 passed (50%) | 400, of whom 120 passed (30%) |
+| passed last year ($Z = 1$), 500 students | 320 of 400 passed (80%) | 70 of 100 passed (70%) |
+| did not ($Z = 0$), 500 students | 50 of 100 passed (50%) | 120 of 400 passed (30%) |
 
 (a) Compute the pass rates of users and non-users, and the difference.
 
@@ -315,7 +315,7 @@ Which comparison did each make?
 (c) Which comparison matches the decision a doctor makes, and why?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For (a), ask who is compared with whom in each analysis.
+For (a), ask which two groups each analysis compares.
 :::
 
 ### Coding
