@@ -44,7 +44,7 @@ st313:
     - {label: "prediction and intervention: three graphs (Figure 1 of Loftus 2024)", minutes: 2, mode: exposition}
     # part 3, confounding and adjustment: 23
     - {label: "a job-search course: written commitment from the totals", minutes: 2, mode: production}
-    - {label: "pairs: draw the graph a claim of 28 points needs (attended, in work, worked last year, motivation), then arrows that would make attenders look better with no effect; two graphs from the room", minutes: 5, mode: production,
+    - {label: "pairs: draw the arrow a claim of 28 points needs (attended, in work, worked last year, or any other variable), then arrows that would make attenders look better with no effect; two graphs from the room", minutes: 5, mode: production,
        introduces: [CC-08], core: CC-08}
     - {label: "one graph for the job center on the screen, the course's arrow in gold", minutes: 1, mode: exposition}
     - {label: "the rows and the graph", minutes: 2, mode: exposition,
@@ -504,8 +504,19 @@ How much does the course raise the chance of being in work? Write down a number,
 Pairs, three minutes. Take two graphs from the room, one with a variable nobody measured, such as motivation, if anyone added one. Ask which arrow the 28 points needs.
 :::
 
+```{r course_blank, fig.height=1.7, fig.alt="Three boxes and no arrows: worked last year at the top, attended at the bottom left, in work at the bottom right."}
+draw_dag(data.frame(name = c("worked last year", "attended", "in work"),
+                    x = c(1.35, 0, 2.7), y = c(1, 0, 0), panel = ""),
+         data.frame(from = character(0), to = character(0), panel = character(0)),
+         boxes = TRUE, text_size = 6, k = 0.021,
+         xlim = c(-1.2, 3.9), ylim = c(-0.25, 1.25))
+```
+
 ::: {.ask}
-A press release says the course raises the chance of being in work by 28 percentage points. Use three variables: attended the course, in work six months later and worked last year. Draw the graph the press release needs. Then add arrows, from worked last year or from any other variable you think matters, that would make attenders look better even if the course did nothing.
+A press release says the course raises the chance of being in work by 28 percentage points.
+
+1. Draw the arrow the press release needs.
+2. Add arrows, from worked last year or any other variable you think matters, that would make attenders look better even if the course did nothing.
 :::
 
 ## The job center: one graph
@@ -514,7 +525,7 @@ A press release says the course raises the chance of being in work by 28 percent
 One answer among several. The arrows from working last year into both attending and being in work are what make attenders look better. If a pair added motivation, keep it: it is the U on the last slide of this part.
 :::
 
-```{r course_words, fig.height=2.6}
+```{r course_words, fig.height=1.7}
 draw_dag(data.frame(name = c("worked last year", "attended", "in work"),
                     x = c(1.35, 0, 2.7), y = c(1, 0, 0)),
          data.frame(from = c("worked last year", "worked last year", "attended"),
