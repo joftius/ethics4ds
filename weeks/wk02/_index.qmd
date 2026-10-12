@@ -8,4 +8,4 @@ Cargo cult science, cargo-cult statistics and the null ritual, and Feynman's fir
 
 **Lecture:** [notes](weeks/wk02/notes.html) · [slides](weeks/wk02/slides.html)
 
-**Class:** [class sheet](weeks/wk02/class.html) ([.qmd](https://ethics4ds.com/weeks/wk02/class.qmd){download="class.qmd"})
+**Class:** [class sheet](weeks/wk02/class.html) ([.qmd](https://ethics4ds.com/weeks/wk02/class.qmd){download="class.qmd"}) · [class sheet with solutions](https://ethics4ds.com/solutions/wk02/class_solutions.html)
