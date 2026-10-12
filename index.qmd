@@ -16,3 +16,5 @@ that it edits only its own block. -->
 {{< include weeks/wk01/_index.qmd >}}
 
 {{< include weeks/wk02/_index.qmd >}}
+
+{{< include weeks/wk03/_index.qmd >}}

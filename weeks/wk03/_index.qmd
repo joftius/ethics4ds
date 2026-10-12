@@ -1,0 +1,11 @@
+## Week 3: Consequences and causal models
+
+Four frameworks of normative ethics for judging whether an action is right, utilitarianism and its difficulties, and the applied principles written after the Tuskegee study. A consequentialist judges an action by what it brings about, which is a causal claim: hormone therapy and heart disease, observed and then tested in a trial. Causal graphs, conditioning and intervening, the average treatment effect and what an average hides, confounding and how to adjust for it, and the choice of graph that any adjustment rests on. Reinforcement learning, where an agent maximizes a reward that someone chose and that can differ from the good it stands in for.
+
+**Required reading:** [Barocas, Hardt and Narayanan, Fairness and Machine Learning, chapter 5: Causality](https://fairmlbook.org/pdf/fairmlbook.pdf) ("The limitations of observation" through "Confounding", pages 105 to 116) · [ms4ds, chapter 3: Ethical data science](https://joshualoftus.com/ms4ds/ethical-data-science.html) (sections 3.2 and 3.3, a re-read) · skim the Wikipedia articles [Consequentialism](https://en.wikipedia.org/wiki/Consequentialism), [Deontology](https://en.wikipedia.org/wiki/Deontology), [Virtue ethics](https://en.wikipedia.org/wiki/Virtue_ethics), [Pragmatic ethics](https://en.wikipedia.org/wiki/Pragmatic_ethics) and [Belmont Report](https://en.wikipedia.org/wiki/Belmont_Report)
+
+**Optional:** [Cunningham, Causal Inference: The Mixtape, first edition](https://mixtape-1ed.netlify.app/) (section 1.2 and sections 3.1 to 3.1.4) · [Tukey, Conclusions vs Decisions](https://doi.org/10.1080/00401706.1960.10489909) · [Bross, The Role of the Statistician: Scientist or Shoe Clerk](https://doi.org/10.1080/00031305.1974.10479092)
+
+**Lecture:** [notes](weeks/wk03/notes.html) · [slides](weeks/wk03/slides.html)
+
+**Class:** [class sheet](weeks/wk03/class.html) ([.qmd](https://ethics4ds.com/weeks/wk03/class.qmd){download="class.qmd"})
