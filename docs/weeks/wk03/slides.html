@@ -6,13 +6,11 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Joshua Loftus">
-  <title>{{&lt; fa solid chart-simple size=large &gt;}} ethics 4 data science – Ethics and causation</title>
+  <title>ethics 4 data science – Ethics and causation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -286,12 +284,16 @@ Joshua Loftus
 </section>
 <section id="the-belmont-and-menlo-principles" class="slide level2">
 <h2>The Belmont and Menlo principles</h2>
-<ul>
-<li>1932 to 1972: the Tuskegee study. Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.</li>
-<li>1974: the National Research Act creates a national commission for the protection of research subjects.</li>
-<li>1978: the Belmont Report. Respect for persons, beneficence, justice.</li>
-<li>2012: the Menlo Report adds respect for law and the public interest.</li>
-</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/belmont_timeline-1.png" style="width:100.0%" alt="A timeline. A dark bar marks the Tuskegee study, 1932 to 1972; dots mark the National Research Act in 1974, the Belmont Report in 1978 (respect for persons, beneficence, justice) and the Menlo Report in 2012 (adds respect for law and the public interest)."></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the Tuskegee study, Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.</p>
 <blockquote>
 <p>Beneficence, in the Menlo Report’s words: “Do not harm; Maximize probable benefits and minimize probable harms; Systematically assess both risk of harm and benefit.”</p>
 </blockquote>
@@ -438,11 +440,14 @@ Joshua Loftus
 <p><span class="math display">\[
 \text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)]
 \]</span></p>
-<p>Each term deletes the arrows into <span class="math inline">\(X\)</span> and sets <span class="math inline">\(X\)</span> to the same value for everyone.</p>
+<p><span class="math inline">\(X\)</span> set to 1 for everyone, against <span class="math inline">\(X\)</span> set to 0 for everyone, with the arrows into <span class="math inline">\(X\)</span> deleted.</p>
+<p><span class="math display">\[
+E[Y \mid X = 1] - E[Y \mid X = 0]
+\]</span></p>
+<p>The observed difference: the people who happened to be treated, against those who were not.</p>
 <blockquote>
-<p>“Causal effects are population quantities. They refer to effects averaged over the whole population. Often the effect of treatment varies greatly from one individual or group of individuals to another.”</p>
+<p>“Causal effects are population quantities.”</p>
 </blockquote>
-<p>The observed difference <span class="math inline">\(E[Y \mid X = 1] - E[Y \mid X = 0]\)</span> compares the people who happened to be treated with the people who were not.</p>
 <div class="source">
 <p>fairmlbook, chapter 5, “Causal effects.”</p>
 </div>
@@ -514,8 +519,21 @@ Joshua Loftus
 </section>
 <section id="draw-the-graph" class="slide level2">
 <h2>Draw the graph</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/course_blank-1.png" style="width:100.0%" alt="Three boxes and no arrows: worked last year at the top, attended at the bottom left, in work at the bottom right."></p>
+</figure>
+</div>
+</div>
+</div>
 <div class="ask">
-<p>A press release says the course raises the chance of being in work by 28 percentage points. Use three variables: attended the course, in work six months later and worked last year. Draw the graph the press release needs. Then add arrows, from worked last year or from any other variable you think matters, that would make attenders look better even if the course did nothing.</p>
+<p>A press release says the course raises the chance of being in work by 28 percentage points.</p>
+<ol type="1">
+<li>Draw the arrow the press release needs.</li>
+<li>Add arrows, from worked last year or any other variable you think matters, that would make attenders look better even if the course did nothing.</li>
+</ol>
 </div>
 </section>
 <section id="the-job-center-one-graph" class="slide level2">
@@ -524,7 +542,7 @@ Joshua Loftus
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/course_words-1.png" style="width:100.0%"></p>
+<p><img data-src="slides_files/figure-revealjs/course_words-1.png" style="width:100.0%" alt="The same three boxes with arrows: from worked last year to attended and to in work, and a gold arrow from attended to in work."></p>
 </figure>
 </div>
 </div>

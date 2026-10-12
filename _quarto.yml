@@ -34,8 +34,11 @@ project:
     browser: false
 
 website:
-  title: "{{< fa solid chart-simple size=large >}} ethics 4 data science"
+  # The window title is plain text: a revealjs deck puts website.title, shortcode and all,
+  # in front of its own title. The icon goes in the navbar title, where shortcodes render.
+  title: "ethics 4 data science"
   navbar:
+    title: "{{< fa solid chart-simple size=large >}} ethics 4 data science"
     lowercase: true
     right:
     - text: "references"

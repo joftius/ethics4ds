@@ -203,6 +203,27 @@ building such a system says about the people who build it.
 
 ## Applied ethics: the Belmont and Menlo principles
 
+```{r belmont_timeline, echo=FALSE, fig.height=1.8, fig.width=7, fig.alt="A timeline. A dark bar marks the Tuskegee study, 1932 to 1972; dots mark the National Research Act in 1974, the Belmont Report in 1978 (respect for persons, beneficence, justice) and the Menlo Report in 2012 (adds respect for law and the public interest)."}
+lab <- data.frame(
+  x     = c(1975.5, 1976.5, 1976.5, 2013.5, 2013.5),
+  y     = c(0.3, -0.3, -0.68, 0.86, 0.3),
+  label = c("1974 National Research Act", "1978 Belmont Report", "respect for persons, beneficence, justice",
+            "2012 Menlo Report", "adds respect for law\nand the public interest"),
+  hj    = c(1, 0, 0, 1, 1), vj = c(0, 1, 1, 0, 0),
+  bold  = c(TRUE, TRUE, FALSE, TRUE, FALSE))
+ggplot() +
+  annotate("segment", x = 1928, xend = 2018, y = 0, yend = 0, color = cgray, linewidth = 0.5) +
+  annotate("rect", xmin = 1932, xmax = 1972, ymin = -0.17, ymax = 0.17, fill = navy) +
+  annotate("text", x = 1952, y = 0, label = "Tuskegee study, 1932 to 1972", color = "white", size = 3.9) +
+  annotate("point", x = c(1974, 1978, 2012), y = 0, size = 3.4, color = gold) +
+  geom_text(data = lab, aes(x, y, label = label, hjust = hj, vjust = vj,
+                            fontface = ifelse(bold, "bold", "plain"), color = ifelse(bold, navy, "black")),
+            size = 3.7, lineheight = 0.9) +
+  scale_color_identity() +
+  coord_cartesian(xlim = c(1928, 2018), ylim = c(-1.05, 1.35), clip = "off") +
+  theme_void()
+```
+
 From 1932 the United States Public Health Service ran a study in which
 African American men in Alabama were recruited with the promise of free
 health care. Most of them had syphilis. They were never told that they
