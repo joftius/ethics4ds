@@ -548,6 +548,9 @@ sensitive attribute, a risk score and an unobserved variable.
 
 ### 7. Hormone therapy
 
+The notes' section on hormone therapy and heart disease gives the three
+studies.
+
 (a) The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first
 two years, 0.96 over the whole follow-up) come from the same cohort.
 Which comparison did each make?

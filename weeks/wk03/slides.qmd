@@ -23,7 +23,7 @@ st313:
   week: 03
   session: lecture
   register: 1                      # schema key. The reinforcement-learning slides in part 4 each declare their letters in their first line; the table of the two notations is in the notes only (convenor, 11 October). Student-facing text never says "register"
-  segments:                        # sums to 80: 75 of material and 5 of slack; production 25 (31%)
+  segments:                        # sums to 80: 70 of material and 10 of slack; production 25 (31%)
     # part 1, normative and applied ethics: 17
     - {label: "plan", minutes: 1, mode: exposition}
     - {label: "normative ethics: four frameworks, what each judges and its difficulty", minutes: 3, mode: exposition}
@@ -32,12 +32,8 @@ st313:
     - {label: "utilitarianism: Bentham and Mill, aggregate happiness; ms4ds's four difficulties and what each is in data science", minutes: 3, mode: exposition}
     - {label: "pairs: a data science task in utilitarian language, and an objection from another framework (ms4ds 3.2.2, discussion)", minutes: 4, mode: production}
     - {label: "applied ethics: Tuskegee, the National Research Act, Belmont and Menlo; beneficence as the consequentialist clause", minutes: 2, mode: exposition}
-    # part 2, causal models: 26
+    # part 2, causal models: 15 (the hormone-therapy slides left the lecture on 12 October, convenor; the notes keep the section)
     - {label: "dark: observational studies that recommend a practice (Prasad and colleagues 2013)", minutes: 1, mode: exposition}
-    - {label: "hormone therapy 1996: the observational estimate and its causal conclusion", minutes: 1, mode: exposition}
-    - {label: "written commitment: the ratio a randomized trial would find", minutes: 2, mode: production}
-    - {label: "the trial and the emulation: four estimates", minutes: 2, mode: exposition}
-    - {label: "two explanations: confounding (the reading, Humphrey) and the comparison (Hernan)", minutes: 2, mode: exposition}
     - {label: "structural causal models; fork, chain, collider", minutes: 2, mode: exposition}
     - {label: "the reading's first example, exercise, weight and heart disease, with its graph: students compute P(H = 1) and P(H = 1 | W = 1)", minutes: 3, mode: production}
     - {label: "conditioning and intervening: do(W := 1) replaces the line for W and deletes the arrow into W; confounded", minutes: 2, mode: exposition,
@@ -45,11 +41,11 @@ st313:
     - {label: "the average treatment effect", minutes: 2, mode: exposition, results: [R13]}
     - {label: "adding up over people: n times the ATE is the utilitarian's comparison of everyone with no one, if Y adds across people and there is no interference; gains offset losses; Belmont's justice asks who bears them", minutes: 3, mode: exposition}
     - {label: "prediction and intervention: three graphs (Figure 1 of Loftus 2024)", minutes: 2, mode: exposition}
-    - {label: "pairs: draw the graph for hormone use and heart disease; one graph from the room", minutes: 3, mode: production,
-       introduces: [CC-08], core: CC-08}
-    - {label: "one graph for hormone use on the screen", minutes: 1, mode: exposition}
-    # part 3, confounding and adjustment: 17
+    # part 3, confounding and adjustment: 23
     - {label: "a job-search course: written commitment from the totals", minutes: 2, mode: production}
+    - {label: "pairs: draw the graph a claim of 28 points needs (attended, in work, worked last year, motivation), then arrows that would make attenders look better with no effect; two graphs from the room", minutes: 5, mode: production,
+       introduces: [CC-08], core: CC-08}
+    - {label: "one graph for the job center on the screen, the course's arrow in gold", minutes: 1, mode: exposition}
     - {label: "the rows and the graph", minutes: 2, mode: exposition,
        introduces: [CC-09], core: CC-09}
     - {label: "the adjustment formula on the table", minutes: 3, mode: exposition, results: [R14]}
@@ -67,8 +63,8 @@ st313:
     # close: 5
     - {label: "lenses this week, with lens A recalled for the reward", minutes: 2, mode: exposition}
     - {label: "the question that splits the room: hands, and one reason from each side; the task for next time on the same slide", minutes: 3, mode: production}
-    # slack: 5 (as in week 2: plan 75 in the 80)
-    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 5, mode: exposition}
+    # slack: 10 (plan 70 in the 80, since the hormone-therapy slides left on 12 October)
+    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 10, mode: exposition}
   history: [{minutes: 2, buys: "the Tuskegee study, the National Research Act and the Belmont Report: where the applied principles came from, and why beneficence is a consequentialist clause"}]
   complications: []
   retrieves: [S4, S2]             # S2: lens A, recalled for the reward in part 4
@@ -141,11 +137,11 @@ draw_dag <- function(nodes, edges, dashed = character(0), highlight = character(
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 75 in the 80: part 1 17, part 2 26, part 3 17, part 4 10, lenses and the last question 5, then 5 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 70 in the 80: part 1 17, part 2 15, part 3 23, part 4 10, lenses and the last question 5, then 10 of slack. Dark = rush or skip.
 
-Cut order: (1) the observational studies that recommend a practice. Then shorten the pairs work to a show of hands. Do not cut the job center as an agent or the question at the end.
+Cut order: (1) the observational studies that recommend a practice. Then shorten the pairs work to a show of hands, and the drawing to one graph from the room. Do not cut the drawing, the job center as an agent or the question at the end.
 
-Pace: 0:17 Part 2; 0:43 the job-search course; 1:00 reinforcement learning; 1:10 lenses; 1:15 end.
+Pace: 0:17 Part 2; 0:32 the job-search course; 0:55 reinforcement learning; 1:05 lenses; 1:10 end.
 :::
 
 ### Week 3
@@ -286,81 +282,6 @@ Of those 167, 24 said a randomized trial should be done first.
 
 ::: {.source style="color: #BCAF6F"}
 Prasad, Jorgenson, Ioannidis and Cifu (2013), *Journal of Clinical Epidemiology* 66, 361--366. The journals: *New England Journal of Medicine*, *Lancet*, *JAMA*, *Annals of Internal Medicine*.
-:::
-
-## Hormone therapy, 1996
-
-::: {.notes}
-Read the conclusion aloud: "cardioprotective effects" is a causal claim. Then everyone writes a number before the next slide.
-:::
-
-Nurses' Health Study: 59,337 women, followed for up to 16 years. Women taking estrogen with progestin after the menopause, against women not using hormones:
-
-relative risk of major coronary heart disease 0.39 (95% interval 0.19 to 0.78), adjusted for the confounders the authors measured.
-
-> "The addition of progestin does not appear to attenuate the cardioprotective effects of postmenopausal estrogen therapy."
-
-::: {.source}
-Grodstein and colleagues (1996), *New England Journal of Medicine* 335, 453--461.
-:::
-
-::: {.ask}
-A trial randomizes women to estrogen with progestin or to a placebo. Write down the ratio you expect for coronary heart disease.
-:::
-
-## Hormone therapy, 2002 and 2008
-
-::: {.notes}
-The trial was stopped for breast cancer and the overall balance of harms. About 7 more coronary cases per 10,000 person-years. Hernán and colleagues reanalyzed the same cohort the way the trial was analyzed.
-:::
-
-```{r hrt, fig.height=3.3}
-hrt <- data.frame(
-  label = c("Nurses' Health Study, 1996\nestrogen with progestin against no hormones",
-            "Women's Health Initiative trial, 2002\nassigned to treatment against placebo",
-            "Nurses' Health Study analyzed like the trial, 2008\nstarters against non-starters, first two years",
-            "the same, whole follow-up"),
-  est = c(0.39, 1.29, 1.42, 0.96), lo = c(0.19, 1.02, 0.92, 0.78), hi = c(0.78, 1.63, 2.20, 1.18),
-  design = c("observational", "randomized", "observational", "observational"))
-hrt$label <- factor(hrt$label, levels = rev(hrt$label))
-ggplot(hrt, aes(est, label, color = design)) +
-  geom_vline(xintercept = 1, linetype = "dashed", color = cgray) +
-  geom_linerange(aes(xmin = lo, xmax = hi), linewidth = 1.2) +
-  geom_point(size = 4) +
-  scale_color_manual(values = c(observational = gold, randomized = navy)) +
-  scale_x_log10(breaks = c(0.2, 0.5, 1, 2), limits = c(0.18, 2.4)) +
-  labs(x = "relative risk or hazard ratio (log scale)", y = NULL, color = NULL) +
-  theme(legend.position = "top", axis.text.y = element_text(size = 12))
-```
-
-> Estrogen with progestin "should not be initiated or continued for primary prevention of CHD."
-
-::: {.source}
-Writing Group for the Women's Health Initiative Investigators (2002), *JAMA* 288, 321--333. Hernán and colleagues (2008), *Epidemiology* 19, 766--779.
-:::
-
-## Two explanations
-
-::: {.notes}
-Both can be true. The reading uses this case as its example of confounding. Hernán: same cohort, a different comparison.
-:::
-
-Confounding:
-
-> "a suspected beneficial effect of hormone replacement therapy in reducing cardiovascular disease disappeared after identifying socioeconomic status as a confounding variable."
-
-::: {.source}
-fairmlbook, chapter 5, citing Humphrey, Chan and Sox (2002): in studies adjusted for socioeconomic status and the major coronary risk factors, relative risk 1.07 (credible interval 0.79 to 1.48).
-:::
-
-The comparison: starters against non-starters, followed from the same point, gave estimates "similar to those from the Women's Health Initiative."
-
-::: {.source}
-Hernán and colleagues (2008).
-:::
-
-::: {.leave}
-Which comparison gets reported? Women who took hormones against women who did not, or starters against non-starters.
 :::
 
 ## Structural causal models
@@ -513,33 +434,6 @@ draw_dag(nodes, edges)
 Figure 1 of Loftus (2024), "Position: The Causal Revolution Needs Scientific Pragmatism," ICML.
 :::
 
-## Draw the graph
-
-::: {.notes}
-Pairs, two minutes. Take one graph from the room before the next slide. Ask which arrow "cardioprotective" needs.
-:::
-
-::: {.ask}
-Use hormone use, heart disease, socioeconomic status and age. Draw the graph the 1996 conclusion needs, then add arrows that would make women taking hormones look healthier even if the hormones did nothing.
-:::
-
-## Hormone therapy: one graph
-
-::: {.notes}
-One answer among several. The arrows from socioeconomic status and age into both hormone use and heart disease are what make users look healthier.
-:::
-
-```{r hrt_dag, fig.height=2.6}
-draw_dag(data.frame(name = c("socioeconomic status", "age", "hormone use", "heart disease"),
-                    x = c(0, 2.7, 0, 2.7), y = c(1, 1, 0, 0)),
-         data.frame(from = c("socioeconomic status", "socioeconomic status", "age", "age", "hormone use"),
-                    to = c("hormone use", "heart disease", "hormone use", "heart disease", "heart disease")),
-         highlight = "hormone use heart disease", boxes = TRUE, text_size = 6, k = 0.021,
-         xlim = c(-1.2, 3.9), ylim = c(-0.25, 1.25))
-```
-
-The gold arrow is the claim that the hormones protect the heart. The four black arrows can produce a difference between users and non-users without it.
-
 # Part 3: Confounding and adjustment
 
 ## A job-search course
@@ -557,6 +451,33 @@ A job center refers some of the 1,000 people registered with it to a job-search 
 ::: {.ask}
 How much does the course raise the chance of being in work? Write down a number, or what else you would need to know.
 :::
+
+## Draw the graph
+
+::: {.notes}
+Pairs, three minutes. Take two graphs from the room, one with a variable nobody measured, such as motivation, if anyone added one. Ask which arrow the 28 points needs.
+:::
+
+::: {.ask}
+A press release says the course raises the chance of being in work by 28 percentage points. Use three variables: attended the course, in work six months later and worked last year. Draw the graph the press release needs. Then add arrows, from worked last year or from any other variable you think matters, that would make attenders look better even if the course did nothing.
+:::
+
+## The job center: one graph
+
+::: {.notes}
+One answer among several. The arrows from working last year into both attending and being in work are what make attenders look better. If a pair added motivation, keep it: it is the U on the last slide of this part.
+:::
+
+```{r course_words, fig.height=2.6}
+draw_dag(data.frame(name = c("worked last year", "attended", "in work"),
+                    x = c(1.35, 0, 2.7), y = c(1, 0, 0)),
+         data.frame(from = c("worked last year", "worked last year", "attended"),
+                    to = c("attended", "in work", "in work")),
+         highlight = "attended in work", boxes = TRUE, text_size = 6, k = 0.021,
+         xlim = c(-1.2, 3.9), ylim = c(-0.25, 1.25))
+```
+
+The gold arrow is the claim that the course helps people find work. The two black arrows can produce a difference between attenders and non-attenders without it.
 
 ## The rows
 
@@ -796,7 +717,7 @@ Each lens, what it referred to this week; lens A, from earlier weeks, recalled f
 :::
 
 - **What are we optimizing or predicting?** The center's placement rate, or the jobs the course creates.
-- **Which comparison gets reported?** Attenders against non-attenders, overall or within rows. Women who took hormones against women who did not, or starters against non-starters. The average effect, or the effects within groups defined before treatment.
+- **Which comparison gets reported?** Attenders against non-attenders, overall or within rows. The average effect, or the effects within groups defined before treatment.
 - **You have to choose, so choose, and defend it.** The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph; it does not draw the graph. "Pretending it was forced is its own failure."
 
 ...and why?
