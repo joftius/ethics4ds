@@ -261,10 +261,28 @@ Choose a data science task: a recommender, a credit score, an A/B test. Say it i
 The history in one breath: Tuskegee, 1932 to 1972; the National Research Act, 1974; the report, 1978. Beneficence is the consequentialist clause.
 :::
 
-- 1932 to 1972: the Tuskegee study. Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.
-- 1974: the National Research Act creates a national commission for the protection of research subjects.
-- 1978: the Belmont Report. Respect for persons, beneficence, justice.
-- 2012: the Menlo Report adds respect for law and the public interest.
+```{r belmont_timeline, fig.height=2.0, fig.alt="A timeline. A dark bar marks the Tuskegee study, 1932 to 1972; dots mark the National Research Act in 1974, the Belmont Report in 1978 (respect for persons, beneficence, justice) and the Menlo Report in 2012 (adds respect for law and the public interest)."}
+lab <- data.frame(
+  x     = c(1975.5, 1976.5, 1976.5, 2013.5, 2013.5),
+  y     = c(0.3, -0.3, -0.68, 0.86, 0.3),
+  label = c("1974 National Research Act", "1978 Belmont Report", "respect for persons, beneficence, justice",
+            "2012 Menlo Report", "adds respect for law\nand the public interest"),
+  hj    = c(1, 0, 0, 1, 1), vj = c(0, 1, 1, 0, 0),
+  bold  = c(TRUE, TRUE, FALSE, TRUE, FALSE))
+ggplot() +
+  annotate("segment", x = 1928, xend = 2018, y = 0, yend = 0, color = cgray, linewidth = 0.6) +
+  annotate("rect", xmin = 1932, xmax = 1972, ymin = -0.17, ymax = 0.17, fill = navy) +
+  annotate("text", x = 1952, y = 0, label = "Tuskegee study, 1932 to 1972", color = "white", size = 5.2) +
+  annotate("point", x = c(1974, 1978, 2012), y = 0, size = 4.5, color = gold) +
+  geom_text(data = lab, aes(x, y, label = label, hjust = hj, vjust = vj,
+                            fontface = ifelse(bold, "bold", "plain"), color = ifelse(bold, navy, "black")),
+            size = 5, lineheight = 0.9) +
+  scale_color_identity() +
+  coord_cartesian(xlim = c(1928, 2018), ylim = c(-1.05, 1.35), clip = "off") +
+  theme_void()
+```
+
+In the Tuskegee study, Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.
 
 > Beneficence, in the Menlo Report's words: "Do not harm; Maximize probable benefits and minimize probable harms; Systematically assess both risk of harm and benefit."
 
@@ -412,18 +430,22 @@ fairmlbook, chapter 5, "A first example" and "Confounding."
 ## The average treatment effect
 
 ::: {.notes}
-A population quantity. "This policy causes better outcomes" is a claim about something like it.
+A population quantity. "This policy causes better outcomes" is a claim about something like it. Effects can vary a lot between people; the next slide shows it.
 :::
 
 $$
 \text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)]
 $$
 
-Each term deletes the arrows into $X$ and sets $X$ to the same value for everyone.
+$X$ set to 1 for everyone, against $X$ set to 0 for everyone, with the arrows into $X$ deleted.
 
-> "Causal effects are population quantities. They refer to effects averaged over the whole population. Often the effect of treatment varies greatly from one individual or group of individuals to another."
+$$
+E[Y \mid X = 1] - E[Y \mid X = 0]
+$$
 
-The observed difference $E[Y \mid X = 1] - E[Y \mid X = 0]$ compares the people who happened to be treated with the people who were not.
+The observed difference: the people who happened to be treated, against those who were not.
+
+> "Causal effects are population quantities."
 
 ::: {.source}
 fairmlbook, chapter 5, "Causal effects."
@@ -501,7 +523,7 @@ How much does the course raise the chance of being in work? Write down a number,
 ## Draw the graph
 
 ::: {.notes}
-Pairs, three minutes. Take two graphs from the room, one with a variable nobody measured, such as motivation, if anyone added one. Ask which arrow the 28 points needs.
+Pairs, three minutes. Take two graphs from the room, one with a variable nobody measured, such as motivation, if anyone added one. Ask what else the 28 points needs besides the arrow: no arrows from worked last year into both.
 :::
 
 ```{r course_blank, fig.height=1.7, fig.alt="Three boxes and no arrows: worked last year at the top, attended at the bottom left, in work at the bottom right."}
@@ -525,7 +547,7 @@ A press release says the course raises the chance of being in work by 28 percent
 One answer among several. The arrows from working last year into both attending and being in work are what make attenders look better. If a pair added motivation, keep it: it is the U on the last slide of this part.
 :::
 
-```{r course_words, fig.height=1.7}
+```{r course_words, fig.height=1.7, fig.alt="The same three boxes with arrows: from worked last year to attended and to in work, and a gold arrow from attended to in work."}
 draw_dag(data.frame(name = c("worked last year", "attended", "in work"),
                     x = c(1.35, 0, 2.7), y = c(1, 0, 0)),
          data.frame(from = c("worked last year", "worked last year", "attended"),

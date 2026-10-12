@@ -284,12 +284,16 @@ Joshua Loftus
 </section>
 <section id="the-belmont-and-menlo-principles" class="slide level2">
 <h2>The Belmont and Menlo principles</h2>
-<ul>
-<li>1932 to 1972: the Tuskegee study. Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.</li>
-<li>1974: the National Research Act creates a national commission for the protection of research subjects.</li>
-<li>1978: the Belmont Report. Respect for persons, beneficence, justice.</li>
-<li>2012: the Menlo Report adds respect for law and the public interest.</li>
-</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/belmont_timeline-1.png" style="width:100.0%" alt="A timeline. A dark bar marks the Tuskegee study, 1932 to 1972; dots mark the National Research Act in 1974, the Belmont Report in 1978 (respect for persons, beneficence, justice) and the Menlo Report in 2012 (adds respect for law and the public interest)."></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the Tuskegee study, Black men with syphilis were never told they had it and were kept from treatment after penicillin was known to work.</p>
 <blockquote>
 <p>Beneficence, in the Menlo Report’s words: “Do not harm; Maximize probable benefits and minimize probable harms; Systematically assess both risk of harm and benefit.”</p>
 </blockquote>
@@ -436,11 +440,14 @@ Joshua Loftus
 <p><span class="math display">\[
 \text{ATE} = E[Y \mid do(X := 1)] - E[Y \mid do(X := 0)]
 \]</span></p>
-<p>Each term deletes the arrows into <span class="math inline">\(X\)</span> and sets <span class="math inline">\(X\)</span> to the same value for everyone.</p>
+<p><span class="math inline">\(X\)</span> set to 1 for everyone, against <span class="math inline">\(X\)</span> set to 0 for everyone, with the arrows into <span class="math inline">\(X\)</span> deleted.</p>
+<p><span class="math display">\[
+E[Y \mid X = 1] - E[Y \mid X = 0]
+\]</span></p>
+<p>The observed difference: the people who happened to be treated, against those who were not.</p>
 <blockquote>
-<p>“Causal effects are population quantities. They refer to effects averaged over the whole population. Often the effect of treatment varies greatly from one individual or group of individuals to another.”</p>
+<p>“Causal effects are population quantities.”</p>
 </blockquote>
-<p>The observed difference <span class="math inline">\(E[Y \mid X = 1] - E[Y \mid X = 0]\)</span> compares the people who happened to be treated with the people who were not.</p>
 <div class="source">
 <p>fairmlbook, chapter 5, “Causal effects.”</p>
 </div>
@@ -535,7 +542,7 @@ Joshua Loftus
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/course_words-1.png" style="width:100.0%"></p>
+<p><img data-src="slides_files/figure-revealjs/course_words-1.png" style="width:100.0%" alt="The same three boxes with arrows: from worked last year to attended and to in work, and a gold arrow from attended to in work."></p>
 </figure>
 </div>
 </div>
