@@ -1,0 +1,245 @@
+<!--
+The section "Reinforcement learning" of the week 3 notes, from weeks/wk03/notes.qmd,
+with the other passages of the notes that referred to it at the end.
+Moved out of week 3 on 13 October 2026 (the lecture ended before it; the convenor
+planned it for week 4). Copied verbatim from week 3 at commit c07e23e. See README.md.
+-->
+
+```{r rl-setup, echo=FALSE}
+# From week 3's setup chunk: the colors and the math-label helper these figures use.
+# Put these lines in the notes' setup chunk (drop what the notes already define).
+# cividis: viridisLite::cividis(9)[c(1, 3, 5, 6, 7, 9)]
+navy <- "#00204D"; slate <- "#414D6B"; cgray <- "#7C7B78"; khaki <- "#9B9477"; gold <- "#BCAF6F"; yellow <- "#FFEA46"
+two <- c(navy, gold)               # the two groups, wherever there are two
+
+# Labels with math letters. In `label`, the text between dollar signs is drawn in
+# MathJax_Math, the TeX italic of an older MathJax, which looks like the italic of the
+# slides' formulas; the rest is drawn in the device's default font. The pieces are placed
+# when the plot is drawn, so they stay together at any figure size. A label cannot hold a
+# literal dollar sign, and hjust and vjust are numbers. `nudge_y` moves the labels up by
+# that many points (y = Inf is the top of the panel).
+GeomMathText <- ggproto("GeomMathText", Geom,
+  required_aes = c("x", "y", "label"),
+  default_aes = aes(colour = "black", size = 6, hjust = 0.5, vjust = 0.5),
+  draw_key = draw_key_text,
+  draw_panel = function(data, panel_params, coord, nudge_y = 0) {
+    data <- coord$transform(data, panel_params)
+    labels <- lapply(seq_len(nrow(data)), function(i) {
+      d <- data[i, ]
+      parts <- strsplit(as.character(d$label), "$", fixed = TRUE)[[1]]
+      math <- seq_along(parts) %% 2 == 0
+      keep <- nzchar(parts)
+      if (!any(keep)) return(grid::nullGrob())
+      # math pieces also ask for italic, so that they stay italic if the font is missing
+      font <- function(m) grid::gpar(col = d$colour, fontsize = d$size * .pt,
+                                     fontfamily = if (m) "MathJax_Math" else "",
+                                     fontface = if (m) "italic" else "plain")
+      pieces <- unname(Map(function(p, m) grid::textGrob(p, gp = font(m)), parts[keep], math[keep]))
+      widths <- lapply(pieces, grid::grobWidth)
+      x <- unit(d$x, "native") - d$hjust * Reduce(`+`, widths)
+      # one baseline for all the pieces, placed by the height of the default font's capitals
+      y <- unit(d$y, "native") + unit(nudge_y, "pt") -
+        d$vjust * grid::grobHeight(grid::textGrob("M", gp = font(FALSE)))
+      for (k in seq_along(pieces)) {
+        pieces[[k]] <- grid::editGrob(pieces[[k]], x = x, y = y, just = c("left", "bottom"))
+        x <- x + widths[[k]]
+      }
+      grid::gTree(children = do.call(grid::gList, pieces))
+    })
+    grid::gTree(children = do.call(grid::gList, labels))
+  }
+)
+geom_mathtext <- function(mapping = NULL, data = NULL, ...) {
+  layer(geom = GeomMathText, mapping = mapping, data = data, stat = "identity",
+        position = "identity", show.legend = FALSE, inherit.aes = FALSE, params = list(...))
+}
+# The math letters and pi in the figures are drawn in MathJax_Math. Stop if it is missing,
+# rather than draw them in another font without saying so.
+if (requireNamespace("systemfonts", quietly = TRUE) &&
+    !"MathJax_Math" %in% systemfonts::system_fonts()$family) {
+  stop("The font MathJax_Math is not installed. It draws the math letters in this file's ",
+       "figures (on Debian or Ubuntu: apt-get install fonts-mathjax).")
+}
+```
+
+## Reinforcement learning
+
+**Notation:** this section uses the letters of reinforcement learning:
+$S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
+
+An agent observes a **state** $S$, takes an **action** $A$, and receives
+a **reward** $R$. A **policy** $\pi$ is a rule that chooses the action
+from the state, $A = \pi(S)$, and learning means changing the policy to
+make the expected reward, $E_\pi[R]$, large, where $E_\pi$ is the
+expectation when the agent acts by $\pi$. The **utility** $U$ is what
+we care about. A utilitarian would choose the policy whose
+expected utility $E_\pi[U]$ is largest. The agent is given $R$ instead,
+because $R$ can be measured and $U$ often cannot: in the job center
+below, $U$ needs what would have happened without the course. $R$ and
+$U$ can come apart.
+
+```{r rl_loop, echo=FALSE, fig.height=1.7, fig.width=6, dev.args=list(symbolfamily=grDevices::cairoSymbolFont("MathJax_Math", usePUA=FALSE)), fig.alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."}
+# dev.args draws pi in MathJax_Math, the TeX italic of an older MathJax, so that it looks
+# like the pi in the formulas. Where that font is missing, the system substitutes another.
+loop_boxes <- data.frame(x = c(0, 3), y = c(0, 0), label = c("atop(agent, policy~pi)", "environment"))
+loop_top <- data.frame(x = 0.62, y = 0.28, xend = 2.28, yend = 0.28)
+loop_bottom <- data.frame(x = 2.28, y = -0.28, xend = 0.62, yend = -0.28)
+loop_text <- data.frame(x = c(1.45, 1.45), y = c(1.12, -1.12),
+                        label = c("action $A$", "state $S$, reward $R$"))
+ggplot() +
+  geom_curve(data = loop_top, aes(x = x, y = y, xend = xend, yend = yend), curvature = -0.35,
+             arrow = arrow(length = unit(0.2, "cm"), type = "closed"), linewidth = 0.5) +
+  geom_curve(data = loop_bottom, aes(x = x, y = y, xend = xend, yend = yend), curvature = -0.35,
+             arrow = arrow(length = unit(0.2, "cm"), type = "closed"), linewidth = 0.5) +
+  geom_label(data = loop_boxes, aes(x, y, label = label), parse = TRUE, size = 4.5,
+             label.padding = unit(0.5, "lines")) +
+  geom_mathtext(data = loop_text, aes(x, y, label = label), size = 4.2) +
+  coord_cartesian(xlim = c(-0.9, 3.9), ylim = c(-1.3, 1.3)) +
+  theme_void()
+```
+
+Amodei and colleagues (2016) use a cleaning robot as a running example.
+In these letters, the state is what the robot's camera shows, the
+actions are where to move and whether to clean, and the utility is a
+clean room. If the reward is for not seeing any mess, the robot can
+earn it by closing its eyes, or by covering the mess with something it
+cannot see through.
+
+```{r robot, echo=FALSE, fig.height=2.3, fig.width=7, fig.alt="Three rooms, each earning reward 1. Left: the robot cleans, and its view shows no mess. Middle: it closes its eyes, and the mess stays. Right: it covers the mess, which stays under the cover."}
+panels <- c("cleans", "closes its eyes", "covers the mess")
+room <- data.frame(panel = factor(panels, levels = panels))
+cone <- do.call(rbind, lapply(panels[c(1, 3)], function(p)
+  data.frame(panel = p, x = c(2.6, 9.6, 9.6), y = c(2.3, 7.4, 3.0))))
+mess <- data.frame(panel = rep(panels[2:3], each = 2), x = c(7.6, 8.4, 7.6, 8.4), y = c(5.0, 4.3, 5.0, 4.3))
+cover <- data.frame(panel = panels[3], xmin = 6.5, xmax = 9.7, ymin = 3.2, ymax = 6.1)
+caption <- data.frame(panel = panels, x = 5, y = -1.6,
+                      label = c("$R$ = 1, room clean", "$R$ = 1, room dirty", "$R$ = 1, room dirty"))
+for (d in c("cone", "mess", "cover", "caption")) {
+  z <- get(d); z$panel <- factor(z$panel, levels = panels); assign(d, z)
+}
+ggplot() +
+  geom_rect(data = room, aes(xmin = 0, xmax = 10, ymin = 0, ymax = 8), fill = NA, color = slate, linewidth = 0.6) +
+  geom_polygon(data = cone, aes(x, y), fill = gold, alpha = 0.5) +
+  geom_point(data = mess, aes(x, y), size = 5, color = khaki) +
+  geom_rect(data = cover, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), fill = cgray, alpha = 0.8) +
+  geom_point(data = data.frame(x = 2, y = 2), aes(x, y), size = 6, color = navy) +
+  geom_mathtext(data = caption, aes(x, y, label = label), size = 3.8) +
+  facet_wrap(~ panel, nrow = 1) +
+  coord_fixed(xlim = c(-0.3, 10.3), ylim = c(-2.4, 8.3)) +
+  theme_void() + theme(strip.text = element_text(size = 11), panel.spacing = unit(1.2, "lines"))
+```
+
+Now a variant of the job center, with 100 places on the course, which
+helps some people more than others. Of people who worked last year, 70% are in work six months
+later if they take the course and 64% if they do not; of people who did
+not work last year, 40% and 14%. The state is a person's record, the
+action is to refer or not, and the center is judged on the share of
+the people it refers who are in work, its placement rate. That rate is
+its reward. Referring 100 people who worked last year earns a rate of
+70% and puts 6 more people in work, on average, than would be in work
+without the course. Referring 100 who did not earns 40% and puts 26 more
+in work. A center judged on its placement rate refers the first group;
+a utilitarian counting the jobs the course creates refers the second,
+and so serves the people who need the course most.
+
+```{r skim, echo=FALSE, fig.height=2.2, fig.width=6, fig.alt="Two panels of invented numbers for the variant job center. Placement rate: 70 percent if it sends people who worked last year, 40 percent if it sends those who did not. Extra people in work: 6 against 26."}
+skim <- data.frame(group = factor(rep(c("worked last year", "did not"), 2), levels = c("worked last year", "did not")),
+                   panel = factor(rep(c("R", "U"), each = 2), levels = c("R", "U")),
+                   value = c(70, 40, 6, 26), shown = c("70%", "40%", "6", "26"))
+# the panels' titles, drawn above the panels by geom_mathtext so that R and U are in the
+# formulas' italic (a strip's text has one font)
+titles <- data.frame(panel = factor(c("R", "U"), levels = c("R", "U")), x = 1.5, y = Inf,
+                     label = c("$R$: placement rate", "$U$: extra people in work"))
+ggplot(skim, aes(group, value, fill = group)) +
+  geom_col(width = 0.6, show.legend = FALSE) +
+  geom_text(aes(label = shown), vjust = -0.4, size = 3.8) +
+  geom_mathtext(data = titles, aes(x, y, label = label), size = 8.8 / .pt, colour = "grey10",
+                vjust = 0, nudge_y = 4.4) +
+  facet_wrap(~ panel, scales = "free_y") +
+  scale_fill_manual(values = two) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
+  coord_cartesian(clip = "off") +
+  labs(x = "the 100 people sent", y = NULL) +
+  theme(axis.text.y = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        strip.text = element_blank(), plot.margin = margin(t = 18, r = 5.5, b = 5.5, l = 5.5))
+```
+
+Choosing people who would have done well anyway is called cream
+skimming. Heckman, Heinrich and Smith (2002) studied it in US
+job-training centers funded under the Job Training Partnership Act,
+which were judged partly on employment rates. They found the short-run
+measures "weakly, and sometimes perversely, related to long run
+impacts." They also found that cream skimming made little difference
+to the programs' efficiency, in either direction, unlike the invented
+numbers above, and concluded: "Opposition to cream skimming must come
+on equity grounds." Equity here is about who is served; efficiency is
+about the total.
+
+Each of the four difficulties of utilitarianism becomes a choice
+someone makes in building such an agent. Defining utility becomes
+choosing $R$, a measurable stand-in for $U$, and in both examples the
+two come apart. Trading off between people becomes adding the reward up
+over the people the agent serves; the placement rate counts only the
+people referred. Judging acts or rules becomes choosing a policy, a
+rule that treats alike everyone in the same state. Judging each action
+on its own and judging the rule can give different answers: when a rule
+has to treat different situations alike, as a model that sees only a
+few variables about each person does; when places are limited, so that
+one referral uses a place another person could have had; and when
+people respond to the rule itself. Predicting consequences becomes
+choosing a model of what the actions do, which is a causal model.
+
+Is $E_\pi[U]$ a causal quantity? It can be read as one, the expected
+utility if the agent's actions were set by $\pi$, but that reading
+needs assumptions beyond this week's. An intervention in this week's
+sense sets a variable for everyone in a population. Here one agent
+follows a rule. The people and systems it acts on may respond to what
+it does, sometimes adversarially, and what happens to one of them can
+depend on what was done to others. Causal reinforcement learning, a
+subfield surveyed by Deng, Jiang, Long and Zhang (2023), brings causal
+models into reinforcement learning.
+
+These letters clash with the ones used for prediction, which most of
+the course uses.
+
+| | prediction | reinforcement learning |
+|:---|:---|:---|
+| $A$ | sensitive attribute: something a person *is* | action: something an agent *does* |
+| $R$ | risk score, with $\hat Y = 1\{R \ge t\}$ | reward |
+| $U$ | unobserved variable | utility |
+| $S$, $\pi$ | not used | state, policy |
+
+If you read about reinforcement learning you will meet these letters
+with these meanings. New letters invented for this course would teach a
+convention nobody else uses. Two rules are enough. Material that uses
+the reinforcement-learning letters says so in one line at the top, as
+this section does. And the two sets of letters are never mixed inside
+one diagram or one derivation. A classifier described as an agent takes
+its prediction $\hat Y$ as its action, which reinforcement learning
+would write as $A$. Mixing the two there would give $A$ two meanings in
+one line.
+
+<!-- From the notes' Summary, its last sentence:
+
+In reinforcement learning an agent learns a policy, a rule for acting,
+that earns a large reward, and the reward is not the same as the good
+the policy does: a job center judged on its placement rate does best by
+sending people who would have found work anyway.
+
+From the notes' Lenses, the first paragraph:
+
+What are we optimizing or predicting? The job center optimizes its
+placement rate, not the jobs the course creates, and the cleaning robot
+what its camera shows, not the room.
+
+From the notes' Readings, "Cited in the text and not assigned", the three sources of this section:
+
+Deng, Jiang, Long and Zhang,
+[Causal Reinforcement Learning: A Survey](https://openreview.net/forum?id=qqnttX9LPo)
+(*Transactions on Machine Learning Research*, 2023); Amodei, Olah,
+Steinhardt, Christiano, Schulman and Mané,
+[Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)
+(2016); Heckman, Heinrich and Smith,
+[The Performance of Performance Standards](https://www.nber.org/papers/w9002)
+(NBER Working Paper 9002, 2002).
+-->

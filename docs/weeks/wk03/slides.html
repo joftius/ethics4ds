@@ -150,7 +150,6 @@ Joshua Loftus
 <p>Part 1: Normative and applied ethics</p>
 <p>Part 2: Causal models</p>
 <p>Part 3: Confounding and adjustment</p>
-<p>Part 4: Reinforcement learning</p>
 </section>
 <section>
 <section id="part-1-normative-and-applied-ethics" class="title-slide slide level1 center">
@@ -683,153 +682,10 @@ P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 <p>Under the graph without <span class="math inline">\(U\)</span>, adjusting for <span class="math inline">\(Z\)</span> gives the effect. Under this one, the back door through <span class="math inline">\(U\)</span> stays open, and the 10 points probably overstates the effect.</p>
 <p>The data on <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> fit both graphs.</p>
 </div></div>
-</section></section>
-<section>
-<section id="part-4-reinforcement-learning" class="title-slide slide level1 center">
-<h1>Part 4: Reinforcement learning</h1>
-
-</section>
-<section id="reinforcement-learning" class="slide level2">
-<h2>Reinforcement learning</h2>
-<p><strong>Notation:</strong> in this part, the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/rl_loop-1.png" style="width:100.0%" alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Learning: change <span class="math inline">\(\pi\)</span> to make the expected reward <span class="math inline">\(E_\pi[R]\)</span> large.</p>
-<p>A utilitarian wants the largest <span class="math inline">\(E_\pi[U]\)</span>, with <span class="math inline">\(U\)</span> the good we care about. The agent is given <span class="math inline">\(R\)</span>.</p>
-<p>Whether <span class="math inline">\(E_\pi[U]\)</span> is a causal quantity depends on further assumptions.</p>
-</section>
-<section id="a-cleaning-robot" class="slide level2">
-<h2>A cleaning robot</h2>
-<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<ul>
-<li><span class="math inline">\(S\)</span>: the camera’s view</li>
-<li><span class="math inline">\(A\)</span>: move, or clean</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<ul>
-<li><span class="math inline">\(R\)</span>: 1 if no mess in view</li>
-<li><span class="math inline">\(U\)</span>: a clean room</li>
-</ul>
-</div></div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/robot-1.png" style="width:100.0%" alt="Three rooms, each earning reward 1. Left: the robot cleans, and its view shows no mess. Middle: it closes its eyes, and the mess stays. Right: it covers the mess, which stays under the cover."></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="source">
-<p>Amodei, Olah, Steinhardt, Christiano, Schulman and Mané (2016), “Concrete Problems in AI Safety,” sections 2 and 4.</p>
-</div>
-</section>
-<section id="a-job-center-as-an-agent" class="slide level2">
-<h2>A job center as an agent</h2>
-<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
-<p>A variant of the lecture’s job center: 100 places on the course, which helps some people more than others.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">in work six months later, with the course</th>
-<th style="text-align: left;">without it</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">worked last year</td>
-<td style="text-align: left;">70%</td>
-<td style="text-align: left;">64%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">did not</td>
-<td style="text-align: left;">40%</td>
-<td style="text-align: left;">14%</td>
-</tr>
-</tbody>
-</table>
-<div class="columns">
-<div class="column" style="width:40%;">
-<ul>
-<li><span class="math inline">\(S\)</span>: a person’s record</li>
-<li><span class="math inline">\(A\)</span>: refer or not</li>
-</ul>
-</div><div class="column" style="width:60%;">
-<ul>
-<li><span class="math inline">\(R\)</span>: placement rate, the share of referrals in work</li>
-<li><span class="math inline">\(U\)</span>: extra people in work</li>
-</ul>
-</div></div>
-<div class="ask">
-<p>Who does a center judged on <span class="math inline">\(R\)</span> send? Who would a utilitarian send?</p>
-</div>
-</section>
-<section id="cream-skimming" class="slide level2">
-<h2>Cream skimming</h2>
-<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="slides_files/figure-revealjs/skim-1.png" style="width:100.0%" alt="Two panels of invented numbers for the variant job center. Placement rate: 70 percent if it sends people who worked last year, 40 percent if it sends those who did not. Extra people in work: 6 against 26."></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Cream skimming: choosing people who would have found work anyway. In the US Job Training Partnership Act programs, centers were judged on short-run measures (<span class="math inline">\(R\)</span>) that were “weakly, and sometimes perversely, related to long run impacts” (<span class="math inline">\(U\)</span>).</p>
-<div class="source">
-<p>Heckman, Heinrich and Smith (2002), “The Performance of Performance Standards,” NBER Working Paper 9002, abstract.</p>
-</div>
-</section>
-<section id="utilitarianism-with-a-reward" class="slide level2">
-<h2>Utilitarianism with a reward</h2>
-<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
-<p>An agent judges a policy only by the reward it expects. That is consequentialism, with the good defined by whoever chose <span class="math inline">\(R\)</span>.</p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">a difficulty of utilitarianism</th>
-<th style="text-align: left;">in building the agent</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">defining utility</td>
-<td style="text-align: left;">someone chooses <span class="math inline">\(R\)</span>, and <span class="math inline">\(R\)</span> is not <span class="math inline">\(U\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">trading off between people</td>
-<td style="text-align: left;">reward is added up over the people served</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">judging acts or rules</td>
-<td style="text-align: left;">the policy is a rule: it treats alike everyone in the same state</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">predicting consequences</td>
-<td style="text-align: left;">a model of what the actions do, which is a causal model</td>
-</tr>
-</tbody>
-</table>
 </section>
 <section id="lenses-this-week" class="slide level2">
 <h2>Lenses this week</h2>
 <ul>
-<li><strong>What are we optimizing or predicting?</strong> The center’s placement rate, or the jobs the course creates.</li>
 <li><strong>Which comparison gets reported?</strong> Attenders against non-attenders, overall or within rows. The average effect, or the effects within groups defined before treatment.</li>
 <li><strong>You have to choose, so choose, and defend it.</strong> The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph. “Pretending it was forced is its own failure.”</li>
 </ul>

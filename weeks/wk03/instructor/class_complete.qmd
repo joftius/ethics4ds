@@ -13,23 +13,23 @@ execute:
 st313:
   week: 03
   session: class
-  register: 1                      # schema key; optional problem 6 declares the reinforcement-learning letters for its part (b) only. Student-facing text never says "register" (convenor, 11 October)
-  segments:                        # sums to 80: 75 of material and 5 of slack; production 67 (84%); discussion 48. Discussions after the convenor's own week 3 class deck (11 October); the R simulation is optional coding C
+  register: 1                      # schema key; no part of this sheet uses the reinforcement-learning letters, which moved to week 4 (convenor, 13 October). Student-facing text never says "register" (convenor, 11 October)
+  segments:                        # sums to 80: 77 of material and 3 of slack; production 69 (86%); discussion 48. Discussions after the convenor's own week 3 class deck (11 October); the R simulation is optional coding C
     - {label: "discussion 1: Absurd Trolley Problems (neal.fun) in groups; where the group disagreed and which framework each side used; choices that turned on a prediction", minutes: 10, mode: production}
-    - {label: "discussion 2: the arguments brought from the news; whose good is counted; the graph each needs and a rival graph, or what in the evidence rules one out; an argument against the policy that accepts its causal claims", minutes: 12, mode: production,
+    - {label: "discussion 2: an argument from consequences that a student brought or thinks of now (the week 2 task was not set in class); whose good is counted; the graph it needs and a rival graph, or what in the evidence rules one out; an argument against the policy that accepts its causal claims", minutes: 12, mode: production,
        core: CC-08}
-    - {label: "the recall question on the adjustment formula, from memory; problem 1: conditioning and intervening, by hand", minutes: 8, mode: production,
+    - {label: "the recall question on the adjustment formula, from memory; problem 1: conditioning and intervening in an insurer's program where the intervention has a small effect, by hand", minutes: 8, mode: production,
        core: CC-10, results: [R13]}
     - {label: "feedback on problem 1", minutes: 3, mode: exposition}
-    - {label: "problem 2: adjusting for a confounder in a 2x2x2 table, effects that differ between rows, by hand", minutes: 9, mode: production,
+    - {label: "problem 2: retention offers, four variables; choosing an adjustment set, then adjusting for the targeting rating in a table where the sign reverses and effects differ between rows, by hand", minutes: 11, mode: production,
        core: CC-09, results: [R14]}
     - {label: "feedback on problem 2", minutes: 3, mode: exposition}
     - {label: "discussion 3: a predictive algorithm that makes decisions about people; what the Belmont-Menlo principles (half the groups) or the five Cs (the other half) require of it; which requirement needs a causal claim", minutes: 13, mode: production}
     - {label: "discussion 4: four parts of the room each argue that ethical data science should lean mostly on one framework, answering the strongest objection; then a vote", minutes: 13, mode: production}
     - {label: "close: one written sentence on conditioning and intervening", minutes: 2, mode: production}
     - {label: "prep task for next class", minutes: 2, mode: exposition}
-    # slack: 5 (as in week 2: plan 75 in the 80)
-    - {label: "slack: overrun", minutes: 5, mode: exposition}
+    # slack: 3 (two minutes went to problem 2 on 13 October)
+    - {label: "slack: overrun", minutes: 3, mode: exposition}
   history: []
   complications: []
   retrieves: [S4]
@@ -88,19 +88,6 @@ set.seed(313)
 ```
 :::
 
-## In class
-
-1. A game, then a discussion of it.
-2. A discussion of the arguments you brought.
-3. Problems 1 and 2, by hand.
-4. A discussion of a model that makes decisions about people.
-5. A debate, then a vote.
-
-Discussions 1 to 3 are in groups of three or four, then with the room.
-For discussion 4 the room splits into four parts. Each problem is gone
-through as soon as the room has tried it. Everything under "Optional,
-can be done at home" is practice for afterward.
-
 ## Discussion 1: absurd trolley problems
 
 In your group, open
@@ -127,9 +114,14 @@ answer depended on a causal claim, and the game gives no way to check
 it.
 :::
 
-## Discussion 2: the arguments you brought
+## Discussion 2: an argument from consequences
 
-Put your arguments side by side and choose one.
+On your own, take an argument that justifies a rule or a policy by its
+consequences: one you brought, or one you think of now, from the news,
+your university, a job or a company whose service you use. Write it in
+one sentence, with the cause-and-effect claims it needs and any
+evidence given for them. Then put your
+arguments side by side in your group and choose one.
 
 1. What is the action, and which outcome does the argument count?
    Whose good is counted, and whose is left out?
@@ -181,130 +173,155 @@ whole population, not among the people with $X = x$.
 
 ### 1. Conditioning and intervening
 
-A program in the style of the reading's. $U_1, \dots, U_5$ are
-independent, with $U_1 \sim \mathrm{Ber}(0.5)$, $U_2 \sim \mathrm{Ber}(0.6)$,
-$U_3 \sim \mathrm{Ber}(0.2)$, $U_4 \sim \mathrm{Ber}(0.4)$ and
-$U_5 \sim \mathrm{Ber}(0.1)$, where $\mathrm{Ber}(0.6)$ is 1 with
-probability 0.6 and 0 otherwise.
+An insurer's model of its customers, as a program. $U_1, \dots, U_4$
+are independent, with $U_1 \sim \mathrm{Ber}(0.4)$,
+$U_2 \sim \mathrm{Ber}(0.9)$ and $U_3 \sim \mathrm{Ber}(0.4)$, where
+$\mathrm{Ber}(0.9)$ is 1 with probability 0.9 and 0 otherwise, and
+$U_4$ is uniform between 0 and 1.
 
-1. $X := U_1$ (exercise)
-2. $W :=$ if $X = 1$ then $U_3$ else $U_2$ (overweight)
-3. $H :=$ if $X = 1$ then $U_5$ else $U_4$ (heart disease)
+1. $Z := U_1$ (health-conscious)
+2. $X :=$ if $Z = 1$ then $U_2$ else $U_3$ (wears a fitness watch)
+3. $Y :=$ 1 if $U_4 < 0.30 - 0.20Z - 0.05X$, else 0 (makes a claim this year)
+
+So $P(Y = 1 \mid Z, X) = 0.30 - 0.20Z - 0.05X$.
 
 (a) Draw the graph.
 
-(b) Compute $P(W = 1)$ and $P(X = 0 \mid W = 1)$.
+(b) Compute $P(X = 1)$, $P(Z = 1 \mid X = 1)$ and $P(Z = 1 \mid X = 0)$.
 
-(c) Compute $P(H = 1)$, $P(H = 1 \mid W = 1)$ and $P(H = 1 \mid W = 0)$.
+(c) Compute $P(Y = 1 \mid X = 1)$ and $P(Y = 1 \mid X = 0)$. How much
+less often do customers who wear a watch claim?
 
-(d) A program changes everyone's weight to normal: $W := 0$. Compute
-$P(H = 1 \mid do(W := 0))$. What does the program do to heart disease?
+(d) Suppose every customer wore a watch: $X := 1$. Compute
+$P(Y = 1 \mid do(X := 1))$ and $P(Y = 1 \mid do(X := 0))$. How much of
+the difference in (c) is the effect of the watch?
 
-(e) Compute the average treatment effect of exercise on heart disease,
-and compare it with $P(H = 1 \mid X = 1) - P(H = 1 \mid X = 0)$. Are
-they equal? Why?
+(e) The insurer offers customers who wear a watch a discount, citing
+the difference in (c). Which customers get most of it, and how much of
+the difference in (c) would the wearers have had without a watch?
 
 ::: {.callout-tip .answer collapse="true" title="Hint 1"}
-For (b), use Bayes' rule: $P(X = 0 \mid W = 1) = P(W = 1 \mid X = 0)\,P(X = 0)/P(W = 1)$.
+For (b), use Bayes' rule: $P(Z = 1 \mid X = 1) = P(X = 1 \mid Z = 1)\,P(Z = 1)/P(X = 1)$.
 :::
 
 ::: {.callout-tip .answer collapse="true" title="Hint 2"}
-For (c), condition on $X$ first. Given $X$, $W$ and $H$ come from different coins, so they are independent.
+For (c), split by $Z$: $P(Y = 1 \mid X = 1) = \sum_z P(Y = 1 \mid Z = z, X = 1)\,P(Z = z \mid X = 1)$.
 :::
 
 ::: {.callout-tip .answer collapse="true" title="Hint 3"}
-For (d), replace line 2 by $W := 0$ and keep the other two lines. Which variables does $H$ depend on now?
+For (d), replace line 2 by $X := 1$ and keep line 1. What is the distribution of $Z$ now?
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
-(a) $W \leftarrow X \to H$, a fork.
+(a) $Z \to X$, $Z \to Y$ and $X \to Y$.
 
-(b) $P(W = 1) = 0.5 \times 0.2 + 0.5 \times 0.6 = 0.4$, and
-$P(X = 0 \mid W = 1) = 0.5 \times 0.6 / 0.4 = 0.75$.
+(b) $P(X = 1) = 0.4 \times 0.9 + 0.6 \times 0.4 = 0.6$,
+$P(Z = 1 \mid X = 1) = 0.4 \times 0.9 / 0.6 = 0.6$ and
+$P(Z = 1 \mid X = 0) = 0.4 \times 0.1 / 0.4 = 0.1$.
 
-(c) $P(H = 1) = 0.5 \times 0.1 + 0.5 \times 0.4 = 0.25$. Given $X$, $H$
-does not depend on $W$, so
-$P(H = 1 \mid W = 1) = 0.75 \times 0.4 + 0.25 \times 0.1 = 0.325$.
-For $W = 0$: $P(W = 0) = 0.6$ and
-$P(X = 0 \mid W = 0) = 0.5 \times 0.4/0.6 = 1/3$, so
-$P(H = 1 \mid W = 0) = \tfrac13 \times 0.4 + \tfrac23 \times 0.1 = 0.2$.
-Overweight people have heart disease at 0.325, the others at 0.2.
+(c) $P(Y = 1 \mid X = 1) = 0.6 \times 0.05 + 0.4 \times 0.25 = 0.13$ and
+$P(Y = 1 \mid X = 0) = 0.1 \times 0.10 + 0.9 \times 0.30 = 0.28$.
+Customers who wear a watch claim 15 points less often.
 
-(d) The line for $H$ is unchanged and $X$ keeps its distribution, so
-$P(H = 1 \mid do(W := 0)) = P(H = 1) = 0.25$, and the same for
-$do(W := 1)$. The weight program does nothing to heart disease, although
-overweight people had 12.5 points more of it.
+(d) Setting $X$ leaves line 1 alone, so $Z$ keeps its distribution:
+$P(Y = 1 \mid do(X := 1)) = 0.4 \times 0.05 + 0.6 \times 0.25 = 0.17$
+and $P(Y = 1 \mid do(X := 0)) = 0.4 \times 0.10 + 0.6 \times 0.30 = 0.22$.
+The watch lowers claims by 5 points. The other 10 points of (c) come
+from who wears a watch: 60% of the wearers are health-conscious,
+against 10% of the others.
 
-(e) $E[H \mid do(X := 1)] - E[H \mid do(X := 0)] = 0.1 - 0.4 = -0.3$,
-and $P(H = 1 \mid X = 1) - P(H = 1 \mid X = 0) = 0.1 - 0.4 = -0.3$.
-They are equal because no arrow points into $X$: it is set by a coin, as
-in a randomized trial, so there is no backdoor path from $X$ to $H$.
-Overweight people exercise less often (25% of them, against 50% of
-everyone), and that is where their extra heart disease comes from.
+(e) Health-conscious customers, who are 60% of the wearers. Without a
+watch, the wearers would claim at $0.6 \times 0.10 + 0.4 \times 0.30 = 0.18$,
+already 10 points below the others' 0.28. Only 5 of the 15 points are
+the watch's effect, which anyone who wears one would get. A discount
+priced on the 15 points rewards being health-conscious more than
+wearing a watch.
 :::
 
-### 2. Adjusting for a confounder
+### 2. Retention offers
 
-A school offers a revision app before a test. Students who passed the
-previous year's test ($Z = 1$) are more likely to use it ($X = 1$). The
-outcome is passing this year ($Y = 1$).
+A phone company's model rates each customer high ($Z = 1$) or low
+($Z = 0$) risk of leaving. The rating is computed from the customer's
+contract, monthly ($T = 1$) or fixed-term ($T = 0$), and from other
+account data that, we assume, neither affect leaving nor share a cause
+with it. Customers on monthly contracts are more likely to leave
+($Y = 1$: left within three months). The rating is used for one thing
+only: within each rating, the company chose at random which customers
+got a retention offer, a discount ($X = 1$), and it offered more of
+those rated high. The analyst's data have the rating but not the
+contract:
 
-| | used the app ($X = 1$) | did not ($X = 0$) |
-|:---|:---|:---|
-| passed last year ($Z = 1$), 500 students | 320 of 400 passed (80%) | 70 of 100 passed (70%) |
-| did not ($Z = 0$), 500 students | 50 of 100 passed (50%) | 120 of 400 passed (30%) |
+| rating | offer | customers | left |
+|:---|:---|---:|---:|
+| high ($Z = 1$) | yes ($X = 1$) | 150 | 45 |
+| high ($Z = 1$) | no ($X = 0$) | 50 | 20 |
+| low ($Z = 0$) | yes ($X = 1$) | 100 | 5 |
+| low ($Z = 0$) | no ($X = 0$) | 700 | 70 |
 
-(a) Compute the pass rates of users and non-users, and the difference.
+(a) Draw the graph with $T$, $Z$, $X$ and $Y$.
 
-(b) Draw the graph you would assume, and compute the average treatment
-effect of the app with the adjustment formula.
+(b) Which of these sets satisfy the backdoor criterion for the effect of
+$X$ on $Y$: the empty set, $\{T\}$, $\{Z\}$, $\{T, Z\}$?
 
-(c) Compute the difference within each row. How does the average
-treatment effect combine the two?
+(c) Compute the share who left among customers who got an offer and
+among those who did not, and the difference.
 
-(d) A second school has the same pass rates within each cell of the
-table, but only 20% of its students passed last year. What is the
-average treatment effect of the app there?
+(d) Compute the average treatment effect of the offer with the
+adjustment formula, and the difference within each rating.
 
-(e) A head teacher asks whether to buy the app for every student. Which
-of your numbers would you report, and what would you say about it?
+(e) Next quarter the company can afford 250 offers, for customers like
+these. If it wants as few customers as possible to leave, who should
+get them? Who then never gets an offer, and is that fair?
 
 ::: {.callout-tip .answer collapse="true" title="Hint 1"}
-For (a), count the users who passed in both rows, and divide by all users.
+For (b), a backdoor path starts with an arrow into $X$. What points into $X$, and where does that path lead?
 :::
 
 ::: {.callout-tip .answer collapse="true" title="Hint 2"}
-For (b), the adjustment formula weights each row by its share of all students, not by its share of users.
+For (d), the adjustment formula weights each rating by its share of all customers, 20% and 80%, not by its share of the customers who got an offer.
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
-(a) Users: $(320 + 50)/500 = 0.74$. Non-users: $(70 + 120)/500 = 0.38$.
-The difference is $0.36$.
+(a) $T \to Z \to X \to Y$ and $T \to Y$. The rating has no arrow into
+$Y$: it affects leaving only through the offer, and it predicts leaving
+because it is computed from the contract.
 
-(b) $Z \to X$, $Z \to Y$, $X \to Y$.
-$E[Y \mid do(X := 1)] = 0.8 \times 0.5 + 0.5 \times 0.5 = 0.65$ and
-$E[Y \mid do(X := 0)] = 0.7 \times 0.5 + 0.3 \times 0.5 = 0.50$, so the
-average treatment effect is $0.15$.
+(b) The one backdoor path is $X \leftarrow Z \leftarrow T \to Y$.
+$\{T\}$, $\{Z\}$ and $\{T, Z\}$ block it, and none contains a
+descendant of $X$. The empty set leaves it open. $\{Z\}$ works because
+the offer depended on nothing but the rating and chance: a company that
+knows how it chose who got an offer can adjust for what it used, as long as
+each rating includes customers with and without an offer. A rule that
+offered everyone rated high and nobody rated low would leave nothing to
+compare within a rating. If the rating also used something else that
+affects leaving, such as recent complaints, $\{Z\}$ would still work and
+$\{T\}$ would not.
 
-(c) $0.80 - 0.70 = 0.10$ among students who passed last year, and
-$0.50 - 0.30 = 0.20$ among those who did not. The average treatment
-effect is their average weighted by $P(Z = z)$:
-$0.10 \times 0.5 + 0.20 \times 0.5 = 0.15$.
+(c) With an offer: $(45 + 5)/250 = 0.20$. Without:
+$(20 + 70)/750 = 0.12$. Customers who got an offer left 8 points more
+often.
 
-(d) $0.10 \times 0.2 + 0.20 \times 0.8 = 0.18$.
+(d) $E[Y \mid do(X := 1)] = 0.30 \times 0.2 + 0.05 \times 0.8 = 0.10$ and
+$E[Y \mid do(X := 0)] = 0.40 \times 0.2 + 0.10 \times 0.8 = 0.16$, so the
+average treatment effect is $-0.06$: the offer reduces leaving by 6
+points. It reduces leaving by 10 points among customers rated high and
+by 5 among those rated low. The sign of (c) is reversed because 60% of
+the offers went to customers rated high, against 7% of the customers
+without an offer, and customers rated high leave more often with or
+without one.
 
-(e) The average treatment effect, 0.15, compares everyone using the app
-with nobody using it, in this school's mix of students. The head
-teacher's decision is different in two ways. Half the students already
-use the app, so the comparison is with today's pass rate,
-$560/1000 = 0.56$. If everyone used it the rate would be 0.65, an
-increase of 0.09. And buying the app gives access, not use, so the
-increase would be smaller if some students did not use it. The effect
-among today's non-users is $(100 \times 0.10 + 400 \times 0.20)/500 = 0.18$,
-the same as in (d), because the non-users have the second school's mix:
-20% of them passed last year. All of it rests on the graph. If something
-unmeasured, such as motivation, pushed students both to use the app and
-to pass, adjusting for $Z$ would not give the effect.
+(e) If the differences within the ratings are the effects, an offer
+lowers the chance of leaving by 0.10 for a customer rated high and by
+0.05 for one rated low. So the offers go to all 200 customers rated high
+and to 50 rated low: about $200 \times 0.10 + 50 \times 0.05 = 22.5$
+fewer customers leave than with no offers, against
+$150 \times 0.10 + 100 \times 0.05 = 20$ with this quarter's 250 offers.
+The 750 customers rated low who get no offer pay full price, and the
+discounts go to customers who might leave. Whether that is fair is a
+question about who should bear the cost of keeping customers, which a
+count of who left cannot answer. The differences are also estimates from
+one quarter, and the one for customers rated high rests on only 50
+customers without an offer.
 :::
 
 ## Discussion 3: a model that decides about people
@@ -370,9 +387,8 @@ it can for one statement.
 
 Five minutes to prepare, then a minute for each part.
 Each case should answer the strongest objection to it. For
-consequentialism, one objection is the lecture's last question: does it
-become more or less defensible once you have to write the causal model
-down?
+consequentialism, answer this question: does it become more or less
+defensible once you have to write the causal model down?
 
 Then everyone votes, whichever part they argued for. Which account are
 you most convinced of: consequentialist, deontological, virtue or
@@ -405,7 +421,7 @@ will go on the screen.
 
 ## Optional, can be done at home
 
-Practice for afterward: problems 3 to 7, then coding A to C. The
+Practice for afterward: problems 3 to 6, then coding A to C. The
 problems can be done by hand. Attempt each part before you open a hint.
 
 ::: {.callout-warning title="Hints"}
@@ -526,75 +542,44 @@ students who use the library more with those who use it less answers a
 question about those students.
 :::
 
-### 6. Prediction letters and reinforcement-learning letters
+### 6. Hormone therapy
 
-The decision whether to prescribe hormone therapy to prevent heart
-disease can be written with the letters used for prediction or with
-those of reinforcement learning.
+The notes' section on hormone therapy and heart disease gives three
+studies of whether to prescribe hormone therapy to prevent heart
+disease.
 
-(a) Write it with the letters used for prediction. Say what the
-treatment, the outcome and a confounder are, and write the quantity a
-doctor needs with $do(\cdot)$.
+(a) Write the decision with $X$ and $Y$. Say what the treatment and the
+outcome are, and write the quantity a doctor needs with $do(\cdot)$.
 
-(b) Write it with the letters of reinforcement learning, with the
-one-line declaration at the top. Say what the state, the action, the
-reward, the policy and the utility are.
+(b) The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first
+two years, 0.96 over the whole follow-up) come from the same cohort.
+Which comparison did each make?
 
-(c) Which letters would mean different things if you used them in both
-answers?
+(c) Draw a graph under which the 1996 estimate is confounded.
+
+(d) Which comparison matches the decision a doctor makes, and why?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For (a), what does the doctor choose, and what could affect both that choice and heart disease? For (b), what does the doctor know when choosing?
+For (a), what does the doctor choose, and which outcome is the choice about? For (b), ask which two groups each analysis compares.
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
 (a) $X = 1$ if the doctor prescribes hormone therapy, $Y = 1$ if the
-woman has coronary heart disease within five years, $Z$ her
-socioeconomic status.
+woman has coronary heart disease within five years.
 A doctor needs $P(Y = 1 \mid do(X := 1))$ against
 $P(Y = 1 \mid do(X := 0))$, not $P(Y = 1 \mid X = 1)$ against
 $P(Y = 1 \mid X = 0)$.
 
-(b) **Notation:** this answer uses the letters of reinforcement
-learning, $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility. $S$ is
-the patient's state: age, time since the menopause, risk factors. $A$ is
-prescribe or do not. $\pi$ is the prescribing rule from state to
-action. $R$ is a measured reward, such as no heart attack recorded in
-five years. $U$ is what we care about: her health, including breast
-cancer, stroke and fractures as well as the heart.
-
-(c) $A$, $R$ and $U$. With the letters used for prediction they are a
-sensitive attribute, a risk score and an unobserved variable.
-:::
-
-### 7. Hormone therapy
-
-The notes' section on hormone therapy and heart disease gives the three
-studies.
-
-(a) The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first
-two years, 0.96 over the whole follow-up) come from the same cohort.
-Which comparison did each make?
-
-(b) Draw a graph under which the 1996 estimate is confounded.
-
-(c) Which comparison matches the decision a doctor makes, and why?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For (a), ask which two groups each analysis compares.
-:::
-
-::: {.callout-note .answer title="Solution" collapse="true"}
-(a) 1996: women who took estrogen with progestin against women who did
+(b) 1996: women who took estrogen with progestin against women who did
 not use hormones, adjusted for measured confounders. 2008: women who
 started against women who did not start, both followed from the same
 point, analyzed as the trial was.
 
-(b) Socioeconomic status $\to$ hormone use, socioeconomic status $\to$
+(c) Socioeconomic status $\to$ hormone use, socioeconomic status $\to$
 heart disease, with or without an arrow from hormone use to heart
 disease.
 
-(c) The 2008 comparison. The doctor's decision is whether to start,
+(d) The 2008 comparison. The doctor's decision is whether to start,
 and that comparison follows women from the point at which they started
 or did not.
 :::
@@ -653,61 +638,63 @@ only through the mediator $M$; the total effect is 0.5.
 
 #### B. Adjustment on data
 
+The table of problem 2, one row for each customer.
+
 ```{r coding_b_setup}
 cells <- data.frame(Z = c(1, 1, 0, 0), X = c(1, 0, 1, 0),
-                    n = c(400, 100, 100, 400), passed = c(320, 70, 50, 120))
-students <- bind_rows(
-  cells |> mutate(Y = 1, count = passed),
-  cells |> mutate(Y = 0, count = n - passed)
+                    n = c(150, 50, 100, 700), left = c(45, 20, 5, 70))
+customers <- bind_rows(
+  cells |> mutate(Y = 1, count = left),
+  cells |> mutate(Y = 0, count = n - left)
 ) |>
   select(Z, X, Y, count) |>
   tidyr::uncount(count)
-nrow(students)
+nrow(customers)
 ```
 
-1. Compute the pass rates of users and non-users from `students`, and
-   their difference.
-2. Compute the adjusted difference: the difference in pass rates within
-   each value of $Z$, averaged with weights $P(Z = z)$.
-3. A randomized version: give each of 1,000 students the app with
-   probability 0.5, whatever their $Z$, and draw whether they pass from
-   the table's rates. Compute the difference in pass rates. Repeat 200
-   times. What is the average difference, and how much does it vary?
+1. Compute the share who left among customers with an offer and
+   without one, from `customers`, and the difference.
+2. Compute the adjusted difference: the difference within each value of
+   $Z$, averaged with weights $P(Z = z)$.
+3. A randomized version: send each of the 1,000 customers the offer with
+   probability 0.25, whatever their rating, and draw whether they leave
+   from the table's rates. Compute the difference. Repeat 200 times.
+   What is the average difference, and how much does it vary?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For 2: `students |> group_by(Z) |> summarize(...)` gives one row for each value of $Z$; compute the difference in pass rates and the share of students in each row there.
+For 2: `customers |> group_by(Z) |> summarize(...)` gives one row for each value of $Z$; compute the difference and the share of customers in each row there.
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
 ```{r coding_b_solution}
-students |> group_by(X) |> summarize(rate = mean(Y))
+customers |> group_by(X) |> summarize(rate = mean(Y))
 
-rows <- students |>
+rows <- customers |>
   group_by(Z) |>
   summarize(diff = mean(Y[X == 1]) - mean(Y[X == 0]),
-            share = n() / nrow(students))
+            share = n() / nrow(customers))
 sum(rows$diff * rows$share)
 
 rate <- function(z, x) {
-  ifelse(z == 1, ifelse(x == 1, 0.8, 0.7), ifelse(x == 1, 0.5, 0.3))
+  ifelse(z == 1, ifelse(x == 1, 0.30, 0.40), ifelse(x == 1, 0.05, 0.10))
 }
 one_trial <- function() {
-  Z <- rep(c(1, 0), each = 500)
-  X <- rbinom(1000, 1, 0.5)
+  Z <- rep(c(1, 0), times = c(200, 800))
+  X <- rbinom(1000, 1, 0.25)
   Y <- rbinom(1000, 1, rate(Z, X))
   mean(Y[X == 1]) - mean(Y[X == 0])
 }
 trials <- replicate(200, one_trial())
 c(mean = mean(trials), sd = sd(trials))
 ```
-1. 0.74 and 0.38, a difference of 0.36.
+1. 0.20 and 0.12, a difference of 0.08.
 
-2. 0.15.
+2. $-0.06$.
 
-3. The average is close to 0.15, and the differences vary from trial to
-trial with a standard deviation of about 0.03. Randomization removes
-the bias without any model of $Z$, and the price is that a single trial
-can miss by a few points.
+3. The average is close to $-0.06$, and the differences vary from trial
+to trial with a standard deviation of about 0.02. Randomization removes
+the bias without any model of $Z$ or $T$, and the price is that a single
+trial can miss by a few points.
 :::
 
 #### C. Intervening in a program
