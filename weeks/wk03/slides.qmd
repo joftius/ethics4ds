@@ -22,8 +22,8 @@ knitr:
 st313:
   week: 03
   session: lecture
-  register: 1                      # schema key. The reinforcement-learning slides in part 4 each declare their letters in their first line; the table of the two notations is in the notes only (convenor, 11 October). Student-facing text never says "register"
-  segments:                        # sums to 80: 72 of material and 8 of slack; production 25 (31%)
+  register: 1                      # schema key. The reinforcement-learning part moved to week 4 (convenor, 13 October); see _for_wk04/README.md. Student-facing text never says "register"
+  segments:                        # sums to 80: 62 of material and 18 of slack; production 23 (29%)
     # part 1, normative and applied ethics: 19
     - {label: "plan", minutes: 1, mode: exposition}
     - {label: "normative ethics: four frameworks, what each judges and its difficulty", minutes: 3, mode: exposition}
@@ -55,21 +55,15 @@ st313:
     - {label: "randomization deletes the arrow into X", minutes: 1, mode: exposition}
     - {label: "the backdoor criterion; what not to adjust for", minutes: 3, mode: exposition, results: [R14]}
     - {label: "unobserved confounding: two graphs, the same data", minutes: 2, mode: exposition}
-    # part 4, reinforcement learning: 10
-    - {label: "reinforcement learning, its letters declared; the agent maximizes E_pi[R], a utilitarian wants E_pi[U]; whether E_pi[U] is causal depends on further assumptions (causal reinforcement learning is a subfield)", minutes: 2, mode: exposition, register: 2}
-    - {label: "toy example: a cleaning robot rewarded for not seeing mess (Amodei and colleagues 2016)", minutes: 2, mode: exposition, register: 2}
-    - {label: "realistic example, pairs: a job center judged on its placement rate; who does it send, and who would a utilitarian send", minutes: 2, mode: production, register: 2}
-    - {label: "what the placement rate rewards: 70% and 6 jobs against 40% and 26; cream skimming in JTPA, where the short-run measures barely tracked long-run impacts (Heckman, Heinrich and Smith 2002)", minutes: 2, mode: exposition, register: 2}
-    - {label: "utilitarianism with a reward: ms4ds's four difficulties as choices made in building the agent", minutes: 2, mode: exposition, register: 2}
     # close: 5
-    - {label: "lenses this week, with lens A recalled for the reward", minutes: 2, mode: exposition}
+    - {label: "lenses this week", minutes: 2, mode: exposition}
     - {label: "the question that splits the room: hands, and one reason from each side; the task for next time on the same slide", minutes: 3, mode: production}
-    # slack: 8 (plan 72 in the 80: the hormone-therapy slides left and the five Cs came in on 12 October)
-    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 8, mode: exposition}
+    # slack: 18 (plan 62 in the 80: the hormone-therapy slides left and the five Cs came in on 12 October; part 4, reinforcement learning, 10 minutes, moved to week 4 on 13 October)
+    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 18, mode: exposition}
   history: [{minutes: 2, buys: "the Tuskegee study, the National Research Act and the Belmont Report: where the applied principles came from, and why beneficence is a consequentialist clause"}]
   complications: []
-  retrieves: [S4, S2]             # S2: lens A, recalled for the reward in part 4
-  lenses: [A, C, E]                # A recalled in part 4 (what the agent is rewarded for); C and E are the week's lenses
+  retrieves: [S4]
+  lenses: [C, E]
   readings: [fairmlbook-ch5a, ms4ds-ch3-normative, wiki-consequentialism, wiki-belmont-report]
   results: [R13, R14]               # R15, omitted-variable bias, is in the notes (optional section) and optional class problem 3; R16, weighting, is not taught (convenor, 11 October)
   assumes: [ST102]
@@ -157,65 +151,16 @@ draw_dag <- function(nodes, edges, dashed = character(0), highlight = character(
                    linewidth = ifelse(e$col == "black", lw[["black"]], lw[["gold"]]), show.legend = FALSE) +
     scale_linetype_identity() + scale_color_identity()
 }
-
-# Labels with math letters. In `label`, the text between dollar signs is drawn in
-# MathJax_Math, the TeX italic of an older MathJax, which looks like the italic of the
-# slides' formulas; the rest is drawn in the device's default font. The pieces are placed
-# when the plot is drawn, so they stay together at any figure size. A label cannot hold a
-# literal dollar sign, and hjust and vjust are numbers. `nudge_y` moves the labels up by
-# that many points (y = Inf is the top of the panel).
-GeomMathText <- ggproto("GeomMathText", Geom,
-  required_aes = c("x", "y", "label"),
-  default_aes = aes(colour = "black", size = 6, hjust = 0.5, vjust = 0.5),
-  draw_key = draw_key_text,
-  draw_panel = function(data, panel_params, coord, nudge_y = 0) {
-    data <- coord$transform(data, panel_params)
-    labels <- lapply(seq_len(nrow(data)), function(i) {
-      d <- data[i, ]
-      parts <- strsplit(as.character(d$label), "$", fixed = TRUE)[[1]]
-      math <- seq_along(parts) %% 2 == 0
-      keep <- nzchar(parts)
-      if (!any(keep)) return(grid::nullGrob())
-      # math pieces also ask for italic, so that they stay italic if the font is missing
-      font <- function(m) grid::gpar(col = d$colour, fontsize = d$size * .pt,
-                                     fontfamily = if (m) "MathJax_Math" else "",
-                                     fontface = if (m) "italic" else "plain")
-      pieces <- unname(Map(function(p, m) grid::textGrob(p, gp = font(m)), parts[keep], math[keep]))
-      widths <- lapply(pieces, grid::grobWidth)
-      x <- unit(d$x, "native") - d$hjust * Reduce(`+`, widths)
-      # one baseline for all the pieces, placed by the height of the default font's capitals
-      y <- unit(d$y, "native") + unit(nudge_y, "pt") -
-        d$vjust * grid::grobHeight(grid::textGrob("M", gp = font(FALSE)))
-      for (k in seq_along(pieces)) {
-        pieces[[k]] <- grid::editGrob(pieces[[k]], x = x, y = y, just = c("left", "bottom"))
-        x <- x + widths[[k]]
-      }
-      grid::gTree(children = do.call(grid::gList, pieces))
-    })
-    grid::gTree(children = do.call(grid::gList, labels))
-  }
-)
-geom_mathtext <- function(mapping = NULL, data = NULL, ...) {
-  layer(geom = GeomMathText, mapping = mapping, data = data, stat = "identity",
-        position = "identity", show.legend = FALSE, inherit.aes = FALSE, params = list(...))
-}
-# The math letters and pi in the figures are drawn in MathJax_Math. Stop if it is missing,
-# rather than draw them in another font without saying so.
-if (requireNamespace("systemfonts", quietly = TRUE) &&
-    !"MathJax_Math" %in% systemfonts::system_fonts()$family) {
-  stop("The font MathJax_Math is not installed. It draws the math letters in this file's ",
-       "figures (on Debian or Ubuntu: apt-get install fonts-mathjax).")
-}
 ```
 
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 72 in the 80: part 1 19, part 2 15, part 3 23, part 4 10, lenses and the last question 5, then 8 of slack. Dark = rush or skip.
+Compress: the three parts. Plan 62 in the 80: part 1 19, part 2 15, part 3 23, lenses and the last question 5, then 18 of slack. Dark = rush or skip.
 
-Cut order: (1) the observational studies that recommend a practice. Then shorten the pairs work to a show of hands, and the drawing to one graph from the room. Do not cut the drawing, the job center as an agent or the question at the end.
+Cut order: (1) the observational studies that recommend a practice. Then shorten the pairs work to a show of hands, and the drawing to one graph from the room. Do not cut the drawing or the question at the end.
 
-Pace: 0:19 Part 2; 0:34 the job-search course; 0:57 reinforcement learning; 1:07 lenses; 1:12 end.
+Pace: 0:19 Part 2; 0:34 the job-search course; 0:57 lenses; 1:02 end.
 :::
 
 ### Week 3
@@ -225,8 +170,6 @@ Part 1: Normative and applied ethics
 Part 2: Causal models
 
 Part 3: Confounding and adjustment
-
-Part 4: Reinforcement learning
 
 # Part 1: Normative and applied ethics
 
@@ -776,180 +719,12 @@ The data on $X$, $Y$ and $Z$ fit both graphs.
 :::
 ::::
 
-# Part 4: Reinforcement learning
-
-## Reinforcement learning
-
-::: {.notes}
-Say "can be read as causal", not "is causal": one agent is not a treated population, and others may react to it. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.
-:::
-
-**Notation:** in this part, the letters of reinforcement learning: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
-
-```{r rl_loop, fig.height=1.9, dev.args=list(symbolfamily=grDevices::cairoSymbolFont("MathJax_Math", usePUA=FALSE)), fig.alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."}
-# dev.args draws pi in MathJax_Math, the TeX italic of an older MathJax, so that it looks
-# like the pi in the formulas. Where that font is missing, the system substitutes another.
-loop_boxes <- data.frame(x = c(0, 3), y = c(0, 0), label = c("atop(agent, policy~pi)", "environment"))
-loop_top <- data.frame(x = 0.62, y = 0.28, xend = 2.28, yend = 0.28)
-loop_bottom <- data.frame(x = 2.28, y = -0.28, xend = 0.62, yend = -0.28)
-loop_text <- data.frame(x = c(1.45, 1.45), y = c(1.12, -1.12),
-                        label = c("action $A$", "state $S$, reward $R$"))
-ggplot() +
-  geom_curve(data = loop_top, aes(x = x, y = y, xend = xend, yend = yend), curvature = -0.35,
-             arrow = arrow(length = unit(0.3, "cm"), type = "closed"), linewidth = 0.8) +
-  geom_curve(data = loop_bottom, aes(x = x, y = y, xend = xend, yend = yend), curvature = -0.35,
-             arrow = arrow(length = unit(0.3, "cm"), type = "closed"), linewidth = 0.8) +
-  geom_label(data = loop_boxes, aes(x, y, label = label), parse = TRUE, size = 7,
-             label.padding = unit(0.6, "lines"), label.size = 0.6) +
-  geom_mathtext(data = loop_text, aes(x, y, label = label), size = 6.5) +
-  coord_cartesian(xlim = c(-0.9, 3.9), ylim = c(-1.3, 1.3)) +
-  theme_void()
-```
-
-Learning: change $\pi$ to make the expected reward $E_\pi[R]$ large.
-
-A utilitarian wants the largest $E_\pi[U]$, with $U$ the good we care about. The agent is given $R$.
-
-Whether $E_\pi[U]$ is a causal quantity depends on further assumptions.
-
-## A cleaning robot
-
-::: {.notes}
-A toy that runs through the paper by Amodei and colleagues. All three earn full reward; only one cleans the room. The reward is what the robot can check; the utility is what its owner wants.
-:::
-
-**Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
-
-:::: {.columns}
-::: {.column width="50%"}
-- $S$: the camera's view
-- $A$: move, or clean
-:::
-::: {.column width="50%"}
-- $R$: 1 if no mess in view
-- $U$: a clean room
-:::
-::::
-
-```{r robot, fig.width=8, fig.height=2.5, fig.alt="Three rooms, each earning reward 1. Left: the robot cleans, and its view shows no mess. Middle: it closes its eyes, and the mess stays. Right: it covers the mess, which stays under the cover."}
-panels <- c("cleans", "closes its eyes", "covers the mess")
-room <- data.frame(panel = factor(panels, levels = panels))
-cone <- do.call(rbind, lapply(panels[c(1, 3)], function(p)
-  data.frame(panel = p, x = c(2.6, 9.6, 9.6), y = c(2.3, 7.4, 3.0))))
-mess <- data.frame(panel = rep(panels[2:3], each = 2), x = c(7.6, 8.4, 7.6, 8.4), y = c(5.0, 4.3, 5.0, 4.3))
-cover <- data.frame(panel = panels[3], xmin = 6.5, xmax = 9.7, ymin = 3.2, ymax = 6.1)
-caption <- data.frame(panel = panels, x = 5, y = -1.6,
-                      label = c("$R$ = 1, room clean", "$R$ = 1, room dirty", "$R$ = 1, room dirty"))
-for (d in c("cone", "mess", "cover", "caption")) {
-  z <- get(d); z$panel <- factor(z$panel, levels = panels); assign(d, z)
-}
-ggplot() +
-  geom_rect(data = room, aes(xmin = 0, xmax = 10, ymin = 0, ymax = 8), fill = NA, color = slate, linewidth = 0.8) +
-  geom_polygon(data = cone, aes(x, y), fill = gold, alpha = 0.5) +
-  geom_point(data = mess, aes(x, y), size = 7, color = khaki) +
-  geom_rect(data = cover, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), fill = cgray, alpha = 0.8) +
-  geom_point(data = data.frame(x = 2, y = 2), aes(x, y), size = 9, color = navy) +
-  geom_mathtext(data = caption, aes(x, y, label = label), size = 5.6) +
-  facet_wrap(~ panel, nrow = 1) +
-  coord_fixed(xlim = c(-0.3, 10.3), ylim = c(-2.4, 8.3)) +
-  theme_void() + theme(strip.text = element_text(size = 17), panel.spacing = unit(1.5, "lines"))
-```
-
-::: {.source}
-Amodei, Olah, Steinhardt, Christiano, Schulman and Mané (2016), "Concrete Problems in AI Safety," sections 2 and 4.
-:::
-
-## A job center as an agent
-
-::: {.notes}
-Pairs, one minute, then hands for each question. A variant of the lecture's table in which the course helps one group more.
-:::
-
-**Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
-
-A variant of the lecture's job center: 100 places on the course, which helps some people more than others.
-
-| | in work six months later, with the course | without it |
-|:---|:---|:---|
-| worked last year | 70% | 64% |
-| did not | 40% | 14% |
-
-:::: {.columns}
-::: {.column width="40%"}
-- $S$: a person's record
-- $A$: refer or not
-:::
-::: {.column width="60%"}
-- $R$: placement rate, the share of referrals in work
-- $U$: extra people in work
-:::
-::::
-
-::: {.ask}
-Who does a center judged on $R$ send? Who would a utilitarian send?
-:::
-
-## Cream skimming
-
-::: {.notes}
-The numbers are invented, and the quotation is the real case. The same paper finds that cream skimming changed efficiency little either way, and argues that the objection to it is about equity (section VIII).
-:::
-
-**Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
-
-```{r skim, fig.height=2.4, fig.alt="Two panels of invented numbers for the variant job center. Placement rate: 70 percent if it sends people who worked last year, 40 percent if it sends those who did not. Extra people in work: 6 against 26."}
-skim <- data.frame(group = factor(rep(c("worked last year", "did not"), 2), levels = c("worked last year", "did not")),
-                   panel = factor(rep(c("R", "U"), each = 2), levels = c("R", "U")),
-                   value = c(70, 40, 6, 26), shown = c("70%", "40%", "6", "26"))
-# the panels' titles, drawn above the panels by geom_mathtext so that R and U are in the
-# formulas' italic (a strip's text has one font)
-titles <- data.frame(panel = factor(c("R", "U"), levels = c("R", "U")), x = 1.5, y = Inf,
-                     label = c("$R$: placement rate", "$U$: extra people in work"))
-ggplot(skim, aes(group, value, fill = group)) +
-  geom_col(width = 0.6, show.legend = FALSE) +
-  geom_text(aes(label = shown), vjust = -0.4, size = 6) +
-  geom_mathtext(data = titles, aes(x, y, label = label), size = 17 / .pt, colour = "grey10",
-                vjust = 0, nudge_y = 12) +
-  facet_wrap(~ panel, scales = "free_y") +
-  scale_fill_manual(values = two) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
-  coord_cartesian(clip = "off") +
-  labs(x = "the 100 people sent", y = NULL, caption = "invented numbers: the variant job center") +
-  theme(axis.text.y = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        strip.text = element_blank(), plot.margin = margin(t = 30, r = 9, b = 9, l = 9),
-        axis.title.x = element_text(size = 15), plot.caption = element_text(size = 12, color = cgray))
-```
-
-Cream skimming: choosing people who would have found work anyway. In the US Job Training Partnership Act programs, centers were judged on short-run measures ($R$) that were "weakly, and sometimes perversely, related to long run impacts" ($U$).
-
-::: {.source}
-Heckman, Heinrich and Smith (2002), "The Performance of Performance Standards," NBER Working Paper 9002, abstract.
-:::
-
-## Utilitarianism with a reward
-
-::: {.notes}
-Each difficulty of utilitarianism from part 1 is a choice someone makes when building the agent. The robot and the center are both in the first row.
-:::
-
-**Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
-
-An agent judges a policy only by the reward it expects. That is consequentialism, with the good defined by whoever chose $R$.
-
-| a difficulty of utilitarianism | in building the agent |
-|:---|:---|
-| defining utility | someone chooses $R$, and $R$ is not $U$ |
-| trading off between people | reward is added up over the people served |
-| judging acts or rules | the policy is a rule: it treats alike everyone in the same state |
-| predicting consequences | a model of what the actions do, which is a causal model |
-
 ## Lenses this week
 
 ::: {.notes}
-Each lens, what it referred to this week; lens A, from earlier weeks, recalled for the reward. Then the question on the next slide.
+Each lens, what it referred to this week. Then the question on the next slide.
 :::
 
-- **What are we optimizing or predicting?** The center's placement rate, or the jobs the course creates.
 - **Which comparison gets reported?** Attenders against non-attenders, overall or within rows. The average effect, or the effects within groups defined before treatment.
 - **You have to choose, so choose, and defend it.** The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph. "Pretending it was forced is its own failure."
 

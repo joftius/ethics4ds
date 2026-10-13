@@ -1,0 +1,51 @@
+<!--
+Optional problem 6 of the week 3 class sheet, "Prediction letters and reinforcement-learning
+letters", with its hint and solution, from weeks/wk03/instructor/class_complete.qmd
+(removed at commit c07e23e; its part (a) stayed in week 3 as part (a) of problem 6, Hormone therapy).
+It has answers in .answer divs, so it belongs in a teacher's class sheet, not a student one.
+Moved out of week 3 on 13 October 2026 (the lecture ended before it; the convenor
+planned it for week 4). Copied verbatim from week 3 at commit b5e19d3, the last
+commit with the problem. See README.md.
+-->
+
+### 6. Prediction letters and reinforcement-learning letters
+
+The decision whether to prescribe hormone therapy to prevent heart
+disease can be written with the letters used for prediction or with
+those of reinforcement learning.
+
+(a) Write it with the letters used for prediction. Say what the
+treatment, the outcome and a confounder are, and write the quantity a
+doctor needs with $do(\cdot)$.
+
+(b) Write it with the letters of reinforcement learning, with the
+one-line declaration at the top. Say what the state, the action, the
+reward, the policy and the utility are.
+
+(c) Which letters would mean different things if you used them in both
+answers?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For (a), what does the doctor choose, and what could affect both that choice and heart disease? For (b), what does the doctor know when choosing?
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $X = 1$ if the doctor prescribes hormone therapy, $Y = 1$ if the
+woman has coronary heart disease within five years, $Z$ her
+socioeconomic status.
+A doctor needs $P(Y = 1 \mid do(X := 1))$ against
+$P(Y = 1 \mid do(X := 0))$, not $P(Y = 1 \mid X = 1)$ against
+$P(Y = 1 \mid X = 0)$.
+
+(b) **Notation:** this answer uses the letters of reinforcement
+learning, $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility. $S$ is
+the patient's state: age, time since the menopause, risk factors. $A$ is
+prescribe or do not. $\pi$ is the prescribing rule from state to
+action. $R$ is a measured reward, such as no heart attack recorded in
+five years. $U$ is what we care about: her health, including breast
+cancer, stroke and fractures as well as the heart.
+
+(c) $A$, $R$ and $U$. With the letters used for prediction they are a
+sensitive attribute, a risk score and an unobserved variable.
+:::
+

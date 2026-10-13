@@ -245,7 +245,6 @@ window.Quarto = {
   </ul></li>
   <li><a href="#optional-omitted-variable-bias" id="toc-optional-omitted-variable-bias" class="nav-link" data-scroll-target="#optional-omitted-variable-bias">Optional: omitted-variable bias</a></li>
   <li><a href="#unobserved-confounding" id="toc-unobserved-confounding" class="nav-link" data-scroll-target="#unobserved-confounding">Unobserved confounding</a></li>
-  <li><a href="#reinforcement-learning" id="toc-reinforcement-learning" class="nav-link" data-scroll-target="#reinforcement-learning">Reinforcement learning</a></li>
   <li><a href="#an-argument-in-prose" id="toc-an-argument-in-prose" class="nav-link" data-scroll-target="#an-argument-in-prose">An argument in prose</a></li>
   <li><a href="#lenses" id="toc-lenses" class="nav-link" data-scroll-target="#lenses">Lenses</a></li>
   <li><a href="#for-the-class" id="toc-for-the-class" class="nav-link" data-scroll-target="#for-the-class">For the class</a>
@@ -294,7 +293,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>A consequentialist judges an action by what it brings about. Utilitarianism, the best-known form, adds up the good an action does for everyone it affects. To say what an action brings about, you have to compare what would happen if it were taken with what would happen if it were not. That is a causal claim. Data show what happened to the people who took the action, which answers a different question. Large observational studies found less heart disease among women who took hormone therapy after the menopause, and a randomized trial then found more.</p>
 <p>A causal model writes down which variables affect which, and comes with a rule for working out what an intervention would do. With a model in hand, an observed difference can sometimes be turned into an estimate of an effect, by adjusting for the right variables. Which variables are the right ones depends on the model. You cannot read the model off the data, so you have to choose one and defend it.</p>
-<p>To choose between treating everyone and treating no one, a utilitarian needs only the average effect times the number of people, provided that well-being adds up across people and nobody’s outcome depends on anyone else’s treatment. That total does not say who gains and who loses. In reinforcement learning an agent learns a policy, a rule for acting, that earns a large reward, and the reward is not the same as the good the policy does: a job center judged on its placement rate does best by sending people who would have found work anyway.</p>
+<p>To choose between treating everyone and treating no one, a utilitarian needs only the average effect times the number of people, provided that well-being adds up across people and nobody’s outcome depends on anyone else’s treatment. That total does not say who gains and who loses.</p>
 </section>
 <section id="normative-ethics-four-frameworks" class="level2">
 <h2 class="anchored" data-anchor-id="normative-ethics-four-frameworks">Normative ethics: four frameworks</h2>
@@ -655,81 +654,6 @@ Z := U_Z, \qquad X := \alpha Z + U_X, \qquad Y := \beta X + \gamma Z + U_Y .
 <p>Under my graph, adjusting for <span class="math inline">\(Z\)</span> gives the effect, 10 points. Under the colleague’s graph the back door through <span class="math inline">\(U\)</span> is still open. If <span class="math inline">\(U\)</span> pushes people both onto the course and into work, as motivation would, the 10 points is likely to overstate the effect, and the data cannot say by how much. The data on <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> are the same under both graphs, and fit both. To decide between them you need arguments about what sends people onto the course and what helps them find work, and regression output will not supply them.</p>
 <p>A randomized trial is the case where the analyst knows what decided who was assigned the treatment, because the analyst decided it: the arrow into the assignment comes from a coin, so the comparison of the arms has no back door, measured or not. That is why the hormone trial was taken to settle a question that many adjusted observational estimates had not. Most policies cannot be tried that way first. Then the graph is an argument, and a consequentialist’s case for the policy stands or falls with it.</p>
 </section>
-<section id="reinforcement-learning" class="level2">
-<h2 class="anchored" data-anchor-id="reinforcement-learning">Reinforcement learning</h2>
-<p><strong>Notation:</strong> this section uses the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
-<p>An agent observes a <strong>state</strong> <span class="math inline">\(S\)</span>, takes an <strong>action</strong> <span class="math inline">\(A\)</span>, and receives a <strong>reward</strong> <span class="math inline">\(R\)</span>. A <strong>policy</strong> <span class="math inline">\(\pi\)</span> is a rule that chooses the action from the state, <span class="math inline">\(A = \pi(S)\)</span>, and learning means changing the policy to make the expected reward, <span class="math inline">\(E_\pi[R]\)</span>, large, where <span class="math inline">\(E_\pi\)</span> is the expectation when the agent acts by <span class="math inline">\(\pi\)</span>. The <strong>utility</strong> <span class="math inline">\(U\)</span> is what we care about. A utilitarian would choose the policy whose expected utility <span class="math inline">\(E_\pi[U]\)</span> is largest. The agent is given <span class="math inline">\(R\)</span> instead, because <span class="math inline">\(R\)</span> can be measured and <span class="math inline">\(U\)</span> often cannot: in the job center below, <span class="math inline">\(U\)</span> needs what would have happened without the course. <span class="math inline">\(R\)</span> and <span class="math inline">\(U\)</span> can come apart.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="notes_files/figure-html/rl_loop-1.png" class="img-fluid figure-img" alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent." width="576"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Amodei and colleagues (2016) use a cleaning robot as a running example. In these letters, the state is what the robot’s camera shows, the actions are where to move and whether to clean, and the utility is a clean room. If the reward is for not seeing any mess, the robot can earn it by closing its eyes, or by covering the mess with something it cannot see through.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="notes_files/figure-html/robot-1.png" class="img-fluid figure-img" alt="Three rooms, each earning reward 1. Left: the robot cleans, and its view shows no mess. Middle: it closes its eyes, and the mess stays. Right: it covers the mess, which stays under the cover." width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Now a variant of the job center, with 100 places on the course, which helps some people more than others. Of people who worked last year, 70% are in work six months later if they take the course and 64% if they do not; of people who did not work last year, 40% and 14%. The state is a person’s record, the action is to refer or not, and the center is judged on the share of the people it refers who are in work, its placement rate. That rate is its reward. Referring 100 people who worked last year earns a rate of 70% and puts 6 more people in work, on average, than would be in work without the course. Referring 100 who did not earns 40% and puts 26 more in work. A center judged on its placement rate refers the first group; a utilitarian counting the jobs the course creates refers the second, and so serves the people who need the course most.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="notes_files/figure-html/skim-1.png" class="img-fluid figure-img" alt="Two panels of invented numbers for the variant job center. Placement rate: 70 percent if it sends people who worked last year, 40 percent if it sends those who did not. Extra people in work: 6 against 26." width="576"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Choosing people who would have done well anyway is called cream skimming. Heckman, Heinrich and Smith (2002) studied it in US job-training centers funded under the Job Training Partnership Act, which were judged partly on employment rates. They found the short-run measures “weakly, and sometimes perversely, related to long run impacts.” They also found that cream skimming made little difference to the programs’ efficiency, in either direction, unlike the invented numbers above, and concluded: “Opposition to cream skimming must come on equity grounds.” Equity here is about who is served; efficiency is about the total.</p>
-<p>Each of the four difficulties of utilitarianism becomes a choice someone makes in building such an agent. Defining utility becomes choosing <span class="math inline">\(R\)</span>, a measurable stand-in for <span class="math inline">\(U\)</span>, and in both examples the two come apart. Trading off between people becomes adding the reward up over the people the agent serves; the placement rate counts only the people referred. Judging acts or rules becomes choosing a policy, a rule that treats alike everyone in the same state. Judging each action on its own and judging the rule can give different answers: when a rule has to treat different situations alike, as a model that sees only a few variables about each person does; when places are limited, so that one referral uses a place another person could have had; and when people respond to the rule itself. Predicting consequences becomes choosing a model of what the actions do, which is a causal model.</p>
-<p>Is <span class="math inline">\(E_\pi[U]\)</span> a causal quantity? It can be read as one, the expected utility if the agent’s actions were set by <span class="math inline">\(\pi\)</span>, but that reading needs assumptions beyond this week’s. An intervention in this week’s sense sets a variable for everyone in a population. Here one agent follows a rule. The people and systems it acts on may respond to what it does, sometimes adversarially, and what happens to one of them can depend on what was done to others. Causal reinforcement learning, a subfield surveyed by Deng, Jiang, Long and Zhang (2023), brings causal models into reinforcement learning.</p>
-<p>These letters clash with the ones used for prediction, which most of the course uses.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: left;">prediction</th>
-<th style="text-align: left;">reinforcement learning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(A\)</span></td>
-<td style="text-align: left;">sensitive attribute: something a person <em>is</em></td>
-<td style="text-align: left;">action: something an agent <em>does</em></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(R\)</span></td>
-<td style="text-align: left;">risk score, with <span class="math inline">\(\hat Y = 1\{R \ge t\}\)</span></td>
-<td style="text-align: left;">reward</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(U\)</span></td>
-<td style="text-align: left;">unobserved variable</td>
-<td style="text-align: left;">utility</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(S\)</span>, <span class="math inline">\(\pi\)</span></td>
-<td style="text-align: left;">not used</td>
-<td style="text-align: left;">state, policy</td>
-</tr>
-</tbody>
-</table>
-<p>If you read about reinforcement learning you will meet these letters with these meanings. New letters invented for this course would teach a convention nobody else uses. Two rules are enough. Material that uses the reinforcement-learning letters says so in one line at the top, as this section does. And the two sets of letters are never mixed inside one diagram or one derivation. A classifier described as an agent takes its prediction <span class="math inline">\(\hat Y\)</span> as its action, which reinforcement learning would write as <span class="math inline">\(A\)</span>. Mixing the two there would give <span class="math inline">\(A\)</span> two meanings in one line.</p>
-</section>
 <section id="an-argument-in-prose" class="level2">
 <h2 class="anchored" data-anchor-id="an-argument-in-prose">An argument in prose</h2>
 <p>A council says: “Pupils who go to their school’s breakfast club have better attendance and better test results. We will fund a breakfast club in each of our schools, because breakfast clubs improve results.” The argument assumes a graph, and drawing it shows what evidence the council would need.</p>
@@ -746,7 +670,6 @@ Z := U_Z, \qquad X := \alpha Z + U_X, \qquad Y := \beta X + \gamma Z + U_Y .
 </section>
 <section id="lenses" class="level2">
 <h2 class="anchored" data-anchor-id="lenses">Lenses</h2>
-<p>What are we optimizing or predicting? The job center optimizes its placement rate, not the jobs the course creates, and the cleaning robot what its camera shows, not the room.</p>
 <p>Which comparison gets reported? Attenders against non-attenders, or attenders against non-attenders within each row of the table. Women who took hormones against women who did not, or women who started against women who did not, followed from the same day. In each pair the first comparison comes with the data, and the second is the one an action needs. In the course table the first is nearly three times the second. In the hormone studies the first gave 0.39, and the second gave 1.42 over the first two years (interval 0.92 to 2.20) and 0.96 over the whole follow-up (0.78 to 1.18), estimates the authors call similar to the trial’s. And the average effect, or the effects within groups defined before treatment. The first is all a utilitarian choosing between everyone and no one needs; the second is closer to what the Belmont principle of justice asks about.</p>
 <p>You have to choose, so choose, and defend it. “Pretending it was forced is its own failure.” Which variables to adjust for follows from a graph, and you drew the graph. A colleague can draw another that fits the same numbers. The backdoor criterion narrows the choice. Given a graph, it tells you which sets are valid. Drawing the graph is up to you. Declining to draw one does not remove the choice. The argument you are reading has usually drawn it already, as “<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>”, without saying so.</p>
 <p>And why? The observational comparison comes free with the data. The interventional one needs a graph, and a graph is an argument that someone can attack. Whoever is making the case for a policy has a reason to prefer the first.</p>
@@ -781,7 +704,7 @@ Z := U_Z, \qquad X := \alpha Z + U_X, \qquad Y := \beta X + \gamma Z + U_Y .
 <li>Tukey, <a href="https://doi.org/10.1080/00401706.1960.10489909">Conclusions vs Decisions</a> (<em>Technometrics</em> 2(4), 1960, 423–433).</li>
 <li>Bross, <a href="https://doi.org/10.1080/00031305.1974.10479092">The Role of the Statistician: Scientist or Shoe Clerk</a> (<em>The American Statistician</em> 28(4), 1974, 126–127).</li>
 </ul>
-<p>Cited in the text and not assigned: ms4ds, section 3.4, “Causality and ethics”; Grodstein, Stampfer, Manson and colleagues, “Postmenopausal estrogen and progestin use and the risk of cardiovascular disease” (<em>New England Journal of Medicine</em> 335, 1996, 453–461); Writing Group for the Women’s Health Initiative Investigators, “Risks and benefits of estrogen plus progestin in healthy postmenopausal women” (<em>JAMA</em> 288, 2002, 321–333); Humphrey, Chan and Sox, “Postmenopausal hormone replacement therapy and the primary prevention of cardiovascular disease” (<em>Annals of Internal Medicine</em> 137, 2002, 273–284), the review the reading cites; Hernán, Alonso, Logan and colleagues, “Observational studies analyzed like randomized experiments” (<em>Epidemiology</em> 19, 2008, 766–779); Prasad, Jorgenson, Ioannidis and Cifu, “Observational studies often make clinical practice recommendations” (<em>Journal of Clinical Epidemiology</em> 66, 2013, 361–366); Bickel, Hammel and O’Connell, “Sex bias in graduate admissions: data from Berkeley” (<em>Science</em> 187, 1975, 398–404); Pearl, <em>Causality</em> (2009), for the backdoor criterion; Loftus, <a href="https://proceedings.mlr.press/v235/loftus24a.html">Position: The Causal Revolution Needs Scientific Pragmatism</a> (ICML 2024); Deng, Jiang, Long and Zhang, <a href="https://openreview.net/forum?id=qqnttX9LPo">Causal Reinforcement Learning: A Survey</a> (<em>Transactions on Machine Learning Research</em>, 2023); Amodei, Olah, Steinhardt, Christiano, Schulman and Mané, <a href="https://arxiv.org/abs/1606.06565">Concrete Problems in AI Safety</a> (2016); Heckman, Heinrich and Smith, <a href="https://www.nber.org/papers/w9002">The Performance of Performance Standards</a> (NBER Working Paper 9002, 2002).</p>
+<p>Cited in the text and not assigned: ms4ds, section 3.4, “Causality and ethics”; Grodstein, Stampfer, Manson and colleagues, “Postmenopausal estrogen and progestin use and the risk of cardiovascular disease” (<em>New England Journal of Medicine</em> 335, 1996, 453–461); Writing Group for the Women’s Health Initiative Investigators, “Risks and benefits of estrogen plus progestin in healthy postmenopausal women” (<em>JAMA</em> 288, 2002, 321–333); Humphrey, Chan and Sox, “Postmenopausal hormone replacement therapy and the primary prevention of cardiovascular disease” (<em>Annals of Internal Medicine</em> 137, 2002, 273–284), the review the reading cites; Hernán, Alonso, Logan and colleagues, “Observational studies analyzed like randomized experiments” (<em>Epidemiology</em> 19, 2008, 766–779); Prasad, Jorgenson, Ioannidis and Cifu, “Observational studies often make clinical practice recommendations” (<em>Journal of Clinical Epidemiology</em> 66, 2013, 361–366); Bickel, Hammel and O’Connell, “Sex bias in graduate admissions: data from Berkeley” (<em>Science</em> 187, 1975, 398–404); Pearl, <em>Causality</em> (2009), for the backdoor criterion; Loftus, <a href="https://proceedings.mlr.press/v235/loftus24a.html">Position: The Causal Revolution Needs Scientific Pragmatism</a> (ICML 2024).</p>
 
 
 </section>
