@@ -66,119 +66,121 @@ found hard to choose.
 2. Did any of your choices depend on a prediction of what would happen?
    How sure of it were you?
 
-## Discussion 2: an argument from consequences
+## Discussion 2: a model that decides about people
 
-On your own, take an argument that justifies a rule or a policy by its
-consequences: one you brought, or one you think of now, from the news,
-your university, a job or a company whose service you use. Write it in
-one sentence, with the cause-and-effect claims it needs and any
-evidence given for them. Then put your
-arguments side by side in your group and choose one.
+Think of a scenario in which a predictive algorithm is deployed to make,
+or help to make, decisions with large effects on people: which
+applicants get a loan, which patients a GP sees first, which benefit
+claims are checked for fraud. Choose one in your group.
 
-1. What is the action, and which outcome does the argument count?
-   Whose good is counted, and whose is left out?
-2. Draw the causal graph the argument needs, with an arrow for each
-   cause-and-effect claim you listed. Mark the action.
-3. Try to draw a second graph that fits the same evidence and under
-   which the action does nothing. If the evidence makes every such
-   graph hard to believe, say what in the evidence does that.
-4. Argue against the policy without disputing any of its causal
-   claims. Which framework are you using?
+1. Describe the scenario: who uses the model, what it predicts, from
+   what data, and what is decided with it.
+2. Decide what features or mechanisms would have to be in place to
+   satisfy the four Belmont--Menlo principles and the five Cs (consent;
+   clarity; consistency and trust; control and transparency;
+   consequences). Say which principle or C each one serves.
+3. Which of your requirements is about an effect, so that checking it
+   needs a causal claim?
 
-Each group's graph, and its argument from question 4, go on the screen.
+At the end, each group describes its scenario and its requirements to
+the other groups.
 
 ## Problems
 
 Before you start, from memory: what does the adjustment formula
 average, and with what weights?
 
-### 1. Conditioning and intervening
+### 1. A safety course for riders
 
-An insurer's model of its customers, as a program. $U_1, \dots, U_4$
-are independent, with $U_1 \sim \mathrm{Ber}(0.4)$,
-$U_2 \sim \mathrm{Ber}(0.9)$ and $U_3 \sim \mathrm{Ber}(0.4)$, where
-$\mathrm{Ber}(0.9)$ is 1 with probability 0.9 and 0 otherwise, and
-$U_4$ is uniform between 0 and 1.
+A food-delivery platform offers its riders a road-safety course. It
+pushes the course hardest to new riders and to riders who work mostly
+at night. New riders have more accidents than experienced riders, by
+day and by night, and night work raises accidents for both. New riders,
+who book their shifts last, more often work at night. Assume that
+nothing else affects both taking the course and having an accident.
+The platform's records for 1,000 riders, with $Z = 1$ for a rider who
+had joined in the three months before the course was offered, $W = 1$
+for one who then worked mostly at night, $T = 1$ for one who took the
+course and $Y = 1$ for one who had an accident in the six months
+after:
 
-1. $Z := U_1$ (health-conscious)
-2. $X :=$ if $Z = 1$ then $U_2$ else $U_3$ (wears a fitness watch)
-3. $Y :=$ 1 if $U_4 < 0.30 - 0.20Z - 0.05X$, else 0 (makes a claim this year)
+| new ($Z$) | at night ($W$) | course ($T$) | riders | accidents |
+|:---|:---|:---|---:|---:|
+| yes | yes | yes | 70 | 21 |
+| yes | yes | no | 30 | 12 |
+| yes | no | yes | 100 | 10 |
+| yes | no | no | 100 | 15 |
+| no | yes | yes | 80 | 4 |
+| no | yes | no | 120 | 18 |
+| no | no | yes | 50 | 1 |
+| no | no | no | 450 | 18 |
 
-So $P(Y = 1 \mid Z, X) = 0.30 - 0.20Z - 0.05X$.
+(a) Draw the graph with $T$, $Y$, $Z$ and $W$. Which set of variables
+satisfies the backdoor criterion for the effect of $T$ on $Y$?
 
-(a) Draw the graph.
+(b) Compute the share who had an accident among riders who took the
+course and among those who did not.
 
-(b) Compute $P(X = 1)$, $P(Z = 1 \mid X = 1)$ and $P(Z = 1 \mid X = 0)$.
+(c) Compute $P(Y = 1 \mid do(T := 1))$ and $P(Y = 1 \mid do(T := 0))$
+with the adjustment formula, and the average treatment effect.
 
-(c) Compute $P(Y = 1 \mid X = 1)$ and $P(Y = 1 \mid X = 0)$. How much
-less often do customers who wear a watch claim?
+(d) A manager proposes to drop the course, citing (b). An analyst who
+adjusts only for whether riders are new finds that the course lowers
+the chance of an accident by about 2.5 percentage points. What would
+you tell each of them?
 
-(d) Suppose every customer wore a watch: $X := 1$. Compute
-$P(Y = 1 \mid do(X := 1))$ and $P(Y = 1 \mid do(X := 0))$. How much of
-the difference in (c) is the effect of the watch?
+### 2. Backdoor paths
 
-(e) The insurer offers customers who wear a watch a discount, citing
-the difference in (c). Which customers get most of it, and how much of
-the difference in (c) would the wearers have had without a watch?
+In each graph, $T$ is the treatment and $Y$ the outcome.
 
-### 2. Retention offers
+```{r three_graphs, echo=FALSE, fig.height=2.4, fig.width=8}
+graphs <- c("Graph 1", "Graph 2", "Graph 3")
+nodes <- data.frame(panel = rep(graphs, times = c(4, 5, 5)),
+                    name = c("T", "Y", "A", "B", rep(c("T", "Y", "A", "B", "C"), 2)),
+                    x = c(0, 2, 0.3, 1.7, rep(c(0, 2, 0.3, 1.7, 1), 2)),
+                    y = c(0, 0, 1.3, 1.3, rep(c(0, 0, 1.3, 1.3, 0.7), 2)))
+edges <- data.frame(panel = rep(graphs, times = c(4, 5, 7)),
+                    from = c("A", "A", "B", "T",
+                             "A", "A", "B", "B", "T",
+                             "A", "A", "B", "B", "T", "C", "C"),
+                    to = c("T", "B", "Y", "Y",
+                           "T", "C", "C", "Y", "Y",
+                           "T", "C", "C", "Y", "Y", "T", "Y"))
+draw_dag(nodes, edges, xlim = c(-0.4, 2.4), ylim = c(-0.4, 1.7))
+```
 
-A phone company's model rates each customer high ($Z = 1$) or low
-($Z = 0$) risk of leaving. The rating is computed from the customer's
-contract, monthly ($T = 1$) or fixed-term ($T = 0$), and from other
-account data that, we assume, neither affect leaving nor share a cause
-with it. Customers on monthly contracts are more likely to leave
-($Y = 1$: left within three months). The rating is used for one thing
-only: within each rating, the company chose at random which customers
-got a retention offer, a discount ($X = 1$), and it offered more of
-those rated high. The analyst's data have the rating but not the
-contract:
+A path is blocked by a set of variables if somewhere along it
 
-| rating | offer | customers | left |
-|:---|:---|---:|---:|
-| high ($Z = 1$) | yes ($X = 1$) | 150 | 45 |
-| high ($Z = 1$) | no ($X = 0$) | 50 | 20 |
-| low ($Z = 0$) | yes ($X = 1$) | 100 | 5 |
-| low ($Z = 0$) | no ($X = 0$) | 700 | 70 |
+- a fork, $\leftarrow V \to$, or a chain, $\to V \to$ or
+  $\leftarrow V \leftarrow$, has its middle variable $V$ in the set, or
+- a collider, $\to V \leftarrow$, has neither $V$ nor any descendant of
+  $V$ in the set.
 
-(a) Draw the graph with $T$, $Z$, $X$ and $Y$.
+The second rule is the reading's: a path through a collider is blocked
+when you adjust for nothing, and adjusting for the collider opens it.
 
-(b) Which of these sets satisfy the backdoor criterion for the effect of
-$X$ on $Y$: the empty set, $\{T\}$, $\{Z\}$, $\{T, Z\}$?
+(a) For each graph, list the backdoor paths from $T$ to $Y$. Which of
+them are open when you adjust for nothing?
 
-(c) Compute the share who left among customers who got an offer and
-among those who did not, and the difference.
+(b) For each graph, find a smallest set of variables that satisfies the
+backdoor criterion for the effect of $T$ on $Y$. Is it the only one of
+that size?
 
-(d) Compute the average treatment effect of the offer with the
-adjustment formula, and the difference within each rating.
+(c) In graph 2, an analyst adjusts for $C$, because $C$ was measured
+before $T$ and "adjusting for more can't hurt." Which path does that
+open? Suppose $A$, $B$ and $C$ are yes-or-no variables, $A$ and $B$
+are independent, and $A = 1$ or $B = 1$ is enough to make $C = 1$, as
+either disease was enough for admission to hospital in the reading's
+example. Among people with $C = 1$, are $A$ and $B$
+associated, and in which direction?
 
-(e) Next quarter the company can afford 250 offers, for customers like
-these. If it wants as few customers as possible to leave, who should
-get them? Who then never gets an offer, and is that fair?
+(d) In graph 3, only $C$ was measured. Can the effect of $T$ on $Y$ be
+estimated by adjusting for measured variables?
 
-## Discussion 3: a model that decides about people
+## Discussion 3: the case for one framework
 
-Think of a predictive algorithm that makes, or helps to make, decisions
-with large effects on people: which applicants get a loan, which
-patients a GP sees first, which benefit claims are checked for fraud.
-Choose one in your group.
-
-1. Describe the scenario: who uses the model, what it predicts, from
-   what data, and what is decided with it.
-2. Half the groups take the four Belmont--Menlo principles, and half
-   take the five Cs (consent; clarity; consistency and trust; control
-   and transparency; consequences). For each one, say what would have
-   to be in place: a feature of the system, or a procedure around it.
-3. Which of your requirements could be checked only with a causal
-   claim?
-
-Two or three groups describe their scenario and its requirements to the
-room.
-
-## Discussion 4: the case for one framework
-
-The room splits into four parts. Each part prepares the strongest case
-it can for one statement.
+The room splits into three groups. Each group develops an argument for
+one statement and presents it to the other groups.
 
 1. Ethical data science and AI development requires us to lean mostly
    on consequentialist ethics.
@@ -186,36 +188,36 @@ it can for one statement.
    on deontological ethics.
 3. Ethical data science and AI development requires us to lean mostly
    on virtue ethics.
-4. Ethical data science and AI development requires us to lean mostly
-   on pragmatic ethics.
 
-Five minutes to prepare, then a minute for each part.
-Each case should answer the strongest objection to it. For
-consequentialism, answer this question: does it become more or less
-defensible once you have to write the causal model down?
+You have 15 minutes to develop your argument and 2 minutes to present
+it. Think about how to structure it to convince the listener, and
+answer the strongest objection to it. The group arguing for
+consequentialism should also answer this question: does it become more
+or less defensible once you have to write the causal model down?
 
-Then everyone votes, whichever part they argued for. Which account are
-you most convinced of: consequentialist, deontological, virtue or
-pragmatic ethics, a combination, or none of them?
+Then everyone votes for the account they find most convincing, which
+need not be the one their group argued for: consequentialist,
+deontological or virtue ethics for data science and AI, a combination,
+or none of them?
 
 ## If there is time
 
+- One sentence, individually: what is the difference between
+  $P(Y = 1 \mid T = 1)$ and $P(Y = 1 \mid do(T := 1))$?
+- The reading warns against judging an admissions test by how well it
+  predicts success among the students who were admitted. Draw the
+  graph. Where is the collider?
 - "Correlation (more generally, association) is not causation." This
   is true and important, but can it be misused?
 - Can causality be useful in the context of reproducibility? In
   designing and communicating studies?
 - A company tests two versions of its app on its users, without telling
   them, to see which version keeps them using the app longer. Which of
-  the Belmont--Menlo principles does this touch? How would each of the
-  four frameworks judge it?
+  the Belmont--Menlo principles does this touch? How would each
+  framework judge it?
 - Find a sentence in a news report of an observational study that
   avoids saying "causes" but implies a cause. What graph does it
   assume?
-
-## To finish
-
-One sentence, individually: what is the difference between
-$P(Y = 1 \mid X = 1)$ and $P(Y = 1 \mid do(X := 1))$?
 
 ## For next time
 
@@ -349,31 +351,36 @@ In each program, which statements after the one for $X$ use $X$, directly or thr
 
 #### B. Adjustment on data
 
-The table of problem 2, one row for each customer.
+The table of problem 1, one row for each rider.
 
 ```{r coding_b_setup}
-cells <- data.frame(Z = c(1, 1, 0, 0), X = c(1, 0, 1, 0),
-                    n = c(150, 50, 100, 700), left = c(45, 20, 5, 70))
-customers <- bind_rows(
-  cells |> mutate(Y = 1, count = left),
-  cells |> mutate(Y = 0, count = n - left)
+cells <- data.frame(Z = c(1, 1, 1, 1, 0, 0, 0, 0),
+                    W = c(1, 1, 0, 0, 1, 1, 0, 0),
+                    T = c(1, 0, 1, 0, 1, 0, 1, 0),
+                    n = c(70, 30, 100, 100, 80, 120, 50, 450),
+                    accidents = c(21, 12, 10, 15, 4, 18, 1, 18))
+# In base R, T means TRUE; inside dplyr verbs, T is the column
+riders <- bind_rows(
+  cells |> mutate(Y = 1, count = accidents),
+  cells |> mutate(Y = 0, count = n - accidents)
 ) |>
-  select(Z, X, Y, count) |>
+  select(Z, W, T, Y, count) |>
   tidyr::uncount(count)
-nrow(customers)
+nrow(riders)
 ```
 
-1. Compute the share who left among customers with an offer and
-   without one, from `customers`, and the difference.
-2. Compute the adjusted difference: the difference within each value of
-   $Z$, averaged with weights $P(Z = z)$.
-3. A randomized version: send each of the 1,000 customers the offer with
-   probability 0.25, whatever their rating, and draw whether they leave
-   from the table's rates. Compute the difference. Repeat 200 times.
-   What is the average difference, and how much does it vary?
+1. Compute the share with an accident among riders who took the course
+   and among those who did not, from `riders`, and the difference.
+2. Compute the adjusted difference: the difference within each
+   combination of $Z$ and $W$, averaged with weights $P(Z = z, W = w)$.
+   Then adjust for $Z$ alone, and for $W$ alone.
+3. A randomized version: give each of the 1,000 riders the course with
+   probability 0.3, whatever their group, and draw whether they have an
+   accident from the table's rates. Compute the difference. Repeat 200
+   times. What is the average difference, and how much does it vary?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For 2: `customers |> group_by(Z) |> summarize(...)` gives one row for each value of $Z$; compute the difference and the share of customers in each row there.
+For 2: `riders |> group_by(Z, W) |> summarize(...)` gives one row for each group of riders; compute the difference and the group's share of all riders there.
 :::
 
 #### C. Intervening in a program

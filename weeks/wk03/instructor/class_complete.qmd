@@ -14,22 +14,21 @@ st313:
   week: 03
   session: class
   register: 1                      # schema key; no part of this sheet uses the reinforcement-learning letters, which moved to week 4 (convenor, 13 October). Student-facing text never says "register" (convenor, 11 October)
-  segments:                        # sums to 80: 77 of material and 3 of slack; production 69 (86%); discussion 48. Discussions after the convenor's own week 3 class deck (11 October); the R simulation is optional coding C
+  segments:                        # sums to 80: 78 of material and 2 of slack; production 66 (82%); discussion 47. In the order of the class teacher's slides (convenor, 13 October): trolley, activity 1, problem 1, a five-minute break, problem 2, activity 2 and the vote, next class. The R simulation is optional coding C
     - {label: "discussion 1: Absurd Trolley Problems (neal.fun) in groups; where the group disagreed and which framework each side used; choices that turned on a prediction", minutes: 10, mode: production}
-    - {label: "discussion 2: an argument from consequences that a student brought or thinks of now (the week 2 task was not set in class); whose good is counted; the graph it needs and a rival graph, or what in the evidence rules one out; an argument against the policy that accepts its causal claims", minutes: 12, mode: production,
-       core: CC-08}
-    - {label: "the recall question on the adjustment formula, from memory; problem 1: conditioning and intervening in an insurer's program where the intervention has a small effect, by hand", minutes: 8, mode: production,
-       core: CC-10, results: [R13]}
+    - {label: "discussion 2 (the slides' activity 1): a predictive algorithm that makes decisions about people; what the Belmont-Menlo principles and the five Cs require of it, every group both; which requirement needs a causal claim; groups describe theirs", minutes: 14, mode: production}
+    - {label: "the recall question on the adjustment formula, from memory; problem 1: a riders' safety course, four variables (T, Y, Z, W); the adjustment set from the graph, then the adjustment formula over four groups, where the sign reverses, by hand", minutes: 10, mode: production,
+       core: CC-09, results: [R13, R14]}
     - {label: "feedback on problem 1", minutes: 3, mode: exposition}
-    - {label: "problem 2: retention offers, four variables; choosing an adjustment set, then adjusting for the targeting rating in a table where the sign reverses and effects differ between rows, by hand", minutes: 11, mode: production,
+    # the break is neither mode; exposition keeps the production share honest
+    - {label: "break", minutes: 5, mode: exposition}
+    # colliders as in fairmlbook ch. 5, "Colliders"; collider stratification (CC-15) is week 5's core item, introduced here
+    - {label: "problem 2: three graphs; backdoor paths and smallest adjustment sets; adjusting for a collider opens a path; a graph in which no measured set works", minutes: 9, mode: production,
        core: CC-09, results: [R14]}
     - {label: "feedback on problem 2", minutes: 3, mode: exposition}
-    - {label: "discussion 3: a predictive algorithm that makes decisions about people; what the Belmont-Menlo principles (half the groups) or the five Cs (the other half) require of it; which requirement needs a causal claim", minutes: 13, mode: production}
-    - {label: "discussion 4: four parts of the room each argue that ethical data science should lean mostly on one framework, answering the strongest objection; then a vote", minutes: 13, mode: production}
-    - {label: "close: one written sentence on conditioning and intervening", minutes: 2, mode: production}
-    - {label: "prep task for next class", minutes: 2, mode: exposition}
-    # slack: 3 (two minutes went to problem 2 on 13 October)
-    - {label: "slack: overrun", minutes: 3, mode: exposition}
+    - {label: "discussion 3 (the slides' activity 2): three groups each argue that ethical data science should lean mostly on one framework (consequentialist, deontological, virtue), 15 minutes, then 2 minutes each; then the vote", minutes: 23, mode: production}
+    - {label: "prep task for next class", minutes: 1, mode: exposition}
+    - {label: "slack: overrun", minutes: 2, mode: exposition}
   history: []
   complications: []
   retrieves: [S4]
@@ -114,234 +113,24 @@ answer depended on a causal claim, and the game gives no way to check
 it.
 :::
 
-## Discussion 2: an argument from consequences
+## Discussion 2: a model that decides about people
 
-On your own, take an argument that justifies a rule or a policy by its
-consequences: one you brought, or one you think of now, from the news,
-your university, a job or a company whose service you use. Write it in
-one sentence, with the cause-and-effect claims it needs and any
-evidence given for them. Then put your
-arguments side by side in your group and choose one.
-
-1. What is the action, and which outcome does the argument count?
-   Whose good is counted, and whose is left out?
-2. Draw the causal graph the argument needs, with an arrow for each
-   cause-and-effect claim you listed. Mark the action.
-3. Try to draw a second graph that fits the same evidence and under
-   which the action does nothing. If the evidence makes every such
-   graph hard to believe, say what in the evidence does that.
-4. Argue against the policy without disputing any of its causal
-   claims. Which framework are you using?
-
-Each group's graph, and its argument from question 4, go on the screen.
-
-::: {.callout-note .answer title="Rival graphs" collapse="true"}
-Most arguments have a rival graph of one of two kinds: a common cause
-of the action and the outcome, or an arrow that points the other way.
-A rival graph does not show that your argument is wrong. It shows what
-evidence would tell the two graphs apart, which is usually a comparison
-in which the action was not chosen by the people, or the places, that
-also determine the outcome. If the argument rests on a randomized
-trial, no common cause of the assignment and the outcome can explain
-its result, because a coin decided who was assigned the action. What
-is left to question includes chance, whether what the coin assigned is
-the action the argument is about (some people do not take what they
-are assigned), and whether the people in the trial are like the people
-the policy is for.
-:::
-
-::: {.callout-note .answer title="Accepting the causal claims" collapse="true"}
-A utilitarian who accepts every causal claim can still object that the
-outcome counted is not the good that matters, or that the count leaves
-out people the policy affects. A deontologist can object that the
-policy breaks a rule, such as consent, whatever its effects. A virtue
-ethicist can object that it expresses a vice, such as indifference to
-the people it harms. These are disagreements about what matters, and
-better evidence for the causal claims does not settle them.
-:::
-
-## Problems
-
-Before you start, from memory: what does the adjustment formula
-average, and with what weights?
-
-::: {.callout-note .answer title="Solution" collapse="true"}
-It averages the outcome among people with $X = x$ within each value of
-$Z$, with weights $P(Z = z)$: how common each value of $Z$ is in the
-whole population, not among the people with $X = x$.
-:::
-
-### 1. Conditioning and intervening
-
-An insurer's model of its customers, as a program. $U_1, \dots, U_4$
-are independent, with $U_1 \sim \mathrm{Ber}(0.4)$,
-$U_2 \sim \mathrm{Ber}(0.9)$ and $U_3 \sim \mathrm{Ber}(0.4)$, where
-$\mathrm{Ber}(0.9)$ is 1 with probability 0.9 and 0 otherwise, and
-$U_4$ is uniform between 0 and 1.
-
-1. $Z := U_1$ (health-conscious)
-2. $X :=$ if $Z = 1$ then $U_2$ else $U_3$ (wears a fitness watch)
-3. $Y :=$ 1 if $U_4 < 0.30 - 0.20Z - 0.05X$, else 0 (makes a claim this year)
-
-So $P(Y = 1 \mid Z, X) = 0.30 - 0.20Z - 0.05X$.
-
-(a) Draw the graph.
-
-(b) Compute $P(X = 1)$, $P(Z = 1 \mid X = 1)$ and $P(Z = 1 \mid X = 0)$.
-
-(c) Compute $P(Y = 1 \mid X = 1)$ and $P(Y = 1 \mid X = 0)$. How much
-less often do customers who wear a watch claim?
-
-(d) Suppose every customer wore a watch: $X := 1$. Compute
-$P(Y = 1 \mid do(X := 1))$ and $P(Y = 1 \mid do(X := 0))$. How much of
-the difference in (c) is the effect of the watch?
-
-(e) The insurer offers customers who wear a watch a discount, citing
-the difference in (c). Which customers get most of it, and how much of
-the difference in (c) would the wearers have had without a watch?
-
-::: {.callout-tip .answer collapse="true" title="Hint 1"}
-For (b), use Bayes' rule: $P(Z = 1 \mid X = 1) = P(X = 1 \mid Z = 1)\,P(Z = 1)/P(X = 1)$.
-:::
-
-::: {.callout-tip .answer collapse="true" title="Hint 2"}
-For (c), split by $Z$: $P(Y = 1 \mid X = 1) = \sum_z P(Y = 1 \mid Z = z, X = 1)\,P(Z = z \mid X = 1)$.
-:::
-
-::: {.callout-tip .answer collapse="true" title="Hint 3"}
-For (d), replace line 2 by $X := 1$ and keep line 1. What is the distribution of $Z$ now?
-:::
-
-::: {.callout-note .answer title="Solution" collapse="true"}
-(a) $Z \to X$, $Z \to Y$ and $X \to Y$.
-
-(b) $P(X = 1) = 0.4 \times 0.9 + 0.6 \times 0.4 = 0.6$,
-$P(Z = 1 \mid X = 1) = 0.4 \times 0.9 / 0.6 = 0.6$ and
-$P(Z = 1 \mid X = 0) = 0.4 \times 0.1 / 0.4 = 0.1$.
-
-(c) $P(Y = 1 \mid X = 1) = 0.6 \times 0.05 + 0.4 \times 0.25 = 0.13$ and
-$P(Y = 1 \mid X = 0) = 0.1 \times 0.10 + 0.9 \times 0.30 = 0.28$.
-Customers who wear a watch claim 15 points less often.
-
-(d) Setting $X$ leaves line 1 alone, so $Z$ keeps its distribution:
-$P(Y = 1 \mid do(X := 1)) = 0.4 \times 0.05 + 0.6 \times 0.25 = 0.17$
-and $P(Y = 1 \mid do(X := 0)) = 0.4 \times 0.10 + 0.6 \times 0.30 = 0.22$.
-The watch lowers claims by 5 points. The other 10 points of (c) come
-from who wears a watch: 60% of the wearers are health-conscious,
-against 10% of the others.
-
-(e) Health-conscious customers, who are 60% of the wearers. Without a
-watch, the wearers would claim at $0.6 \times 0.10 + 0.4 \times 0.30 = 0.18$,
-already 10 points below the others' 0.28. Only 5 of the 15 points are
-the watch's effect, which anyone who wears one would get. A discount
-priced on the 15 points rewards being health-conscious more than
-wearing a watch.
-:::
-
-### 2. Retention offers
-
-A phone company's model rates each customer high ($Z = 1$) or low
-($Z = 0$) risk of leaving. The rating is computed from the customer's
-contract, monthly ($T = 1$) or fixed-term ($T = 0$), and from other
-account data that, we assume, neither affect leaving nor share a cause
-with it. Customers on monthly contracts are more likely to leave
-($Y = 1$: left within three months). The rating is used for one thing
-only: within each rating, the company chose at random which customers
-got a retention offer, a discount ($X = 1$), and it offered more of
-those rated high. The analyst's data have the rating but not the
-contract:
-
-| rating | offer | customers | left |
-|:---|:---|---:|---:|
-| high ($Z = 1$) | yes ($X = 1$) | 150 | 45 |
-| high ($Z = 1$) | no ($X = 0$) | 50 | 20 |
-| low ($Z = 0$) | yes ($X = 1$) | 100 | 5 |
-| low ($Z = 0$) | no ($X = 0$) | 700 | 70 |
-
-(a) Draw the graph with $T$, $Z$, $X$ and $Y$.
-
-(b) Which of these sets satisfy the backdoor criterion for the effect of
-$X$ on $Y$: the empty set, $\{T\}$, $\{Z\}$, $\{T, Z\}$?
-
-(c) Compute the share who left among customers who got an offer and
-among those who did not, and the difference.
-
-(d) Compute the average treatment effect of the offer with the
-adjustment formula, and the difference within each rating.
-
-(e) Next quarter the company can afford 250 offers, for customers like
-these. If it wants as few customers as possible to leave, who should
-get them? Who then never gets an offer, and is that fair?
-
-::: {.callout-tip .answer collapse="true" title="Hint 1"}
-For (b), a backdoor path starts with an arrow into $X$. What points into $X$, and where does that path lead?
-:::
-
-::: {.callout-tip .answer collapse="true" title="Hint 2"}
-For (d), the adjustment formula weights each rating by its share of all customers, 20% and 80%, not by its share of the customers who got an offer.
-:::
-
-::: {.callout-note .answer title="Solution" collapse="true"}
-(a) $T \to Z \to X \to Y$ and $T \to Y$. The rating has no arrow into
-$Y$: it affects leaving only through the offer, and it predicts leaving
-because it is computed from the contract.
-
-(b) The one backdoor path is $X \leftarrow Z \leftarrow T \to Y$.
-$\{T\}$, $\{Z\}$ and $\{T, Z\}$ block it, and none contains a
-descendant of $X$. The empty set leaves it open. $\{Z\}$ works because
-the offer depended on nothing but the rating and chance: a company that
-knows how it chose who got an offer can adjust for what it used, as long as
-each rating includes customers with and without an offer. A rule that
-offered everyone rated high and nobody rated low would leave nothing to
-compare within a rating. If the rating also used something else that
-affects leaving, such as recent complaints, $\{Z\}$ would still work and
-$\{T\}$ would not.
-
-(c) With an offer: $(45 + 5)/250 = 0.20$. Without:
-$(20 + 70)/750 = 0.12$. Customers who got an offer left 8 points more
-often.
-
-(d) $E[Y \mid do(X := 1)] = 0.30 \times 0.2 + 0.05 \times 0.8 = 0.10$ and
-$E[Y \mid do(X := 0)] = 0.40 \times 0.2 + 0.10 \times 0.8 = 0.16$, so the
-average treatment effect is $-0.06$: the offer reduces leaving by 6
-points. It reduces leaving by 10 points among customers rated high and
-by 5 among those rated low. The sign of (c) is reversed because 60% of
-the offers went to customers rated high, against 7% of the customers
-without an offer, and customers rated high leave more often with or
-without one.
-
-(e) If the differences within the ratings are the effects, an offer
-lowers the chance of leaving by 0.10 for a customer rated high and by
-0.05 for one rated low. So the offers go to all 200 customers rated high
-and to 50 rated low: about $200 \times 0.10 + 50 \times 0.05 = 22.5$
-fewer customers leave than with no offers, against
-$150 \times 0.10 + 100 \times 0.05 = 20$ with this quarter's 250 offers.
-The 750 customers rated low who get no offer pay full price, and the
-discounts go to customers who might leave. Whether that is fair is a
-question about who should bear the cost of keeping customers, which a
-count of who left cannot answer. The differences are also estimates from
-one quarter, and the one for customers rated high rests on only 50
-customers without an offer.
-:::
-
-## Discussion 3: a model that decides about people
-
-Think of a predictive algorithm that makes, or helps to make, decisions
-with large effects on people: which applicants get a loan, which
-patients a GP sees first, which benefit claims are checked for fraud.
-Choose one in your group.
+Think of a scenario in which a predictive algorithm is deployed to make,
+or help to make, decisions with large effects on people: which
+applicants get a loan, which patients a GP sees first, which benefit
+claims are checked for fraud. Choose one in your group.
 
 1. Describe the scenario: who uses the model, what it predicts, from
    what data, and what is decided with it.
-2. Half the groups take the four Belmont--Menlo principles, and half
-   take the five Cs (consent; clarity; consistency and trust; control
-   and transparency; consequences). For each one, say what would have
-   to be in place: a feature of the system, or a procedure around it.
-3. Which of your requirements could be checked only with a causal
-   claim?
+2. Decide what features or mechanisms would have to be in place to
+   satisfy the four Belmont--Menlo principles and the five Cs (consent;
+   clarity; consistency and trust; control and transparency;
+   consequences). Say which principle or C each one serves.
+3. Which of your requirements is about an effect, so that checking it
+   needs a causal claim?
 
-Two or three groups describe their scenario and its requirements to the
-room.
+At the end, each group describes its scenario and its requirements to
+the other groups.
 
 ::: {.callout-note .answer title="An example: suggestions for GPs" collapse="true"}
 A model suggests treatments to NHS GPs, to help them get through
@@ -362,7 +151,7 @@ and may store it. It would need, among other things:
   there are documented cases of medical algorithms biased by race or by
   sex (justice; consistency and trust);
 - storage and processing that meet data-protection law such as the
-  GDPR (respect for law and the public interest);
+  UK GDPR (respect for law and the public interest);
 - care that its records cannot be combined with other sources to
   identify patients (consequences).
 
@@ -371,10 +160,253 @@ when their GP uses the suggestions than when the GP does not is an
 effect, and that requirement needs a causal claim.
 :::
 
-## Discussion 4: the case for one framework
+::: {.callout-note .answer title="An example: checking benefit claims" collapse="true"}
+A council uses a model to choose which housing-benefit claims its
+officers check for fraud. The model was trained on the results of past
+checks and uses each claim and other council records. It would need,
+among other things:
 
-The room splits into four parts. Each part prepares the strongest case
-it can for one statement.
+- a notice to every claimant that a model helps choose which claims are
+  checked, what data it uses and what a check involves (clarity;
+  respect for persons). Consent is weak here, since a claimant cannot
+  refuse and still claim, so the other requirements carry more weight;
+- an officer who looks at each chosen claim before anything happens to
+  it, so that the model only decides which claims are looked at
+  (beneficence; respect for law and the public interest);
+- check rates and error rates compared across groups, such as disabled
+  claimants, single parents or claimants of one nationality, so that
+  the burden of checks does not fall mostly on one group. The past
+  checks the model learned from were themselves chosen by officers, so
+  the model may learn to pick out the claimants they used to suspect
+  (justice; consistency and trust);
+- a way for claimants to see and correct the data used and to challenge
+  a check, and a named officer who answers for the system (respect for
+  law and the public interest; control and transparency);
+- limits on joining other council records to the claims, and on what
+  the results may be used for afterward (consequences).
+
+Whether a check delays payments or causes hardship to honest
+claimants, and whether checks deter fraud, are effects of the council's
+choice to check, so those requirements need causal claims. Whether
+flagged claims are more often fraudulent than claims chosen at random
+is a question about the model's accuracy, and even that is hard to
+measure, because few claims that were not flagged were ever checked.
+:::
+
+## Problems
+
+Before you start, from memory: what does the adjustment formula
+average, and with what weights?
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+It averages the outcome among people with $T = t$ within each group
+defined by the adjustment variables, with weights equal to each
+group's share of the whole population, not its share among the people
+with $T = t$.
+:::
+
+### 1. A safety course for riders
+
+A food-delivery platform offers its riders a road-safety course. It
+pushes the course hardest to new riders and to riders who work mostly
+at night. New riders have more accidents than experienced riders, by
+day and by night, and night work raises accidents for both. New riders,
+who book their shifts last, more often work at night. Assume that
+nothing else affects both taking the course and having an accident.
+The platform's records for 1,000 riders, with $Z = 1$ for a rider who
+had joined in the three months before the course was offered, $W = 1$
+for one who then worked mostly at night, $T = 1$ for one who took the
+course and $Y = 1$ for one who had an accident in the six months
+after:
+
+| new ($Z$) | at night ($W$) | course ($T$) | riders | accidents |
+|:---|:---|:---|---:|---:|
+| yes | yes | yes | 70 | 21 |
+| yes | yes | no | 30 | 12 |
+| yes | no | yes | 100 | 10 |
+| yes | no | no | 100 | 15 |
+| no | yes | yes | 80 | 4 |
+| no | yes | no | 120 | 18 |
+| no | no | yes | 50 | 1 |
+| no | no | no | 450 | 18 |
+
+(a) Draw the graph with $T$, $Y$, $Z$ and $W$. Which set of variables
+satisfies the backdoor criterion for the effect of $T$ on $Y$?
+
+(b) Compute the share who had an accident among riders who took the
+course and among those who did not.
+
+(c) Compute $P(Y = 1 \mid do(T := 1))$ and $P(Y = 1 \mid do(T := 0))$
+with the adjustment formula, and the average treatment effect.
+
+(d) A manager proposes to drop the course, citing (b). An analyst who
+adjusts only for whether riders are new finds that the course lowers
+the chance of an accident by about 2.5 percentage points. What would
+you tell each of them?
+
+::: {.callout-tip .answer collapse="true" title="Hint 1"}
+For (a), list the arrows into $T$. A set that blocks the paths that start with one of them can leave the paths that start with the other open.
+:::
+
+::: {.callout-tip .answer collapse="true" title="Hint 2"}
+For (c), find the share with an accident with and without the course in each of the four groups of riders, then weight each group by its share of all 1,000 riders.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $Z \to W$, $Z \to T$, $W \to T$, $Z \to Y$, $W \to Y$ and
+$T \to Y$.
+
+```{r rider_graph, echo=FALSE, fig.height=2.9, fig.width=3.4}
+# W sits low and Z high, so that the arrowheads arriving at T and at Y stay apart
+draw_dag(data.frame(name = c("T", "Y", "Z", "W"),
+                    x = c(0, 2, 1, 1), y = c(0, 0, 1.9, 0.5)),
+         data.frame(from = c("Z", "Z", "W", "Z", "W", "T"),
+                    to = c("W", "T", "T", "Y", "Y", "Y")),
+         xlim = c(-0.4, 2.4), ylim = c(-0.4, 2.3))
+```
+
+Two arrows point into $T$, and four backdoor paths start with them:
+$T \leftarrow Z \to Y$, $T \leftarrow W \to Y$,
+$T \leftarrow Z \to W \to Y$ and $T \leftarrow W \leftarrow Z \to Y$.
+$\{Z, W\}$ blocks all four, and neither variable is a descendant of
+$T$. $\{Z\}$ alone leaves $T \leftarrow W \to Y$ open, and $\{W\}$
+alone leaves $T \leftarrow Z \to Y$ open. The graph rests on the
+assumption in the question. If cautious riders were both more likely
+to take the course and less likely to have an accident, caution would
+be a back door that nobody measured.
+
+(b) With the course: $(21 + 10 + 4 + 1)/(70 + 100 + 80 + 50) = 36/300 = 0.12$.
+Without: $(12 + 15 + 18 + 18)/(30 + 100 + 120 + 450) = 63/700 = 0.09$.
+Riders who took the course had an accident rate 3 points higher.
+
+(c) Within each group of riders:
+
+| new | at night | share of riders | with the course | without |
+|:---|:---|---:|---:|---:|
+| yes | yes | 0.1 | 21/70 = 0.30 | 12/30 = 0.40 |
+| yes | no | 0.2 | 10/100 = 0.10 | 15/100 = 0.15 |
+| no | yes | 0.2 | 4/80 = 0.05 | 18/120 = 0.15 |
+| no | no | 0.5 | 1/50 = 0.02 | 18/450 = 0.04 |
+
+$P(Y = 1 \mid do(T := 1)) = 0.1 \times 0.30 + 0.2 \times 0.10 + 0.2 \times 0.05 + 0.5 \times 0.02 = 0.07$
+and
+$P(Y = 1 \mid do(T := 0)) = 0.1 \times 0.40 + 0.2 \times 0.15 + 0.2 \times 0.15 + 0.5 \times 0.04 = 0.12$.
+The average treatment effect is $-0.05$: the course lowers the chance
+of an accident by 5 points. The sign of (b) is reversed because 83% of
+the riders who took the course were new or worked at night, against
+36% of those who did not, and those riders have more accidents with or
+without the course.
+
+(d) To the manager: riders who took the course had more accidents
+because the platform gave it to the riders most likely to have one. In
+every group the course lowers the rate. If the graph is right, the 300
+riders who took it would have had about
+$70 \times 0.40 + 100 \times 0.15 + 80 \times 0.15 + 50 \times 0.04 = 57$
+accidents without it, against the 36 they had, so dropping it would
+cost about 21 accidents in six months among riders like these. To the
+analyst: adjusting for $Z$ alone leaves the back door through night
+work, $T \leftarrow W \to Y$, open, and here that hides half the
+effect. (Adjusting for $W$ alone hides nearly all of it.) The 5 points
+and the 21 accidents rest on the graph; offering the course to riders
+chosen at random would test it.
+:::
+
+### 2. Backdoor paths
+
+In each graph, $T$ is the treatment and $Y$ the outcome.
+
+```{r three_graphs, echo=FALSE, fig.height=2.4, fig.width=8}
+graphs <- c("Graph 1", "Graph 2", "Graph 3")
+nodes <- data.frame(panel = rep(graphs, times = c(4, 5, 5)),
+                    name = c("T", "Y", "A", "B", rep(c("T", "Y", "A", "B", "C"), 2)),
+                    x = c(0, 2, 0.3, 1.7, rep(c(0, 2, 0.3, 1.7, 1), 2)),
+                    y = c(0, 0, 1.3, 1.3, rep(c(0, 0, 1.3, 1.3, 0.7), 2)))
+edges <- data.frame(panel = rep(graphs, times = c(4, 5, 7)),
+                    from = c("A", "A", "B", "T",
+                             "A", "A", "B", "B", "T",
+                             "A", "A", "B", "B", "T", "C", "C"),
+                    to = c("T", "B", "Y", "Y",
+                           "T", "C", "C", "Y", "Y",
+                           "T", "C", "C", "Y", "Y", "T", "Y"))
+draw_dag(nodes, edges, xlim = c(-0.4, 2.4), ylim = c(-0.4, 1.7))
+```
+
+A path is blocked by a set of variables if somewhere along it
+
+- a fork, $\leftarrow V \to$, or a chain, $\to V \to$ or
+  $\leftarrow V \leftarrow$, has its middle variable $V$ in the set, or
+- a collider, $\to V \leftarrow$, has neither $V$ nor any descendant of
+  $V$ in the set.
+
+The second rule is the reading's: a path through a collider is blocked
+when you adjust for nothing, and adjusting for the collider opens it.
+
+(a) For each graph, list the backdoor paths from $T$ to $Y$. Which of
+them are open when you adjust for nothing?
+
+(b) For each graph, find a smallest set of variables that satisfies the
+backdoor criterion for the effect of $T$ on $Y$. Is it the only one of
+that size?
+
+(c) In graph 2, an analyst adjusts for $C$, because $C$ was measured
+before $T$ and "adjusting for more can't hurt." Which path does that
+open? Suppose $A$, $B$ and $C$ are yes-or-no variables, $A$ and $B$
+are independent, and $A = 1$ or $B = 1$ is enough to make $C = 1$, as
+either disease was enough for admission to hospital in the reading's
+example. Among people with $C = 1$, are $A$ and $B$
+associated, and in which direction?
+
+(d) In graph 3, only $C$ was measured. Can the effect of $T$ on $Y$ be
+estimated by adjusting for measured variables?
+
+::: {.callout-tip .answer collapse="true" title="Hint 1"}
+A backdoor path starts at $T$ with an arrow into $T$, then follows arrows in either direction to $Y$ without visiting a variable twice.
+:::
+
+::: {.callout-tip .answer collapse="true" title="Hint 2"}
+In graph 3, $C$ is on four backdoor paths. On which of them is it a collider?
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Graph 1: one, $T \leftarrow A \to B \to Y$, open. Graph 2: one,
+$T \leftarrow A \to C \leftarrow B \to Y$, blocked, because $C$ is a
+collider on it. Graph 3: four, $T \leftarrow C \to Y$,
+$T \leftarrow A \to C \to Y$, $T \leftarrow C \leftarrow B \to Y$ and
+$T \leftarrow A \to C \leftarrow B \to Y$. The first three are open;
+the fourth is blocked at the collider $C$.
+
+(b) Graph 1: $\{A\}$ or $\{B\}$. The path can be blocked anywhere along
+it, so the common cause $A$ need not be measured if $B$ is. Graph 2:
+the empty set. Any set without $C$ also works, such as $\{A\}$; a set
+with $C$ and neither $A$ nor $B$ does not. Graph 3: $\{A, C\}$ or
+$\{B, C\}$. Every set that blocks $T \leftarrow C \to Y$ contains $C$,
+and adjusting for $C$ opens $T \leftarrow A \to C \leftarrow B \to Y$,
+so $A$ or $B$ must be added to close it again. No single variable
+works.
+
+(c) It opens $T \leftarrow A \to C \leftarrow B \to Y$. Among people
+with $C = 1$, $A$ and $B$ are negatively associated: among them,
+those with $A = 0$ have $C = 1$ for some other reason, often $B$, so
+$B = 1$ is more common among them than among those with $A = 1$. The
+reading's two diseases
+become negatively correlated among hospital patients in the same way.
+So among people with $C = 1$, $T$ and $Y$ are associated through $A$
+and $B$ even if $T$ does nothing, and adjusting for $C$ creates a bias
+that the empty set did not have. If $A$ raises $T$ and $B$ raises $Y$,
+the comparison within $C = 1$ is biased downward. Measured before $T$
+does not mean safe to adjust for.
+
+(d) No. The empty set leaves $T \leftarrow C \to Y$ open, and $\{C\}$
+opens $T \leftarrow A \to C \leftarrow B \to Y$. Neither satisfies the
+criterion. Adjusting for $C$ may still leave less bias than adjusting
+for nothing; the graph alone does not say. To remove the bias, measure
+$A$ or $B$, or assign $T$ at random.
+:::
+
+## Discussion 3: the case for one framework
+
+The room splits into three groups. Each group develops an argument for
+one statement and presents it to the other groups.
 
 1. Ethical data science and AI development requires us to lean mostly
    on consequentialist ethics.
@@ -382,36 +414,73 @@ it can for one statement.
    on deontological ethics.
 3. Ethical data science and AI development requires us to lean mostly
    on virtue ethics.
-4. Ethical data science and AI development requires us to lean mostly
-   on pragmatic ethics.
 
-Five minutes to prepare, then a minute for each part.
-Each case should answer the strongest objection to it. For
-consequentialism, answer this question: does it become more or less
-defensible once you have to write the causal model down?
+You have 15 minutes to develop your argument and 2 minutes to present
+it. Think about how to structure it to convince the listener, and
+answer the strongest objection to it. The group arguing for
+consequentialism should also answer this question: does it become more
+or less defensible once you have to write the causal model down?
 
-Then everyone votes, whichever part they argued for. Which account are
-you most convinced of: consequentialist, deontological, virtue or
-pragmatic ethics, a combination, or none of them?
+Then everyone votes for the account they find most convincing, which
+need not be the one their group argued for: consequentialist,
+deontological or virtue ethics for data science and AI, a combination,
+or none of them?
+
+::: {.callout-note .answer title="An example: the case for consequentialism" collapse="true"}
+Data science is used to make decisions at scale: who gets a loan, which
+posts are shown, which claims are checked. Such a decision is judged by
+what it does to the people it affects, added up over many cases, and
+the field's own tools (outcomes, comparisons, trials) are built to
+measure that. When every option harms someone, rules give no way to
+weigh one harm against another, and the virtues of individual
+employees say little about a system that no one person runs.
+
+The strongest objection is that adding up outcomes lets a benefit to
+many justify a serious harm to a few. The reply: count how the harms
+and benefits are shared out, not only their total.
+
+Writing the causal model down makes the position more defensible,
+because its claims about consequences become explicit and open to
+criticism. It also shows how much of any consequentialist case rests on
+assumptions that the data cannot check, which is a strong argument
+against it.
+:::
+
+::: {.callout-note .answer title="An example: the case for virtue ethics" collapse="true"}
+Rules cannot anticipate every use of a model, and the consequences of a
+new system can rarely be predicted well enough to add up. What is left
+is the judgment of the people who build and run it. Virtue ethics asks
+what kind of practitioner to be: honest about uncertainty, careful with
+other people's data, willing to say no when a manager wants a
+misleading result. Those are habits a team can train and a profession
+can expect; the ASA's ethical guidelines, in the reading, ask
+statisticians to be honest about the limits of their expertise.
+
+The strongest objection is that "be honest and careful" gives no answer
+in a hard case, such as whether to use a model that helps most
+claimants and wrongly flags a few. The reply: no framework settles that case mechanically. A
+consequentialist needs a causal model and a deontologist a ranking of
+duties, and someone with good judgment has to supply both.
+:::
 
 ## If there is time
 
+- One sentence, individually: what is the difference between
+  $P(Y = 1 \mid T = 1)$ and $P(Y = 1 \mid do(T := 1))$?
+- The reading warns against judging an admissions test by how well it
+  predicts success among the students who were admitted. Draw the
+  graph. Where is the collider?
 - "Correlation (more generally, association) is not causation." This
   is true and important, but can it be misused?
 - Can causality be useful in the context of reproducibility? In
   designing and communicating studies?
 - A company tests two versions of its app on its users, without telling
   them, to see which version keeps them using the app longer. Which of
-  the Belmont--Menlo principles does this touch? How would each of the
-  four frameworks judge it?
+  the Belmont--Menlo principles does this touch? How would each
+  framework judge it?
 - Find a sentence in a news report of an observational study that
   avoids saying "causes" but implies a cause. What graph does it
   assume?
-
-## To finish
-
-One sentence, individually: what is the difference between
-$P(Y = 1 \mid X = 1)$ and $P(Y = 1 \mid do(X := 1))$?
 
 ## For next time
 
@@ -638,62 +707,72 @@ only through the mediator $M$; the total effect is 0.5.
 
 #### B. Adjustment on data
 
-The table of problem 2, one row for each customer.
+The table of problem 1, one row for each rider.
 
 ```{r coding_b_setup}
-cells <- data.frame(Z = c(1, 1, 0, 0), X = c(1, 0, 1, 0),
-                    n = c(150, 50, 100, 700), left = c(45, 20, 5, 70))
-customers <- bind_rows(
-  cells |> mutate(Y = 1, count = left),
-  cells |> mutate(Y = 0, count = n - left)
+cells <- data.frame(Z = c(1, 1, 1, 1, 0, 0, 0, 0),
+                    W = c(1, 1, 0, 0, 1, 1, 0, 0),
+                    T = c(1, 0, 1, 0, 1, 0, 1, 0),
+                    n = c(70, 30, 100, 100, 80, 120, 50, 450),
+                    accidents = c(21, 12, 10, 15, 4, 18, 1, 18))
+# In base R, T means TRUE; inside dplyr verbs, T is the column
+riders <- bind_rows(
+  cells |> mutate(Y = 1, count = accidents),
+  cells |> mutate(Y = 0, count = n - accidents)
 ) |>
-  select(Z, X, Y, count) |>
+  select(Z, W, T, Y, count) |>
   tidyr::uncount(count)
-nrow(customers)
+nrow(riders)
 ```
 
-1. Compute the share who left among customers with an offer and
-   without one, from `customers`, and the difference.
-2. Compute the adjusted difference: the difference within each value of
-   $Z$, averaged with weights $P(Z = z)$.
-3. A randomized version: send each of the 1,000 customers the offer with
-   probability 0.25, whatever their rating, and draw whether they leave
-   from the table's rates. Compute the difference. Repeat 200 times.
-   What is the average difference, and how much does it vary?
+1. Compute the share with an accident among riders who took the course
+   and among those who did not, from `riders`, and the difference.
+2. Compute the adjusted difference: the difference within each
+   combination of $Z$ and $W$, averaged with weights $P(Z = z, W = w)$.
+   Then adjust for $Z$ alone, and for $W$ alone.
+3. A randomized version: give each of the 1,000 riders the course with
+   probability 0.3, whatever their group, and draw whether they have an
+   accident from the table's rates. Compute the difference. Repeat 200
+   times. What is the average difference, and how much does it vary?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For 2: `customers |> group_by(Z) |> summarize(...)` gives one row for each value of $Z$; compute the difference and the share of customers in each row there.
+For 2: `riders |> group_by(Z, W) |> summarize(...)` gives one row for each group of riders; compute the difference and the group's share of all riders there.
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
 ```{r coding_b_solution}
-customers |> group_by(X) |> summarize(rate = mean(Y))
+riders |> group_by(T) |> summarize(rate = mean(Y))
 
-rows <- customers |>
-  group_by(Z) |>
-  summarize(diff = mean(Y[X == 1]) - mean(Y[X == 0]),
-            share = n() / nrow(customers))
-sum(rows$diff * rows$share)
-
-rate <- function(z, x) {
-  ifelse(z == 1, ifelse(x == 1, 0.30, 0.40), ifelse(x == 1, 0.05, 0.10))
+adjusted <- function(...) {
+  rows <- riders |>
+    group_by(...) |>
+    summarize(diff = mean(Y[T == 1]) - mean(Y[T == 0]),
+              share = n() / nrow(riders), .groups = "drop")
+  sum(rows$diff * rows$share)
 }
+round(c(both = adjusted(Z, W), Z_only = adjusted(Z), W_only = adjusted(W)), 3)
+
+rates <- riders |> group_by(Z, W, T) |> summarize(rate = mean(Y), .groups = "drop")
+groups <- cells |> group_by(Z, W) |> summarize(n = sum(n), .groups = "drop")
 one_trial <- function() {
-  Z <- rep(c(1, 0), times = c(200, 800))
-  X <- rbinom(1000, 1, 0.25)
-  Y <- rbinom(1000, 1, rate(Z, X))
-  mean(Y[X == 1]) - mean(Y[X == 0])
+  trial <- groups |>
+    tidyr::uncount(n) |>
+    mutate(T = rbinom(n(), 1, 0.3)) |>
+    left_join(rates, by = c("Z", "W", "T")) |>
+    mutate(Y = rbinom(n(), 1, rate))
+  mean(trial$Y[trial$T == 1]) - mean(trial$Y[trial$T == 0])
 }
 trials <- replicate(200, one_trial())
 c(mean = mean(trials), sd = sd(trials))
 ```
-1. 0.20 and 0.12, a difference of 0.08.
+1. 0.12 and 0.09, a difference of 0.03.
 
-2. $-0.06$.
+2. $-0.05$ with both. With $Z$ alone about $-0.025$, and with $W$ alone
+about $-0.001$: each leaves one back door open.
 
-3. The average is close to $-0.06$, and the differences vary from trial
+3. The average is close to $-0.05$, and the differences vary from trial
 to trial with a standard deviation of about 0.02. Randomization removes
-the bias without any model of $Z$ or $T$, and the price is that a single
+the bias without measuring $Z$ or $W$, and the price is that a single
 trial can miss by a few points.
 :::
 
