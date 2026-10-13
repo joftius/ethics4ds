@@ -218,16 +218,14 @@ window.Quarto = {
    
   <ul>
   <li><a href="#discussion-1-absurd-trolley-problems" id="toc-discussion-1-absurd-trolley-problems" class="nav-link active" data-scroll-target="#discussion-1-absurd-trolley-problems">Discussion 1: absurd trolley problems</a></li>
-  <li><a href="#discussion-2-an-argument-from-consequences" id="toc-discussion-2-an-argument-from-consequences" class="nav-link" data-scroll-target="#discussion-2-an-argument-from-consequences">Discussion 2: an argument from consequences</a></li>
+  <li><a href="#discussion-2-a-model-that-decides-about-people" id="toc-discussion-2-a-model-that-decides-about-people" class="nav-link" data-scroll-target="#discussion-2-a-model-that-decides-about-people">Discussion 2: a model that decides about people</a></li>
   <li><a href="#problems" id="toc-problems" class="nav-link" data-scroll-target="#problems">Problems</a>
   <ul class="collapse">
-  <li><a href="#conditioning-and-intervening" id="toc-conditioning-and-intervening" class="nav-link" data-scroll-target="#conditioning-and-intervening">1. Conditioning and intervening</a></li>
-  <li><a href="#retention-offers" id="toc-retention-offers" class="nav-link" data-scroll-target="#retention-offers">2. Retention offers</a></li>
+  <li><a href="#a-safety-course-for-riders" id="toc-a-safety-course-for-riders" class="nav-link" data-scroll-target="#a-safety-course-for-riders">1. A safety course for riders</a></li>
+  <li><a href="#backdoor-paths" id="toc-backdoor-paths" class="nav-link" data-scroll-target="#backdoor-paths">2. Backdoor paths</a></li>
   </ul></li>
-  <li><a href="#discussion-3-a-model-that-decides-about-people" id="toc-discussion-3-a-model-that-decides-about-people" class="nav-link" data-scroll-target="#discussion-3-a-model-that-decides-about-people">Discussion 3: a model that decides about people</a></li>
-  <li><a href="#discussion-4-the-case-for-one-framework" id="toc-discussion-4-the-case-for-one-framework" class="nav-link" data-scroll-target="#discussion-4-the-case-for-one-framework">Discussion 4: the case for one framework</a></li>
+  <li><a href="#discussion-3-the-case-for-one-framework" id="toc-discussion-3-the-case-for-one-framework" class="nav-link" data-scroll-target="#discussion-3-the-case-for-one-framework">Discussion 3: the case for one framework</a></li>
   <li><a href="#if-there-is-time" id="toc-if-there-is-time" class="nav-link" data-scroll-target="#if-there-is-time">If there is time</a></li>
-  <li><a href="#to-finish" id="toc-to-finish" class="nav-link" data-scroll-target="#to-finish">To finish</a></li>
   <li><a href="#for-next-time" id="toc-for-next-time" class="nav-link" data-scroll-target="#for-next-time">For next time</a></li>
   <li><a href="#optional-can-be-done-at-home" id="toc-optional-can-be-done-at-home" class="nav-link" data-scroll-target="#optional-can-be-done-at-home">Optional, can be done at home</a>
   <ul class="collapse">
@@ -290,119 +288,145 @@ Note
 <li>Did any of your choices depend on a prediction of what would happen? How sure of it were you?</li>
 </ol>
 </section>
-<section id="discussion-2-an-argument-from-consequences" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-2-an-argument-from-consequences">Discussion 2: an argument from consequences</h2>
-<p>On your own, take an argument that justifies a rule or a policy by its consequences: one you brought, or one you think of now, from the news, your university, a job or a company whose service you use. Write it in one sentence, with the cause-and-effect claims it needs and any evidence given for them. Then put your arguments side by side in your group and choose one.</p>
+<section id="discussion-2-a-model-that-decides-about-people" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-2-a-model-that-decides-about-people">Discussion 2: a model that decides about people</h2>
+<p>Think of a scenario in which a predictive algorithm is deployed to make, or help to make, decisions with large effects on people: which applicants get a loan, which patients a GP sees first, which benefit claims are checked for fraud. Choose one in your group.</p>
 <ol type="1">
-<li>What is the action, and which outcome does the argument count? Whose good is counted, and whose is left out?</li>
-<li>Draw the causal graph the argument needs, with an arrow for each cause-and-effect claim you listed. Mark the action.</li>
-<li>Try to draw a second graph that fits the same evidence and under which the action does nothing. If the evidence makes every such graph hard to believe, say what in the evidence does that.</li>
-<li>Argue against the policy without disputing any of its causal claims. Which framework are you using?</li>
+<li>Describe the scenario: who uses the model, what it predicts, from what data, and what is decided with it.</li>
+<li>Decide what features or mechanisms would have to be in place to satisfy the four Belmont–Menlo principles and the five Cs (consent; clarity; consistency and trust; control and transparency; consequences). Say which principle or C each one serves.</li>
+<li>Which of your requirements is about an effect, so that checking it needs a causal claim?</li>
 </ol>
-<p>Each group’s graph, and its argument from question 4, go on the screen.</p>
+<p>At the end, each group describes its scenario and its requirements to the other groups.</p>
 </section>
 <section id="problems" class="level2">
 <h2 class="anchored" data-anchor-id="problems">Problems</h2>
 <p>Before you start, from memory: what does the adjustment formula average, and with what weights?</p>
-<section id="conditioning-and-intervening" class="level3">
-<h3 class="anchored" data-anchor-id="conditioning-and-intervening">1. Conditioning and intervening</h3>
-<p>An insurer’s model of its customers, as a program. <span class="math inline">\(U_1, \dots, U_4\)</span> are independent, with <span class="math inline">\(U_1 \sim \mathrm{Ber}(0.4)\)</span>, <span class="math inline">\(U_2 \sim \mathrm{Ber}(0.9)\)</span> and <span class="math inline">\(U_3 \sim \mathrm{Ber}(0.4)\)</span>, where <span class="math inline">\(\mathrm{Ber}(0.9)\)</span> is 1 with probability 0.9 and 0 otherwise, and <span class="math inline">\(U_4\)</span> is uniform between 0 and 1.</p>
-<ol type="1">
-<li><span class="math inline">\(Z := U_1\)</span> (health-conscious)</li>
-<li><span class="math inline">\(X :=\)</span> if <span class="math inline">\(Z = 1\)</span> then <span class="math inline">\(U_2\)</span> else <span class="math inline">\(U_3\)</span> (wears a fitness watch)</li>
-<li><span class="math inline">\(Y :=\)</span> 1 if <span class="math inline">\(U_4 &lt; 0.30 - 0.20Z - 0.05X\)</span>, else 0 (makes a claim this year)</li>
-</ol>
-<p>So <span class="math inline">\(P(Y = 1 \mid Z, X) = 0.30 - 0.20Z - 0.05X\)</span>.</p>
-<ol type="a">
-<li><p>Draw the graph.</p></li>
-<li><p>Compute <span class="math inline">\(P(X = 1)\)</span>, <span class="math inline">\(P(Z = 1 \mid X = 1)\)</span> and <span class="math inline">\(P(Z = 1 \mid X = 0)\)</span>.</p></li>
-<li><p>Compute <span class="math inline">\(P(Y = 1 \mid X = 1)\)</span> and <span class="math inline">\(P(Y = 1 \mid X = 0)\)</span>. How much less often do customers who wear a watch claim?</p></li>
-<li><p>Suppose every customer wore a watch: <span class="math inline">\(X := 1\)</span>. Compute <span class="math inline">\(P(Y = 1 \mid do(X := 1))\)</span> and <span class="math inline">\(P(Y = 1 \mid do(X := 0))\)</span>. How much of the difference in (c) is the effect of the watch?</p></li>
-<li><p>The insurer offers customers who wear a watch a discount, citing the difference in (c). Which customers get most of it, and how much of the difference in (c) would the wearers have had without a watch?</p></li>
-</ol>
-</section>
-<section id="retention-offers" class="level3">
-<h3 class="anchored" data-anchor-id="retention-offers">2. Retention offers</h3>
-<p>A phone company’s model rates each customer high (<span class="math inline">\(Z = 1\)</span>) or low (<span class="math inline">\(Z = 0\)</span>) risk of leaving. The rating is computed from the customer’s contract, monthly (<span class="math inline">\(T = 1\)</span>) or fixed-term (<span class="math inline">\(T = 0\)</span>), and from other account data that, we assume, neither affect leaving nor share a cause with it. Customers on monthly contracts are more likely to leave (<span class="math inline">\(Y = 1\)</span>: left within three months). The rating is used for one thing only: within each rating, the company chose at random which customers got a retention offer, a discount (<span class="math inline">\(X = 1\)</span>), and it offered more of those rated high. The analyst’s data have the rating but not the contract:</p>
+<section id="a-safety-course-for-riders" class="level3">
+<h3 class="anchored" data-anchor-id="a-safety-course-for-riders">1. A safety course for riders</h3>
+<p>A food-delivery platform offers its riders a road-safety course. It pushes the course hardest to new riders and to riders who work mostly at night. New riders have more accidents than experienced riders, by day and by night, and night work raises accidents for both. New riders, who book their shifts last, more often work at night. Assume that nothing else affects both taking the course and having an accident. The platform’s records for 1,000 riders, with <span class="math inline">\(Z = 1\)</span> for a rider who had joined in the three months before the course was offered, <span class="math inline">\(W = 1\)</span> for one who then worked mostly at night, <span class="math inline">\(T = 1\)</span> for one who took the course and <span class="math inline">\(Y = 1\)</span> for one who had an accident in the six months after:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">rating</th>
-<th style="text-align: left;">offer</th>
-<th style="text-align: right;">customers</th>
-<th style="text-align: right;">left</th>
+<th style="text-align: left;">new (<span class="math inline">\(Z\)</span>)</th>
+<th style="text-align: left;">at night (<span class="math inline">\(W\)</span>)</th>
+<th style="text-align: left;">course (<span class="math inline">\(T\)</span>)</th>
+<th style="text-align: right;">riders</th>
+<th style="text-align: right;">accidents</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">high (<span class="math inline">\(Z = 1\)</span>)</td>
-<td style="text-align: left;">yes (<span class="math inline">\(X = 1\)</span>)</td>
-<td style="text-align: right;">150</td>
-<td style="text-align: right;">45</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">21</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">high (<span class="math inline">\(Z = 1\)</span>)</td>
-<td style="text-align: left;">no (<span class="math inline">\(X = 0\)</span>)</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: right;">20</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">12</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">low (<span class="math inline">\(Z = 0\)</span>)</td>
-<td style="text-align: left;">yes (<span class="math inline">\(X = 1\)</span>)</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">yes</td>
 <td style="text-align: right;">100</td>
-<td style="text-align: right;">5</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">low (<span class="math inline">\(Z = 0\)</span>)</td>
-<td style="text-align: left;">no (<span class="math inline">\(X = 0\)</span>)</td>
-<td style="text-align: right;">700</td>
-<td style="text-align: right;">70</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">18</td>
 </tr>
 </tbody>
 </table>
 <ol type="a">
-<li><p>Draw the graph with <span class="math inline">\(T\)</span>, <span class="math inline">\(Z\)</span>, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p></li>
-<li><p>Which of these sets satisfy the backdoor criterion for the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>: the empty set, <span class="math inline">\(\{T\}\)</span>, <span class="math inline">\(\{Z\}\)</span>, <span class="math inline">\(\{T, Z\}\)</span>?</p></li>
-<li><p>Compute the share who left among customers who got an offer and among those who did not, and the difference.</p></li>
-<li><p>Compute the average treatment effect of the offer with the adjustment formula, and the difference within each rating.</p></li>
-<li><p>Next quarter the company can afford 250 offers, for customers like these. If it wants as few customers as possible to leave, who should get them? Who then never gets an offer, and is that fair?</p></li>
+<li><p>Draw the graph with <span class="math inline">\(T\)</span>, <span class="math inline">\(Y\)</span>, <span class="math inline">\(Z\)</span> and <span class="math inline">\(W\)</span>. Which set of variables satisfies the backdoor criterion for the effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span>?</p></li>
+<li><p>Compute the share who had an accident among riders who took the course and among those who did not.</p></li>
+<li><p>Compute <span class="math inline">\(P(Y = 1 \mid do(T := 1))\)</span> and <span class="math inline">\(P(Y = 1 \mid do(T := 0))\)</span> with the adjustment formula, and the average treatment effect.</p></li>
+<li><p>A manager proposes to drop the course, citing (b). An analyst who adjusts only for whether riders are new finds that the course lowers the chance of an accident by about 2.5 percentage points. What would you tell each of them?</p></li>
+</ol>
+</section>
+<section id="backdoor-paths" class="level3">
+<h3 class="anchored" data-anchor-id="backdoor-paths">2. Backdoor paths</h3>
+<p>In each graph, <span class="math inline">\(T\)</span> is the treatment and <span class="math inline">\(Y\)</span> the outcome.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="class_files/figure-html/three_graphs-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A path is blocked by a set of variables if somewhere along it</p>
+<ul>
+<li>a fork, <span class="math inline">\(\leftarrow V \to\)</span>, or a chain, <span class="math inline">\(\to V \to\)</span> or <span class="math inline">\(\leftarrow V \leftarrow\)</span>, has its middle variable <span class="math inline">\(V\)</span> in the set, or</li>
+<li>a collider, <span class="math inline">\(\to V \leftarrow\)</span>, has neither <span class="math inline">\(V\)</span> nor any descendant of <span class="math inline">\(V\)</span> in the set.</li>
+</ul>
+<p>The second rule is the reading’s: a path through a collider is blocked when you adjust for nothing, and adjusting for the collider opens it.</p>
+<ol type="a">
+<li><p>For each graph, list the backdoor paths from <span class="math inline">\(T\)</span> to <span class="math inline">\(Y\)</span>. Which of them are open when you adjust for nothing?</p></li>
+<li><p>For each graph, find a smallest set of variables that satisfies the backdoor criterion for the effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span>. Is it the only one of that size?</p></li>
+<li><p>In graph 2, an analyst adjusts for <span class="math inline">\(C\)</span>, because <span class="math inline">\(C\)</span> was measured before <span class="math inline">\(T\)</span> and “adjusting for more can’t hurt.” Which path does that open? Suppose <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span> are yes-or-no variables, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent, and <span class="math inline">\(A = 1\)</span> or <span class="math inline">\(B = 1\)</span> is enough to make <span class="math inline">\(C = 1\)</span>, as either disease was enough for admission to hospital in the reading’s example. Among people with <span class="math inline">\(C = 1\)</span>, are <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> associated, and in which direction?</p></li>
+<li><p>In graph 3, only <span class="math inline">\(C\)</span> was measured. Can the effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span> be estimated by adjusting for measured variables?</p></li>
 </ol>
 </section>
 </section>
-<section id="discussion-3-a-model-that-decides-about-people" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-3-a-model-that-decides-about-people">Discussion 3: a model that decides about people</h2>
-<p>Think of a predictive algorithm that makes, or helps to make, decisions with large effects on people: which applicants get a loan, which patients a GP sees first, which benefit claims are checked for fraud. Choose one in your group.</p>
-<ol type="1">
-<li>Describe the scenario: who uses the model, what it predicts, from what data, and what is decided with it.</li>
-<li>Half the groups take the four Belmont–Menlo principles, and half take the five Cs (consent; clarity; consistency and trust; control and transparency; consequences). For each one, say what would have to be in place: a feature of the system, or a procedure around it.</li>
-<li>Which of your requirements could be checked only with a causal claim?</li>
-</ol>
-<p>Two or three groups describe their scenario and its requirements to the room.</p>
-</section>
-<section id="discussion-4-the-case-for-one-framework" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-4-the-case-for-one-framework">Discussion 4: the case for one framework</h2>
-<p>The room splits into four parts. Each part prepares the strongest case it can for one statement.</p>
+<section id="discussion-3-the-case-for-one-framework" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-3-the-case-for-one-framework">Discussion 3: the case for one framework</h2>
+<p>The room splits into three groups. Each group develops an argument for one statement and presents it to the other groups.</p>
 <ol type="1">
 <li>Ethical data science and AI development requires us to lean mostly on consequentialist ethics.</li>
 <li>Ethical data science and AI development requires us to lean mostly on deontological ethics.</li>
 <li>Ethical data science and AI development requires us to lean mostly on virtue ethics.</li>
-<li>Ethical data science and AI development requires us to lean mostly on pragmatic ethics.</li>
 </ol>
-<p>Five minutes to prepare, then a minute for each part. Each case should answer the strongest objection to it. For consequentialism, answer this question: does it become more or less defensible once you have to write the causal model down?</p>
-<p>Then everyone votes, whichever part they argued for. Which account are you most convinced of: consequentialist, deontological, virtue or pragmatic ethics, a combination, or none of them?</p>
+<p>You have 15 minutes to develop your argument and 2 minutes to present it. Think about how to structure it to convince the listener, and answer the strongest objection to it. The group arguing for consequentialism should also answer this question: does it become more or less defensible once you have to write the causal model down?</p>
+<p>Then everyone votes for the account they find most convincing, which need not be the one their group argued for: consequentialist, deontological or virtue ethics for data science and AI, a combination, or none of them?</p>
 </section>
 <section id="if-there-is-time" class="level2">
 <h2 class="anchored" data-anchor-id="if-there-is-time">If there is time</h2>
 <ul>
+<li>One sentence, individually: what is the difference between <span class="math inline">\(P(Y = 1 \mid T = 1)\)</span> and <span class="math inline">\(P(Y = 1 \mid do(T := 1))\)</span>?</li>
+<li>The reading warns against judging an admissions test by how well it predicts success among the students who were admitted. Draw the graph. Where is the collider?</li>
 <li>“Correlation (more generally, association) is not causation.” This is true and important, but can it be misused?</li>
 <li>Can causality be useful in the context of reproducibility? In designing and communicating studies?</li>
-<li>A company tests two versions of its app on its users, without telling them, to see which version keeps them using the app longer. Which of the Belmont–Menlo principles does this touch? How would each of the four frameworks judge it?</li>
+<li>A company tests two versions of its app on its users, without telling them, to see which version keeps them using the app longer. Which of the Belmont–Menlo principles does this touch? How would each framework judge it?</li>
 <li>Find a sentence in a news report of an observational study that avoids saying “causes” but implies a cause. What graph does it assume?</li>
 </ul>
-</section>
-<section id="to-finish" class="level2">
-<h2 class="anchored" data-anchor-id="to-finish">To finish</h2>
-<p>One sentence, individually: what is the difference between <span class="math inline">\(P(Y = 1 \mid X = 1)\)</span> and <span class="math inline">\(P(Y = 1 \mid do(X := 1))\)</span>?</p>
 </section>
 <section id="for-next-time" class="level2">
 <h2 class="anchored" data-anchor-id="for-next-time">For next time</h2>
@@ -573,25 +597,29 @@ Note
 </section>
 <section id="b.-adjustment-on-data" class="level4">
 <h4 class="anchored" data-anchor-id="b.-adjustment-on-data">B. Adjustment on data</h4>
-<p>The table of problem 2, one row for each customer.</p>
+<p>The table of problem 1, one row for each rider.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">X =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">700</span>), <span class="at">left =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">20</span>, <span class="dv">5</span>, <span class="dv">70</span>))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>customers <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">1</span>, <span class="at">count =</span> left),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">0</span>, <span class="at">count =</span> n <span class="sc">-</span> left)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Z, X, Y, count) <span class="sc">|&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">uncount</span>(count)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(customers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">W =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">T =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">80</span>, <span class="dv">120</span>, <span class="dv">50</span>, <span class="dv">450</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">accidents =</span> <span class="fu">c</span>(<span class="dv">21</span>, <span class="dv">12</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">4</span>, <span class="dv">18</span>, <span class="dv">1</span>, <span class="dv">18</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># In base R, T means TRUE; inside dplyr verbs, T is the column</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>riders <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">1</span>, <span class="at">count =</span> accidents),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  cells <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Y =</span> <span class="dv">0</span>, <span class="at">count =</span> n <span class="sc">-</span> accidents)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Z, W, T, Y, count) <span class="sc">|&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">uncount</span>(count)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(riders)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1000</code></pre>
 </div>
 </div>
 <ol type="1">
-<li>Compute the share who left among customers with an offer and without one, from <code>customers</code>, and the difference.</li>
-<li>Compute the adjusted difference: the difference within each value of <span class="math inline">\(Z\)</span>, averaged with weights <span class="math inline">\(P(Z = z)\)</span>.</li>
-<li>A randomized version: send each of the 1,000 customers the offer with probability 0.25, whatever their rating, and draw whether they leave from the table’s rates. Compute the difference. Repeat 200 times. What is the average difference, and how much does it vary?</li>
+<li>Compute the share with an accident among riders who took the course and among those who did not, from <code>riders</code>, and the difference.</li>
+<li>Compute the adjusted difference: the difference within each combination of <span class="math inline">\(Z\)</span> and <span class="math inline">\(W\)</span>, averaged with weights <span class="math inline">\(P(Z = z, W = w)\)</span>. Then adjust for <span class="math inline">\(Z\)</span> alone, and for <span class="math inline">\(W\)</span> alone.</li>
+<li>A randomized version: give each of the 1,000 riders the course with probability 0.3, whatever their group, and draw whether they have an accident from the table’s rates. Compute the difference. Repeat 200 times. What is the average difference, and how much does it vary?</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
@@ -605,7 +633,7 @@ Note
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>For 2: <code>customers |&gt; group_by(Z) |&gt; summarize(...)</code> gives one row for each value of <span class="math inline">\(Z\)</span>; compute the difference and the share of customers in each row there.</p>
+<p>For 2: <code>riders |&gt; group_by(Z, W) |&gt; summarize(...)</code> gives one row for each group of riders; compute the difference and the group’s share of all riders there.</p>
 </div>
 </div>
 </div>

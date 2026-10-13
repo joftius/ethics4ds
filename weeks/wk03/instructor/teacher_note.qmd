@@ -9,46 +9,46 @@ format:
 
 ## Keep or rush
 
-In class order. Planned total about 77 of the 80 minutes.
+In class order, as on the class slides. Planned total 78 of the 80 minutes.
 
 | Item | Min | | If short |
 |---|---:|---|---|
 | Discussion 1: Absurd Trolley Problems, and which framework each side of a disagreement used | 10 | Rush | Play for four minutes; one disagreement from the room |
-| Discussion 2: an argument from consequences that a student brought or thinks of now: whose good counts, the graph, a rival graph, and an argument against the policy that accepts its causal claims | 12 | Keep | Two groups' graphs on the screen instead of every group's |
-| Problem 1: conditioning and intervening, with feedback | 11 | Keep | Work (b) to (d) together; say (e): 5 of the 15 points are the watch, and the discount mostly rewards being health-conscious |
-| Problem 2: retention offers, with four variables; an adjustment set, then adjusting for the rating, with feedback | 14 | Keep | (a) to (d); say (e): offers to all 200 rated high, and ask who pays |
-| Discussion 3: what the Belmont--Menlo principles or the five Cs require of a model that decides about people | 13 | Rush | Show the GP example and ask each group for one requirement it would add |
-| Discussion 4: four parts of the room make the case for one framework each, then the vote | 13 | Keep | Three minutes to prepare, one sentence from each part, then the vote |
-| To finish, and the task for next time | 4 | Keep | Read the task aloud |
+| Discussion 2 (the slides' activity 1): what the Belmont--Menlo principles and the five Cs require of a model that decides about people; groups describe theirs | 14 | Rush | Show the GP example; each group adds one requirement for its own scenario; two groups report |
+| Problem 1: a safety course for riders, four variables and the adjustment formula, with feedback | 13 | Keep | Work (b) and (c) together; say (d): the course went to the riders most likely to have an accident, and adjusting for $Z$ alone leaves the night-work back door open |
+| Break | 5 | Keep | |
+| Problem 2: backdoor paths in three graphs, with feedback | 12 | Keep | Graphs 1 and 2, and (c): adjusting for $C$ opens the path |
+| Discussion 3 (the slides' activity 2): three groups make the case for one framework, then the vote | 23 | Keep | Eight minutes to prepare, one minute each, then the vote |
+| The task for next time | 1 | Keep | Read the task aloud |
 
 : {tbl-colwidths="[32,6,16,46]"}
 
-Minimum class, about 45 minutes: discussion 2, problems 1 and 2, discussion 4 in its short form and the task for next time. With more time, add discussion 3 back first.
+Minimum class, about 45 minutes: problems 1 and 2, the break, discussion 3 in its short form and the task for next time. With more time, add discussion 2 back first.
 
 ## If you read on
 
 How it runs
 
-- Discussion 2 starts from an argument that justifies a rule or a policy by its consequences, one a student brought or thinks of in class. The task to bring one was on week 2's class sheet but was not set in class, so expect most to think of one on the spot; give them a minute alone first. Open the [complete class sheet](https://ethics4ds.com/teachers/wk03/class_complete.html) on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers.
+- The order and the timings follow the class slides, including the five-minute break between the problems. Open the [complete class sheet](https://ethics4ds.com/teachers/wk03/class_complete.html) on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers.
 - Discussion 1 needs one phone or laptop per group for [Absurd Trolley Problems](https://neal.fun/absurd-trolley-problems/). Groups will not finish the game; stop them at six minutes.
-- Discussion 3: give half the groups the Belmont--Menlo principles and half the five Cs.
-- Discussion 4: split the room into four parts by where people sit, and keep to five minutes of preparation and a minute each. Everyone votes for the account they find most convincing, which need not be the one they argued for; count hands or use a poll.
-- In problem 1 the watch has a small effect, and conditioning overstates it. In the lecture's program, weight had no effect at all.
-- Problem 2 goes past the lecture. With four variables, students choose the adjustment set from the graph, and the rating is a valid one. The difference changes sign after adjustment. The effects differ between ratings, which the notes cover under "For the class".
+- Discussion 2: every group takes both the Belmont--Menlo principles and the five Cs. The slides' GP example is the first blue box; the second, on checking benefit claims, is for after the groups have reported.
+- Problem 1 writes the treatment $T$; the lecture and the notes write $X$. All four variables enter the calculation: the adjustment set is $\{Z, W\}$, and the formula averages over the four groups of riders. The difference changes sign after adjustment.
+- Problem 2 goes past the lecture, which defined blocking for forks and chains only. The sheet states the rule for colliders, from the reading. Collider stratification is a core item of week 5; this is where students first meet it.
+- Discussion 3: three groups, with the slides' three statements (the lecture also covered pragmatic ethics, which is not one of them). Fifteen minutes to prepare, two minutes each, then the vote. Everyone votes for the account they find most convincing, which need not be the one they argued for.
 - Everything headed "Optional, can be done at home" is outside the class, including the R simulation (coding C).
 
 What students should see
 
-- Problem 1: $P(X = 1) = 0.6$, $P(Z = 1 \mid X = 1) = 0.6$ and $P(Z = 1 \mid X = 0) = 0.1$; $P(Y = 1 \mid X = 1) = 0.13$ against $P(Y = 1 \mid X = 0) = 0.28$, 15 points; $P(Y = 1 \mid do(X := 1)) = 0.17$ against $P(Y = 1 \mid do(X := 0)) = 0.22$, 5 points. For (e), the wearers would claim at 0.18 without a watch.
-- Problem 2: $\{T\}$, $\{Z\}$ and $\{T, Z\}$ satisfy the criterion, the empty set does not; 0.20 against 0.12 observed, so customers with an offer leave 8 points more; 0.10 against 0.16 adjusted, an effect of $-0.06$; $-0.10$ and $-0.05$ within the ratings. For (e), all 200 rated high and 50 rated low: about 22.5 fewer leaving than with no offers, against 20 with this quarter's offers.
-- Discussion 3: requirements stated as mechanisms (an opt-out, an audit by group, a data-retention rule), and the distinction between accuracy and the effect of using the model.
+- Problem 1: $\{Z, W\}$; 0.12 against 0.09 observed, so riders who took the course had an accident rate 3 points higher; 0.07 against 0.12 adjusted, an effect of $-0.05$. For (d): the 300 riders who took the course would have had about 57 accidents without it, against 36; adjusting for $Z$ alone gives about $-0.025$, because $T \leftarrow W \to Y$ stays open.
+- Problem 2: graph 1, $\{A\}$ or $\{B\}$; graph 2, the empty set, and adjusting for $C$ opens $T \leftarrow A \to C \leftarrow B \to Y$; graph 3, four backdoor paths and $\{A, C\}$ or $\{B, C\}$; with only $C$ measured, no set works.
+- Discussion 2: requirements stated as mechanisms (an opt-out, an audit by group, a data-retention rule), and the distinction between accuracy and the effect of using the model.
 
 Where they get stuck
 
-- Discussion 2, question 4: arguing about the causal claims again. Ask them to grant every claim and object anyway.
-- Problem 1(c) and (d): using $P(Z = 1) = 0.4$ in (c), which gives the interventional numbers, or $P(Z = 1 \mid X = 1) = 0.6$ in (d), which gives back the conditional ones.
-- Problem 2(b): ruling out $\{Z\}$ because the rating has no arrow into $Y$, or $\{T\}$ because it is not in the data. A valid set blocks the backdoor path and contains no descendant of $X$; whether a variable was recorded decides only which valid set can be used.
-- Problem 2(d): weighting each rating by its share of the customers with an offer, which gives back 0.20, instead of its share of all customers.
-- Calling the 8 points of problem 2(c) "biased" without saying of what. As a description of customers with an offer against those without, it is correct; as an estimate of the effect it is biased.
-- Discussion 4: parts that attack the other frameworks instead of making the case for their own. Ask for their best case first.
-- Colliders are in the reading and not in this class. If a group's rival graph has one, note it and move on.
+- Problem 1(c): weighting each group by its share of the riders who took the course, which gives back 0.12, instead of its share of all riders.
+- Problem 1(a): adjusting for $Z$ only, because $Z \to W$ seems to cover $W$. The path $T \leftarrow W \to Y$ does not pass through $Z$.
+- Calling the 3 points of problem 1(b) "biased" without saying of what. As a description of riders who took the course against the others, it is correct; as an estimate of the effect it is biased.
+- Problem 2(a): counting $T \to Y$, or a path that leaves $T$ along an arrow out of it, as a backdoor path.
+- Problem 2(b), graph 3: stopping at $\{C\}$.
+- Problem 2(c): assuming that a variable measured before $T$ is always safe to adjust for.
+- Discussion 3: groups that attack the other frameworks instead of making the case for their own. Ask for their best case first.
