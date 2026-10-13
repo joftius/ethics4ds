@@ -53,19 +53,6 @@ draw_dag <- function(nodes, edges, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4), gap
 }
 ```
 
-## In class
-
-1. A game, then a discussion of it.
-2. A discussion of the arguments you brought.
-3. Problems 1 and 2, by hand.
-4. A discussion of a model that makes decisions about people.
-5. A debate, then a vote.
-
-Discussions 1 to 3 are in groups of three or four, then with the room.
-For discussion 4 the room splits into four parts. Each problem is gone
-through as soon as the room has tried it. Everything under "Optional,
-can be done at home" is practice for afterward.
-
 ## Discussion 1: absurd trolley problems
 
 In your group, open
