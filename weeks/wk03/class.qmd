@@ -66,9 +66,14 @@ found hard to choose.
 2. Did any of your choices depend on a prediction of what would happen?
    How sure of it were you?
 
-## Discussion 2: the arguments you brought
+## Discussion 2: an argument from consequences
 
-Put your arguments side by side and choose one.
+On your own, take an argument that justifies a rule or a policy by its
+consequences: one you brought, or one you think of now, from the news,
+your university, a job or a company whose service you use. Write it in
+one sentence, with the cause-and-effect claims it needs and any
+evidence given for them. Then put your
+arguments side by side in your group and choose one.
 
 1. What is the action, and which outcome does the argument count?
    Whose good is counted, and whose is left out?
@@ -89,54 +94,67 @@ average, and with what weights?
 
 ### 1. Conditioning and intervening
 
-A program in the style of the reading's. $U_1, \dots, U_5$ are
-independent, with $U_1 \sim \mathrm{Ber}(0.5)$, $U_2 \sim \mathrm{Ber}(0.6)$,
-$U_3 \sim \mathrm{Ber}(0.2)$, $U_4 \sim \mathrm{Ber}(0.4)$ and
-$U_5 \sim \mathrm{Ber}(0.1)$, where $\mathrm{Ber}(0.6)$ is 1 with
-probability 0.6 and 0 otherwise.
+An insurer's model of its customers, as a program. $U_1, \dots, U_4$
+are independent, with $U_1 \sim \mathrm{Ber}(0.4)$,
+$U_2 \sim \mathrm{Ber}(0.9)$ and $U_3 \sim \mathrm{Ber}(0.4)$, where
+$\mathrm{Ber}(0.9)$ is 1 with probability 0.9 and 0 otherwise, and
+$U_4$ is uniform between 0 and 1.
 
-1. $X := U_1$ (exercise)
-2. $W :=$ if $X = 1$ then $U_3$ else $U_2$ (overweight)
-3. $H :=$ if $X = 1$ then $U_5$ else $U_4$ (heart disease)
+1. $Z := U_1$ (health-conscious)
+2. $X :=$ if $Z = 1$ then $U_2$ else $U_3$ (wears a fitness watch)
+3. $Y :=$ 1 if $U_4 < 0.30 - 0.20Z - 0.05X$, else 0 (makes a claim this year)
+
+So $P(Y = 1 \mid Z, X) = 0.30 - 0.20Z - 0.05X$.
 
 (a) Draw the graph.
 
-(b) Compute $P(W = 1)$ and $P(X = 0 \mid W = 1)$.
+(b) Compute $P(X = 1)$, $P(Z = 1 \mid X = 1)$ and $P(Z = 1 \mid X = 0)$.
 
-(c) Compute $P(H = 1)$, $P(H = 1 \mid W = 1)$ and $P(H = 1 \mid W = 0)$.
+(c) Compute $P(Y = 1 \mid X = 1)$ and $P(Y = 1 \mid X = 0)$. How much
+less often do customers who wear a watch claim?
 
-(d) A program changes everyone's weight to normal: $W := 0$. Compute
-$P(H = 1 \mid do(W := 0))$. What does the program do to heart disease?
+(d) Suppose every customer wore a watch: $X := 1$. Compute
+$P(Y = 1 \mid do(X := 1))$ and $P(Y = 1 \mid do(X := 0))$. How much of
+the difference in (c) is the effect of the watch?
 
-(e) Compute the average treatment effect of exercise on heart disease,
-and compare it with $P(H = 1 \mid X = 1) - P(H = 1 \mid X = 0)$. Are
-they equal? Why?
+(e) The insurer offers customers who wear a watch a discount, citing
+the difference in (c). Which customers get most of it, and how much of
+the difference in (c) would the wearers have had without a watch?
 
-### 2. Adjusting for a confounder
+### 2. Retention offers
 
-A school offers a revision app before a test. Students who passed the
-previous year's test ($Z = 1$) are more likely to use it ($X = 1$). The
-outcome is passing this year ($Y = 1$).
+A phone company's model rates each customer high ($Z = 1$) or low
+($Z = 0$) risk of leaving. The rating is computed from the customer's
+contract, monthly ($T = 1$) or fixed-term ($T = 0$), and from other
+account data that, we assume, neither affect leaving nor share a cause
+with it. Customers on monthly contracts are more likely to leave
+($Y = 1$: left within three months). The rating is used for one thing
+only: within each rating, the company chose at random which customers
+got a retention offer, a discount ($X = 1$), and it offered more of
+those rated high. The analyst's data have the rating but not the
+contract:
 
-| | used the app ($X = 1$) | did not ($X = 0$) |
-|:---|:---|:---|
-| passed last year ($Z = 1$), 500 students | 320 of 400 passed (80%) | 70 of 100 passed (70%) |
-| did not ($Z = 0$), 500 students | 50 of 100 passed (50%) | 120 of 400 passed (30%) |
+| rating | offer | customers | left |
+|:---|:---|---:|---:|
+| high ($Z = 1$) | yes ($X = 1$) | 150 | 45 |
+| high ($Z = 1$) | no ($X = 0$) | 50 | 20 |
+| low ($Z = 0$) | yes ($X = 1$) | 100 | 5 |
+| low ($Z = 0$) | no ($X = 0$) | 700 | 70 |
 
-(a) Compute the pass rates of users and non-users, and the difference.
+(a) Draw the graph with $T$, $Z$, $X$ and $Y$.
 
-(b) Draw the graph you would assume, and compute the average treatment
-effect of the app with the adjustment formula.
+(b) Which of these sets satisfy the backdoor criterion for the effect of
+$X$ on $Y$: the empty set, $\{T\}$, $\{Z\}$, $\{T, Z\}$?
 
-(c) Compute the difference within each row. How does the average
-treatment effect combine the two?
+(c) Compute the share who left among customers who got an offer and
+among those who did not, and the difference.
 
-(d) A second school has the same pass rates within each cell of the
-table, but only 20% of its students passed last year. What is the
-average treatment effect of the app there?
+(d) Compute the average treatment effect of the offer with the
+adjustment formula, and the difference within each rating.
 
-(e) A head teacher asks whether to buy the app for every student. Which
-of your numbers would you report, and what would you say about it?
+(e) Next quarter the company can afford 250 offers, for customers like
+these. If it wants as few customers as possible to leave, who should
+get them? Who then never gets an offer, and is that fair?
 
 ## Discussion 3: a model that decides about people
 
@@ -173,9 +191,8 @@ it can for one statement.
 
 Five minutes to prepare, then a minute for each part.
 Each case should answer the strongest objection to it. For
-consequentialism, one objection is the lecture's last question: does it
-become more or less defensible once you have to write the causal model
-down?
+consequentialism, answer this question: does it become more or less
+defensible once you have to write the causal model down?
 
 Then everyone votes, whichever part they argued for. Which account are
 you most convinced of: consequentialist, deontological, virtue or
@@ -208,7 +225,7 @@ will go on the screen.
 
 ## Optional, can be done at home
 
-Practice for afterward: problems 3 to 7, then coding A to C. The
+Practice for afterward: problems 3 to 6, then coding A to C. The
 problems can be done by hand. Attempt each part before you open a hint.
 
 ::: {.callout-warning title="Hints"}
@@ -280,42 +297,25 @@ than the effect, with its arrows.
 The university's evidence compares students. Its action changes opening hours. Are those the same thing?
 :::
 
-### 6. Prediction letters and reinforcement-learning letters
+### 6. Hormone therapy
 
-The decision whether to prescribe hormone therapy to prevent heart
-disease can be written with the letters used for prediction or with
-those of reinforcement learning.
+The notes' section on hormone therapy and heart disease gives three
+studies of whether to prescribe hormone therapy to prevent heart
+disease.
 
-(a) Write it with the letters used for prediction. Say what the
-treatment, the outcome and a confounder are, and write the quantity a
-doctor needs with $do(\cdot)$.
+(a) Write the decision with $X$ and $Y$. Say what the treatment and the
+outcome are, and write the quantity a doctor needs with $do(\cdot)$.
 
-(b) Write it with the letters of reinforcement learning, with the
-one-line declaration at the top. Say what the state, the action, the
-reward, the policy and the utility are.
-
-(c) Which letters would mean different things if you used them in both
-answers?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For (a), what does the doctor choose, and what could affect both that choice and heart disease? For (b), what does the doctor know when choosing?
-:::
-
-### 7. Hormone therapy
-
-The notes' section on hormone therapy and heart disease gives the three
-studies.
-
-(a) The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first
+(b) The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first
 two years, 0.96 over the whole follow-up) come from the same cohort.
 Which comparison did each make?
 
-(b) Draw a graph under which the 1996 estimate is confounded.
+(c) Draw a graph under which the 1996 estimate is confounded.
 
-(c) Which comparison matches the decision a doctor makes, and why?
+(d) Which comparison matches the decision a doctor makes, and why?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For (a), ask which two groups each analysis compares.
+For (a), what does the doctor choose, and which outcome is the choice about? For (b), ask which two groups each analysis compares.
 :::
 
 ### Coding
@@ -349,29 +349,31 @@ In each program, which statements after the one for $X$ use $X$, directly or thr
 
 #### B. Adjustment on data
 
+The table of problem 2, one row for each customer.
+
 ```{r coding_b_setup}
 cells <- data.frame(Z = c(1, 1, 0, 0), X = c(1, 0, 1, 0),
-                    n = c(400, 100, 100, 400), passed = c(320, 70, 50, 120))
-students <- bind_rows(
-  cells |> mutate(Y = 1, count = passed),
-  cells |> mutate(Y = 0, count = n - passed)
+                    n = c(150, 50, 100, 700), left = c(45, 20, 5, 70))
+customers <- bind_rows(
+  cells |> mutate(Y = 1, count = left),
+  cells |> mutate(Y = 0, count = n - left)
 ) |>
   select(Z, X, Y, count) |>
   tidyr::uncount(count)
-nrow(students)
+nrow(customers)
 ```
 
-1. Compute the pass rates of users and non-users from `students`, and
-   their difference.
-2. Compute the adjusted difference: the difference in pass rates within
-   each value of $Z$, averaged with weights $P(Z = z)$.
-3. A randomized version: give each of 1,000 students the app with
-   probability 0.5, whatever their $Z$, and draw whether they pass from
-   the table's rates. Compute the difference in pass rates. Repeat 200
-   times. What is the average difference, and how much does it vary?
+1. Compute the share who left among customers with an offer and
+   without one, from `customers`, and the difference.
+2. Compute the adjusted difference: the difference within each value of
+   $Z$, averaged with weights $P(Z = z)$.
+3. A randomized version: send each of the 1,000 customers the offer with
+   probability 0.25, whatever their rating, and draw whether they leave
+   from the table's rates. Compute the difference. Repeat 200 times.
+   What is the average difference, and how much does it vary?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For 2: `students |> group_by(Z) |> summarize(...)` gives one row for each value of $Z$; compute the difference in pass rates and the share of students in each row there.
+For 2: `customers |> group_by(Z) |> summarize(...)` gives one row for each value of $Z$; compute the difference and the share of customers in each row there.
 :::
 
 #### C. Intervening in a program

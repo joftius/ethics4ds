@@ -9,14 +9,14 @@ format:
 
 ## Keep or rush
 
-In class order. Planned total about 75 of the 80 minutes.
+In class order. Planned total about 77 of the 80 minutes.
 
 | Item | Min | | If short |
 |---|---:|---|---|
 | Discussion 1: Absurd Trolley Problems, and which framework each side of a disagreement used | 10 | Rush | Play for four minutes; one disagreement from the room |
-| Discussion 2: the arguments they brought: whose good counts, the graph, a rival graph, and an argument against the policy that accepts its causal claims | 12 | Keep | Two groups' graphs on the screen instead of every group's |
-| Problem 1: conditioning and intervening, with feedback | 11 | Keep | Work (b) to (d) together; say (e): nothing points into $X$, so observing $X$ and setting it agree |
-| Problem 2: adjusting for a confounder, with feedback | 12 | Keep | (a) and (b) only; give (d), 0.18 |
+| Discussion 2: an argument from consequences that a student brought or thinks of now: whose good counts, the graph, a rival graph, and an argument against the policy that accepts its causal claims | 12 | Keep | Two groups' graphs on the screen instead of every group's |
+| Problem 1: conditioning and intervening, with feedback | 11 | Keep | Work (b) to (d) together; say (e): 5 of the 15 points are the watch, and the discount mostly rewards being health-conscious |
+| Problem 2: retention offers, with four variables; an adjustment set, then adjusting for the rating, with feedback | 14 | Keep | (a) to (d); say (e): offers to all 200 rated high, and ask who pays |
 | Discussion 3: what the Belmont--Menlo principles or the five Cs require of a model that decides about people | 13 | Rush | Show the GP example and ask each group for one requirement it would add |
 | Discussion 4: four parts of the room make the case for one framework each, then the vote | 13 | Keep | Three minutes to prepare, one sentence from each part, then the vote |
 | To finish, and the task for next time | 4 | Keep | Read the task aloud |
@@ -29,24 +29,26 @@ Minimum class, about 45 minutes: discussion 2, problems 1 and 2, discussion 4 in
 
 How it runs
 
-- Students bring one argument from the news that justifies a rule or a policy by its consequences, with the cause-and-effect claims it needs. Open the [complete class sheet](https://ethics4ds.com/teachers/wk03/class_complete.html) on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers.
+- Discussion 2 starts from an argument that justifies a rule or a policy by its consequences, one a student brought or thinks of in class. The task to bring one was on week 2's class sheet but was not set in class, so expect most to think of one on the spot; give them a minute alone first. Open the [complete class sheet](https://ethics4ds.com/teachers/wk03/class_complete.html) on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers.
 - Discussion 1 needs one phone or laptop per group for [Absurd Trolley Problems](https://neal.fun/absurd-trolley-problems/). Groups will not finish the game; stop them at six minutes.
 - Discussion 3: give half the groups the Belmont--Menlo principles and half the five Cs.
 - Discussion 4: split the room into four parts by where people sit, and keep to five minutes of preparation and a minute each. Everyone votes for the account they find most convincing, which need not be the one they argued for; count hands or use a poll.
-- Problem 2(c) to (e) was not in the lecture: effects that differ between rows, so the average treatment effect depends on the population's mix, and a decision is compared with today, not with nobody treated. Both are in the notes, under "For the class".
+- In problem 1 the watch has a small effect, and conditioning overstates it. In the lecture's program, weight had no effect at all.
+- Problem 2 goes past the lecture. With four variables, students choose the adjustment set from the graph, and the rating is a valid one. The difference changes sign after adjustment. The effects differ between ratings, which the notes cover under "For the class".
 - Everything headed "Optional, can be done at home" is outside the class, including the R simulation (coding C).
 
 What students should see
 
-- Problem 1: $P(W = 1) = 0.4$ and $P(X = 0 \mid W = 1) = 0.75$; $P(H = 1 \mid W = 1) = 0.325$ against $P(H = 1 \mid W = 0) = 0.2$; $P(H = 1 \mid do(W := 0)) = 0.25$; the average treatment effect of exercise is $-0.3$.
-- Problem 2: 0.74 against 0.38 observed; 0.65 against 0.50 adjusted, an effect of 0.15; 0.10 and 0.20 within the rows; 0.18 in the second school. For (e), 0.56 today against 0.65 if every student used the app; among today's non-users the effect is 0.18, the same as (d) because they have the second school's mix.
+- Problem 1: $P(X = 1) = 0.6$, $P(Z = 1 \mid X = 1) = 0.6$ and $P(Z = 1 \mid X = 0) = 0.1$; $P(Y = 1 \mid X = 1) = 0.13$ against $P(Y = 1 \mid X = 0) = 0.28$, 15 points; $P(Y = 1 \mid do(X := 1)) = 0.17$ against $P(Y = 1 \mid do(X := 0)) = 0.22$, 5 points. For (e), the wearers would claim at 0.18 without a watch.
+- Problem 2: $\{T\}$, $\{Z\}$ and $\{T, Z\}$ satisfy the criterion, the empty set does not; 0.20 against 0.12 observed, so customers with an offer leave 8 points more; 0.10 against 0.16 adjusted, an effect of $-0.06$; $-0.10$ and $-0.05$ within the ratings. For (e), all 200 rated high and 50 rated low: about 22.5 fewer leaving than with no offers, against 20 with this quarter's offers.
 - Discussion 3: requirements stated as mechanisms (an opt-out, an audit by group, a data-retention rule), and the distinction between accuracy and the effect of using the model.
 
 Where they get stuck
 
 - Discussion 2, question 4: arguing about the causal claims again. Ask them to grant every claim and object anyway.
-- Problem 1(c): forgetting that $W = 1$ also happens with exercise, at rate 0.2, or not conditioning on $X$ before treating $W$ and $H$ as independent.
-- Problem 2(b): weighting each row by its share of users, which gives back 0.74, instead of its share of all students.
-- Calling the 28 points "biased" without saying of what. As a description of attenders against non-attenders it is correct; as an estimate of the effect it is biased.
+- Problem 1(c) and (d): using $P(Z = 1) = 0.4$ in (c), which gives the interventional numbers, or $P(Z = 1 \mid X = 1) = 0.6$ in (d), which gives back the conditional ones.
+- Problem 2(b): ruling out $\{Z\}$ because the rating has no arrow into $Y$, or $\{T\}$ because it is not in the data. A valid set blocks the backdoor path and contains no descendant of $X$; whether a variable was recorded decides only which valid set can be used.
+- Problem 2(d): weighting each rating by its share of the customers with an offer, which gives back 0.20, instead of its share of all customers.
+- Calling the 8 points of problem 2(c) "biased" without saying of what. As a description of customers with an offer against those without, it is correct; as an estimate of the effect it is biased.
 - Discussion 4: parts that attack the other frameworks instead of making the case for their own. Ask for their best case first.
 - Colliders are in the reading and not in this class. If a group's rival graph has one, note it and move on.
