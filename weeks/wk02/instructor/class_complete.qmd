@@ -48,8 +48,15 @@ st313:
 library(ggplot2)
 library(dplyr)
 theme_set(theme_minimal())
+```
+
+::: {.answer}
+```{r seed, include=FALSE}
+# The teacher's sheet and the sheet with solutions start from this seed. The student
+# sheet gets none: the generator drops this div with the answers (convenor, 13 October).
 set.seed(313)
 ```
+:::
 
 ## In class
 

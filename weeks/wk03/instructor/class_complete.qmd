@@ -45,7 +45,6 @@ st313:
 library(ggplot2)
 library(dplyr)
 theme_set(theme_minimal())
-set.seed(313)
 
 # Causal graphs: letters in circles, one panel per value of `panel`. A circle's size is
 # fixed on the page, in inches, while the figure's size decides how many inches a data
@@ -80,6 +79,14 @@ draw_dag <- function(nodes, edges, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4), gap
                    arrow = arrow(length = unit(0.18, "cm"), type = "closed"), linewidth = lw)
 }
 ```
+
+::: {.answer}
+```{r seed, include=FALSE}
+# The teacher's sheet and the sheet with solutions start from this seed. The student
+# sheet gets none: the generator drops this div with the answers (convenor, 13 October).
+set.seed(313)
+```
+:::
 
 ## In class
 
@@ -445,12 +452,12 @@ estimates concentrate around $0.9$, not around the effect, $0.5$.
 
 ### 4. Choosing an adjustment set
 
-```{r five_nodes, echo=FALSE, fig.height=2.6, fig.width=5}
+```{r five_nodes, echo=FALSE, fig.height=3, fig.width=5}
 draw_dag(data.frame(name = c("Z", "X", "M", "Y", "W"),
-                    x = c(1, 0, 1, 2, 2.9), y = c(1.1, 0, -0.3, 0, 1.1)),
+                    x = c(1, 0, 1, 2, 2.9), y = c(1.1, 0, -0.6, 0, 1.1)),
          data.frame(from = c("Z", "Z", "X", "M", "X", "W"),
                     to = c("X", "Y", "M", "Y", "Y", "Y")),
-         xlim = c(-0.5, 3.4), ylim = c(-0.6, 1.4))
+         xlim = c(-0.5, 3.4), ylim = c(-0.9, 1.4))
 ```
 
 (a) List the backdoor paths from $X$ to $Y$.
