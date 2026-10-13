@@ -148,6 +148,7 @@ Everything about the study enters through the single number $\theta$.
 library(ggplot2)
 library(dplyr)
 theme_set(theme_minimal())
+set.seed(313)
 c <- qnorm(0.975)
 theta <- seq(0, 5, by = 0.02)
 power_df <- data.frame(theta = theta,

@@ -18,7 +18,6 @@ This is the student version of the class sheet. Parts marked **(class)** are for
 library(ggplot2)
 library(dplyr)
 theme_set(theme_minimal())
-set.seed(313)
 ```
 
 ## In class

@@ -641,7 +641,7 @@ P(Y = 1 \mid X = 1) &amp;= 0.5 \times 0.7 + 0.5 \times 0.4 = 0.55 \\
 P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 \end{aligned}
 \]</span></p>
-<p>The observed difference is the effect, apart from the chance variation of one draw.</p>
+<p>The difference to expect is <span class="math inline">\(0.55 - 0.45 = 0.10\)</span>, the average treatment effect. Any one randomization gives a difference near <span class="math inline">\(0.10\)</span>, and a different random draw would give a slightly different number.</p>
 <blockquote>
 <p>“The goal of a randomized controlled trial is to break natural inclination.”</p>
 </blockquote>
@@ -702,7 +702,7 @@ P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 </div>
 </div>
 <p>Learning: change <span class="math inline">\(\pi\)</span> to make the expected reward <span class="math inline">\(E_\pi[R]\)</span> large.</p>
-<p>A consequentialist wants the largest <span class="math inline">\(E_\pi[U]\)</span>, with <span class="math inline">\(U\)</span> the good we care about. The agent is given <span class="math inline">\(R\)</span>.</p>
+<p>A utilitarian wants the largest <span class="math inline">\(E_\pi[U]\)</span>, with <span class="math inline">\(U\)</span> the good we care about. The agent is given <span class="math inline">\(R\)</span>.</p>
 <p>Whether <span class="math inline">\(E_\pi[U]\)</span> is a causal quantity depends on further assumptions.</p>
 </section>
 <section id="a-cleaning-robot" class="slide level2">
@@ -786,9 +786,9 @@ P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 </div>
 </div>
 </div>
-<p>Cream skimming: choosing people who would have found work anyway. In US job-training programs judged partly on employment rates, its efficiency gains or losses were small: “opposition to cream skimming must come on equity grounds.”</p>
+<p>Cream skimming: choosing people who would have found work anyway. In the US Job Training Partnership Act programs, centers were judged on short-run measures (<span class="math inline">\(R\)</span>) that were “weakly, and sometimes perversely, related to long run impacts” (<span class="math inline">\(U\)</span>).</p>
 <div class="source">
-<p>Heckman, Heinrich and Smith (2002), “The Performance of Performance Standards,” NBER Working Paper 9002, abstract and section VIII.</p>
+<p>Heckman, Heinrich and Smith (2002), “The Performance of Performance Standards,” NBER Working Paper 9002, abstract.</p>
 </div>
 </section>
 <section id="utilitarianism-with-a-reward" class="slide level2">
@@ -831,7 +831,7 @@ P(Y = 1 \mid X = 0) &amp;= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 <ul>
 <li><strong>What are we optimizing or predicting?</strong> The center’s placement rate, or the jobs the course creates.</li>
 <li><strong>Which comparison gets reported?</strong> Attenders against non-attenders, overall or within rows. The average effect, or the effects within groups defined before treatment.</li>
-<li><strong>You have to choose, so choose, and defend it.</strong> The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph; it does not draw the graph. “Pretending it was forced is its own failure.”</li>
+<li><strong>You have to choose, so choose, and defend it.</strong> The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph. “Pretending it was forced is its own failure.”</li>
 </ul>
 <p>…and why?</p>
 </section>

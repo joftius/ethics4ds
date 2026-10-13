@@ -64,6 +64,7 @@ library(ggplot2)
 library(dplyr)
 library(patchwork)
 theme_set(theme_minimal())
+set.seed(313)
 # cividis: viridisLite::cividis(9)[c(1, 3, 5, 6, 7, 9)]
 navy <- "#00204D"; slate <- "#414D6B"; cgray <- "#7C7B78"; khaki <- "#9B9477"; gold <- "#BCAF6F"; yellow <- "#FFEA46"
 dgold <- "#6E5F00"                 # the theme's dark gold, for text and thin lines on white

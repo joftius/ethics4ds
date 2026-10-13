@@ -56,10 +56,10 @@ st313:
     - {label: "the backdoor criterion; what not to adjust for", minutes: 3, mode: exposition, results: [R14]}
     - {label: "unobserved confounding: two graphs, the same data", minutes: 2, mode: exposition}
     # part 4, reinforcement learning: 10
-    - {label: "reinforcement learning, its letters declared; the agent maximizes E_pi[R], a consequentialist wants E_pi[U]; whether E_pi[U] is causal depends on further assumptions (causal reinforcement learning is a subfield)", minutes: 2, mode: exposition, register: 2}
+    - {label: "reinforcement learning, its letters declared; the agent maximizes E_pi[R], a utilitarian wants E_pi[U]; whether E_pi[U] is causal depends on further assumptions (causal reinforcement learning is a subfield)", minutes: 2, mode: exposition, register: 2}
     - {label: "toy example: a cleaning robot rewarded for not seeing mess (Amodei and colleagues 2016)", minutes: 2, mode: exposition, register: 2}
     - {label: "realistic example, pairs: a job center judged on its placement rate; who does it send, and who would a utilitarian send", minutes: 2, mode: production, register: 2}
-    - {label: "what the placement rate rewards: 70% and 6 jobs against 40% and 26; cream skimming in JTPA, and the objection from equity (Heckman, Heinrich and Smith 2002)", minutes: 2, mode: exposition, register: 2}
+    - {label: "what the placement rate rewards: 70% and 6 jobs against 40% and 26; cream skimming in JTPA, where the short-run measures barely tracked long-run impacts (Heckman, Heinrich and Smith 2002)", minutes: 2, mode: exposition, register: 2}
     - {label: "utilitarianism with a reward: ms4ds's four difficulties as choices made in building the agent", minutes: 2, mode: exposition, register: 2}
     # close: 5
     - {label: "lenses this week, with lens A recalled for the reward", minutes: 2, mode: exposition}
@@ -81,6 +81,7 @@ st313:
 library(ggplot2)
 library(dplyr)
 theme_set(theme_minimal(base_size = 18))
+set.seed(313)
 # cividis: navy, slate, gray, khaki, gold, yellow (viridisLite::cividis(9)[c(1, 3, 5, 6, 7, 9)])
 navy <- "#00204D"; slate <- "#414D6B"; cgray <- "#7C7B78"; khaki <- "#9B9477"; gold <- "#BCAF6F"; yellow <- "#FFEA46"
 two <- c(navy, gold)               # the two groups, wherever there are two
@@ -95,43 +96,115 @@ dark <- theme(text = element_text(color = "white"), axis.text = element_text(col
 two_dark <- c(yellow, gold)
 
 # Causal graphs. Nodes are letters in circles, or words in boxes (boxes = TRUE).
-# Arrows are drawn last, so a slightly short estimate of a node's size cannot hide
-# an arrowhead. r is the circle radius in data units; k the width of one character
-# per unit of text size. One panel per value of `panel`.
+# A node's size is fixed on the page, in inches, while the figure's size decides how
+# many inches a data unit is. draw_dag measures both on the graphics device open when it
+# is called (in a rendered document, the chunk's figure) and stops every arrow `gap`
+# inches short of the two nodes it joins. Arrows listed in `dashed` are dashed; arrows
+# listed in `highlight` are gold. One panel per value of `panel`.
 draw_dag <- function(nodes, edges, dashed = character(0), highlight = character(0), boxes = FALSE,
-                     text_size = 7, r = 0.36, k = 0.0165, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4),
-                     strip_size = 18) {
+                     text_size = 7, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4), strip_size = 18,
+                     gap = 0.05) {
   if (!"panel" %in% names(nodes)) { nodes$panel <- ""; edges$panel <- "" }
-  nodes$hw <- if (boxes) 0.5 * k * nchar(as.character(nodes$name)) * text_size + 0.06 else r
-  nodes$hh <- if (boxes) 0.17 else r
+  pad <- unit(0.35, "lines"); border <- 0.5; dot <- 16; stroke <- 0.8; lw <- c(black = 0.7, gold = 1.5)
+  p <- ggplot() +
+    facet_wrap(~ panel, nrow = 1) +
+    coord_fixed(xlim = xlim, ylim = ylim) +
+    theme_void() +
+    theme(strip.text = element_text(size = strip_size), panel.spacing = unit(1.5, "lines"))
+  p <- if (boxes) {
+    p + geom_label(data = nodes, aes(x, y, label = name), size = text_size, label.size = border,
+                   label.padding = pad)
+  } else {
+    p + geom_point(data = nodes, aes(x, y), size = dot, shape = 21, fill = "white", stroke = stroke) +
+      geom_text(data = nodes, aes(x, y, label = name), size = text_size, parse = TRUE)
+  }
+  # Inches per data unit: the panels share what the strips and spacing leave of the figure.
+  inch <- function(u, f) f(u, "in", valueOnly = TRUE)
+  g <- ggplotGrob(p)
+  pp <- ggplot_build(p)$layout$panel_params[[1]]
+  per_unit <- min((dev.size("in")[1] - sum(inch(g$widths, grid::convertWidth))) /
+                    (length(unique(nodes$panel)) * diff(pp$x.range)),
+                  (dev.size("in")[2] - sum(inch(g$heights, grid::convertHeight))) / diff(pp$y.range))
+  # Half the width and half the height of each node, outline included, in data units.
+  if (boxes) {
+    text <- lapply(as.character(nodes$name), grid::textGrob, gp = grid::gpar(fontsize = text_size * .pt))
+    nodes$hw <- (sapply(text, \(t) inch(grid::grobWidth(t), grid::convertWidth)) / 2 +
+                   inch(pad, grid::convertWidth) + border * .pt / 96 / 2) / per_unit
+    nodes$hh <- (sapply(text, \(t) inch(grid::grobHeight(t), grid::convertHeight)) / 2 +
+                   inch(pad, grid::convertHeight) + border * .pt / 96 / 2) / per_unit
+  } else {
+    # R draws a circle of radius 0.375 times its font size (shape 21)
+    nodes$hw <- nodes$hh <- (0.375 * (dot * .pt + stroke * .stroke / 2) / 72 +
+                               stroke * .stroke / 2 / 96 / 2) / per_unit
+  }
   e <- edges |>
     left_join(nodes, by = c("panel", "from" = "name")) |>
     rename(x0 = x, y0 = y, hw0 = hw, hh0 = hh) |>
     left_join(nodes, by = c("panel", "to" = "name")) |>
     mutate(dx = x - x0, dy = y - y0, len = sqrt(dx^2 + dy^2), ux = dx / len, uy = dy / len,
-           # distance from a node's center to the edge of its box (or circle) along the arrow
-           s0 = if (boxes) pmin(hw0 / pmax(abs(ux), 1e-9), hh0 / pmax(abs(uy), 1e-9)) else hw0,
-           s1 = if (boxes) pmin(hw / pmax(abs(ux), 1e-9), hh / pmax(abs(uy), 1e-9)) else hw,
-           xs = x0 + (s0 + 0.02) * ux, ys = y0 + (s0 + 0.02) * uy,
-           xe = x - (s1 + 0.02) * ux, ye = y - (s1 + 0.02) * uy,
+           col = ifelse(paste(from, to) %in% highlight, "#BCAF6F", "black"),
            style = ifelse(paste(from, to) %in% dashed, "dashed", "solid"),
-           col = ifelse(paste(from, to) %in% highlight, "#BCAF6F", "black"))
-  p <- ggplot()
-  p <- if (boxes) {
-    p + geom_label(data = nodes, aes(x, y, label = name), size = text_size, label.size = 0.5,
-                   label.padding = unit(0.35, "lines"))
-  } else {
-    p + geom_point(data = nodes, aes(x, y), size = 16, shape = 21, fill = "white", stroke = 0.8) +
-      geom_text(data = nodes, aes(x, y, label = name), size = text_size, parse = TRUE)
-  }
+           # the start clears the node by gap; the end by gap and half the arrow's line width,
+           # which the rounded tip adds
+           g0 = gap / per_unit,
+           g1 = (gap + ifelse(col == "black", lw[["black"]], lw[["gold"]]) * .pt / 96 / 2) / per_unit,
+           # distance from a node's center, along the arrow, to the node's outline grown by g
+           s0 = if (boxes) pmin((hw0 + g0) / pmax(abs(ux), 1e-9), (hh0 + g0) / pmax(abs(uy), 1e-9)) else hw0 + g0,
+           s1 = if (boxes) pmin((hw + g1) / pmax(abs(ux), 1e-9), (hh + g1) / pmax(abs(uy), 1e-9)) else hw + g1,
+           xs = x0 + s0 * ux, ys = y0 + s0 * uy, xe = x - s1 * ux, ye = y - s1 * uy)
   p + geom_segment(data = e, aes(x = xs, y = ys, xend = xe, yend = ye, linetype = style, color = col),
                    arrow = arrow(length = unit(0.25, "cm"), type = "closed"),
-                   linewidth = ifelse(e$col == "black", 0.7, 1.5), show.legend = FALSE) +
-    scale_linetype_identity() + scale_color_identity() +
-    facet_wrap(~ panel, nrow = 1) +
-    coord_fixed(xlim = xlim, ylim = ylim) +
-    theme_void() +
-    theme(strip.text = element_text(size = strip_size), panel.spacing = unit(1.5, "lines"))
+                   linewidth = ifelse(e$col == "black", lw[["black"]], lw[["gold"]]), show.legend = FALSE) +
+    scale_linetype_identity() + scale_color_identity()
+}
+
+# Labels with math letters. In `label`, the text between dollar signs is drawn in
+# MathJax_Math, the TeX italic of an older MathJax, which looks like the italic of the
+# slides' formulas; the rest is drawn in the device's default font. The pieces are placed
+# when the plot is drawn, so they stay together at any figure size. A label cannot hold a
+# literal dollar sign, and hjust and vjust are numbers. `nudge_y` moves the labels up by
+# that many points (y = Inf is the top of the panel).
+GeomMathText <- ggproto("GeomMathText", Geom,
+  required_aes = c("x", "y", "label"),
+  default_aes = aes(colour = "black", size = 6, hjust = 0.5, vjust = 0.5),
+  draw_key = draw_key_text,
+  draw_panel = function(data, panel_params, coord, nudge_y = 0) {
+    data <- coord$transform(data, panel_params)
+    labels <- lapply(seq_len(nrow(data)), function(i) {
+      d <- data[i, ]
+      parts <- strsplit(as.character(d$label), "$", fixed = TRUE)[[1]]
+      math <- seq_along(parts) %% 2 == 0
+      keep <- nzchar(parts)
+      if (!any(keep)) return(grid::nullGrob())
+      # math pieces also ask for italic, so that they stay italic if the font is missing
+      font <- function(m) grid::gpar(col = d$colour, fontsize = d$size * .pt,
+                                     fontfamily = if (m) "MathJax_Math" else "",
+                                     fontface = if (m) "italic" else "plain")
+      pieces <- unname(Map(function(p, m) grid::textGrob(p, gp = font(m)), parts[keep], math[keep]))
+      widths <- lapply(pieces, grid::grobWidth)
+      x <- unit(d$x, "native") - d$hjust * Reduce(`+`, widths)
+      # one baseline for all the pieces, placed by the height of the default font's capitals
+      y <- unit(d$y, "native") + unit(nudge_y, "pt") -
+        d$vjust * grid::grobHeight(grid::textGrob("M", gp = font(FALSE)))
+      for (k in seq_along(pieces)) {
+        pieces[[k]] <- grid::editGrob(pieces[[k]], x = x, y = y, just = c("left", "bottom"))
+        x <- x + widths[[k]]
+      }
+      grid::gTree(children = do.call(grid::gList, pieces))
+    })
+    grid::gTree(children = do.call(grid::gList, labels))
+  }
+)
+geom_mathtext <- function(mapping = NULL, data = NULL, ...) {
+  layer(geom = GeomMathText, mapping = mapping, data = data, stat = "identity",
+        position = "identity", show.legend = FALSE, inherit.aes = FALSE, params = list(...))
+}
+# The math letters and pi in the figures are drawn in MathJax_Math. Stop if it is missing,
+# rather than draw them in another font without saying so.
+if (requireNamespace("systemfonts", quietly = TRUE) &&
+    !"MathJax_Math" %in% systemfonts::system_fonts()$family) {
+  stop("The font MathJax_Math is not installed. It draws the math letters in this file's ",
+       "figures (on Debian or Ubuntu: apt-get install fonts-mathjax).")
 }
 ```
 
@@ -211,7 +284,7 @@ draw_dag(data.frame(name = c("choice", "action taken", "alternative", "consequen
          data.frame(from = c("choice", "choice", "action taken", "alternative"),
                     to = c("action taken", "alternative", "consequences seen", "never seen")),
          dashed = c("choice alternative", "alternative never seen"),
-         boxes = TRUE, text_size = 6, k = 0.021, xlim = c(-0.8, 5.5), ylim = c(-0.3, 1.3))
+         boxes = TRUE, text_size = 6, xlim = c(-0.8, 5.5), ylim = c(-0.3, 1.3))
 ```
 
 Causal understanding is necessary to apply consequentialism.
@@ -381,7 +454,7 @@ $U_1 \sim \mathrm{Ber}(1/2)$, $\;U_2, U_3 \sim \mathrm{Ber}(1/3)$, independent; 
 ::: {.column width="30%"}
 ```{r program_dag, fig.width=3, fig.height=2}
 draw_dag(data.frame(name = c("X", "W", "H"), x = c(1, 0, 2), y = c(1, 0, 0)),
-         data.frame(from = c("X", "X"), to = c("W", "H")), r = 0.26, ylim = c(-0.35, 1.35))
+         data.frame(from = c("X", "X"), to = c("W", "H")), ylim = c(-0.35, 1.35))
 ```
 :::
 ::::
@@ -413,7 +486,7 @@ $P(H = 1 \mid do(W := 1)) = \tfrac16$.
 ::: {.column width="32%"}
 ```{r program_do, fig.width=3, fig.height=1.8}
 draw_dag(data.frame(panel = "after do(W := 1)", name = c("X", "W", "H"), x = c(1, 0, 2), y = c(1, 0, 0)),
-         data.frame(panel = "after do(W := 1)", from = "X", to = "H"), r = 0.26, strip_size = 22,
+         data.frame(panel = "after do(W := 1)", from = "X", to = "H"), strip_size = 22,
          ylim = c(-0.3, 1.3))
 ```
 :::
@@ -530,7 +603,7 @@ Pairs, three minutes. Take two graphs from the room, one with a variable nobody 
 draw_dag(data.frame(name = c("worked last year", "attended", "in work"),
                     x = c(1.35, 0, 2.7), y = c(1, 0, 0), panel = ""),
          data.frame(from = character(0), to = character(0), panel = character(0)),
-         boxes = TRUE, text_size = 6, k = 0.021,
+         boxes = TRUE, text_size = 6,
          xlim = c(-1.2, 3.9), ylim = c(-0.25, 1.25))
 ```
 
@@ -552,7 +625,7 @@ draw_dag(data.frame(name = c("worked last year", "attended", "in work"),
                     x = c(1.35, 0, 2.7), y = c(1, 0, 0)),
          data.frame(from = c("worked last year", "worked last year", "attended"),
                     to = c("attended", "in work", "in work")),
-         highlight = "attended in work", boxes = TRUE, text_size = 6, k = 0.021,
+         highlight = "attended in work", boxes = TRUE, text_size = 6,
          xlim = c(-1.2, 3.9), ylim = c(-0.25, 1.25))
 ```
 
@@ -577,7 +650,7 @@ The center refers people who worked last year more readily: 80% against 20%. Wit
 ::: {.column width="32%"}
 ```{r course_dag, fig.width=3.2, fig.height=2.6}
 draw_dag(data.frame(name = c("Z", "X", "Y"), x = c(1, 0, 2), y = c(1, 0, 0)),
-         data.frame(from = c("Z", "Z", "X"), to = c("X", "Y", "Y")), r = 0.26)
+         data.frame(from = c("Z", "Z", "X"), to = c("X", "Y", "Y")))
 ```
 :::
 ::::
@@ -651,7 +724,7 @@ P(Y = 1 \mid X = 0) &= 0.5 \times 0.6 + 0.5 \times 0.3 = 0.45
 \end{aligned}
 $$
 
-The observed difference is the effect, apart from the chance variation of one draw.
+The difference to expect is $0.55 - 0.45 = 0.10$, the average treatment effect. Any one randomization gives a difference near $0.10$, and a different random draw would give a slightly different number.
 
 > "The goal of a randomized controlled trial is to break natural inclination."
 
@@ -691,7 +764,7 @@ My graph against a colleague's. Same data, both fit. The choice of adjustment se
 ```{r unobs_dag, fig.width=3.6, fig.height=3}
 draw_dag(data.frame(name = c("Z", "U", "X", "Y"), x = c(0.4, 1.6, 0, 2), y = c(1.1, 1.1, 0, 0)),
          data.frame(from = c("Z", "Z", "U", "U", "X"), to = c("X", "Y", "X", "Y", "Y")),
-         dashed = c("U X", "U Y"), r = 0.26)
+         dashed = c("U X", "U Y"))
 ```
 :::
 ::: {.column width="60%"}
@@ -713,12 +786,14 @@ Say "can be read as causal", not "is causal": one agent is not a treated populat
 
 **Notation:** in this part, the letters of reinforcement learning: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
 
-```{r rl_loop, fig.height=1.9, fig.alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."}
+```{r rl_loop, fig.height=1.9, dev.args=list(symbolfamily=grDevices::cairoSymbolFont("MathJax_Math", usePUA=FALSE)), fig.alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."}
+# dev.args draws pi in MathJax_Math, the TeX italic of an older MathJax, so that it looks
+# like the pi in the formulas. Where that font is missing, the system substitutes another.
 loop_boxes <- data.frame(x = c(0, 3), y = c(0, 0), label = c("atop(agent, policy~pi)", "environment"))
 loop_top <- data.frame(x = 0.62, y = 0.28, xend = 2.28, yend = 0.28)
 loop_bottom <- data.frame(x = 2.28, y = -0.28, xend = 0.62, yend = -0.28)
 loop_text <- data.frame(x = c(1.45, 1.45), y = c(1.12, -1.12),
-                        label = c("action~italic(A)", "state~italic(S)*','~reward~italic(R)"))
+                        label = c("action $A$", "state $S$, reward $R$"))
 ggplot() +
   geom_curve(data = loop_top, aes(x = x, y = y, xend = xend, yend = yend), curvature = -0.35,
              arrow = arrow(length = unit(0.3, "cm"), type = "closed"), linewidth = 0.8) +
@@ -726,14 +801,14 @@ ggplot() +
              arrow = arrow(length = unit(0.3, "cm"), type = "closed"), linewidth = 0.8) +
   geom_label(data = loop_boxes, aes(x, y, label = label), parse = TRUE, size = 7,
              label.padding = unit(0.6, "lines"), label.size = 0.6) +
-  geom_text(data = loop_text, aes(x, y, label = label), parse = TRUE, size = 6.5) +
+  geom_mathtext(data = loop_text, aes(x, y, label = label), size = 6.5) +
   coord_cartesian(xlim = c(-0.9, 3.9), ylim = c(-1.3, 1.3)) +
   theme_void()
 ```
 
 Learning: change $\pi$ to make the expected reward $E_\pi[R]$ large.
 
-A consequentialist wants the largest $E_\pi[U]$, with $U$ the good we care about. The agent is given $R$.
+A utilitarian wants the largest $E_\pi[U]$, with $U$ the good we care about. The agent is given $R$.
 
 Whether $E_\pi[U]$ is a causal quantity depends on further assumptions.
 
@@ -764,7 +839,7 @@ cone <- do.call(rbind, lapply(panels[c(1, 3)], function(p)
 mess <- data.frame(panel = rep(panels[2:3], each = 2), x = c(7.6, 8.4, 7.6, 8.4), y = c(5.0, 4.3, 5.0, 4.3))
 cover <- data.frame(panel = panels[3], xmin = 6.5, xmax = 9.7, ymin = 3.2, ymax = 6.1)
 caption <- data.frame(panel = panels, x = 5, y = -1.6,
-                      label = c("italic(R)==1*', room clean'", "italic(R)==1*', room dirty'", "italic(R)==1*', room dirty'"))
+                      label = c("$R$ = 1, room clean", "$R$ = 1, room dirty", "$R$ = 1, room dirty"))
 for (d in c("cone", "mess", "cover", "caption")) {
   z <- get(d); z$panel <- factor(z$panel, levels = panels); assign(d, z)
 }
@@ -774,7 +849,7 @@ ggplot() +
   geom_point(data = mess, aes(x, y), size = 7, color = khaki) +
   geom_rect(data = cover, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), fill = cgray, alpha = 0.8) +
   geom_point(data = data.frame(x = 2, y = 2), aes(x, y), size = 9, color = navy) +
-  geom_text(data = caption, aes(x, y, label = label), parse = TRUE, size = 5.6) +
+  geom_mathtext(data = caption, aes(x, y, label = label), size = 5.6) +
   facet_wrap(~ panel, nrow = 1) +
   coord_fixed(xlim = c(-0.3, 10.3), ylim = c(-2.4, 8.3)) +
   theme_void() + theme(strip.text = element_text(size = 17), panel.spacing = unit(1.5, "lines"))
@@ -817,33 +892,38 @@ Who does a center judged on $R$ send? Who would a utilitarian send?
 ## Cream skimming
 
 ::: {.notes}
-Here R and U point in opposite directions. In the real programs the efficiency difference was small either way, so the authors say any objection has to be about equity.
+The numbers are invented, and the quotation is the real case. The same paper finds that cream skimming changed efficiency little either way, and argues that the objection to it is about equity (section VIII).
 :::
 
 **Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
 
 ```{r skim, fig.height=2.4, fig.alt="Two panels of invented numbers for the variant job center. Placement rate: 70 percent if it sends people who worked last year, 40 percent if it sends those who did not. Extra people in work: 6 against 26."}
 skim <- data.frame(group = factor(rep(c("worked last year", "did not"), 2), levels = c("worked last year", "did not")),
-                   panel = factor(rep(c("R", "U"), each = 2), levels = c("R", "U"),
-                                  labels = c("italic(R)*':'~placement~rate", "italic(U)*':'~extra~people~'in'~work")),
+                   panel = factor(rep(c("R", "U"), each = 2), levels = c("R", "U")),
                    value = c(70, 40, 6, 26), shown = c("70%", "40%", "6", "26"))
+# the panels' titles, drawn above the panels by geom_mathtext so that R and U are in the
+# formulas' italic (a strip's text has one font)
+titles <- data.frame(panel = factor(c("R", "U"), levels = c("R", "U")), x = 1.5, y = Inf,
+                     label = c("$R$: placement rate", "$U$: extra people in work"))
 ggplot(skim, aes(group, value, fill = group)) +
   geom_col(width = 0.6, show.legend = FALSE) +
   geom_text(aes(label = shown), vjust = -0.4, size = 6) +
-  facet_wrap(~ panel, scales = "free_y", labeller = label_parsed) +
+  geom_mathtext(data = titles, aes(x, y, label = label), size = 17 / .pt, colour = "grey10",
+                vjust = 0, nudge_y = 12) +
+  facet_wrap(~ panel, scales = "free_y") +
   scale_fill_manual(values = two) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
   coord_cartesian(clip = "off") +
   labs(x = "the 100 people sent", y = NULL, caption = "invented numbers: the variant job center") +
   theme(axis.text.y = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        strip.text = element_text(size = 17, margin = margin(b = 12)), axis.title.x = element_text(size = 15),
-        plot.caption = element_text(size = 12, color = cgray))
+        strip.text = element_blank(), plot.margin = margin(t = 30, r = 9, b = 9, l = 9),
+        axis.title.x = element_text(size = 15), plot.caption = element_text(size = 12, color = cgray))
 ```
 
-Cream skimming: choosing people who would have found work anyway. In US job-training programs judged partly on employment rates, its efficiency gains or losses were small: "opposition to cream skimming must come on equity grounds."
+Cream skimming: choosing people who would have found work anyway. In the US Job Training Partnership Act programs, centers were judged on short-run measures ($R$) that were "weakly, and sometimes perversely, related to long run impacts" ($U$).
 
 ::: {.source}
-Heckman, Heinrich and Smith (2002), "The Performance of Performance Standards," NBER Working Paper 9002, abstract and section VIII.
+Heckman, Heinrich and Smith (2002), "The Performance of Performance Standards," NBER Working Paper 9002, abstract.
 :::
 
 ## Utilitarianism with a reward
@@ -871,7 +951,7 @@ Each lens, what it referred to this week; lens A, from earlier weeks, recalled f
 
 - **What are we optimizing or predicting?** The center's placement rate, or the jobs the course creates.
 - **Which comparison gets reported?** Attenders against non-attenders, overall or within rows. The average effect, or the effects within groups defined before treatment.
-- **You have to choose, so choose, and defend it.** The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph; it does not draw the graph. "Pretending it was forced is its own failure."
+- **You have to choose, so choose, and defend it.** The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph. "Pretending it was forced is its own failure."
 
 ...and why?
 
