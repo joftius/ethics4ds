@@ -35,9 +35,9 @@ to stand for another, $Y^\star$. The two come apart in three ways:
 noise, an offset that differs between groups, and a response by the
 people being measured. A health system's risk score measured next year's
 medical cost and was taken to stand for how ill a patient was; at the
-same cost, Black patients were sicker, so the score enrolled fewer of
-them and the ones it did enroll were sicker than the White patients it
-enrolled. In a model with an offset $b$ for one group, selecting above a
+same cost, Black patients were sicker, so the score flagged fewer of
+them for extra care, and the ones it did flag were sicker than the
+White patients it flagged. In a model with an offset $b$ for one group, selecting above a
 threshold $t$ on the measure is selecting above $t - b$ on the thing
 measured, for that group only.
 
@@ -186,8 +186,9 @@ the same way. The file-drawer effect turns variance into bias.
 
 A citation count is a score. It is what a researcher's output is
 measured by, and it is taken to stand for a contribution to knowledge.
-The figure shows the two coming apart with nobody doing anything
-dishonest: at each stage, more of the positive results survive.
+The figure shows the two coming apart stage by stage: at each stage,
+more of the positive results survive. The paper documents the
+selections; it says nothing about anyone's intentions.
 
 ### What a score does to the people it is applied to
 
@@ -240,7 +241,7 @@ in turn.
 
 1. **Noise.** $Y = Y^\star + \varepsilon$, with $\varepsilon$
    unrelated to anything else. A noisy measure is still right on
-   average, but anything estimated from it is attenuated.
+   average, but a slope on it is flattened toward zero.
 2. **An offset that differs between groups.**
    $Y = Y^\star + bA$, with $A$ a group and $b \ne 0$. The measure is
    right on average for one group and off by $b$ for the other, and
@@ -260,9 +261,12 @@ for, and who decided that it could.
 
 Obermeyer, Powers, Vogeli and Mullainathan (2019) studied a commercial
 risk score at a large academic hospital. The score was used to decide
-which patients got extra care. Patients above the 97th percentile of
-the score were enrolled in a care-management program automatically;
-patients above the 55th were flagged to their doctor. The score was a
+which patients were offered extra care. Patients above the 97th
+percentile of the score were identified for a care-management program
+automatically; patients above the 55th were flagged to their doctor.
+Whether an identified patient was then enrolled was a decision for
+clinicians, so the paper's numbers are about identification, and these
+notes say "selected" for it. The score was a
 prediction of each patient's **medical costs** in the coming year, and
 race was not one of its inputs. By industry estimates, the authors
 write, tools of this class are applied to roughly 200 million people in
@@ -305,9 +309,9 @@ care a patient receives once they are seen; the paper cites a trial in
 which Black patients took up more preventive care from a Black doctor.
 Either way, cost measures need with an offset that depends on race.
 
-The authors cannot change the hospital's tool, so they simulate what
-removing the gap would do. The share of Black patients among those
-enrolled automatically would rise from 17.7% to 46.5%. Separately,
+The authors simulate what removing the gap would do. The share of Black
+patients among those identified automatically would rise from 17.7% to
+46.5%. Separately,
 they trained new models on three labels. With total cost as the label,
 Black patients were 14.1% of the highest-risk group (the 97th
 percentile and above); with avoidable cost, 21.0%; with the number of
@@ -328,11 +332,11 @@ let $A = 1$ for one group and $0$ for the other. The measure is
 $$
 Y = Y^\star + bA ,
 $$
-and the program enrolls everyone with $Y > t$. For group $0$ that is
+and the program selects everyone with $Y > t$. For group $0$ that is
 $Y^\star > t$. For group $1$ it is $Y^\star + b > t$, or
 $Y^\star > t - b$. **An offset of $b$ in the measure is a threshold
 moved by $-b$ for that group.** With $b < 0$, as in the paper, group
-$1$ has to be iller to be enrolled.
+$1$ has to be iller to be selected.
 
 ```{r offset_densities, echo=FALSE, fig.height=2.4, fig.width=6, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
 t97 <- qnorm(0.97)
@@ -352,7 +356,7 @@ ggplot(dens, aes(y, d, color = group)) +
 
 Two things follow, and both are in the paper's data.
 
-**Who is selected.** Group $1$ is enrolled with probability
+**Who is selected.** Group $1$ is selected with probability
 $P(Y^\star > t - b)$ and group $0$ with probability $P(Y^\star > t)$.
 With $Y^\star \sim N(0, 1)$ and $t$ the 97th percentile, $t = 1.88$:
 
@@ -369,10 +373,11 @@ for (i in seq_len(nrow(tab))) with(tab[i, ], cat(sprintf("| %s | %.1f%% | %.1f%%
 ```
 
 An offset of half a standard deviation cuts group $1$'s chance of
-enrollment to less than a third of group $0$'s. The ratio falls fast
-because the threshold is in the tail, where the normal density drops
-quickly: the same offset at the median would change the two shares by
-much less.
+selection to less than a third of group $0$'s. In percentage points
+the gap is small, 3.0 against 0.9; at the median the same offset would
+move the shares from 50% to 31%, a gap of 19 points but a ratio of only
+0.62. A threshold in the tail turns a small offset into a large
+proportional disparity, because the normal density falls quickly there.
 
 **How ill the selected are.** The mean of a standard normal variable
 given that it exceeds $z$ is
@@ -381,17 +386,22 @@ E[Y^\star \mid Y^\star > z] = \frac{\phi(z)}{1 - \Phi(z)} ,
 $$
 the inverse Mills ratio from week 1, where it gave the expected size of
 an estimate that survived the significance filter. Here it gives the
-mean need of the enrolled in each group: $z = t$ for group $0$ and
+mean need of the selected in each group: $z = t$ for group $0$ and
 $z = t - b$ for group $1$. Since the ratio increases in $z$, the
-enrolled members of group $1$ are iller on average than the enrolled
+selected members of group $1$ are iller on average than the selected
 members of group $0$, by about half a standard deviation in the second
-row of the table. That is the paper's Figure 1A: at every score, and
-in particular at the 97th percentile, the Black patients the score
-selected had more chronic conditions than the White patients it
-selected.
+row of the table.
+
+The paper's Figure 1A compares a different quantity: need at a given
+score, not above a threshold. In this model that comparison is
+simpler. Two patients with the same measure $Y = y$ have needs $y$ and
+$y - b$, so at every score group $1$ is iller by $-b$, and the gap does
+not depend on where the threshold is. The table's comparison, among
+the selected, adds the tail effect on top: group $1$'s selected members
+are drawn from further out in the need distribution.
 
 This is a bias, and more data does not touch it. A larger sample
-estimates the offset more precisely and enrolls the same people.
+estimates the offset more precisely and selects the same people.
 
 The model assumes need has the same distribution in both groups. In
 the paper's sample it does not (Black patients were on average sicker),
@@ -403,21 +413,22 @@ table as a mechanism, not as the hospital's numbers.
 
 ### Who bears the error
 
-A threshold makes two kinds of mistake. A patient can be enrolled
+A threshold makes two kinds of mistake. A patient can be selected
 without needing the program, which uses a place and the program's
 time. A patient can be left out while needing it, which costs the
-patient. Setting $t$ at the 97th percentile rather than the 90th says
-how the hospital priced the two: fewer places used, more people left
-out.
+patient. Setting $t$ at the 97th percentile rather than the 90th trades
+the two: fewer places used, more people left out. The threshold fixes
+the trade without saying how it was valued; a budget for places would
+fix it too.
 
-| | enrolled | not enrolled |
+| | selected | not selected |
 |:---|:---|:---|
 | **ill enough to need the program** | right | left out |
 | **not** | a place used | right |
 
 The offset moves the second error onto one group. For a Black patient
 at the enrollment threshold, the score says "not ill enough" at a level
-of illness at which it says "enrolled" for a White patient. The price
+of illness at which it says "selected" for a White patient. The price
 of an error is paid by the person it falls on, and the offset decides
 who that is. The fourth lens asks who bears the error; here the answer
 is the group whose costs were lower at the same need.
@@ -479,8 +490,10 @@ $$
 E[Y^\star \mid Y] = \lambda Y
 $$
 when $Y^\star$ and $\varepsilon$ are jointly normal with mean zero. A
-patient whose measure is two standard deviations above average is
-expected to be one above average in need. Selecting the top 3% by the
+patient whose measure is two units above average is expected to be one
+unit above average in need (the measure has a larger standard deviation
+than need, so in each variable's own standard deviations the shrinkage
+is by $\sqrt{\lambda}$). Selecting the top 3% by the
 measure selects people whose need is high, but less high than their
 measure says, by the factor $\lambda$. Manheim and Garrabrant call this
 the regressional version of Goodhart's law: pick the largest values of
@@ -650,8 +663,8 @@ one line.
 
 Before anything is said about what a score measures, it does one thing:
 it puts the people it is applied to in order. Any two of them get a
-number, so any two can be compared, and if the first is above the
-second and the second above the third, the first is above the third.
+number, so any two can be compared (or tie), and if the first is above
+the second and the second above the third, the first is above the third.
 
 The language for this is decision theory's. A **preference relation**
 $\succsim$ on a set of options reads "at least as good as". It is
@@ -673,7 +686,9 @@ If $u$ exists, $\succsim$ is complete and transitive. Any two numbers
 compare, and $\ge$ on numbers is transitive, so the relation $u$
 represents inherits both. That one line is the necessity half of the
 next theorem, and it says what a score assumes: whatever the score is
-taken to stand for, the score has ranked everyone against everyone.
+taken to stand for, the score has ranked everyone against everyone,
+with ties allowed. A score is a total preorder; with ties broken, a
+total order.
 
 ### When a number exists
 
@@ -724,8 +739,8 @@ A choice among lotteries, each a probability distribution over
 outcomes, is the setting of von Neumann and Morgenstern (1947). Their
 axioms are completeness, transitivity, a continuity condition, and
 **independence**: if $L \succsim M$, then mixing both with the same
-third lottery $N$ at the same probability $p$ preserves the preference,
-$pL + (1-p)N \succsim pM + (1-p)N$. Under the four, there is a function
+third lottery $N$ at the same probability $q$ preserves the preference,
+$qL + (1-q)N \succsim qM + (1-q)N$. Under the four, there is a function
 $u$ on outcomes such that
 $$
 L \succsim M \iff E_L[u] \ge E_M[u] ,
@@ -771,10 +786,10 @@ Patient 1 is at least as ill as patient 2 on both measures, and all
 three of 1, 2 and 3 are iller than 4. Patient 3 has fewer conditions
 than 1 and 2 and more visits, so 3 compares with neither.
 
-```{r hasse, echo=FALSE, fig.height=2.2, fig.width=3.5, fig.alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither."}
-draw_dag(data.frame(name = c("1", "2", "3", "4"), x = c(0, 0, 1.6, 0.8), y = c(1.4, 0.7, 1.05, 0)),
+```{r hasse, echo=FALSE, fig.height=2.2, fig.width=4.5, fig.alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither."}
+draw_dag(data.frame(name = c("1", "2", "3", "4"), x = c(0, 0.9, 2.7, 1.8), y = c(1.6, 0.8, 0.8, 0)),
          data.frame(from = c("1", "2", "3"), to = c("2", "4", "4")),
-         xlim = c(-0.6, 2.2), ylim = c(-0.3, 1.7))
+         xlim = c(-0.5, 3.2), ylim = c(-0.35, 1.95))
 ```
 
 A cost model turns the two measures into one number. At £1,000 per
@@ -804,8 +819,9 @@ a risk score.
 This is the shape of the week's point about scores. "This person is
 better off than they were" and "this change is better for this person
 and worse for no one" are statements in a partial order, and they need
-no weights. "This person ranks above that one" needs the order
-completed, and completing it is a choice. We can keep the local
+no weights. "This person ranks above that one," for a pair the
+measures leave open, needs the order completed, and completing it is a
+choice. We can keep the local
 comparison without granting that everyone can be compared with
 everyone else; and when a system does compare everyone, the question
 is who completed the order and how.
@@ -815,8 +831,7 @@ is who completed the order and how.
 Fourcade and Healy (2024) call a society organized by rankings
 **ordinal**: nearly every person and organization is scored, by many
 systems, and the scores decide access to credit, work, housing and
-attention. The word points at ranking, and at the French *ordinateur*,
-a computer. In an earlier article (Fourcade and Healy 2013) they
+attention. In an earlier article (Fourcade and Healy 2013) they
 described how credit scores sort people into what they call
 **classification situations**: positions in a market that carry their
 own prices, terms and life chances, so that the score does not describe
@@ -874,10 +889,10 @@ A simulation makes the mechanism visible. Ten thousand people, need and
 noise standard normal, and 300 places for the highest $Y$. After the
 rule, the half of the population who can afford it add $1$ to their
 $Y$; ability to pay is independent of need. The 300 places now go
-mostly to people who paid, and the mean need of the people selected
-falls.
+mostly to people who could pay, and the mean need of the people
+selected falls.
 
-```{r goodhart_sim, echo=FALSE, fig.height=2.8, fig.width=6, fig.alt="Dot plots of need among the 300 people selected: before the rule, a cloud with mean about 1.7; after the half who can pay add 1 to their score, a lower cloud, with the mean and the share who paid printed above each."}
+```{r goodhart_sim, echo=FALSE, fig.height=2.8, fig.width=6, fig.alt="Dot plots of need among the 300 people selected: before the rule, a cloud with mean about 1.7; after the half who can pay add 1 to their score, a lower cloud, with the mean and the share who could pay printed above each."}
 n <- 10000
 need <- rnorm(n); noise <- rnorm(n)
 y0 <- need + noise
@@ -892,7 +907,7 @@ means <- sim |> group_by(when) |> summarize(m = mean(need), paid = mean(paid), .
 ggplot(sim, aes(when, need, color = when)) +
   geom_jitter(width = 0.25, height = 0, alpha = 0.35, size = 0.9, show.legend = FALSE) +
   geom_point(data = means, aes(when, m), color = "black", size = 3.5, shape = 18) +
-  geom_text(data = means, aes(when, 4.6, label = sprintf("mean need %.2f; %.0f%% paid", m, 100 * paid)),
+  geom_text(data = means, aes(when, 4.6, label = sprintf("mean need %.2f; %.0f%% could pay", m, 100 * paid)),
             color = "black", size = 3.6) +
   scale_color_manual(values = two) +
   coord_cartesian(ylim = c(-1.5, 4.9)) +
@@ -900,9 +915,9 @@ ggplot(sim, aes(when, need, color = when)) +
   theme(panel.grid.major.x = element_blank())
 ```
 
-The fall in mean need is modest here, because the people who paid were
-drawn from the same need distribution as everyone else; what changes
-most is who the places go to. In the paper's setting the equivalent
+The fall in mean need is modest here, because the people who could pay
+were drawn from the same need distribution as everyone else; what
+changes most is who the places go to. In the paper's setting the equivalent
 would be a hospital that rewards patients, or their doctors, for a high
 score, after which the score measures who responded to the reward.
 
@@ -940,9 +955,11 @@ a published rule.
 
 **Gaming and improvement** (Miller, Milli and Hardt 2020). Whether a
 response to a rule is gaming or improvement depends on the causal
-graph. If the feature a person changes causes the outcome, the change
-improves the outcome, and $Y^\star$ rises with $Y$; if it causes only
-the measure, the change is gaming, the second graph above. A rule meant
+model. If the feature a person changes raises the outcome, the change
+is improvement, and $Y^\star$ rises with $Y$; if it changes only the
+measure, the change is gaming, the second graph above. The graph says
+which features can affect the outcome at all; whether a given change
+raises it, and by how much, needs the model's equations too. A rule meant
 to reward improvement has to know which, and that is a causal inference
 problem; the authors show that any procedure for designing such rules
 has to solve one. Conditioning is not intervening, a third time: the
@@ -962,9 +979,11 @@ discovery features had been "designed to drive views," which rewarded
 videos that got clicked over videos that kept viewers watching, and
 that it would rank by watch time instead. A platform's reward is
 engagement in some form. A user's utility is something else: being
-informed, or entertained, on their own terms, and not manipulated. The
-gap between the two is where a platform's revenue is, and that is a
-reason for nobody inside the platform to close it. Last week's lens
+informed, or entertained, on their own terms, and not manipulated.
+When a platform's revenue rises with $R$, closing the gap between $R$
+and $U$ costs it money, and nobody inside has to decide to leave it
+open; the reward decides for them. The post describes one change of
+reward, not the incentives behind it; that reading is mine. Last week's lens
 asked which comparison gets reported; this week's asks what is being
 optimized, and for whom.
 
@@ -984,7 +1003,8 @@ first and the system optimized it.
 
 Who bears the error? A threshold at the 97th percentile makes two
 errors, a place used on someone who did not need it and a person left
-out who did, and prices them against each other. An offset in the
+out who did, and trades them against each other, whether by a judgment
+about their costs or by how many places the program has. An offset in the
 measure moves the second error onto one group, the one whose costs
 were lower at the same need. The cleaning robot's owner bears the
 difference between the robot's reward and a clean room; the job
