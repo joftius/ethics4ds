@@ -562,9 +562,12 @@ ggplot() +
 ```
 
 Now a variant of week 3's job center, with 100 places on the course,
-which helps some people more than others. Of people who worked last
-year, 70% are in work six months later if they take the course and 64%
-if they do not; of people who did not work last year, 40% and 14%. The
+which helps some people more than others. Take the rates that follow as
+what would happen under assignment to the course or to no course, so
+that the differences are effects and not last week's confounded
+comparison. Of people who worked last year, 70% are in work six months
+later if they take the course and 64% if they do not; of people who
+did not work last year, 40% and 14%. The
 state is a person's record, the action is to refer or not, and the
 center is judged on the share of the people it refers who are in work,
 its placement rate. That rate is its reward. Referring 100 people who
@@ -735,9 +738,9 @@ authors' own work.
 **Strategic classification** (Hardt, Megiddo, Papadimitriou and
 Wootters 2016). A classifier is published. Each person then changes
 their features, at a cost that depends on the change, to get the label
-they want, and the classifier's accuracy is judged against the features
-as they were before the change and an underlying target function. The
-true label is taken as fixed, so every response is gaming, and the
+they want. The classifier is scored on the features as changed, against
+each person's true label, which is fixed by the features as they were
+before the change; so every response is gaming, and the
 design problem is a classifier that stays accurate when everyone games
 it. The paper gives efficient algorithms for a natural class of cost
 functions and shows the general problem is hard.
@@ -782,10 +785,12 @@ videos that got clicked over videos that kept viewers watching, and
 that it would rank by watch time instead. A platform's reward is
 engagement in some form. A user's utility is something else: being
 informed, or entertained, on their own terms, and not manipulated.
-When a platform's revenue rises with $R$, closing the gap between $R$
-and $U$ costs it money, and nobody inside has to decide to leave it
-open; the reward decides for them. The post describes one change of
-reward, not the incentives behind it; that reading is mine. Last week's lens
+The two need not conflict: a change that keeps viewers watching can
+serve them too. Where they do conflict, where raising $U$ would lower
+$R$, a platform whose revenue rises with $R$ has a reason not to, and
+nobody inside has to decide to leave the gap open; the reward decides
+for them. The post describes one change of reward, not the incentives
+behind it; that reading is mine. Last week's lens
 asked which comparison gets reported; this week's asks what is being
 optimized, and for whom.
 

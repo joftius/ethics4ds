@@ -278,9 +278,7 @@ Joshua Loftus
 </section>
 <section id="a-model-an-offset-for-one-group" class="slide level2">
 <h2>A model: an offset for one group</h2>
-<p><span class="math inline">\(Y^\star\)</span> need, the same in both groups; <span class="math inline">\(A = 1\)</span> for one group, <span class="math inline">\(0\)</span> for the other; selected if <span class="math inline">\(Y &gt; t\)</span>, where <span class="math display">\[
-Y = Y^\star + bA .
-\]</span></p>
+<p><span class="math inline">\(Y^\star\)</span> need, the same in both groups; <span class="math inline">\(A = 1\)</span> for one group, <span class="math inline">\(0\)</span> for the other; selected if <span class="math inline">\(Y &gt; t\)</span>, where <span class="math inline">\(Y = Y^\star + bA\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -419,7 +417,7 @@ Y = Y^\star + bA .
 </section>
 <section id="a-noisy-measure-flattens-a-slope" class="slide level2">
 <h2>A noisy measure flattens a slope</h2>
-<p><span class="math inline">\(Y = Y^\star + \varepsilon\)</span>, noise independent of need. Regress an outcome <span class="math inline">\(V = \beta Y^\star + U\)</span> on <span class="math inline">\(Y\)</span> instead of on <span class="math inline">\(Y^\star\)</span>: the slope is <span class="math inline">\(\beta\lambda\)</span>, with <span class="math display">\[
+<p><span class="math inline">\(Y = Y^\star + \varepsilon\)</span>. Regress an outcome <span class="math inline">\(V = \beta Y^\star + U\)</span> on <span class="math inline">\(Y\)</span> instead of on <span class="math inline">\(Y^\star\)</span>, with <span class="math inline">\(Y^\star\)</span>, <span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(U\)</span> independent: the slope is <span class="math inline">\(\beta\lambda\)</span>, with <span class="math display">\[
 \lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \operatorname{Var}(\varepsilon)} &lt; 1 .
 \]</span></p>
 <div class="cell">
@@ -484,7 +482,7 @@ Y = Y^\star + bA .
 <section id="a-job-center-as-an-agent" class="slide level2">
 <h2>A job center as an agent</h2>
 <p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
-<p>A variant of week 3’s job center: 100 places on the course, which helps some people more than others.</p>
+<p>A variant of week 3’s job center: 100 places on the course, which helps some people more than others. Take the rates below as what would happen if the course were assigned, or withheld.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -634,8 +632,8 @@ Y = Y^\star + \varepsilon + g .
 <div class="column" style="width:50%;">
 <p><strong>Strategic classification</strong></p>
 <ul>
-<li>A classifier is published; people change their features, at a cost, for the better label. The true label stays fixed, so every response is gaming.</li>
-<li>Design: accuracy on the unchanged features.</li>
+<li>A classifier is published; people change their features, at a cost, for the better label. True labels stay fixed: every response is gaming.</li>
+<li>Design: accuracy after people respond, against their original labels.</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><strong>Performative prediction</strong></p>
@@ -644,7 +642,7 @@ Y = Y^\star + \varepsilon + g .
 <li>Question: what does retraining converge to?</li>
 </ul>
 </div></div>
-<p>In both the data depend on the rule, so the rule is an intervention, not a sample.</p>
+<p>In both, the rule is an intervention, not a sample.</p>
 <div class="source">
 <p>Hardt, Megiddo, Papadimitriou and Wootters (2016), “Strategic Classification,” arXiv 1506.06980; Perdomo, Zrnic, Mendler-Dünner and Hardt (2020), “Performative Prediction,” arXiv 2002.06673.</p>
 </div>
@@ -653,7 +651,7 @@ Y = Y^\star + \varepsilon + g .
 <h2>Engagement</h2>
 <p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
 <p>YouTube, September 2012: its discovery features had been “designed to drive views,” which rewarded videos that got clicked over videos that kept viewers watching. The reward became watch time.</p>
-<p><span class="math inline">\(R\)</span>: engagement, whatever the platform can measure. <span class="math inline">\(U\)</span>: a user who is informed, and not manipulated. When revenue rises with <span class="math inline">\(R\)</span>, closing the gap costs money.</p>
+<p><span class="math inline">\(R\)</span>: engagement, whatever the platform can measure. <span class="math inline">\(U\)</span>: a user who is informed, and not manipulated. Where raising <span class="math inline">\(U\)</span> would lower <span class="math inline">\(R\)</span>, revenue pulls the other way.</p>
 <div class="ask">
 <p>Who benefits from the gap between <span class="math inline">\(R\)</span> and <span class="math inline">\(U\)</span> staying invisible?</p>
 </div>

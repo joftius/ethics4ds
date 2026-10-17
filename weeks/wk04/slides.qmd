@@ -347,12 +347,9 @@ Obermeyer and colleagues (2019), Figure 1A and text: 4.8 against 3.8 conditions 
 Need is the same in both groups; cost is need plus an offset b for group 1, negative here. Selecting above t on Y is selecting above t minus b on need, for that group only. An offset in the measure is a threshold moved for one group.
 :::
 
-$Y^\star$ need, the same in both groups; $A = 1$ for one group, $0$ for the other; selected if $Y > t$, where
-$$
-Y = Y^\star + bA .
-$$
+$Y^\star$ need, the same in both groups; $A = 1$ for one group, $0$ for the other; selected if $Y > t$, where $Y = Y^\star + bA$.
 
-```{r offset_densities, fig.height=2.0, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
+```{r offset_densities, fig.height=2.8, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
 grid <- seq(-3.5, 3.5, length.out = 400)
 dens <- bind_rows(data.frame(y = grid, d = dnorm(grid), group = "group 0"),
                   data.frame(y = grid, d = dnorm(grid, mean = -0.5), group = "group 1"))
@@ -362,9 +359,10 @@ ggplot(dens, aes(y, d, color = group)) +
   geom_vline(xintercept = t97, linetype = "dashed", color = cgray) +
   annotate("text", x = t97 + 0.1, y = 0.37, label = "t", hjust = 0, size = 7, fontface = "italic") +
   scale_color_manual(values = two, name = NULL) + scale_fill_manual(values = two, name = NULL) +
-  labs(x = "the measure Y", y = NULL, caption = "b = -0.5 standard deviations") +
-  theme(axis.text.y = element_blank(), panel.grid = element_blank(), legend.position = "top",
-        plot.caption = element_text(size = 13, color = cgray))
+  labs(x = "the measure Y, with b = -0.5 standard deviations", y = NULL) +
+  theme(axis.text.y = element_blank(), panel.grid = element_blank(),
+        legend.position = c(0.12, 0.85), legend.text = element_text(size = 15),
+        axis.title.x = element_text(size = 15))
 ```
 
 For group $1$, $Y > t$ is $Y^\star > t - b$: an offset in the measure is a threshold moved for that group.
@@ -450,10 +448,10 @@ Who benefited from that choice being invisible? And would a more competent analy
 ## A noisy measure flattens a slope
 
 ::: {.notes}
-Classical measurement error, the third route by which Y and Y* differ. Regress anything on the noisy Y instead of Y* and the slope shrinks by the reliability ratio lambda; noise in the outcome does not do this. The class derives it. Variance in the measure becomes bias in the slope.
+Classical measurement error, the third route by which Y and Y* differ. With the three independent, regressing V on the noisy Y instead of Y* shrinks the slope by the reliability ratio lambda; noise in the outcome does not do this. Independence matters: if U were the same noise as epsilon, V would equal Y and the slope would be 1. The class derives it. Variance in the measure becomes bias in the slope.
 :::
 
-$Y = Y^\star + \varepsilon$, noise independent of need. Regress an outcome $V = \beta Y^\star + U$ on $Y$ instead of on $Y^\star$: the slope is $\beta\lambda$, with
+$Y = Y^\star + \varepsilon$. Regress an outcome $V = \beta Y^\star + U$ on $Y$ instead of on $Y^\star$, with $Y^\star$, $\varepsilon$ and $U$ independent: the slope is $\beta\lambda$, with
 $$
 \lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \operatorname{Var}(\varepsilon)} < 1 .
 $$
@@ -561,7 +559,7 @@ Pairs, one minute, then hands for each question. A variant of week 3's table in 
 
 **Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
 
-A variant of week 3's job center: 100 places on the course, which helps some people more than others.
+A variant of week 3's job center: 100 places on the course, which helps some people more than others. Take the rates below as what would happen if the course were assigned, or withheld.
 
 | | in work six months later, with the course | without it |
 |:---|:---|:---|
@@ -730,8 +728,8 @@ Strategic classification names the mechanism and holds the true label fixed, so 
 ::: {.column width="50%"}
 **Strategic classification**
 
-- A classifier is published; people change their features, at a cost, for the better label. The true label stays fixed, so every response is gaming.
-- Design: accuracy on the unchanged features.
+- A classifier is published; people change their features, at a cost, for the better label. True labels stay fixed: every response is gaming.
+- Design: accuracy after people respond, against their original labels.
 :::
 ::: {.column width="50%"}
 **Performative prediction**
@@ -741,7 +739,7 @@ Strategic classification names the mechanism and holds the true label fixed, so 
 :::
 ::::
 
-In both the data depend on the rule, so the rule is an intervention, not a sample.
+In both, the rule is an intervention, not a sample.
 
 ::: {.source}
 Hardt, Megiddo, Papadimitriou and Wootters (2016), "Strategic Classification," arXiv 1506.06980; Perdomo, Zrnic, Mendler-Dünner and Hardt (2020), "Performative Prediction," arXiv 2002.06673.
@@ -758,7 +756,7 @@ Compress: YouTube ranked by views, got clickable videos, switched to watch time;
 YouTube, September 2012: its discovery features had been "designed to drive views," which rewarded videos that got clicked over videos that kept viewers watching. The reward became watch time.
 
 $R$: engagement, whatever the platform can measure.
-$U$: a user who is informed, and not manipulated. When revenue rises with $R$, closing the gap costs money.
+$U$: a user who is informed, and not manipulated. Where raising $U$ would lower $R$, revenue pulls the other way.
 
 ::: {.ask}
 Who benefits from the gap between $R$ and $U$ staying invisible?
