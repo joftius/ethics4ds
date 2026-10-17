@@ -23,7 +23,7 @@ st313:
   week: 04
   session: lecture
   register: 1                      # schema key; part 3 and the engagement slide declare the reinforcement-learning letters on the slide. Student-facing text never says "register"
-  segments:                        # sums to 80: 64 of material and 16 of slack; production 20 (25%)
+  segments:                        # sums to 80: 54 of material and 26 of slack; production 21 (26%)
     # opener: 2
     - {label: "plan; written commitment: a score that has been used on you, what it measures, what it stands for", minutes: 2, mode: production}
     # part 1, scores: 8
@@ -34,7 +34,7 @@ st313:
     - {label: "the case: a commercial risk score, cost as the label, enrollment at the 97th percentile", minutes: 2, mode: exposition}
     - {label: "commitment: sketch conditions against risk percentile for two groups if cost tracked need equally; then the paper's numbers", minutes: 3, mode: production}
     - {label: "Y = Y* + bA: an offset for one group is a threshold moved for that group; who is selected, and how ill", minutes: 5, mode: exposition, introduces: [CC-11], core: CC-11, results: [R20, R24]}
-    - {label: "relabeling: 17.7% to 46.5%; the three labels of Table 2", minutes: 2, mode: exposition, results: [R20]}
+    - {label: "relabeling: 17.7% to 46.5%; the three labels of Table 2; hands: which label, and who loses under it", minutes: 2, mode: production, results: [R20]}
     - {label: "why b is not zero: lower spending at the same number of conditions; access; the choice of label", minutes: 2, mode: exposition, retrieves: [S2]}
     - {label: "lens D: the threshold prices two errors, and who bears each; the standing question", minutes: 3, mode: production, spine_first_encounter: [S5]}
     - {label: "attenuation, stated with a figure: a noisy measure flattens a slope; derived in the class", minutes: 1, mode: exposition, introduces: [CC-12], core: CC-12, results: [R21]}
@@ -44,22 +44,16 @@ st313:
     - {label: "realistic example, pairs: week 3's job center judged on its placement rate; who does it send, and who would a utilitarian send", minutes: 2, mode: production, register: 2}
     - {label: "what the placement rate rewards: 70% and 6 jobs against 40% and 26; cream skimming in JTPA (Heckman, Heinrich and Smith 2002)", minutes: 2, mode: exposition, register: 2}
     - {label: "utilitarianism with a reward: ms4ds's four difficulties as choices made in building the agent", minutes: 2, mode: exposition, register: 2}
-    # part 4, utility and order: 10
-    - {label: "a score is a total order: complete and transitive; necessity in one line", minutes: 2, mode: exposition, results: [R25]}
-    - {label: "when a number exists: countable sets, the lexicographic order, Debreu", minutes: 2, mode: exposition, results: [R25]}
-    - {label: "under risk: von Neumann and Morgenstern; unique up to a positive affine transformation; adding across people needs a scale each", minutes: 2, mode: exposition}
-    - {label: "partial orders, pairs: four patients, two measures; which pairs compare; how many total orders agree; which one cost picks", minutes: 3, mode: production, results: [R26]}
-    - {label: "the ordinal society: Fourcade and Healy", minutes: 1, mode: exposition}
-    # part 5, systems that adapt: 12
+    # part 4, systems that adapt: 12
     - {label: "Goodhart as an intervention on the measured target: the graph, before and after, a simulation", minutes: 5, mode: exposition, introduces: [CC-13], core: CC-13, results: [R22, R23], retrieves: [S1]}
-    - {label: "gaming and improvement: Miller, Milli and Hardt 2020; which route into Y the response takes", minutes: 2, mode: exposition, introduces: [CC-14]}
+    - {label: "gaming and improvement, pairs: three responses to a rule sorted; Miller, Milli and Hardt 2020", minutes: 2, mode: production, introduces: [CC-14]}
     - {label: "strategic classification and performative prediction: what each assumes, how they differ", minutes: 3, mode: exposition, introduces: [CC-14]}
     - {label: "dark: engagement; YouTube 2012, views to watch time; R against U; the standing question", minutes: 2, mode: exposition, register: 2}
     # close: 4
     - {label: "lenses this week", minutes: 2, mode: exposition}
     - {label: "the question that splits the room: hands and one reason from each side; the task for next time on the same slide", minutes: 2, mode: production}
     # slack: 16
-    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 16, mode: exposition}
+    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 26, mode: exposition}
   history: [{minutes: 1, buys: "Goodhart (1975) and Strathern (1997): where the name and the usual wording of the law come from"}]
   complications: []
   retrieves: [S1, S2, S4]
@@ -67,7 +61,7 @@ st313:
   lenses: [A, D]
   spine_first_encounter: [S5]
   readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart]
-  results: [R20, R21, R22, R23, R24, R25, R26]
+  results: [R20, R21, R22, R23, R24]     # R25 and R26 (utility representation; Szpilrajn) went with part 4 to _held/, 17 October
   assumes: [ST102]
   figures: [../../files/devries_2018_fig1.png]
 # ---------------------------------------------------------------------------------
@@ -204,11 +198,11 @@ sel <- function(b) {                       # for group A = 1 with offset b, agai
 ## {.inverse}
 
 ::: {.notes}
-Compress: the five parts. Plan 64 in the 80: opener 2, scores 8, cost as a proxy for need 18, reinforcement learning 10, utility and order 10, systems that adapt 12, close 4; then 16 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 54 in the 80: opener 2, scores 8, cost as a proxy for need 18, reinforcement learning 10, systems that adapt 12, close 4; then 26 of slack. Dark = rush or skip.
 
-Cut order: (1) the engagement slide; (2) the commentary on the citation figure, keeping the figure; (3) attenuation, which the class derives anyway; (4) the ordinal-society slide compressed to one sentence. Do not cut the four-patient exercise or the question at the end.
+Cut order: (1) the engagement slide; (2) the commentary on the citation figure, keeping the figure; (3) attenuation, which the class derives anyway. Do not cut the pairs work on the job center or the question at the end.
 
-Pace: 0:10 Part 2; 0:28 Part 3; 0:38 Part 4; 0:48 Part 5; 1:00 lenses; 1:04 end.
+Pace: 0:10 Part 2; 0:28 Part 3; 0:38 Part 4; 0:50 lenses; 0:54 end.
 :::
 
 ### Week 4
@@ -219,9 +213,7 @@ Part 2: Cost as a proxy for need
 
 Part 3: Reinforcement learning
 
-Part 4: Utility and order
-
-Part 5: Systems that adapt
+Part 4: Systems that adapt
 
 ## A score
 
@@ -279,8 +271,9 @@ $Y$ is the outcome we measure. $Y^\star$ is the outcome we intend: the one we wo
 |:---|:---|
 | citations | contribution to knowledge |
 | $p < 0.05$ | a true effect |
-| a job center's placement rate | people in work because of it |
+| last week's job center: its placement rate | people in work because of the course |
 | a patient's medical cost | how ill the patient is |
+| a video's views | a viewer informed, or entertained, on their own terms |
 
 ::: {.ask}
 Your score from the start: which column is it in, and what is the other column?
@@ -379,7 +372,7 @@ For group $1$, $Y > t$ is $Y^\star > t - b$: an offset in the measure is a thres
 ## Who is selected, and how ill
 
 ::: {.notes}
-Standard normal need, t at the 97th percentile. Share selected, the ratio, and the mean need of the selected: the inverse Mills ratio from week 1. A half-standard-deviation offset cuts group 1's chance of selection to a third and makes its selected members sicker.
+Standard normal need, t at the 97th percentile. Share selected, the ratio, and the mean need of the selected: the inverse Mills ratio, which in week 1 gave the expected size of an estimate that survived the significance filter. A half-standard-deviation offset cuts group 1's chance of selection to a third and makes its selected members sicker. The paper's Figure 1A compares at the same score, not above a threshold; in this model that gap is exactly -b.
 :::
 
 $Y^\star \sim N(0, 1)$ in both groups; $t$ is the 97th percentile.
@@ -402,7 +395,7 @@ The mean of a standard normal above $z$ is $\phi(z)/(1 - \Phi(z))$. Where did th
 ## Changing the label
 
 ::: {.notes}
-The authors simulate: with the gap removed, Black patients would be 46.5% of those identified automatically instead of 17.7%. Separately, Table 2: models trained on three labels. Chronic conditions as the label nearly doubles the Black share of the highest-risk group.
+The authors simulate: with the gap removed, Black patients would be 46.5% of those identified automatically instead of 17.7%. Separately, Table 2: models trained on three labels. Chronic conditions as the label nearly doubles the Black share of the highest-risk group. Then hands for each label, and one reason: who is worse off under the label you chose?
 :::
 
 Removing the gap between the groups, in a simulation: the share of Black patients among those identified automatically rises from **17.7% to 46.5%**.
@@ -414,6 +407,10 @@ Training a new model on each of three labels (the paper's Table 2), the Black sh
 | total cost | 14.1% |
 | avoidable cost | 21.0% |
 | active chronic conditions | 26.7% |
+
+::: {.ask}
+Which label would you choose for this program, and who is worse off under it?
+:::
 
 ::: {.source}
 Obermeyer and colleagues (2019), body text and Table 2. The abstract states the first figure loosely, as "the percentage of Black patients receiving additional help"; the body states it as the Black share of those auto-identified at the 97th percentile.
@@ -638,125 +635,12 @@ An agent judges a policy only by the reward it expects. That is consequentialism
 | judging acts or rules | the policy is a rule: it treats alike everyone in the same state |
 | predicting consequences | a model of what the actions do, which is a causal model |
 
-# Part 4: Utility and order
-
-## A score is a total order
-
-::: {.notes}
-Any two people get a number, so any two can be compared, and comparisons chain. That is the content of a score before anything is said about what it measures. The one-line proof is the necessity half of the theorem on the next slide.
-:::
-
-A preference relation $\succsim$ on a set of options ("at least as good as") is
-
-- **complete** if for every pair, $x \succsim y$ or $y \succsim x$ (or both);
-- **transitive** if $x \succsim y$ and $y \succsim z$ imply $x \succsim z$.
-
-A **utility representation** is a function $u$ with
-$$
-x \succsim y \iff u(x) \ge u(y) .
-$$
-
-If $u$ exists, $\succsim$ is complete and transitive, because $\ge$ on numbers is. A score is a total order on the people it is applied to, with ties allowed.
-
-## When a number exists
-
-::: {.notes}
-Countable: complete and transitive are enough, and necessary. Uncountable: Debreu's sufficient condition adds continuity. The lexicographic order on the plane is complete and transitive and has no representation at all: each vertical line would need its own interval of numbers, and there are uncountably many lines.
-:::
-
-::: {.leave}
-On a finite or countable set, $\succsim$ has a utility representation if and only if it is complete and transitive. On an uncountable set that is not enough; continuity on a connected, separable set is (Debreu 1954).
-:::
-
-```{r lexico, fig.height=1.9, fig.alt="Two points in the plane, P and Q, with Q to the right of P and lower; the lexicographic order ranks Q above P because its first coordinate is larger."}
-pts <- data.frame(x = c(1, 1.6), y = c(1.2, 0.5), label = c("P", "Q"))
-ggplot(pts, aes(x, y)) +
-  geom_point(size = 5, color = navy) +
-  geom_text(aes(label = label), nudge_y = 0.2, size = 7) +
-  coord_fixed(xlim = c(0.5, 2.3), ylim = c(0, 1.7)) +
-  labs(x = NULL, y = NULL) +
-  theme(axis.text = element_blank(), panel.grid.minor = element_blank())
-```
-
-Lexicographic: $Q \succ P$ when $Q$'s first coordinate is larger, whatever the second. Complete, transitive, and no $u$ represents it.
-
-## Under risk
-
-::: {.notes}
-Von Neumann and Morgenstern: add independence and the utility of a lottery is its expected utility, which is what the agent in part 3 maximizes. Unique up to a positive affine transformation: each person's scale is free. A sum across people needs a scale for each, and no axiom supplies it. Week 3's second difficulty, located.
-:::
-
-Choices among lotteries. Add to completeness, transitivity and continuity the **independence** axiom: a preference between two lotteries survives mixing both with the same third lottery.
-
-Then there is a $u$ on outcomes with
-$$
-L \succsim M \iff E_L[u] \ge E_M[u] ,
-$$
-unique up to $a u + c$ with $a > 0$ (von Neumann and Morgenstern 1947).
-
-$E_\pi[U]$ in part 3 is this, for one agent. Adding $U$ across people needs a scale for each person, and no axiom here supplies one.
-
-::: {.source}
-Wikipedia, Von Neumann--Morgenstern utility theorem; the theorem is in *Theory of Games and Economic Behavior*, 2nd edition (1947), appendix.
-:::
-
-## Four patients, two measures
-
-::: {.notes}
-Pairs, three minutes. "At least as ill" when both measures are at least as high: a partial order. Which pairs are comparable; how many orderings of the four agree with every comparable pair; which one each weighting picks. Answers on the next slide.
-:::
-
-| patient | active chronic conditions | emergency visits last year |
-|:---|:---|:---|
-| 1 | 4 | 2 |
-| 2 | 3 | 2 |
-| 3 | 2 | 3 |
-| 4 | 1 | 1 |
-
-"At least as ill as": both measures at least as high.
-
-::: {.ask}
-Which pairs can be compared? How many orderings of the four patients agree with every comparison you can make? Which ordering does a cost of £1,000 per condition and £1,500 per visit give? And £1,000 and £3,000?
-:::
-
-## Every partial order can be completed
-
-::: {.notes}
-Three orderings agree with the partial order; the two costs pick two different ones. Szpilrajn 1930: every partial order extends to a total order, and in general in many ways. A score picks one extension; the comparisons it adds are the score's, not the patients'.
-:::
-
-```{r hasse, fig.height=2.0, fig.alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither."}
-draw_dag(data.frame(name = c("1", "2", "3", "4"), x = c(0, 0.9, 2.7, 1.8), y = c(1.6, 0.8, 0.8, 0)),
-         data.frame(from = c("1", "2", "3"), to = c("2", "4", "4")),
-         xlim = c(-0.5, 3.2), ylim = c(-0.35, 1.95))
-```
-
-Patient 3 compares with neither 1 nor 2. Three total orders agree with every comparison: 3 first, second or third. £1,000 and £1,500 gives 1, 3, 2, 4; £1,000 and £3,000 gives 3, 1, 2, 4.
-
-::: {.leave}
-Every partial order is contained in a total order (Szpilrajn 1930), usually in many. A score that respects the measures chooses one; the comparisons it adds are the score's, not the patients'.
-:::
-
-## The ordinal society
-
-::: {.notes}
-Fourcade and Healy: ranking as the organizing form of a society in which nearly everyone is scored, and scores decide access to credit, jobs and services. Their earlier phrase: classification situations, the life chances a score sorts a person into. Keep the local comparison; refuse the global one. One minute.
-:::
-
-Fourcade and Healy call a society organized by rankings **ordinal**: nearly everyone is scored, and the scores decide access to credit, work, housing and attention. A score, they wrote earlier, sorts a person into a **classification situation**, a set of life chances.
-
-"This person is better off than they were" is a comparison in a partial order. "This person ranks above that one," for a pair the measures leave open, needs the order completed, and someone to have completed it.
-
-::: {.source}
-Fourcade and Healy, *The Ordinal Society* (Harvard University Press, 2024); Fourcade and Healy, "Classification situations: Life-chances in the neoliberal era," *Accounting, Organizations and Society* 38 (2013), 559--572.
-:::
-
-# Part 5: Systems that adapt
+# Part 4: Systems that adapt
 
 ## The optimizer arrives
 
 ::: {.notes}
-Before the rule: Y comes from need and noise, and selecting on Y is conditioning; the selected are needier on average. After the rule: anyone near the threshold adds g to Y without touching need, an intervention on Y's equation. The simulation: the top 3% by Y, mean need before and after.
+Back to the prediction letters. So far the people measured have done nothing; the robot and the job center were the agents. Now the people act. Before the rule: Y comes from need and noise, and selecting on Y is conditioning; the selected are needier on average. After the rule: people add g to Y without touching need, an intervention on Y's equation. The simulation: 300 places by Y, mean need before and after.
 :::
 
 Before a rule rewards $Y$: $\;Y = Y^\star + \varepsilon$.
@@ -820,7 +704,7 @@ Conditioning is not intervening. Which is the rule doing?
 ## Gaming and improvement
 
 ::: {.notes}
-Miller, Milli and Hardt: whether a response to a rule is gaming or improvement depends on whether the feature moved raises the outcome, not only the measure. So designing a rule that rewards improvement is a causal inference problem.
+Pairs, one minute: sort the three. The third is the hard one; it depends on what the test measures. Miller, Milli and Hardt: whether a response is gaming or improvement depends on whether the feature moved raises the outcome, not only the measure, so designing a rule that rewards improvement is a causal inference problem.
 :::
 
 A person responds to a rule by changing something the rule looks at.
@@ -828,7 +712,9 @@ A person responds to a rule by changing something the rule looks at.
 - **Gaming:** the change raises $Y$ by a route that does not pass through $Y^\star$.
 - **Improvement:** the change raises $Y^\star$, and $Y$ with it.
 
-Which it is depends on the causal model: does the thing changed raise the outcome, or only the measure of it? A rule meant to reward improvement has to answer that, which is causal inference.
+::: {.ask}
+A course is judged by its students' test scores. Students (1) memorize last year's paper; (2) do more of the exercises; (3) learn the examiner's favorite phrasing. Gaming or improvement, and what does the answer depend on?
+:::
 
 ::: {.source}
 Miller, Milli and Hardt (2020), "Strategic Classification is Causal Modeling in Disguise," ICML, PMLR 119, 6917--6926.

@@ -1004,9 +1004,9 @@ Joshua Loftus
 <section id="section" class="slide level2 inverse">
 <h2></h2>
 <aside class="notes">
-<p>Compress: the five parts. Plan 64 in the 80: opener 2, scores 8, cost as a proxy for need 18, reinforcement learning 10, utility and order 10, systems that adapt 12, close 4; then 16 of slack. Dark = rush or skip.</p>
-<p>Cut order: (1) the engagement slide; (2) the commentary on the citation figure, keeping the figure; (3) attenuation, which the class derives anyway; (4) the ordinal-society slide compressed to one sentence. Do not cut the four-patient exercise or the question at the end.</p>
-<p>Pace: 0:10 Part 2; 0:28 Part 3; 0:38 Part 4; 0:48 Part 5; 1:00 lenses; 1:04 end.</p>
+<p>Compress: the four parts. Plan 54 in the 80: opener 2, scores 8, cost as a proxy for need 18, reinforcement learning 10, systems that adapt 12, close 4; then 26 of slack. Dark = rush or skip.</p>
+<p>Cut order: (1) the engagement slide; (2) the commentary on the citation figure, keeping the figure; (3) attenuation, which the class derives anyway. Do not cut the pairs work on the job center or the question at the end.</p>
+<p>Pace: 0:10 Part 2; 0:28 Part 3; 0:38 Part 4; 0:50 lenses; 0:54 end.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1022,8 +1022,7 @@ display:block!important;
 <p>Part 1: Scores</p>
 <p>Part 2: Cost as a proxy for need</p>
 <p>Part 3: Reinforcement learning</p>
-<p>Part 4: Utility and order</p>
-<p>Part 5: Systems that adapt</p>
+<p>Part 4: Systems that adapt</p>
 </section>
 <section id="a-score" class="slide level2">
 <h2>A score</h2>
@@ -1119,6 +1118,10 @@ display:block!important;
 }</style></aside>
 <p><span class="math inline">\(Y\)</span> is the outcome we measure. <span class="math inline">\(Y^\star\)</span> is the outcome we intend: the one we would use if we could.</p>
 <table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;"><span class="math inline">\(Y\)</span>, measured</th>
@@ -1135,12 +1138,16 @@ display:block!important;
 <td style="text-align: left;">a true effect</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">a job center’s placement rate</td>
-<td style="text-align: left;">people in work because of it</td>
+<td style="text-align: left;">last week’s job center: its placement rate</td>
+<td style="text-align: left;">people in work because of the course</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">a patient’s medical cost</td>
 <td style="text-align: left;">how ill the patient is</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a video’s views</td>
+<td style="text-align: left;">a viewer informed, or entertained, on their own terms</td>
 </tr>
 </tbody>
 </table>
@@ -1264,7 +1271,7 @@ Y = Y^\star + bA .
 <section id="who-is-selected-and-how-ill" class="slide level2">
 <h2>Who is selected, and how ill</h2>
 <aside class="notes">
-<p>Standard normal need, t at the 97th percentile. Share selected, the ratio, and the mean need of the selected: the inverse Mills ratio from week 1. A half-standard-deviation offset cuts group 1’s chance of selection to a third and makes its selected members sicker.</p>
+<p>Standard normal need, t at the 97th percentile. Share selected, the ratio, and the mean need of the selected: the inverse Mills ratio, which in week 1 gave the expected size of an estimate that survived the significance filter. A half-standard-deviation offset cuts group 1’s chance of selection to a third and makes its selected members sicker. The paper’s Figure 1A compares at the same score, not above a threshold; in this model that gap is exactly -b.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1333,7 +1340,7 @@ display:block!important;
 <section id="changing-the-label" class="slide level2">
 <h2>Changing the label</h2>
 <aside class="notes">
-<p>The authors simulate: with the gap removed, Black patients would be 46.5% of those identified automatically instead of 17.7%. Separately, Table 2: models trained on three labels. Chronic conditions as the label nearly doubles the Black share of the highest-risk group.</p>
+<p>The authors simulate: with the gap removed, Black patients would be 46.5% of those identified automatically instead of 17.7%. Separately, Table 2: models trained on three labels. Chronic conditions as the label nearly doubles the Black share of the highest-risk group. Then hands for each label, and one reason: who is worse off under the label you chose?</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1369,6 +1376,9 @@ display:block!important;
 </tr>
 </tbody>
 </table>
+<div class="ask">
+<p>Which label would you choose for this program, and who is worse off under it?</p>
+</div>
 <div class="source">
 <p>Obermeyer and colleagues (2019), body text and Table 2. The abstract states the first figure loosely, as “the percentage of Black patients receiving additional help”; the body states it as the Black share of those auto-identified at the 97th percentile.</p>
 </div>
@@ -1671,198 +1681,14 @@ display:block!important;
 </table>
 </section></section>
 <section>
-<section id="part-4-utility-and-order" class="title-slide slide level1 center">
-<h1>Part 4: Utility and order</h1>
-
-</section>
-<section id="a-score-is-a-total-order" class="slide level2">
-<h2>A score is a total order</h2>
-<aside class="notes">
-<p>Any two people get a number, so any two can be compared, and comparisons chain. That is the content of a score before anything is said about what it measures. The one-line proof is the necessity half of the theorem on the next slide.</p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-<p>A preference relation <span class="math inline">\(\succsim\)</span> on a set of options (“at least as good as”) is</p>
-<ul>
-<li><strong>complete</strong> if for every pair, <span class="math inline">\(x \succsim y\)</span> or <span class="math inline">\(y \succsim x\)</span> (or both);</li>
-<li><strong>transitive</strong> if <span class="math inline">\(x \succsim y\)</span> and <span class="math inline">\(y \succsim z\)</span> imply <span class="math inline">\(x \succsim z\)</span>.</li>
-</ul>
-<p>A <strong>utility representation</strong> is a function <span class="math inline">\(u\)</span> with <span class="math display">\[
-x \succsim y \iff u(x) \ge u(y) .
-\]</span></p>
-<p>If <span class="math inline">\(u\)</span> exists, <span class="math inline">\(\succsim\)</span> is complete and transitive, because <span class="math inline">\(\ge\)</span> on numbers is. A score is a total order on the people it is applied to, with ties allowed.</p>
-</section>
-<section id="when-a-number-exists" class="slide level2">
-<h2>When a number exists</h2>
-<aside class="notes">
-<p>Countable: complete and transitive are enough, and necessary. Uncountable: Debreu’s sufficient condition adds continuity. The lexicographic order on the plane is complete and transitive and has no representation at all: each vertical line would need its own interval of numbers, and there are uncountably many lines.</p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-<div class="leave">
-<p>On a finite or countable set, <span class="math inline">\(\succsim\)</span> has a utility representation if and only if it is complete and transitive. On an uncountable set that is not enough; continuity on a connected, separable set is (Debreu 1954).</p>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img role="img" aria-label="Two points in the plane, P and Q, with Q to the right of P and lower; the lexicographic order ranks Q above P because its first coordinate is larger." data-src="data:image/png;base64,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AAAAgMAJQAAAAACBE4AAAAAAApeMegAAgBCsXbv2wQcffP7559/8H/F4fNT/OPTQQz/zmc80NTVFPSYAUKYEIACAbbdp06af//zn995778KFCzOZTK/PLl++fPMHP/nJT5LJ5JFHHnn66ad/9atfTaVSJZ8UAChrLgEDANgW2Wx2zpw5e++990UXXbRgwYIt608v3d3djz322PTp08eNG3f//feXZkgAgM0EIACAAVuxYsVhhx02derUVatWDfS5y5Yt+/znP3/ssceuXbu2GLMBAGzJJWAAAAPz0ksvfepTn1q9evWWnxo5cuQhhxwyevTo0aNHZzKZ1atXr169+i9/+Utzc3OvR86bN2/ixImPPPLIHnvsUZKpAYCyJgABAAzAggULTjrppHfffTf/YGVl5TnnnDNlypQjjzwykej9E9abL/6aM2fOHXfckX+l2LJlyyZOnDh37twJEyaUYnQAoIzFs9ls1DMAwPYunU6n0+ncsqmpqaKiIsJ5Sqy5uTn3hiGVStXX10c7Tym1t7e3tbXllu+9996ECRNaW1vzH3P00Uf/9Kc/HTduXJ+7LV68+Otf//qzzz6bf3DnnXd+4YUXhg0bVqiZC6ilpSVXrJLJZGNjY7TzAADbzD2AAAD6paen58wzz+xVf2bOnDlv3rz+1J9YLDZhwoSnn376a1/7Wv7BNWvWnH322QWcEwBgSwIQAEC//OhHP1q4cGH+kcsvv/yqq64a0CaJROLmm2++6KKL8g8+9NBDP/7xjwswIgDAv+ASMADom0vAXAK2du3agw46qLOzM/epM88889e//vU273ziiSf+8Y9/zC0bGxtXrFgxdOjQwUxbcC4BA4Bg+AkgAIC+/eIXv8ivP6NHj77xxhsHs+Hs2bObmppyy3feeefmm28ezIYAAFshAAEA9KGtre3WW2/NP3LDDTcM8sdhdt5551mzZuUfuf766/MbEwBAAQlAAAB9uPfee/N/7/tHPvKRU089dfDbnn322TvssENuuWbNmgceeGDw2wIAbEkAAgDow+OPP56/vOCCCwpyE6iamppzzz03/8if//znwW8LALAlAQgAYGuy2exTTz2Vf2TKlCmF2vyMM87IX86bN69QOwMA5BOAAAC25pVXXmlpacktd99999GjRxdq8/322y//XkJLly5duXJloTYHAMgRgAAAtmbx4sX5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" style="width:100.0%" alt="Two points in the plane, P and Q, with Q to the right of P and lower; the lexicographic order ranks Q above P because its first coordinate is larger."></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Lexicographic: <span class="math inline">\(Q \succ P\)</span> when <span class="math inline">\(Q\)</span>’s first coordinate is larger, whatever the second. Complete, transitive, and no <span class="math inline">\(u\)</span> represents it.</p>
-</section>
-<section id="under-risk" class="slide level2">
-<h2>Under risk</h2>
-<aside class="notes">
-<p>Von Neumann and Morgenstern: add independence and the utility of a lottery is its expected utility, which is what the agent in part 3 maximizes. Unique up to a positive affine transformation: each person’s scale is free. A sum across people needs a scale for each, and no axiom supplies it. Week 3’s second difficulty, located.</p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-<p>Choices among lotteries. Add to completeness, transitivity and continuity the <strong>independence</strong> axiom: a preference between two lotteries survives mixing both with the same third lottery.</p>
-<p>Then there is a <span class="math inline">\(u\)</span> on outcomes with <span class="math display">\[
-L \succsim M \iff E_L[u] \ge E_M[u] ,
-\]</span> unique up to <span class="math inline">\(a u + c\)</span> with <span class="math inline">\(a &gt; 0\)</span> (von Neumann and Morgenstern 1947).</p>
-<p><span class="math inline">\(E_\pi[U]\)</span> in part 3 is this, for one agent. Adding <span class="math inline">\(U\)</span> across people needs a scale for each person, and no axiom here supplies one.</p>
-<div class="source">
-<p>Wikipedia, Von Neumann–Morgenstern utility theorem; the theorem is in <em>Theory of Games and Economic Behavior</em>, 2nd edition (1947), appendix.</p>
-</div>
-</section>
-<section id="four-patients-two-measures" class="slide level2">
-<h2>Four patients, two measures</h2>
-<aside class="notes">
-<p>Pairs, three minutes. “At least as ill” when both measures are at least as high: a partial order. Which pairs are comparable; how many orderings of the four agree with every comparable pair; which one each weighting picks. Answers on the next slide.</p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th style="text-align: left;">patient</th>
-<th style="text-align: left;">active chronic conditions</th>
-<th style="text-align: left;">emergency visits last year</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-</tr>
-</tbody>
-</table>
-<p>“At least as ill as”: both measures at least as high.</p>
-<div class="ask">
-<p>Which pairs can be compared? How many orderings of the four patients agree with every comparison you can make? Which ordering does a cost of £1,000 per condition and £1,500 per visit give? And £1,000 and £3,000?</p>
-</div>
-</section>
-<section id="every-partial-order-can-be-completed" class="slide level2">
-<h2>Every partial order can be completed</h2>
-<aside class="notes">
-<p>Three orderings agree with the partial order; the two costs pick two different ones. Szpilrajn 1930: every partial order extends to a total order, and in general in many ways. A score picks one extension; the comparisons it adds are the score’s, not the patients’.</p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img role="img" aria-label="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither." data-src="data:image/png;base64,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" style="width:100.0%" alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither."></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Patient 3 compares with neither 1 nor 2. Three total orders agree with every comparison: 3 first, second or third. £1,000 and £1,500 gives 1, 3, 2, 4; £1,000 and £3,000 gives 3, 1, 2, 4.</p>
-<div class="leave">
-<p>Every partial order is contained in a total order (Szpilrajn 1930), usually in many. A score that respects the measures chooses one; the comparisons it adds are the score’s, not the patients’.</p>
-</div>
-</section>
-<section id="the-ordinal-society" class="slide level2">
-<h2>The ordinal society</h2>
-<aside class="notes">
-<p>Fourcade and Healy: ranking as the organizing form of a society in which nearly everyone is scored, and scores decide access to credit, jobs and services. Their earlier phrase: classification situations, the life chances a score sorts a person into. Keep the local comparison; refuse the global one. One minute.</p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-<p>Fourcade and Healy call a society organized by rankings <strong>ordinal</strong>: nearly everyone is scored, and the scores decide access to credit, work, housing and attention. A score, they wrote earlier, sorts a person into a <strong>classification situation</strong>, a set of life chances.</p>
-<p>“This person is better off than they were” is a comparison in a partial order. “This person ranks above that one,” for a pair the measures leave open, needs the order completed, and someone to have completed it.</p>
-<div class="source">
-<p>Fourcade and Healy, <em>The Ordinal Society</em> (Harvard University Press, 2024); Fourcade and Healy, “Classification situations: Life-chances in the neoliberal era,” <em>Accounting, Organizations and Society</em> 38 (2013), 559–572.</p>
-</div>
-</section></section>
-<section>
-<section id="part-5-systems-that-adapt" class="title-slide slide level1 center">
-<h1>Part 5: Systems that adapt</h1>
+<section id="part-4-systems-that-adapt" class="title-slide slide level1 center">
+<h1>Part 4: Systems that adapt</h1>
 
 </section>
 <section id="the-optimizer-arrives" class="slide level2">
 <h2>The optimizer arrives</h2>
 <aside class="notes">
-<p>Before the rule: Y comes from need and noise, and selecting on Y is conditioning; the selected are needier on average. After the rule: anyone near the threshold adds g to Y without touching need, an intervention on Y’s equation. The simulation: the top 3% by Y, mean need before and after.</p>
+<p>Back to the prediction letters. So far the people measured have done nothing; the robot and the job center were the agents. Now the people act. Before the rule: Y comes from need and noise, and selecting on Y is conditioning; the selected are needier on average. After the rule: people add g to Y without touching need, an intervention on Y’s equation. The simulation: 300 places by Y, mean need before and after.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1923,7 +1749,7 @@ display:block!important;
 <section id="gaming-and-improvement" class="slide level2">
 <h2>Gaming and improvement</h2>
 <aside class="notes">
-<p>Miller, Milli and Hardt: whether a response to a rule is gaming or improvement depends on whether the feature moved raises the outcome, not only the measure. So designing a rule that rewards improvement is a causal inference problem.</p>
+<p>Pairs, one minute: sort the three. The third is the hard one; it depends on what the test measures. Miller, Milli and Hardt: whether a response is gaming or improvement depends on whether the feature moved raises the outcome, not only the measure, so designing a rule that rewards improvement is a causal inference problem.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1940,7 +1766,9 @@ display:block!important;
 <li><strong>Gaming:</strong> the change raises <span class="math inline">\(Y\)</span> by a route that does not pass through <span class="math inline">\(Y^\star\)</span>.</li>
 <li><strong>Improvement:</strong> the change raises <span class="math inline">\(Y^\star\)</span>, and <span class="math inline">\(Y\)</span> with it.</li>
 </ul>
-<p>Which it is depends on the causal model: does the thing changed raise the outcome, or only the measure of it? A rule meant to reward improvement has to answer that, which is causal inference.</p>
+<div class="ask">
+<p>A course is judged by its students’ test scores. Students (1) memorize last year’s paper; (2) do more of the exercises; (3) learn the examiner’s favorite phrasing. Gaming or improvement, and what does the answer depend on?</p>
+</div>
 <div class="source">
 <p>Miller, Milli and Hardt (2020), “Strategic Classification is Causal Modeling in Disguise,” ICML, PMLR 119, 6917–6926.</p>
 </div>

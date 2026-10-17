@@ -197,15 +197,6 @@ window.Quarto = {
   <li><a href="#a-noisy-measure-flattens-a-slope" id="toc-a-noisy-measure-flattens-a-slope" class="nav-link" data-scroll-target="#a-noisy-measure-flattens-a-slope">A noisy measure flattens a slope</a></li>
   </ul></li>
   <li><a href="#reinforcement-learning" id="toc-reinforcement-learning" class="nav-link" data-scroll-target="#reinforcement-learning">Reinforcement learning</a></li>
-  <li><a href="#utility-and-order" id="toc-utility-and-order" class="nav-link" data-scroll-target="#utility-and-order">Utility and order</a>
-  <ul class="collapse">
-  <li><a href="#a-score-is-a-total-order" id="toc-a-score-is-a-total-order" class="nav-link" data-scroll-target="#a-score-is-a-total-order">A score is a total order</a></li>
-  <li><a href="#when-a-number-exists" id="toc-when-a-number-exists" class="nav-link" data-scroll-target="#when-a-number-exists">When a number exists</a></li>
-  <li><a href="#under-risk" id="toc-under-risk" class="nav-link" data-scroll-target="#under-risk">Under risk</a></li>
-  <li><a href="#partial-orders" id="toc-partial-orders" class="nav-link" data-scroll-target="#partial-orders">Partial orders</a></li>
-  <li><a href="#every-partial-order-can-be-completed" id="toc-every-partial-order-can-be-completed" class="nav-link" data-scroll-target="#every-partial-order-can-be-completed">Every partial order can be completed</a></li>
-  <li><a href="#the-ordinal-society" id="toc-the-ordinal-society" class="nav-link" data-scroll-target="#the-ordinal-society">The ordinal society</a></li>
-  </ul></li>
   <li><a href="#systems-that-adapt" id="toc-systems-that-adapt" class="nav-link" data-scroll-target="#systems-that-adapt">Systems that adapt</a>
   <ul class="collapse">
   <li><a href="#the-optimizer-arrives" id="toc-the-optimizer-arrives" class="nav-link" data-scroll-target="#the-optimizer-arrives">The optimizer arrives</a></li>
@@ -215,8 +206,6 @@ window.Quarto = {
   <li><a href="#for-the-class" id="toc-for-the-class" class="nav-link" data-scroll-target="#for-the-class">For the class</a>
   <ul class="collapse">
   <li><a href="#attenuation-derived" id="toc-attenuation-derived" class="nav-link" data-scroll-target="#attenuation-derived">Attenuation, derived</a></li>
-  <li><a href="#the-four-patients" id="toc-the-four-patients" class="nav-link" data-scroll-target="#the-four-patients">The four patients</a></li>
-  <li><a href="#necessity-in-one-line" id="toc-necessity-in-one-line" class="nav-link" data-scroll-target="#necessity-in-one-line">Necessity in one line</a></li>
   </ul></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a>
   <ul class="collapse">
@@ -258,7 +247,6 @@ window.Quarto = {
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>A score is a number computed about a person and used to decide something about them. The number measures one thing, <span class="math inline">\(Y\)</span>, and is taken to stand for another, <span class="math inline">\(Y^\star\)</span>. The two come apart in three ways: noise, an offset that differs between groups, and a response by the people being measured. A health system’s risk score measured next year’s medical cost and was taken to stand for how ill a patient was; at the same cost, Black patients were sicker, so the score flagged fewer of them for extra care, and the ones it did flag were sicker than the White patients it flagged. In a model with an offset <span class="math inline">\(b\)</span> for one group, selecting above a threshold <span class="math inline">\(t\)</span> on the measure is selecting above <span class="math inline">\(t - b\)</span> on the thing measured, for that group only.</p>
-<p>A score is also a total order: any two people can be compared. A preference relation has a utility representation only if it is complete and transitive, and on a countable set that is also enough. “Better for this person” is a partial order, and every partial order can be completed into a total one, usually in many ways; a score picks one.</p>
 <p>Once a score is rewarded, the people and systems it is applied to act on the score. That changes the equation for <span class="math inline">\(Y\)</span>, an intervention, and what <span class="math inline">\(Y\)</span> says about <span class="math inline">\(Y^\star\)</span> afterward is not what it said before. Strategic classification and performative prediction are two formal versions of this. Reinforcement learning says the same thing in other letters: an agent is given a reward <span class="math inline">\(R\)</span>, and the good we care about is a utility <span class="math inline">\(U\)</span>.</p>
 </section>
 <section id="scores" class="level2">
@@ -550,101 +538,6 @@ i Please consider using `annotate()` or provide this layer with data containing
 </table>
 <p>If you read about reinforcement learning you will meet these letters with these meanings. New letters invented for this course would teach a convention nobody else uses. Two rules are enough. Material that uses the reinforcement-learning letters says so in one line at the top, as this section does. And the two sets of letters are never mixed inside one diagram or one derivation. A classifier described as an agent takes its prediction <span class="math inline">\(\hat Y\)</span> as its action, which reinforcement learning would write as <span class="math inline">\(A\)</span>. Mixing the two there would give <span class="math inline">\(A\)</span> two meanings in one line.</p>
 </section>
-<section id="utility-and-order" class="level2">
-<h2 class="anchored" data-anchor-id="utility-and-order">Utility and order</h2>
-<section id="a-score-is-a-total-order" class="level3">
-<h3 class="anchored" data-anchor-id="a-score-is-a-total-order">A score is a total order</h3>
-<p>Before anything is said about what a score measures, it does one thing: it puts the people it is applied to in order. Any two of them get a number, so any two can be compared (or tie), and if the first is above the second and the second above the third, the first is above the third.</p>
-<p>The language for this is decision theory’s. A <strong>preference relation</strong> <span class="math inline">\(\succsim\)</span> on a set of options reads “at least as good as”. It is</p>
-<ul>
-<li><strong>complete</strong> if for every pair of options <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, <span class="math inline">\(x \succsim y\)</span> or <span class="math inline">\(y \succsim x\)</span> (or both);</li>
-<li><strong>transitive</strong> if <span class="math inline">\(x \succsim y\)</span> and <span class="math inline">\(y \succsim z\)</span> imply <span class="math inline">\(x \succsim z\)</span>.</li>
-</ul>
-<p>A complete and transitive relation is a <strong>total preorder</strong>, or, when no two distinct options are tied, a <strong>total order</strong>. A <strong>utility representation</strong> of <span class="math inline">\(\succsim\)</span> is a function <span class="math inline">\(u\)</span> from options to numbers with <span class="math display">\[
-x \succsim y \iff u(x) \ge u(y) .
-\]</span></p>
-<p>If <span class="math inline">\(u\)</span> exists, <span class="math inline">\(\succsim\)</span> is complete and transitive. Any two numbers compare, and <span class="math inline">\(\ge\)</span> on numbers is transitive, so the relation <span class="math inline">\(u\)</span> represents inherits both. That one line is the necessity half of the next theorem, and it says what a score assumes: whatever the score is taken to stand for, the score has ranked everyone against everyone, with ties allowed. A score is a total preorder; with ties broken, a total order.</p>
-</section>
-<section id="when-a-number-exists" class="level3">
-<h3 class="anchored" data-anchor-id="when-a-number-exists">When a number exists</h3>
-<p>The converse is the question. Given a complete and transitive preference, is there always a number?</p>
-<p>On a finite or countable set, yes. List the options as <span class="math inline">\(x_1, x_2, x_3, \ldots\)</span> and define <span class="math display">\[
-u(x) = \sum_{k:\; x \succsim x_k} 2^{-k} .
-\]</span> The sum converges, and it adds a term for every option that <span class="math inline">\(x\)</span> is at least as good as. If <span class="math inline">\(x \succsim y\)</span> then, by transitivity, every <span class="math inline">\(x_k\)</span> that <span class="math inline">\(y\)</span> beats or ties is also beaten or tied by <span class="math inline">\(x\)</span>, so <span class="math inline">\(u(x) \ge u(y)\)</span>. If <span class="math inline">\(x \succsim y\)</span> fails then, by completeness, <span class="math inline">\(y \succ x\)</span> strictly; then <span class="math inline">\(y\)</span>’s sum contains every term of <span class="math inline">\(x\)</span>’s and also the term for <span class="math inline">\(y\)</span> itself, which <span class="math inline">\(x\)</span>’s sum lacks, so <span class="math inline">\(u(y) &gt; u(x)\)</span>. So <span class="math inline">\(u\)</span> represents <span class="math inline">\(\succsim\)</span>.</p>
-<p><strong>On a finite or countable set, <span class="math inline">\(\succsim\)</span> has a utility representation if and only if it is complete and transitive.</strong></p>
-<p>On an uncountable set, complete and transitive are not enough. Order the points of the plane <strong>lexicographically</strong>: <span class="math inline">\((a, b) \succ (c, d)\)</span> if <span class="math inline">\(a &gt; c\)</span>, or if <span class="math inline">\(a = c\)</span> and <span class="math inline">\(b &gt; d\)</span>, as words are ordered in a dictionary. This is complete and transitive. Suppose <span class="math inline">\(u\)</span> represented it. For each real number <span class="math inline">\(a\)</span>, the points <span class="math inline">\((a, 1)\)</span> and <span class="math inline">\((a, 0)\)</span> satisfy <span class="math inline">\((a, 1) \succ (a, 0)\)</span>, so <span class="math inline">\(u(a, 1) &gt; u(a, 0)\)</span>: an interval of positive length on the number line. For <span class="math inline">\(a &lt; a'\)</span> the interval for <span class="math inline">\(a'\)</span> lies entirely above the interval for <span class="math inline">\(a\)</span>, since <span class="math inline">\((a', 0) \succ (a, 1)\)</span>. So there would be uncountably many disjoint intervals of positive length in the real line, and there cannot be: each contains a rational number, and there are only countably many of those. No <span class="math inline">\(u\)</span> exists, continuous or not.</p>
-<p>Debreu (1954) gives the extra condition that makes an uncountable case work: if the set of options is connected and separable (the real line, or a region of the plane, is), and <span class="math inline">\(\succsim\)</span> is complete, transitive and <strong>continuous</strong> (the set of options at least as good as <span class="math inline">\(x\)</span>, and the set at most as good as <span class="math inline">\(x\)</span>, are both closed), then a continuous utility representation exists. The lexicographic order is not continuous: points just to the left of <span class="math inline">\((a, 1)\)</span> are all below <span class="math inline">\((a, 0)\)</span>, however close they come.</p>
-</section>
-<section id="under-risk" class="level3">
-<h3 class="anchored" data-anchor-id="under-risk">Under risk</h3>
-<p>A choice among lotteries, each a probability distribution over outcomes, is the setting of von Neumann and Morgenstern (1947). Their axioms are completeness, transitivity, a continuity condition, and <strong>independence</strong>: if <span class="math inline">\(L \succsim M\)</span>, then mixing both with the same third lottery <span class="math inline">\(N\)</span> at the same probability <span class="math inline">\(q\)</span> preserves the preference, <span class="math inline">\(qL + (1-q)N \succsim qM + (1-q)N\)</span>. Under the four, there is a function <span class="math inline">\(u\)</span> on outcomes such that <span class="math display">\[
-L \succsim M \iff E_L[u] \ge E_M[u] ,
-\]</span> the <strong>expected utility</strong> representation, and <span class="math inline">\(u\)</span> is unique up to a positive affine transformation: <span class="math inline">\(au + c\)</span> with <span class="math inline">\(a &gt; 0\)</span> represents the same preferences and nothing else does.</p>
-<p>Two consequences for this course. The agent of the previous section, which chooses the policy with the largest <span class="math inline">\(E_\pi[R]\)</span>, is a von Neumann–Morgenstern agent whose outcomes are rewards; a reward is a utility that someone else wrote down. And the uniqueness clause says what adding utility across people assumes. Each person’s <span class="math inline">\(u\)</span> is free to be rescaled by any <span class="math inline">\(a &gt; 0\)</span>, so <span class="math inline">\(u_1(x) + u_2(x)\)</span> depends on which scale each person was assigned, and no axiom about either person’s choices fixes it. Utilitarianism’s second difficulty from week 3, trading off one person’s good against another’s, is this: the total needs a scale for each person that the theory of individual choice does not supply.</p>
-</section>
-<section id="partial-orders" class="level3">
-<h3 class="anchored" data-anchor-id="partial-orders">Partial orders</h3>
-<p>Drop completeness. A relation that is reflexive (<span class="math inline">\(x \succsim x\)</span>), transitive and antisymmetric (if <span class="math inline">\(x \succsim y\)</span> and <span class="math inline">\(y \succsim x\)</span> then <span class="math inline">\(x = y\)</span>) is a <strong>partial order</strong>: some pairs compare, others do not. Two partial orders matter here.</p>
-<ul>
-<li><strong>Pareto.</strong> One state of affairs is at least as good as another if it is at least as good for every person. Most pairs of states do not compare, because most changes help someone and hurt someone else.</li>
-<li><strong>Dominance on several measures.</strong> One patient is at least as ill as another if every measure of illness is at least as high.</li>
-</ul>
-<p>Take four patients and two measures.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">patient</th>
-<th style="text-align: left;">active chronic conditions</th>
-<th style="text-align: left;">emergency visits last year</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">3</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1</td>
-</tr>
-</tbody>
-</table>
-<p>Patient 1 is at least as ill as patient 2 on both measures, and all three of 1, 2 and 3 are iller than 4. Patient 3 has fewer conditions than 1 and 2 and more visits, so 3 compares with neither.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="notes_files/figure-html/hasse-1.png" class="img-fluid figure-img" alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither." width="432"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>A cost model turns the two measures into one number. At £1,000 per condition and £1,500 per visit, the four patients cost 7,000, 6,000, 6,500 and 2,500, and the order is 1, 3, 2, 4. At £1,000 and £3,000 the costs are 10,000, 9,000, 11,000 and 4,000, and the order is 3, 1, 2, 4. Both orders agree with every comparison the partial order makes. Where the partial order is silent, the weights decide.</p>
-</section>
-<section id="every-partial-order-can-be-completed" class="level3">
-<h3 class="anchored" data-anchor-id="every-partial-order-can-be-completed">Every partial order can be completed</h3>
-<p>Szpilrajn (1930) proved that every partial order is contained in a total order: one that keeps every comparison of the original and adds comparisons for every pair the original left open. For a finite set this is easy to see, and the number of ways to do it can be counted. The four patients allow three: patient 3 can go first, second or third, and nothing else is free. Four patients with no comparisons at all would allow <span class="math inline">\(4! = 24\)</span>.</p>
-<p>A score chooses one of the total orders that contain the partial one, if it respects the partial order at all. The comparisons it adds, 1 against 3 and 2 against 3 above, are not in the measures; they are in the weights, and someone chose the weights. The same holds for any score built from several things: a credit score, a university ranking, a risk score.</p>
-<p>This is the shape of the week’s point about scores. “This person is better off than they were” and “this change is better for this person and worse for no one” are statements in a partial order, and they need no weights. “This person ranks above that one,” for a pair the measures leave open, needs the order completed, and completing it is a choice. We can keep the local comparison without granting that everyone can be compared with everyone else; and when a system does compare everyone, the question is who completed the order and how.</p>
-</section>
-<section id="the-ordinal-society" class="level3">
-<h3 class="anchored" data-anchor-id="the-ordinal-society">The ordinal society</h3>
-<p>Fourcade and Healy (2024) call a society organized by rankings <strong>ordinal</strong>: nearly every person and organization is scored, by many systems, and the scores decide access to credit, work, housing and attention. In an earlier article (Fourcade and Healy 2013) they described how credit scores sort people into what they call <strong>classification situations</strong>: positions in a market that carry their own prices, terms and life chances, so that the score does not describe a person’s situation so much as assign it. Their examples are US credit markets, where scoring widened access to borrowers once excluded and at the same time drew finer distinctions among them, distinctions that then spread to insurance, housing and employment. They also observe that a score built from past behavior looks fairer than the older exclusions it replaced, such as redlining, while carrying present inequalities forward, and that sorting by merit makes the resulting inequality look deserved.</p>
-<p>I read their argument through the previous section. A classification situation is a total order imposed on people whose situations were only partially ordered, and the authors’ concern is with who did the completing and what it did to the people completed.</p>
-</section>
-</section>
 <section id="systems-that-adapt" class="level2">
 <h2 class="anchored" data-anchor-id="systems-that-adapt">Systems that adapt</h2>
 <section id="the-optimizer-arrives" class="level3">
@@ -709,21 +602,13 @@ i Please use the `linewidth` argument instead.</code></pre>
 <h3 class="anchored" data-anchor-id="attenuation-derived">Attenuation, derived</h3>
 <p>The class derives the slope <span class="math inline">\(\beta\lambda\)</span> from the covariance algebra above and checks it by simulation, then asks what happens when the noise is in <span class="math inline">\(V\)</span> instead of in <span class="math inline">\(Y\)</span>, and when <span class="math inline">\(\varepsilon\)</span> is correlated with <span class="math inline">\(Y^\star\)</span>.</p>
 </section>
-<section id="the-four-patients" class="level3">
-<h3 class="anchored" data-anchor-id="the-four-patients">The four patients</h3>
-<p>The class counts the total orders that extend a partial order by hand, for the four patients and for a fifth patient added to the table, and shows which cost weights pick which order.</p>
-</section>
-<section id="necessity-in-one-line" class="level3">
-<h3 class="anchored" data-anchor-id="necessity-in-one-line">Necessity in one line</h3>
-<p>If <span class="math inline">\(u\)</span> represents <span class="math inline">\(\succsim\)</span>, then <span class="math inline">\(\succsim\)</span> is complete and transitive: for any <span class="math inline">\(x, y\)</span>, either <span class="math inline">\(u(x) \ge u(y)\)</span> or <span class="math inline">\(u(y) \ge u(x)\)</span>, so <span class="math inline">\(x \succsim y\)</span> or <span class="math inline">\(y \succsim x\)</span>; and <span class="math inline">\(u(x) \ge u(y) \ge u(z)\)</span> gives <span class="math inline">\(u(x) \ge u(z)\)</span>.</p>
-</section>
 </section>
 <section id="readings" class="level2">
 <h2 class="anchored" data-anchor-id="readings">Readings</h2>
 <section id="required" class="level3">
 <h3 class="anchored" data-anchor-id="required">Required</h3>
 <ul>
-<li>Obermeyer, Powers, Vogeli and Mullainathan, <a href="https://escholarship.org/uc/item/6h92v832">Dissecting racial bias in an algorithm used to manage the health of populations</a> (<em>Science</em> 366, 2019, 447–453). Read the body, not only the abstract.</li>
+<li>Obermeyer, Powers, Vogeli and Mullainathan, <a href="https://escholarship.org/uc/item/6h92v832">Dissecting racial bias in an algorithm used to manage the health of populations</a> (<em>Science</em> 366, 2019, 447–453): the abstract and the sections “Health disparities conditional on risk score,” “Mechanism of bias” and “Problem formulation” (pages 448 to 451, with Figure 1).</li>
 <li>Barocas, Hardt and Narayanan, <em>Fairness and Machine Learning</em>, <a href="https://fairmlbook.org/pdf/fairmlbook.pdf">chapter 1, Introduction</a>, from “The trouble with measurement” through “Feedback and feedback loops” (pages 7 to 14).</li>
 <li>Skim the Wikipedia article <a href="https://en.wikipedia.org/wiki/Goodhart%27s_law">Goodhart’s law</a>.</li>
 </ul>
@@ -737,9 +622,8 @@ i Please use the `linewidth` argument instead.</code></pre>
 <li>Perdomo, Zrnic, Mendler-Dünner and Hardt, <a href="https://arxiv.org/abs/2002.06673">Performative Prediction</a> (ICML 2020), section 1.</li>
 <li>Jacobs and Wallach, <a href="https://arxiv.org/abs/1912.05511">Measurement and Fairness</a> (ACM FAccT 2021).</li>
 <li>Manheim and Garrabrant, <a href="https://arxiv.org/abs/1803.04585">Categorizing Variants of Goodhart’s Law</a> (2018).</li>
-<li>Fourcade and Healy, <a href="https://kieranhealy.org/publications/classific-sit/">Classification situations: Life-chances in the neoliberal era</a> (<em>Accounting, Organizations and Society</em> 38, 2013, 559–572); their book <em>The Ordinal Society</em> (Harvard University Press, 2024) develops the argument.</li>
 </ul>
-<p>Cited in the text and not assigned: de Vries, Roest, de Jonge, Cuijpers, Munafò and Bastiaansen, “The cumulative effect of reporting and citation biases on the apparent efficacy of treatments: the case of depression” (<em>Psychological Medicine</em> 48, 2018, 2453–2455, CC BY 4.0); Goodhart, “Problems of Monetary Management: The UK Experience” (1975); Strathern, “‘Improving ratings’: audit in the British University system” (<em>European Review</em> 5, 1997); Heckman, Heinrich and Smith, “The Performance of Performance Standards” (NBER Working Paper 9002, 2002); Deng, Jiang, Long and Zhang, “Causal Reinforcement Learning: A Survey” (<em>Transactions on Machine Learning Research</em>, 2023); Hardt, Megiddo, Papadimitriou and Wootters, “Strategic Classification” (ITCS 2016; arXiv 1506.06980); Debreu, “Representation of a preference ordering by a numerical function” (1954); von Neumann and Morgenstern, <em>Theory of Games and Economic Behavior</em> (2nd edition, 1947); Szpilrajn, “Sur l’extension de l’ordre partiel” (<em>Fundamenta Mathematicae</em> 16, 1930, 386–389).</p>
+<p>Cited in the text and not assigned: de Vries, Roest, de Jonge, Cuijpers, Munafò and Bastiaansen, “The cumulative effect of reporting and citation biases on the apparent efficacy of treatments: the case of depression” (<em>Psychological Medicine</em> 48, 2018, 2453–2455, CC BY 4.0); Goodhart, “Problems of Monetary Management: The UK Experience” (1975); Strathern, “‘Improving ratings’: audit in the British University system” (<em>European Review</em> 5, 1997); Heckman, Heinrich and Smith, “The Performance of Performance Standards” (NBER Working Paper 9002, 2002); Deng, Jiang, Long and Zhang, “Causal Reinforcement Learning: A Survey” (<em>Transactions on Machine Learning Research</em>, 2023); Hardt, Megiddo, Papadimitriou and Wootters, “Strategic Classification” (ITCS 2016; arXiv 1506.06980).</p>
 
 
 </section>
