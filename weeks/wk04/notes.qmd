@@ -449,60 +449,65 @@ for, and the authors worked with the manufacturer to change the label.
 ### A noisy measure flattens a slope
 
 The first of the three routes is noise. Let $Y = Y^\star + \varepsilon$,
-with $\varepsilon$ independent of $Y^\star$ and of everything else, mean
-zero and variance $\sigma_\varepsilon^2$. Suppose an outcome $V$ depends on
-need, $V = \beta Y^\star + U$, with $U$ independent noise. Someone with
-the measure but not the need regresses $V$ on $Y$. The population slope
-is
+with $\varepsilon$ independent of $Y^\star$, mean zero and variance
+$\sigma_\varepsilon^2$. The hospital has the measure and wants need.
+The best linear guess of need from the measure is the regression of
+$Y^\star$ on $Y$, whose slope is
 $$
-\frac{\operatorname{Cov}(V, Y)}{\operatorname{Var}(Y)}
-= \frac{\operatorname{Cov}(\beta Y^\star + U,\; Y^\star + \varepsilon)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
-= \frac{\beta \operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
-= \beta\lambda ,
+\frac{\operatorname{Cov}(Y^\star, Y)}{\operatorname{Var}(Y)}
+= \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
+= \lambda ,
 $$
-because every cross-covariance between the noises and $Y^\star$ is
-zero. The factor
+because $\operatorname{Cov}(Y^\star, \varepsilon) = 0$. The factor
+$\lambda$ is between $0$ and $1$ and is called the **reliability** of
+the measure: the share of its variance that is need rather than noise.
+When $Y^\star$ and $\varepsilon$ are jointly normal with mean zero the
+regression is the conditional mean,
 $$
-\lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
+E[Y^\star \mid Y = y] = \lambda y .
 $$
-is between $0$ and $1$. It is called the **reliability** of the
-measure: the share of its variance that is need rather than noise. The
-slope is **attenuated** toward zero by $\lambda$, however large the
-sample. Noise in the outcome $V$ does nothing of the kind: it widens the
-interval around the slope and leaves its center alone. This is week 2's
-sentence again, more data, the same wrong answer, with variance in the
-measure turned into bias in the slope.
 
-```{r attenuation, echo=FALSE, fig.height=2.6, fig.width=7, fig.alt="Two scatterplots of the same outcome: against the true measure, with a fitted line of slope 1, and against the noisy measure, with a fitted line of slope about one half."}
+```{r attenuation, echo=FALSE, fig.height=2.8, fig.width=5.5, fig.alt="A scatterplot of need against the noisy measure, with the fitted line of slope one half flatter than the dashed identity line."}
 n <- 400
-ystar <- rnorm(n); eps <- rnorm(n); v <- 1 * ystar + rnorm(n, sd = 0.7)
-att <- bind_rows(data.frame(x = ystar, v = v, panel = "V on Y*: slope 1"),
-                 data.frame(x = ystar + eps, v = v, panel = "V on Y = Y* + noise: slope 1/2"))
-att$panel <- factor(att$panel, levels = unique(att$panel))
-ggplot(att, aes(x, v)) +
+ystar <- rnorm(n); eps <- rnorm(n)
+att <- data.frame(y = ystar + eps, ystar = ystar)
+ggplot(att, aes(y, ystar)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = cgray) +
   geom_point(alpha = 0.3, size = 0.9, color = slate) +
   geom_smooth(method = "lm", se = FALSE, color = gold, linewidth = 1) +
-  facet_wrap(~ panel) +
-  labs(x = NULL, y = "outcome V")
+  annotate("text", x = 2.5, y = 0.6, label = "slope 1/2", color = gold, size = 4, hjust = 0) +
+  annotate("text", x = -3.4, y = -2.0, label = "need = measure", color = cgray, size = 3.5, hjust = 0) +
+  coord_cartesian(xlim = c(-3.5, 3.9), ylim = c(-3, 3)) +
+  labs(x = "the measure Y", y = "need Y*", caption = "Var(Y*) = Var(noise) = 1, so lambda = 1/2") +
+  theme(plot.caption = element_text(color = cgray))
 ```
 
 The figure has $\operatorname{Var}(Y^\star) = \sigma_\varepsilon^2 = 1$,
-so $\lambda = 1/2$. The same algebra with $V$ replaced by $Y^\star$
-itself gives the regression of need on the measure,
-$$
-E[Y^\star \mid Y] = \lambda Y
-$$
-when $Y^\star$ and $\varepsilon$ are jointly normal with mean zero. A
-patient whose measure is two units above average is expected to be one
-unit above average in need (the measure has a larger standard deviation
-than need, so in each variable's own standard deviations the shrinkage
-is by $\sqrt{\lambda}$). Selecting the top 3% by the
-measure selects people whose need is high, but less high than their
-measure says, by the factor $\lambda$. Manheim and Garrabrant call this
-the regressional version of Goodhart's law: pick the largest values of
-a proxy and you have picked its noise along with its signal. This is
-where the week's two routes meet: an offset biases the slope's location
-for one group, and noise biases its size for everyone.
+so $\lambda = 1/2$. A patient whose measure is two units above average
+is expected to be one unit above average in need (the measure has a
+larger standard deviation than need, so in each variable's own standard
+deviations the shrinkage is by $\sqrt{\lambda}$). Selecting the top 3%
+by the measure selects people whose need is high, but less high than
+their measure says, by the factor $\lambda$. Manheim and Garrabrant
+call this the regressional version of Goodhart's law: pick the largest
+values of a proxy and you have picked its noise along with its signal.
+The slope is **attenuated** toward zero by $\lambda$, however large the
+sample. This is week 2's sentence again, more data, the same wrong
+answer, with variance in the measure turned into bias in the slope.
+
+The same algebra covers the form you will meet in a regression course.
+Suppose an outcome $V$ depends on need, $V = \beta Y^\star + U$, with
+$U$ independent of $Y^\star$ and of $\varepsilon$, and someone with the
+measure but not the need regresses $V$ on $Y$. The population slope is
+$\operatorname{Cov}(V, Y)/\operatorname{Var}(Y) = \beta\lambda$, because
+every cross-covariance between the noises and $Y^\star$ is zero; the
+case above is $\beta = 1$, $U = 0$. Noise in the outcome $V$ does
+nothing of the kind: it widens the interval around the slope and
+leaves its center alone. The independence of $U$ matters: if $U$ were
+the same noise as $\varepsilon$, then $V$ would equal $Y$ and the slope
+would be $1$. This is where the week's two routes meet: an offset
+biases the slope's location for one group, and noise biases its size
+for everyone.
 
 ## Reinforcement learning
 

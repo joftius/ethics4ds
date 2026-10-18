@@ -290,7 +290,7 @@ Joshua Loftus
 </div>
 <p>For group <span class="math inline">\(1\)</span>, <span class="math inline">\(Y &gt; t\)</span> is <span class="math inline">\(Y^\star &gt; t - b\)</span>: a threshold moved for that group.</p>
 <div class="ask">
-<p>With <span class="math inline">\(b = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often? Are its selected members more or less ill? Why do the answers go together?</p>
+<p>With <span class="math inline">\(b = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often? Are its selected members more or less ill?</p>
 </div>
 </section>
 <section id="who-is-selected-and-how-ill" class="slide level2">
@@ -420,14 +420,14 @@ Joshua Loftus
 </section>
 <section id="a-noisy-measure-flattens-a-slope" class="slide level2">
 <h2>A noisy measure flattens a slope</h2>
-<p><span class="math inline">\(Y = Y^\star + \varepsilon\)</span>. Regress an outcome <span class="math inline">\(V = \beta Y^\star + U\)</span> on <span class="math inline">\(Y\)</span> instead of on <span class="math inline">\(Y^\star\)</span>, with <span class="math inline">\(Y^\star\)</span>, <span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(U\)</span> independent: the slope is <span class="math inline">\(\beta\lambda\)</span>, with <span class="math display">\[
-\lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \operatorname{Var}(\varepsilon)} &lt; 1 .
+<p><span class="math inline">\(Y = Y^\star + \varepsilon\)</span>, noise independent of need. The best guess of need from the measure (normal case) is <span class="math display">\[
+E[Y^\star \mid Y = y] = \lambda y, \qquad \lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \operatorname{Var}(\varepsilon)} &lt; 1 .
 \]</span></p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="slides_files/figure-revealjs/attenuation-1.png" style="width:100.0%" alt="Two scatterplots of the same outcome: against the true measure, with a steeper fitted line, and against the noisy measure, with a flatter one."></p>
+<p><img data-src="slides_files/figure-revealjs/attenuation-1.png" class="quarto-figure quarto-figure-center" style="width:52.0%" alt="A scatterplot of need against the noisy measure, with the fitted line of slope one half flatter than the dashed identity line."></p>
 </figure>
 </div>
 </div>
@@ -440,7 +440,7 @@ Joshua Loftus
 </section>
 <section id="reinforcement-learning" class="slide level2">
 <h2>Reinforcement learning</h2>
-<p><strong>Notation:</strong> the same gap, in the letters of the people who build these systems: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
+<p><strong>Notation:</strong> in this part, the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -766,7 +766,7 @@ Y = Y^\star + \varepsilon + g .
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',

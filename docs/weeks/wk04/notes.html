@@ -433,14 +433,13 @@ E[Y^\star \mid Y^\star &gt; z] = \frac{\phi(z)}{1 - \Phi(z)} ,
 </section>
 <section id="a-noisy-measure-flattens-a-slope" class="level3">
 <h3 class="anchored" data-anchor-id="a-noisy-measure-flattens-a-slope">A noisy measure flattens a slope</h3>
-<p>The first of the three routes is noise. Let <span class="math inline">\(Y = Y^\star + \varepsilon\)</span>, with <span class="math inline">\(\varepsilon\)</span> independent of <span class="math inline">\(Y^\star\)</span> and of everything else, mean zero and variance <span class="math inline">\(\sigma_\varepsilon^2\)</span>. Suppose an outcome <span class="math inline">\(V\)</span> depends on need, <span class="math inline">\(V = \beta Y^\star + U\)</span>, with <span class="math inline">\(U\)</span> independent noise. Someone with the measure but not the need regresses <span class="math inline">\(V\)</span> on <span class="math inline">\(Y\)</span>. The population slope is <span class="math display">\[
-\frac{\operatorname{Cov}(V, Y)}{\operatorname{Var}(Y)}
-= \frac{\operatorname{Cov}(\beta Y^\star + U,\; Y^\star + \varepsilon)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
-= \frac{\beta \operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
-= \beta\lambda ,
-\]</span> because every cross-covariance between the noises and <span class="math inline">\(Y^\star\)</span> is zero. The factor <span class="math display">\[
-\lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
-\]</span> is between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. It is called the <strong>reliability</strong> of the measure: the share of its variance that is need rather than noise. The slope is <strong>attenuated</strong> toward zero by <span class="math inline">\(\lambda\)</span>, however large the sample. Noise in the outcome <span class="math inline">\(V\)</span> does nothing of the kind: it widens the interval around the slope and leaves its center alone. This is week 2’s sentence again, more data, the same wrong answer, with variance in the measure turned into bias in the slope.</p>
+<p>The first of the three routes is noise. Let <span class="math inline">\(Y = Y^\star + \varepsilon\)</span>, with <span class="math inline">\(\varepsilon\)</span> independent of <span class="math inline">\(Y^\star\)</span>, mean zero and variance <span class="math inline">\(\sigma_\varepsilon^2\)</span>. The hospital has the measure and wants need. The best linear guess of need from the measure is the regression of <span class="math inline">\(Y^\star\)</span> on <span class="math inline">\(Y\)</span>, whose slope is <span class="math display">\[
+\frac{\operatorname{Cov}(Y^\star, Y)}{\operatorname{Var}(Y)}
+= \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
+= \lambda ,
+\]</span> because <span class="math inline">\(\operatorname{Cov}(Y^\star, \varepsilon) = 0\)</span>. The factor <span class="math inline">\(\lambda\)</span> is between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> and is called the <strong>reliability</strong> of the measure: the share of its variance that is need rather than noise. When <span class="math inline">\(Y^\star\)</span> and <span class="math inline">\(\varepsilon\)</span> are jointly normal with mean zero the regression is the conditional mean, <span class="math display">\[
+E[Y^\star \mid Y = y] = \lambda y .
+\]</span></p>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
@@ -448,14 +447,13 @@ E[Y^\star \mid Y^\star &gt; z] = \frac{\phi(z)}{1 - \Phi(z)} ,
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="notes_files/figure-html/attenuation-1.png" class="img-fluid figure-img" alt="Two scatterplots of the same outcome: against the true measure, with a fitted line of slope 1, and against the noisy measure, with a fitted line of slope about one half." width="672"></p>
+<p><img src="notes_files/figure-html/attenuation-1.png" class="img-fluid figure-img" alt="A scatterplot of need against the noisy measure, with the fitted line of slope one half flatter than the dashed identity line." width="528"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The figure has <span class="math inline">\(\operatorname{Var}(Y^\star) = \sigma_\varepsilon^2 = 1\)</span>, so <span class="math inline">\(\lambda = 1/2\)</span>. The same algebra with <span class="math inline">\(V\)</span> replaced by <span class="math inline">\(Y^\star\)</span> itself gives the regression of need on the measure, <span class="math display">\[
-E[Y^\star \mid Y] = \lambda Y
-\]</span> when <span class="math inline">\(Y^\star\)</span> and <span class="math inline">\(\varepsilon\)</span> are jointly normal with mean zero. A patient whose measure is two units above average is expected to be one unit above average in need (the measure has a larger standard deviation than need, so in each variable’s own standard deviations the shrinkage is by <span class="math inline">\(\sqrt{\lambda}\)</span>). Selecting the top 3% by the measure selects people whose need is high, but less high than their measure says, by the factor <span class="math inline">\(\lambda\)</span>. Manheim and Garrabrant call this the regressional version of Goodhart’s law: pick the largest values of a proxy and you have picked its noise along with its signal. This is where the week’s two routes meet: an offset biases the slope’s location for one group, and noise biases its size for everyone.</p>
+<p>The figure has <span class="math inline">\(\operatorname{Var}(Y^\star) = \sigma_\varepsilon^2 = 1\)</span>, so <span class="math inline">\(\lambda = 1/2\)</span>. A patient whose measure is two units above average is expected to be one unit above average in need (the measure has a larger standard deviation than need, so in each variable’s own standard deviations the shrinkage is by <span class="math inline">\(\sqrt{\lambda}\)</span>). Selecting the top 3% by the measure selects people whose need is high, but less high than their measure says, by the factor <span class="math inline">\(\lambda\)</span>. Manheim and Garrabrant call this the regressional version of Goodhart’s law: pick the largest values of a proxy and you have picked its noise along with its signal. The slope is <strong>attenuated</strong> toward zero by <span class="math inline">\(\lambda\)</span>, however large the sample. This is week 2’s sentence again, more data, the same wrong answer, with variance in the measure turned into bias in the slope.</p>
+<p>The same algebra covers the form you will meet in a regression course. Suppose an outcome <span class="math inline">\(V\)</span> depends on need, <span class="math inline">\(V = \beta Y^\star + U\)</span>, with <span class="math inline">\(U\)</span> independent of <span class="math inline">\(Y^\star\)</span> and of <span class="math inline">\(\varepsilon\)</span>, and someone with the measure but not the need regresses <span class="math inline">\(V\)</span> on <span class="math inline">\(Y\)</span>. The population slope is <span class="math inline">\(\operatorname{Cov}(V, Y)/\operatorname{Var}(Y) = \beta\lambda\)</span>, because every cross-covariance between the noises and <span class="math inline">\(Y^\star\)</span> is zero; the case above is <span class="math inline">\(\beta = 1\)</span>, <span class="math inline">\(U = 0\)</span>. Noise in the outcome <span class="math inline">\(V\)</span> does nothing of the kind: it widens the interval around the slope and leaves its center alone. The independence of <span class="math inline">\(U\)</span> matters: if <span class="math inline">\(U\)</span> were the same noise as <span class="math inline">\(\varepsilon\)</span>, then <span class="math inline">\(V\)</span> would equal <span class="math inline">\(Y\)</span> and the slope would be <span class="math inline">\(1\)</span>. This is where the week’s two routes meet: an offset biases the slope’s location for one group, and noise biases its size for everyone.</p>
 </section>
 </section>
 <section id="reinforcement-learning" class="level2">
@@ -576,7 +574,7 @@ i Please use the `linewidth` argument instead.</code></pre>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>   mean_y mean_need 
- 3.170883  1.694010 </code></pre>
+ 3.173319  1.686755 </code></pre>
 </div>
 </div>
 <p>Two formal versions of a system that adapts are in the reading’s authors’ own work.</p>

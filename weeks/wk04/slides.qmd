@@ -4,7 +4,7 @@ author: "Joshua Loftus"
 format:
   revealjs:
     theme: [default, ../../theme/st313.scss]
-    slide-number: false
+    slide-number: c/t
     auto-stretch: false
     filters: [../../_build_env/strip_notes.lua]
     fig-width: 8
@@ -23,7 +23,7 @@ st313:
   week: 04
   session: lecture
   register: 1                      # schema key; part 3 and the engagement slide declare the reinforcement-learning letters on the slide. Student-facing text never says "register"
-  segments:                        # sums to 80: 58 of material and 22 of slack; production 29 (37%)
+  segments:                        # sums to 80: 59 of material and 21 of slack; production 29 (36%)
     # opener: 2
     - {label: "plan; written commitment: a score that has been used on you, what it measures, what it stands for", minutes: 2, mode: production}
     # part 1, scores: 8
@@ -38,7 +38,7 @@ st313:
     - {label: "relabeling: 17.7% to 46.5%; the three labels of Table 2; hands: which label, and who loses under it", minutes: 2, mode: production, results: [R20]}
     - {label: "why b is not zero: lower spending at the same number of conditions; access; the choice of label", minutes: 2, mode: exposition, retrieves: [S2]}
     - {label: "lens D: the threshold prices two errors, and who bears each; the standing question", minutes: 3, mode: production, spine_first_encounter: [S5]}
-    - {label: "attenuation, stated with a figure: a noisy measure flattens a slope; derived in the class", minutes: 1, mode: exposition, introduces: [CC-12], core: CC-12, results: [R21]}
+    - {label: "attenuation: the best guess of need from a noisy measure is the measure shrunk by lambda; derived in the class", minutes: 2, mode: exposition, introduces: [CC-12], core: CC-12, results: [R21, R23]}
     # part 3, what gets rewarded: 12 (the reinforcement-learning part from week 3; convenor, 13 October)
     - {label: "reinforcement learning, its letters declared; the agent maximizes E_pi[R], a utilitarian wants E_pi[U]; whether E_pi[U] is causal depends on further assumptions", minutes: 2, mode: exposition, register: 2}
     - {label: "toy example: a cleaning robot rewarded for not seeing mess (Amodei and colleagues 2016)", minutes: 2, mode: exposition, register: 2}
@@ -57,7 +57,7 @@ st313:
     - {label: "written, individually: one change to how the score from the opener is used, the mechanism it addresses, who loses; two read out", minutes: 2, mode: production}
     - {label: "the question that splits the room: hands and one reason from each side; the task for next time on the same slide", minutes: 2, mode: production}
     # slack: 22
-    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 22, mode: exposition}
+    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 21, mode: exposition}
   history: [{minutes: 1, buys: "Goodhart (1975) and Strathern (1997): where the name and the usual wording of the law come from"}]
   complications: []
   retrieves: [S1, S2, S4]
@@ -202,11 +202,11 @@ sel <- function(b) {                       # for group A = 1 with offset b, agai
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 58 in the 80: opener 2, scores 8, cost as a proxy for need 20, what gets rewarded 12, systems that adapt 10, close 6; then 22 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 59 in the 80: opener 2, scores 8, cost as a proxy for need 21, what gets rewarded 12, systems that adapt 10, close 6; then 21 of slack. Dark = rush or skip.
 
 Cut order: (1) the two-models slide; (2) the engagement slide; (3) the commentary on the citation figure, keeping the figure; (4) attenuation, which the class derives anyway. Do not cut the predictions before the table and the simulation, the job center, the written close or the question at the end.
 
-Pace: 0:10 Part 2; 0:30 Part 3; 0:42 Part 4; 0:52 lenses; 0:58 end.
+Pace: 0:10 Part 2; 0:31 Part 3; 0:43 Part 4; 0:53 lenses; 0:59 end.
 :::
 
 ### Week 4
@@ -380,7 +380,7 @@ ggplot(dens, aes(y, d, color = group)) +
 For group $1$, $Y > t$ is $Y^\star > t - b$: a threshold moved for that group.
 
 ::: {.ask}
-With $b = -0.5$: is group $1$ selected more or less often? Are its selected members more or less ill? Why do the answers go together?
+With $b = -0.5$: is group $1$ selected more or less often? Are its selected members more or less ill?
 :::
 
 ## Who is selected, and how ill
@@ -464,26 +464,27 @@ Who benefited from that choice being invisible? And would a more competent analy
 ## A noisy measure flattens a slope
 
 ::: {.notes}
-Classical measurement error, the third route by which Y and Y* differ. With the three independent, regressing V on the noisy Y instead of Y* shrinks the slope by the reliability ratio lambda; noise in the outcome does not do this. Independence matters: if U were the same noise as epsilon, V would equal Y and the slope would be 1. The class derives it. Variance in the measure becomes bias in the slope.
+The hospital has cost and wants need. Classical measurement error, the third route by which Y and Y* differ: the best guess of need from the measure is the measure shrunk by lambda, the share of the measure's variance that is need. Two units above average in cost, one unit above average in need. The top of the score is less extreme in need than it looks; part 4 uses this. The class derives it. Variance in the measure becomes bias in the slope.
 :::
 
-$Y = Y^\star + \varepsilon$. Regress an outcome $V = \beta Y^\star + U$ on $Y$ instead of on $Y^\star$, with $Y^\star$, $\varepsilon$ and $U$ independent: the slope is $\beta\lambda$, with
+$Y = Y^\star + \varepsilon$, noise independent of need. The best guess of need from the measure (normal case) is
 $$
-\lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \operatorname{Var}(\varepsilon)} < 1 .
+E[Y^\star \mid Y = y] = \lambda y, \qquad \lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \operatorname{Var}(\varepsilon)} < 1 .
 $$
 
-```{r attenuation, fig.height=2.1, fig.alt="Two scatterplots of the same outcome: against the true measure, with a steeper fitted line, and against the noisy measure, with a flatter one."}
+```{r attenuation, fig.width=5.5, fig.height=3.0, out.width="52%", fig.align="center", fig.alt="A scatterplot of need against the noisy measure, with the fitted line of slope one half flatter than the dashed identity line."}
 n <- 400
-ystar <- rnorm(n); eps <- rnorm(n); v <- 1 * ystar + rnorm(n, sd = 0.7)
-att <- bind_rows(data.frame(x = ystar, v = v, panel = "on Y*: slope 1"),
-                 data.frame(x = ystar + eps, v = v, panel = "on Y = Y* + noise: slope 1/2"))
-att$panel <- factor(att$panel, levels = unique(att$panel))
-ggplot(att, aes(x, v)) +
+ystar <- rnorm(n); eps <- rnorm(n)
+att <- data.frame(y = ystar + eps, ystar = ystar)
+ggplot(att, aes(y, ystar)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = cgray) +
   geom_point(alpha = 0.3, size = 1.2, color = slate) +
   geom_smooth(method = "lm", se = FALSE, color = gold, linewidth = 1.4) +
-  facet_wrap(~ panel) +
-  labs(x = NULL, y = "outcome V") +
-  theme(strip.text = element_text(size = 15))
+  annotate("text", x = 2.3, y = 0.4, label = "slope 1/2", color = gold, size = 5.5, hjust = 0) +
+  annotate("text", x = -3.4, y = -2.0, label = "need = measure", color = cgray, size = 4.5, hjust = 0) +
+  coord_cartesian(xlim = c(-3.5, 3.9), ylim = c(-3, 3)) +
+  labs(x = "the measure Y", y = "need Y*", caption = "Var(Y*) = Var(noise) = 1, so lambda = 1/2") +
+  theme(plot.caption = element_text(size = 12, color = cgray))
 ```
 
 # Part 3: What gets rewarded
@@ -491,10 +492,10 @@ ggplot(att, aes(x, v)) +
 ## Reinforcement learning
 
 ::: {.notes}
-The same gap as Y and Y*, in the letters of the people who build these systems: R is what the system is given, U is what we wanted. Say "can be read as causal", not "is causal": one agent is not a treated population, and others may react to it. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.
+R is what the system is given, U is what we wanted: Y and Y* again. Say "can be read as causal", not "is causal": one agent is not a treated population, and others may react to it. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.
 :::
 
-**Notation:** the same gap, in the letters of the people who build these systems: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
+**Notation:** in this part, the letters of reinforcement learning: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
 
 ```{r rl_loop, fig.height=1.9, dev.args=list(symbolfamily=grDevices::cairoSymbolFont("MathJax_Math", usePUA=FALSE)), fig.alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."}
 loop_boxes <- data.frame(x = c(0, 3), y = c(0, 0), label = c("atop(agent, policy~pi)", "environment"))
