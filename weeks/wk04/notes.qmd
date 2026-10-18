@@ -281,16 +281,25 @@ everywhere. At the 97th percentile, the automatic-enrollment point,
 Black patients averaged 4.8 active chronic conditions and White
 patients 3.8, 26% more.
 
-```{r obermeyer97, echo=FALSE, fig.height=2.6, fig.width=5, fig.alt="Two bars at the 97th percentile of the risk score: Black patients average 4.8 active chronic conditions, White patients 3.8."}
-ob <- data.frame(group = factor(c("Black patients", "White patients"), levels = c("Black patients", "White patients")),
-                 conditions = c(4.8, 3.8))
-ggplot(ob, aes(group, conditions, fill = group)) +
-  geom_col(width = 0.55, show.legend = FALSE) +
-  geom_text(aes(label = conditions), vjust = -0.4, size = 4) +
-  scale_fill_manual(values = two) +
-  scale_y_continuous(limits = c(0, 5.6), expand = c(0, 0)) +
-  labs(x = "patients at the 97th percentile of the risk score", y = "active chronic conditions") +
-  theme(panel.grid.major.x = element_blank(), panel.grid.minor = element_blank())
+```{r obermeyer_curves, echo=FALSE, fig.height=2.8, fig.width=6, fig.alt="Two rising curves of active chronic conditions against risk-score percentile, the Black patients' curve above the White patients' at every percentile; at the dashed 97th-percentile line the curves are labeled 4.8 and 3.8."}
+pct <- seq(0, 100, by = 1)
+# a sketch of the paper's Figure 1A: conditions rising with the score, the Black curve one
+# condition above the White one, both through the paper's numbers at the 97th percentile
+white <- 0.6 + 3.4 * (pct / 100)^2
+curves <- bind_rows(data.frame(pct = pct, cond = white + 1.0, group = "Black patients"),
+                    data.frame(pct = pct, cond = white, group = "White patients"))
+curves$group <- factor(curves$group, levels = c("Black patients", "White patients"))
+ggplot(curves, aes(pct, cond, color = group)) +
+  geom_vline(xintercept = 97, linetype = "dashed", color = cgray) +
+  geom_line(linewidth = 1) +
+  annotate("text", x = 95.5, y = c(4.8, 3.8), label = c("4.8", "3.8"), hjust = 1, size = 4, color = two) +
+  scale_color_manual(values = two, name = NULL) +
+  scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+  scale_y_continuous(limits = c(0, 6), breaks = 0:6) +
+  labs(x = "risk score (percentile)", y = "active chronic conditions",
+       caption = "a sketch of the paper's Figure 1A, drawn through its two numbers at the 97th percentile") +
+  theme(panel.grid.minor = element_blank(), legend.position = c(0.2, 0.85),
+        plot.caption = element_text(color = cgray))
 ```
 
 Why? At the same number of chronic conditions, Black patients in the
@@ -609,6 +618,19 @@ numbers above, and concluded: "Opposition to cream skimming must come
 on equity grounds." Equity here is about who is served; efficiency is
 about the total.
 
+The job center chose between two utilities, and the hospital faces the
+same choice. Its program, the paper says, mostly prevents acute
+episodes in people with chronic illness. One candidate for $U$ is how
+ill a patient is; another is how much the extra care would help them.
+They pick out different people whenever the care helps some patients
+more than others, which is the heterogeneity last week's average
+treatment effect averaged over. Telling the two apart needs an
+estimate of the program's effect on each kind of patient, a causal
+claim that the hospital's data, on patients it chose to enroll, do not
+give by themselves. Choosing between them is not an estimate at all:
+it is a judgment about whose good the program is for, and no label
+makes it for you.
+
 Each of the four difficulties of utilitarianism from week 3 becomes a
 choice someone makes in building such an agent. Defining utility
 becomes choosing $R$, a measurable stand-in for $U$, and in both
@@ -690,39 +712,47 @@ left alone. The relation between $Y$ and $Y^\star$ that held before
 the rule need not hold after it. Which people it fails for depends on
 who can pay for $g$.
 
-A simulation makes the mechanism visible. Ten thousand people, need and
-noise standard normal, and 300 places for the highest $Y$. After the
-rule, the half of the population who can afford it add $1$ to their
-$Y$; ability to pay is independent of need. The 300 places now go
-mostly to people who could pay, and the mean need of the people
-selected falls.
+Who can respond decides what the response does. Compare two cases
+with the same 300 places for the highest $Y$. If everyone adds the
+same $1$ to their $Y$, every ranking is unchanged, the same 300 people
+are selected, and nothing about them has changed: a rewarded measure
+is not spoiled by the reward alone. If a random half of the population
+can add $1$ and the rest cannot, the ranking changes, and it changes
+toward the people who could respond. The simulation below has ten
+thousand people, need and noise standard normal, and ability to pay
+independent of need. In the third case the 300 places go mostly to
+people who could pay, and the mean need of the people selected falls.
 
-```{r goodhart_sim, echo=FALSE, fig.height=2.8, fig.width=6, fig.alt="Dot plots of need among the 300 people selected: before the rule, a cloud with mean about 1.7; after the half who can pay add 1 to their score, a lower cloud, with the mean and the share who could pay printed above each."}
+```{r goodhart_sim, echo=FALSE, fig.height=2.8, fig.width=7, fig.alt="Dot plots of need among the 300 people selected in three cases: before the rule; after everyone adds 1, the same 300 people; after a random half add 1, a lower cloud. The mean need and the share who could pay are printed above each."}
 n <- 10000
 need <- rnorm(n); noise <- rnorm(n)
 y0 <- need + noise
 can_pay <- rbinom(n, 1, 0.5) == 1
-y1 <- y0 + ifelse(can_pay, 1, 0)
+y_all <- y0 + 1                                     # everyone adds 1
+y_half <- y0 + ifelse(can_pay, 1, 0)                # only those who can pay add 1
 places <- 300
 top <- function(y) rank(-y) <= places
 sim <- bind_rows(data.frame(need = need[top(y0)], paid = can_pay[top(y0)], when = "before the rule"),
-                 data.frame(need = need[top(y1)], paid = can_pay[top(y1)], when = "after"))
-sim$when <- factor(sim$when, levels = c("before the rule", "after"))
+                 data.frame(need = need[top(y_all)], paid = can_pay[top(y_all)], when = "everyone adds 1"),
+                 data.frame(need = need[top(y_half)], paid = can_pay[top(y_half)], when = "half add 1"))
+sim$when <- factor(sim$when, levels = c("before the rule", "everyone adds 1", "half add 1"))
 means <- sim |> group_by(when) |> summarize(m = mean(need), paid = mean(paid), .groups = "drop")
 ggplot(sim, aes(when, need, color = when)) +
   geom_jitter(width = 0.25, height = 0, alpha = 0.35, size = 0.9, show.legend = FALSE) +
   geom_point(data = means, aes(when, m), color = "black", size = 3.5, shape = 18) +
-  geom_text(data = means, aes(when, 4.6, label = sprintf("mean need %.2f; %.0f%% could pay", m, 100 * paid)),
-            color = "black", size = 3.6) +
-  scale_color_manual(values = two) +
-  coord_cartesian(ylim = c(-1.5, 4.9)) +
+  geom_text(data = means, aes(when, 4.7, label = sprintf("mean need %.2f; %.0f%% could pay", m, 100 * paid)),
+            color = "black", size = 3.2) +
+  scale_color_manual(values = c(navy, slate, gold)) +
+  coord_cartesian(ylim = c(-1.5, 5.1)) +
   labs(x = NULL, y = "need of the selected") +
   theme(panel.grid.major.x = element_blank())
 ```
 
-The fall in mean need is modest here, because the people who could pay
-were drawn from the same need distribution as everyone else; what
-changes most is who the places go to. In the paper's setting the equivalent
+The fall in mean need in the third case is modest, because the people
+who could pay were drawn from the same need distribution as everyone
+else; what changes most is who the places go to. The first two cases
+select the same people, which is the check that it is the difference
+in response, not the response itself, that moves the allocation. In the paper's setting the equivalent
 would be a hospital that rewards patients, or their doctors, for a high
 score, after which the score measures who responded to the reward.
 

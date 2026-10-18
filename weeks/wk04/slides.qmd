@@ -23,7 +23,7 @@ st313:
   week: 04
   session: lecture
   register: 1                      # schema key; part 3 and the engagement slide declare the reinforcement-learning letters on the slide. Student-facing text never says "register"
-  segments:                        # sums to 80: 54 of material and 26 of slack; production 21 (26%)
+  segments:                        # sums to 80: 58 of material and 22 of slack; production 29 (37%)
     # opener: 2
     - {label: "plan; written commitment: a score that has been used on you, what it measures, what it stands for", minutes: 2, mode: production}
     # part 1, scores: 8
@@ -33,27 +33,31 @@ st313:
     # part 2, cost as a proxy for need: 18
     - {label: "the case: a commercial risk score, cost as the label, enrollment at the 97th percentile", minutes: 2, mode: exposition}
     - {label: "commitment: sketch conditions against risk percentile for two groups if cost tracked need equally; then the paper's numbers", minutes: 3, mode: production}
-    - {label: "Y = Y* + bA: an offset for one group is a threshold moved for that group; who is selected, and how ill", minutes: 5, mode: exposition, introduces: [CC-11], core: CC-11, results: [R20, R24]}
+    - {label: "Y = Y* + bA: an offset for one group is a threshold moved for that group; predict, for b = -0.5, who is selected and how ill", minutes: 2, mode: production, introduces: [CC-11], core: CC-11, results: [R20]}
+    - {label: "the selection table: shares, ratio, mean need of the selected; the same-score gap is exactly -b", minutes: 3, mode: exposition, results: [R20, R24]}
     - {label: "relabeling: 17.7% to 46.5%; the three labels of Table 2; hands: which label, and who loses under it", minutes: 2, mode: production, results: [R20]}
     - {label: "why b is not zero: lower spending at the same number of conditions; access; the choice of label", minutes: 2, mode: exposition, retrieves: [S2]}
     - {label: "lens D: the threshold prices two errors, and who bears each; the standing question", minutes: 3, mode: production, spine_first_encounter: [S5]}
     - {label: "attenuation, stated with a figure: a noisy measure flattens a slope; derived in the class", minutes: 1, mode: exposition, introduces: [CC-12], core: CC-12, results: [R21]}
-    # part 3, reinforcement learning: 10 (from week 3; convenor, 13 October)
+    # part 3, what gets rewarded: 12 (the reinforcement-learning part from week 3; convenor, 13 October)
     - {label: "reinforcement learning, its letters declared; the agent maximizes E_pi[R], a utilitarian wants E_pi[U]; whether E_pi[U] is causal depends on further assumptions", minutes: 2, mode: exposition, register: 2}
     - {label: "toy example: a cleaning robot rewarded for not seeing mess (Amodei and colleagues 2016)", minutes: 2, mode: exposition, register: 2}
     - {label: "realistic example, pairs: week 3's job center judged on its placement rate; who does it send, and who would a utilitarian send", minutes: 2, mode: production, register: 2}
     - {label: "what the placement rate rewards: 70% and 6 jobs against 40% and 26; cream skimming in JTPA (Heckman, Heinrich and Smith 2002)", minutes: 2, mode: exposition, register: 2}
-    - {label: "utilitarianism with a reward: ms4ds's four difficulties as choices made in building the agent", minutes: 2, mode: exposition, register: 2}
+    - {label: "need, or benefit: back to the hospital; the sickest patient and the one the care would help most; hands, then what you would need to know and what you are deciding", minutes: 2, mode: production, register: 2}
+    - {label: "utilitarianism with a reward: week 3's four difficulties retrieved, then as choices made in building the agent", minutes: 2, mode: production, register: 2}
     # part 4, systems that adapt: 12
-    - {label: "Goodhart as an intervention on the measured target: the graph, before and after, a simulation", minutes: 5, mode: exposition, introduces: [CC-13], core: CC-13, results: [R22, R23], retrieves: [S1]}
+    - {label: "Goodhart as an intervention on the measured target: the graph, before and after", minutes: 3, mode: exposition, introduces: [CC-13], core: CC-13, results: [R22, R23], retrieves: [S1]}
+    - {label: "predict: 300 places; everyone adds 1, or a random half add 1; who is selected, and does mean need change; then the simulation", minutes: 3, mode: production, results: [R22]}
     - {label: "gaming and improvement, pairs: three responses to a rule sorted; Miller, Milli and Hardt 2020", minutes: 2, mode: production, introduces: [CC-14]}
-    - {label: "strategic classification and performative prediction: what each assumes, how they differ", minutes: 3, mode: exposition, introduces: [CC-14]}
+    - {label: "dark: strategic classification and performative prediction: what each assumes, how they differ", minutes: 2, mode: exposition, introduces: [CC-14]}
     - {label: "dark: engagement; YouTube 2012, views to watch time; R against U; the standing question", minutes: 2, mode: exposition, register: 2}
-    # close: 4
+    # close: 6
     - {label: "lenses this week", minutes: 2, mode: exposition}
+    - {label: "written, individually: one change to how the score from the opener is used, the mechanism it addresses, who loses; two read out", minutes: 2, mode: production}
     - {label: "the question that splits the room: hands and one reason from each side; the task for next time on the same slide", minutes: 2, mode: production}
-    # slack: 16
-    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 26, mode: exposition}
+    # slack: 22
+    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 22, mode: exposition}
   history: [{minutes: 1, buys: "Goodhart (1975) and Strathern (1997): where the name and the usual wording of the law come from"}]
   complications: []
   retrieves: [S1, S2, S4]
@@ -198,11 +202,11 @@ sel <- function(b) {                       # for group A = 1 with offset b, agai
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 54 in the 80: opener 2, scores 8, cost as a proxy for need 18, reinforcement learning 10, systems that adapt 12, close 4; then 26 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 58 in the 80: opener 2, scores 8, cost as a proxy for need 20, what gets rewarded 12, systems that adapt 10, close 6; then 22 of slack. Dark = rush or skip.
 
-Cut order: (1) the engagement slide; (2) the commentary on the citation figure, keeping the figure; (3) attenuation, which the class derives anyway. Do not cut the pairs work on the job center or the question at the end.
+Cut order: (1) the two-models slide; (2) the engagement slide; (3) the commentary on the citation figure, keeping the figure; (4) attenuation, which the class derives anyway. Do not cut the predictions before the table and the simulation, the job center, the written close or the question at the end.
 
-Pace: 0:10 Part 2; 0:28 Part 3; 0:38 Part 4; 0:50 lenses; 0:54 end.
+Pace: 0:10 Part 2; 0:30 Part 3; 0:42 Part 4; 0:52 lenses; 0:58 end.
 :::
 
 ### Week 4
@@ -211,14 +215,14 @@ Part 1: Scores
 
 Part 2: Cost as a proxy for need
 
-Part 3: Reinforcement learning
+Part 3: What gets rewarded
 
 Part 4: Systems that adapt
 
 ## A score
 
 ::: {.notes}
-One line each, two minutes. Keep the slips; the sorting slide at the end of part 1 uses them.
+One line each, two minutes. Keep the slips: the sorting slide at the end of part 1 uses them, and the written close comes back to them.
 :::
 
 ::: {.ask}
@@ -320,19 +324,27 @@ If cost tracked need equally for Black and White patients, what would the two cu
 ## The same score, more illness
 
 ::: {.notes}
-At the 97th percentile, Black patients average 4.8 active chronic conditions and White patients 3.8: 26% more, at the same score. The paper's Figure 1A shows the whole curve; it is the same shape at every percentile.
+The paper's Figure 1A: conditions rise with the score in both groups, and the Black curve lies above the White one at every percentile. At the 97th, 4.8 against 3.8 conditions, 26% more at the same score. The curves here are a sketch of that shape, not the paper's data.
 :::
 
-```{r obermeyer97, fig.height=3.2, fig.alt="Two bars at the 97th percentile of the risk score: Black patients average 4.8 active chronic conditions, White patients 3.8."}
-ob <- data.frame(group = factor(c("Black patients", "White patients"), levels = c("Black patients", "White patients")),
-                 conditions = c(4.8, 3.8))
-ggplot(ob, aes(group, conditions, fill = group)) +
-  geom_col(width = 0.55, show.legend = FALSE) +
-  geom_text(aes(label = conditions), vjust = -0.4, size = 7) +
-  scale_fill_manual(values = two) +
-  scale_y_continuous(limits = c(0, 5.6), expand = c(0, 0)) +
-  labs(x = "patients at the 97th percentile of the risk score", y = "active chronic conditions") +
-  theme(panel.grid.major.x = element_blank(), panel.grid.minor = element_blank())
+```{r obermeyer_curves, fig.height=3.3, fig.alt="Two rising curves of active chronic conditions against risk-score percentile on the axes the room drew, the Black patients' curve above the White patients' at every percentile; at the dashed 97th-percentile line the curves are labeled 4.8 and 3.8."}
+pct <- seq(0, 100, by = 1)
+# a sketch of the paper's Figure 1A: conditions rising with the score, the Black curve one
+# condition above the White one, both through the paper's numbers at the 97th percentile
+white <- 0.6 + 3.4 * (pct / 100)^2
+curves <- bind_rows(data.frame(pct = pct, cond = white + 1.0, group = "Black patients"),
+                    data.frame(pct = pct, cond = white, group = "White patients"))
+curves$group <- factor(curves$group, levels = c("Black patients", "White patients"))
+ggplot(curves, aes(pct, cond, color = group)) +
+  geom_vline(xintercept = 97, linetype = "dashed", color = cgray) +
+  geom_line(linewidth = 1.3) +
+  annotate("label", x = 97, y = c(5.4, 3.1), label = c("4.8", "3.8"), size = 6, color = two, label.size = 0) +
+  scale_color_manual(values = two, name = NULL) +
+  scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+  scale_y_continuous(limits = c(0, 6), breaks = 0:6) +
+  labs(x = "risk score (percentile)", y = "chronic conditions", caption = "a sketch of the paper's Figure 1A, through its two numbers at the 97th percentile") +
+  theme(panel.grid.minor = element_blank(), legend.position = c(0.2, 0.85), legend.text = element_text(size = 15),
+        axis.title.y = element_text(size = 15), plot.caption = element_text(size = 12, color = cgray))
 ```
 
 At every level of the score, the Black patients it selects are sicker than the White patients it selects.
@@ -344,12 +356,12 @@ Obermeyer and colleagues (2019), Figure 1A and text: 4.8 against 3.8 conditions 
 ## A model: an offset for one group
 
 ::: {.notes}
-Need is the same in both groups; cost is need plus an offset b for group 1, negative here. Selecting above t on Y is selecting above t minus b on need, for that group only. An offset in the measure is a threshold moved for one group.
+Need is the same in both groups; cost is need plus an offset b for group 1, negative here. Selecting above t on Y is selecting above t minus b on need, for that group only. An offset in the measure is a threshold moved for one group. Then everyone predicts, from the moved threshold, before the table: hands for "less often" and for "more ill", and one reason.
 :::
 
 $Y^\star$ need, the same in both groups; $A = 1$ for one group, $0$ for the other; selected if $Y > t$, where $Y = Y^\star + bA$.
 
-```{r offset_densities, fig.height=2.8, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
+```{r offset_densities, fig.height=1.9, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
 grid <- seq(-3.5, 3.5, length.out = 400)
 dens <- bind_rows(data.frame(y = grid, d = dnorm(grid), group = "group 0"),
                   data.frame(y = grid, d = dnorm(grid, mean = -0.5), group = "group 1"))
@@ -365,7 +377,11 @@ ggplot(dens, aes(y, d, color = group)) +
         axis.title.x = element_text(size = 15))
 ```
 
-For group $1$, $Y > t$ is $Y^\star > t - b$: an offset in the measure is a threshold moved for that group.
+For group $1$, $Y > t$ is $Y^\star > t - b$: a threshold moved for that group.
+
+::: {.ask}
+With $b = -0.5$: is group $1$ selected more or less often? Are its selected members more or less ill? Why do the answers go together?
+:::
 
 ## Who is selected, and how ill
 
@@ -470,15 +486,15 @@ ggplot(att, aes(x, v)) +
   theme(strip.text = element_text(size = 15))
 ```
 
-# Part 3: Reinforcement learning
+# Part 3: What gets rewarded
 
 ## Reinforcement learning
 
 ::: {.notes}
-Say "can be read as causal", not "is causal": one agent is not a treated population, and others may react to it. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.
+The same gap as Y and Y*, in the letters of the people who build these systems: R is what the system is given, U is what we wanted. Say "can be read as causal", not "is causal": one agent is not a treated population, and others may react to it. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.
 :::
 
-**Notation:** in this part, the letters of reinforcement learning: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
+**Notation:** the same gap, in the letters of the people who build these systems: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
 
 ```{r rl_loop, fig.height=1.9, dev.args=list(symbolfamily=grDevices::cairoSymbolFont("MathJax_Math", usePUA=FALSE)), fig.alt="A loop: the agent, with policy pi, sends an action A to the environment, which returns a state S and a reward R to the agent."}
 loop_boxes <- data.frame(x = c(0, 3), y = c(0, 0), label = c("atop(agent, policy~pi)", "environment"))
@@ -616,15 +632,37 @@ Cream skimming: choosing people who would have found work anyway. In the US Job 
 Heckman, Heinrich and Smith (2002), "The Performance of Performance Standards," NBER Working Paper 9002, abstract.
 :::
 
+## Need, or benefit
+
+::: {.notes}
+Back to the hospital with the job center's distinction. The program mostly prevents acute episodes in people with chronic illness, the paper says. The sickest patient and the patient the care would help most are different people when the effect differs by patient, and last week's average treatment effect averaged over such differences. Hands for each, then: telling them apart needs an effect, which is a causal claim; choosing between them is a value judgment about whose good counts.
+:::
+
+**Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
+
+The job center chose between two utilities: the placement rate rewards sending people likely to be in work; the utilitarian sends the people the course helps most.
+
+The hospital's program mostly prevents acute episodes in people with chronic illness. Two candidates for $U$: how ill a patient is, and how much the extra care would help them.
+
+::: {.ask}
+Should the program go to the sickest, or to those the care would help most? What would you need to know to tell them apart, and what are you deciding when you choose?
+:::
+
 ## Utilitarianism with a reward
 
 ::: {.notes}
-Each difficulty of utilitarianism from week 3 is a choice someone makes when building the agent. The robot and the center are both in the first row.
+Retrieval first: the four difficulties from last week, from the room, before the table. Then each as a choice someone makes when building the agent. The robot and the center are both in the first row; the need-or-benefit question is the first row too.
 :::
 
 **Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
 
 An agent judges a policy only by the reward it expects. That is consequentialism, with the good defined by whoever chose $R$.
+
+::: {.retrieval}
+Last week listed four difficulties of utilitarianism. Which are they?
+:::
+
+. . .
 
 | a difficulty of utilitarianism | in building the agent |
 |:---|:---|
@@ -662,37 +700,55 @@ draw_dag(nodes, edges, boxes = TRUE, text_size = 5.5, xlim = c(-0.9, 3.5), ylim 
 
 Replacing the line for $Y$ is an intervention. The relation between $Y$ and $Y^\star$ that held before the rule need not hold after it.
 
+## Two ways to respond
+
+::: {.notes}
+Pairs, two minutes, before the simulation. If everyone adds the same amount, the ranking is unchanged and so is the allocation: targeting a measure does not by itself spoil it. If only some can respond, the allocation changes, and it changes toward the people who could respond. Hands on each, then the next slide.
+:::
+
+300 places go to the 300 highest $Y$, where $Y = Y^\star + \varepsilon$. Then the rule is announced.
+
+1. Everyone adds $1$ to their $Y$.
+2. A random half of the people add $1$; the rest cannot.
+
+::: {.ask}
+In each case: who gets the places, compared with before? Does the mean need of the people selected change?
+:::
+
 ## The same score, before and after
 
 ::: {.notes}
-Simulated: 10,000 people, need and noise standard normal, 300 places for the highest Y. After the rule, the half who can afford it add 1 to Y. The 300 places go mostly to people who could pay, and the mean need of the selected falls. Conditioning on Y gave information; intervening on Y's equation changed what the information is.
+Simulated: 10,000 people, need and noise standard normal, 300 places for the highest Y. Everyone adding 1 changes nothing. When the half who can afford it add 1, the places go mostly to them, and the mean need of the selected falls. What changes the allocation is that the response differs between people. Conditioning on Y gave information; intervening on Y's equation changed what the information is.
 :::
 
-```{r goodhart_sim, fig.height=2.6, fig.alt="Dot plots of need among the 300 people selected: before the rule, a cloud with mean about 1.7; after the half who can pay add 1 to their score, a lower cloud, with the mean and the share who could pay printed above each."}
+```{r goodhart_sim, fig.height=2.3, fig.alt="Dot plots of need among the 300 people selected in three cases: before the rule; after everyone adds 1, the same 300 people; after a random half add 1, a lower cloud. The mean need and the share who could pay are printed above each."}
 n <- 10000
 need <- rnorm(n); noise <- rnorm(n)
 y0 <- need + noise
 can_pay <- rbinom(n, 1, 0.5) == 1                   # half the people can afford to raise Y
-y1 <- y0 + ifelse(can_pay, 1, 0)
+y_all <- y0 + 1                                     # everyone adds 1
+y_half <- y0 + ifelse(can_pay, 1, 0)                # only those who can pay add 1
 places <- 300
 top <- function(y) rank(-y) <= places
 sim <- bind_rows(data.frame(need = need[top(y0)], paid = can_pay[top(y0)], when = "before the rule"),
-                 data.frame(need = need[top(y1)], paid = can_pay[top(y1)], when = "after"))
-sim$when <- factor(sim$when, levels = c("before the rule", "after"))
+                 data.frame(need = need[top(y_all)], paid = can_pay[top(y_all)], when = "everyone adds 1"),
+                 data.frame(need = need[top(y_half)], paid = can_pay[top(y_half)], when = "half add 1"))
+sim$when <- factor(sim$when, levels = c("before the rule", "everyone adds 1", "half add 1"))
 means <- sim |> group_by(when) |> summarize(m = mean(need), paid = mean(paid), .groups = "drop")
+same <- identical(which(top(y0)), which(top(y_all)))  # the same 300 people in the first two cases
 ggplot(sim, aes(when, need, color = when)) +
   geom_jitter(width = 0.25, height = 0, alpha = 0.35, size = 1.2, show.legend = FALSE) +
   geom_point(data = means, aes(when, m), color = "black", size = 5, shape = 18) +
-  geom_text(data = means, aes(when, 4.6, label = sprintf("mean need %.2f; %.0f%% could pay", m, 100 * paid)),
-            color = "black", size = 5) +
-  scale_color_manual(values = two) +
-  coord_cartesian(ylim = c(-1.5, 4.9)) +
-  labs(x = NULL, y = "need of the selected") +
-  theme(panel.grid.major.x = element_blank())
+  geom_text(data = means, aes(when, 4.6, label = sprintf("mean need %.2f\n%.0f%% could pay", m, 100 * paid)),
+            color = "black", size = 4.6, lineheight = 0.9) +
+  scale_color_manual(values = c(navy, slate, gold)) +
+  coord_cartesian(ylim = c(-1.5, 5.3)) +
+  labs(x = NULL, y = "need, selected") +
+  theme(panel.grid.major.x = element_blank(), axis.title.y = element_text(size = 15))
 ```
 
 ::: {.leave}
-Before the rule, $E[Y^\star \mid Y = y] = \lambda y$ (normal $Y^\star$ and $\varepsilon$): selecting on $Y$ selects on need, shrunk by $\lambda$. The rule changes $Y$'s equation, and with it $E[Y^\star \mid Y]$.
+When everyone adds the same amount, the ranking and the 300 are unchanged. When the response differs between people, the allocation moves toward those who can respond: $Y$'s equation has changed, and with it $E[Y^\star \mid Y]$.
 :::
 
 ::: {.retrieval}
@@ -718,10 +774,10 @@ A course is judged by its students' test scores. Students (1) memorize last year
 Miller, Milli and Hardt (2020), "Strategic Classification is Causal Modeling in Disguise," ICML, PMLR 119, 6917--6926.
 :::
 
-## Two models of a system that adapts
+## Two models of a system that adapts {.inverse}
 
 ::: {.notes}
-Strategic classification names the mechanism and holds the true label fixed, so every response is gaming; performative prediction lets the whole distribution move and asks what retraining converges to. Both say: the rule is an intervention, not a sample. The second contains the first as a special case.
+Skip if behind. Strategic classification names the mechanism and holds the true label fixed, so every response is gaming; performative prediction lets the whole distribution move and asks what retraining converges to. Both say: the rule is an intervention, not a sample. The second contains the first as a special case.
 :::
 
 :::: {.columns}
@@ -741,7 +797,7 @@ Strategic classification names the mechanism and holds the true label fixed, so 
 
 In both, the rule is an intervention, not a sample.
 
-::: {.source}
+::: {.source style="color: #BCAF6F"}
 Hardt, Megiddo, Papadimitriou and Wootters (2016), "Strategic Classification," arXiv 1506.06980; Perdomo, Zrnic, Mendler-Dünner and Hardt (2020), "Performative Prediction," arXiv 2002.06673.
 :::
 
@@ -777,10 +833,20 @@ Each lens, what it referred to this week. Then the question on the next slide.
 
 ...and why?
 
+## Your score, again
+
+::: {.notes}
+Two minutes, written, individually, on the score from the start. Then two responses read out, chosen for different mechanisms (an offset; a response to the score; noise), before the vote on the next slide.
+:::
+
+::: {.ask}
+The score you wrote down at the start. Recommend one change to how it is used. Which mechanism from today does your change address, and who might lose from it?
+:::
+
 ##
 
 ::: {.notes}
-Hands for "technical error" and for "value choice", then one reason from each side. No house answer. The task below is also on the class sheet.
+Hands for "technical error" and for "value choice", then one reason from each side; use the two responses just read out. No house answer. The task below is also on the class sheet.
 :::
 
 ::: {.ask}

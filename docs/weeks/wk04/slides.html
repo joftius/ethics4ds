@@ -149,7 +149,7 @@ Joshua Loftus
 <h3 id="week-4">Week 4</h3>
 <p>Part 1: Scores</p>
 <p>Part 2: Cost as a proxy for need</p>
-<p>Part 3: Reinforcement learning</p>
+<p>Part 3: What gets rewarded</p>
 <p>Part 4: Systems that adapt</p>
 </section>
 <section id="a-score" class="slide level2">
@@ -266,7 +266,7 @@ Joshua Loftus
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/obermeyer97-1.png" style="width:100.0%" alt="Two bars at the 97th percentile of the risk score: Black patients average 4.8 active chronic conditions, White patients 3.8."></p>
+<p><img data-src="slides_files/figure-revealjs/obermeyer_curves-1.png" style="width:100.0%" alt="Two rising curves of active chronic conditions against risk-score percentile on the axes the room drew, the Black patients' curve above the White patients' at every percentile; at the dashed 97th-percentile line the curves are labeled 4.8 and 3.8."></p>
 </figure>
 </div>
 </div>
@@ -288,7 +288,10 @@ Joshua Loftus
 </div>
 </div>
 </div>
-<p>For group <span class="math inline">\(1\)</span>, <span class="math inline">\(Y &gt; t\)</span> is <span class="math inline">\(Y^\star &gt; t - b\)</span>: an offset in the measure is a threshold moved for that group.</p>
+<p>For group <span class="math inline">\(1\)</span>, <span class="math inline">\(Y &gt; t\)</span> is <span class="math inline">\(Y^\star &gt; t - b\)</span>: a threshold moved for that group.</p>
+<div class="ask">
+<p>With <span class="math inline">\(b = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often? Are its selected members more or less ill? Why do the answers go together?</p>
+</div>
 </section>
 <section id="who-is-selected-and-how-ill" class="slide level2">
 <h2>Who is selected, and how ill</h2>
@@ -431,13 +434,13 @@ Joshua Loftus
 </div>
 </section></section>
 <section>
-<section id="part-3-reinforcement-learning" class="title-slide slide level1 center">
-<h1>Part 3: Reinforcement learning</h1>
+<section id="part-3-what-gets-rewarded" class="title-slide slide level1 center">
+<h1>Part 3: What gets rewarded</h1>
 
 </section>
 <section id="reinforcement-learning" class="slide level2">
 <h2>Reinforcement learning</h2>
-<p><strong>Notation:</strong> in this part, the letters of reinforcement learning: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
+<p><strong>Notation:</strong> the same gap, in the letters of the people who build these systems: <span class="math inline">\(S\)</span> state, <span class="math inline">\(A\)</span> action, <span class="math inline">\(R\)</span> reward, <span class="math inline">\(\pi\)</span> policy, <span class="math inline">\(U\)</span> utility.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -537,10 +540,23 @@ Joshua Loftus
 <p>Heckman, Heinrich and Smith (2002), “The Performance of Performance Standards,” NBER Working Paper 9002, abstract.</p>
 </div>
 </section>
+<section id="need-or-benefit" class="slide level2">
+<h2>Need, or benefit</h2>
+<p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
+<p>The job center chose between two utilities: the placement rate rewards sending people likely to be in work; the utilitarian sends the people the course helps most.</p>
+<p>The hospital’s program mostly prevents acute episodes in people with chronic illness. Two candidates for <span class="math inline">\(U\)</span>: how ill a patient is, and how much the extra care would help them.</p>
+<div class="ask">
+<p>Should the program go to the sickest, or to those the care would help most? What would you need to know to tell them apart, and what are you deciding when you choose?</p>
+</div>
+</section>
 <section id="utilitarianism-with-a-reward" class="slide level2">
 <h2>Utilitarianism with a reward</h2>
 <p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
 <p>An agent judges a policy only by the reward it expects. That is consequentialism, with the good defined by whoever chose <span class="math inline">\(R\)</span>.</p>
+<div class="retrieval">
+<p>Last week listed four difficulties of utilitarianism. Which are they?</p>
+</div>
+<div class="fragment">
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -571,6 +587,7 @@ Joshua Loftus
 </tr>
 </tbody>
 </table>
+</div>
 </section></section>
 <section>
 <section id="part-4-systems-that-adapt" class="title-slide slide level1 center">
@@ -594,19 +611,30 @@ Y = Y^\star + \varepsilon + g .
 </div>
 <p>Replacing the line for <span class="math inline">\(Y\)</span> is an intervention. The relation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y^\star\)</span> that held before the rule need not hold after it.</p>
 </section>
+<section id="two-ways-to-respond" class="slide level2">
+<h2>Two ways to respond</h2>
+<p>300 places go to the 300 highest <span class="math inline">\(Y\)</span>, where <span class="math inline">\(Y = Y^\star + \varepsilon\)</span>. Then the rule is announced.</p>
+<ol type="1">
+<li>Everyone adds <span class="math inline">\(1\)</span> to their <span class="math inline">\(Y\)</span>.</li>
+<li>A random half of the people add <span class="math inline">\(1\)</span>; the rest cannot.</li>
+</ol>
+<div class="ask">
+<p>In each case: who gets the places, compared with before? Does the mean need of the people selected change?</p>
+</div>
+</section>
 <section id="the-same-score-before-and-after" class="slide level2">
 <h2>The same score, before and after</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/goodhart_sim-1.png" style="width:100.0%" alt="Dot plots of need among the 300 people selected: before the rule, a cloud with mean about 1.7; after the half who can pay add 1 to their score, a lower cloud, with the mean and the share who could pay printed above each."></p>
+<p><img data-src="slides_files/figure-revealjs/goodhart_sim-1.png" style="width:100.0%" alt="Dot plots of need among the 300 people selected in three cases: before the rule; after everyone adds 1, the same 300 people; after a random half add 1, a lower cloud. The mean need and the share who could pay are printed above each."></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="leave">
-<p>Before the rule, <span class="math inline">\(E[Y^\star \mid Y = y] = \lambda y\)</span> (normal <span class="math inline">\(Y^\star\)</span> and <span class="math inline">\(\varepsilon\)</span>): selecting on <span class="math inline">\(Y\)</span> selects on need, shrunk by <span class="math inline">\(\lambda\)</span>. The rule changes <span class="math inline">\(Y\)</span>’s equation, and with it <span class="math inline">\(E[Y^\star \mid Y]\)</span>.</p>
+<p>When everyone adds the same amount, the ranking and the 300 are unchanged. When the response differs between people, the allocation moves toward those who can respond: <span class="math inline">\(Y\)</span>’s equation has changed, and with it <span class="math inline">\(E[Y^\star \mid Y]\)</span>.</p>
 </div>
 <div class="retrieval">
 <p>Conditioning is not intervening. Which is the rule doing?</p>
@@ -626,7 +654,7 @@ Y = Y^\star + \varepsilon + g .
 <p>Miller, Milli and Hardt (2020), “Strategic Classification is Causal Modeling in Disguise,” ICML, PMLR 119, 6917–6926.</p>
 </div>
 </section>
-<section id="two-models-of-a-system-that-adapts" class="slide level2">
+<section id="two-models-of-a-system-that-adapts" class="slide level2 inverse">
 <h2>Two models of a system that adapts</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -643,7 +671,7 @@ Y = Y^\star + \varepsilon + g .
 </ul>
 </div></div>
 <p>In both, the rule is an intervention, not a sample.</p>
-<div class="source">
+<div class="source" style="color: #BCAF6F">
 <p>Hardt, Megiddo, Papadimitriou and Wootters (2016), “Strategic Classification,” arXiv 1506.06980; Perdomo, Zrnic, Mendler-Dünner and Hardt (2020), “Performative Prediction,” arXiv 2002.06673.</p>
 </div>
 </section>
@@ -666,6 +694,12 @@ Y = Y^\star + \varepsilon + g .
 <li><strong>Who bears the error?</strong> A threshold at the 97th percentile makes two errors; an offset in the measure moves being left out onto one group. A cleaning robot’s owner bears the robot’s reward.</li>
 </ul>
 <p>…and why?</p>
+</section>
+<section id="your-score-again" class="slide level2">
+<h2>Your score, again</h2>
+<div class="ask">
+<p>The score you wrote down at the start. Recommend one change to how it is used. Which mechanism from today does your change address, and who might lose from it?</p>
+</div>
 </section>
 <section id="section-1" class="slide level2">
 <h2></h2>
