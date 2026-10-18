@@ -23,7 +23,7 @@ st313:
   week: 04
   session: lecture
   register: 1                      # schema key; part 3 and the engagement slide declare the reinforcement-learning letters on the slide. Student-facing text never says "register"
-  segments:                        # sums to 80: 59 of material and 21 of slack; production 29 (36%)
+  segments:                        # sums to 80: 60 of material and 20 of slack; production 30 (38%)
     # opener: 2
     - {label: "plan; written commitment: a score that has been used on you, what it measures, what it stands for", minutes: 2, mode: production}
     # part 1, scores: 8
@@ -49,7 +49,7 @@ st313:
     # part 4, systems that adapt: 12
     - {label: "Goodhart as an intervention on the measured target: the graph, before and after", minutes: 3, mode: exposition, introduces: [CC-13], core: CC-13, results: [R22, R23], retrieves: [S1]}
     - {label: "predict: 300 places; everyone adds 1, or a random half add 1; who is selected, and does mean need change; then the simulation", minutes: 3, mode: production, results: [R22]}
-    - {label: "gaming and improvement, pairs: three responses to a rule sorted; Miller, Milli and Hardt 2020", minutes: 2, mode: production, introduces: [CC-14]}
+    - {label: "gaming and improvement: two graphs (practice, memorizing old papers); pairs draw the third case; Miller, Milli and Hardt 2020", minutes: 3, mode: production, introduces: [CC-14]}
     - {label: "dark: strategic classification and performative prediction: what each assumes, how they differ", minutes: 2, mode: exposition, introduces: [CC-14]}
     - {label: "dark: engagement; YouTube 2012, views to watch time; R against U; the standing question", minutes: 2, mode: exposition, register: 2}
     # close: 6
@@ -57,12 +57,12 @@ st313:
     - {label: "written, individually: one change to how the score from the opener is used, the mechanism it addresses, who loses; two read out", minutes: 2, mode: production}
     - {label: "the question that splits the room: hands and one reason from each side; the task for next time on the same slide", minutes: 2, mode: production}
     # slack: 22
-    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 21, mode: exposition}
+    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 20, mode: exposition}
   history: [{minutes: 1, buys: "Goodhart (1975) and Strathern (1997): where the name and the usual wording of the law come from"}]
   complications: []
   retrieves: [S1, S2, S4]
   introduces: [CC-11, CC-12, CC-13, CC-14]
-  lenses: [A, D]
+  lenses: [A, D, F]                # F, "What can be changed, and how?", first used this week (convenor, 18 October)
   spine_first_encounter: [S5]
   readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart]
   results: [R20, R21, R22, R23, R24]     # R25 and R26 (utility representation; Szpilrajn) went with part 4 to _held/, 17 October
@@ -202,11 +202,11 @@ sel <- function(b) {                       # for group A = 1 with offset b, agai
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 59 in the 80: opener 2, scores 8, cost as a proxy for need 21, what gets rewarded 12, systems that adapt 10, close 6; then 21 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 60 in the 80: opener 2, scores 8, cost as a proxy for need 21, what gets rewarded 12, systems that adapt 11, close 6; then 20 of slack. Dark = rush or skip.
 
 Cut order: (1) the two-models slide; (2) the engagement slide; (3) the commentary on the citation figure, keeping the figure; (4) attenuation, which the class derives anyway. Do not cut the predictions before the table and the simulation, the job center, the written close or the question at the end.
 
-Pace: 0:10 Part 2; 0:31 Part 3; 0:43 Part 4; 0:53 lenses; 0:59 end.
+Pace: 0:10 Part 2; 0:31 Part 3; 0:43 Part 4; 0:54 lenses; 1:00 end.
 :::
 
 ### Week 4
@@ -327,7 +327,7 @@ If cost tracked need equally for Black and White patients, what would the two cu
 The paper's Figure 1A: conditions rise with the score in both groups, and the Black curve lies above the White one at every percentile. At the 97th, 4.8 against 3.8 conditions, 26% more at the same score. The curves here are a sketch of that shape, not the paper's data.
 :::
 
-```{r obermeyer_curves, fig.height=3.3, fig.alt="Two rising curves of active chronic conditions against risk-score percentile on the axes the room drew, the Black patients' curve above the White patients' at every percentile; at the dashed 97th-percentile line the curves are labeled 4.8 and 3.8."}
+```{r obermeyer_curves, fig.height=4.0, fig.alt="Two rising curves of active chronic conditions against risk-score percentile on the axes the room drew, the Black patients' curve above the White patients' at every percentile; at the dashed 97th-percentile line the curves are labeled 4.8 and 3.8."}
 pct <- seq(0, 100, by = 1)
 # a sketch of the paper's Figure 1A: conditions rising with the score, the Black curve one
 # condition above the White one, both through the paper's numbers at the 97th percentile
@@ -347,7 +347,7 @@ ggplot(curves, aes(pct, cond, color = group)) +
         axis.title.y = element_text(size = 15), plot.caption = element_text(size = 12, color = cgray))
 ```
 
-At every level of the score, the Black patients it selects are sicker than the White patients it selects.
+At every level of the score, the Black patients it selects are sicker.
 
 ::: {.source}
 Obermeyer and colleagues (2019), Figure 1A and text: 4.8 against 3.8 conditions at the 97th percentile ($P < 0.001$).
@@ -356,10 +356,10 @@ Obermeyer and colleagues (2019), Figure 1A and text: 4.8 against 3.8 conditions 
 ## A model: an offset for one group
 
 ::: {.notes}
-Need is the same in both groups; cost is need plus an offset b for group 1, negative here. Selecting above t on Y is selecting above t minus b on need, for that group only. An offset in the measure is a threshold moved for one group. Then everyone predicts, from the moved threshold, before the table: hands for "less often" and for "more ill", and one reason.
+Need is the same in both groups; cost is need plus an offset b for group 1, negative here. Selecting above t on Y is selecting above t minus b on need, for that group only. An offset in the measure is a threshold moved for one group. Then everyone predicts, from the moved threshold, before the table: hands for "less often", and one reason.
 :::
 
-$Y^\star$ need, the same in both groups; $A = 1$ for one group, $0$ for the other; selected if $Y > t$, where $Y = Y^\star + bA$.
+$Y^\star$ need, assumed here to be the same in both groups; $A = 1$ for one group, $0$ for the other; selected if $Y > t$, where $Y = Y^\star + bA$.
 
 ```{r offset_densities, fig.height=1.9, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
 grid <- seq(-3.5, 3.5, length.out = 400)
@@ -380,7 +380,7 @@ ggplot(dens, aes(y, d, color = group)) +
 For group $1$, $Y > t$ is $Y^\star > t - b$: a threshold moved for that group.
 
 ::: {.ask}
-With $b = -0.5$: is group $1$ selected more or less often? Are its selected members more or less ill?
+With $b = -0.5$: is group $1$ selected more or less often?
 :::
 
 ## Who is selected, and how ill
@@ -393,7 +393,7 @@ $Y^\star \sim N(0, 1)$ in both groups; $t$ is the 97th percentile.
 
 ```{r sel_table, results="asis"}
 tab <- bind_rows(sel(0), sel(-0.5), sel(-1))
-cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of the selected, group 0 | mean need, group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
+cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of selected in group 0 | mean need of selected in group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
 for (i in seq_len(nrow(tab))) with(tab[i, ], cat(sprintf("| %s | %.1f%% | %.1f%% | %.2f | %.2f | %.2f |\n",
   format(b, nsmall = 1), 100 * share0, 100 * share1, ratio, need0, need1)))
 ```
@@ -492,7 +492,7 @@ ggplot(att, aes(y, ystar)) +
 ## Reinforcement learning
 
 ::: {.notes}
-R is what the system is given, U is what we wanted: Y and Y* again. Say "can be read as causal", not "is causal": one agent is not a treated population, and others may react to it. Causal reinforcement learning, a subfield, brings causal models into reinforcement learning.
+R is what the system is given, U is what we wanted: Y and Y* again.
 :::
 
 **Notation:** in this part, the letters of reinforcement learning: $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
@@ -518,8 +518,6 @@ ggplot() +
 Learning: change $\pi$ to make the expected reward $E_\pi[R]$ large.
 
 A utilitarian wants the largest $E_\pi[U]$, with $U$ the good we care about. The agent is given $R$.
-
-Whether $E_\pi[U]$ is a causal quantity depends on further assumptions.
 
 ## A cleaning robot
 
@@ -641,9 +639,11 @@ Back to the hospital with the job center's distinction. The program mostly preve
 
 **Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
 
-The job center chose between two utilities: the placement rate rewards sending people likely to be in work; the utilitarian sends the people the course helps most.
+The job center chose between two utilities: people likely to be in work, or people the course helps most.
 
 The hospital's program mostly prevents acute episodes in people with chronic illness. Two candidates for $U$: how ill a patient is, and how much the extra care would help them.
+
+Benefit is an effect: what the care changes for that patient. Telling need from benefit is a causal question.
 
 ::: {.ask}
 Should the program go to the sickest, or to those the care would help most? What would you need to know to tell them apart, and what are you deciding when you choose?
@@ -674,7 +674,7 @@ Last week listed four difficulties of utilitarianism. Which are they?
 
 # Part 4: Systems that adapt
 
-## The optimizer arrives
+## When a measure becomes a target
 
 ::: {.notes}
 Back to the prediction letters. So far the people measured have done nothing; the robot and the job center were the agents. Now the people act. Before the rule: Y comes from need and noise, and selecting on Y is conditioning; the selected are needier on average. After the rule: people add g to Y without touching need, an intervention on Y's equation. The simulation: 300 places by Y, mean need before and after.
@@ -699,18 +699,18 @@ nodes$panel <- factor(nodes$panel, levels = pn); edges$panel <- factor(edges$pan
 draw_dag(nodes, edges, boxes = TRUE, text_size = 5.5, xlim = c(-0.9, 3.5), ylim = c(-0.3, 1.45), strip_size = 16)
 ```
 
-Replacing the line for $Y$ is an intervention. The relation between $Y$ and $Y^\star$ that held before the rule need not hold after it.
+Replacing the equation for $Y$ is an intervention. The relation between $Y$ and $Y^\star$ that held before the rule need not hold after it.
 
 ## Two ways to respond
 
 ::: {.notes}
-Pairs, two minutes, before the simulation. If everyone adds the same amount, the ranking is unchanged and so is the allocation: targeting a measure does not by itself spoil it. If only some can respond, the allocation changes, and it changes toward the people who could respond. Hands on each, then the next slide.
+Pairs, two minutes, before the simulation. In the simulation, who is able to add 1 is unrelated to need. If everyone adds the same amount, the ranking is unchanged and so is the allocation: targeting a measure does not by itself spoil it. If only some can respond, the allocation changes, and it changes toward the people who could respond. Hands on each, then the next slide.
 :::
 
 300 places go to the 300 highest $Y$, where $Y = Y^\star + \varepsilon$. Then the rule is announced.
 
 1. Everyone adds $1$ to their $Y$.
-2. A random half of the people add $1$; the rest cannot.
+2. Half of the people are able to add $1$; the rest cannot.
 
 ::: {.ask}
 In each case: who gets the places, compared with before? Does the mean need of the people selected change?
@@ -719,56 +719,70 @@ In each case: who gets the places, compared with before? Does the mean need of t
 ## The same score, before and after
 
 ::: {.notes}
-Simulated: 10,000 people, need and noise standard normal, 300 places for the highest Y. Everyone adding 1 changes nothing. When the half who can afford it add 1, the places go mostly to them, and the mean need of the selected falls. What changes the allocation is that the response differs between people. Conditioning on Y gave information; intervening on Y's equation changed what the information is.
+Need across, the measure up; the dashed line is the cutoff for 300 places, the selected are solid. Everyone adding 1 moves the cloud and the cutoff up together: the same 300 people. When half are able to add 1, the gold cloud rises, the places go mostly to them, and the selected reach further down in need. What changes the allocation is that the response differs between people. Conditioning on Y gave information; intervening on Y's equation changed what the information is.
 :::
 
-```{r goodhart_sim, fig.height=2.3, fig.alt="Dot plots of need among the 300 people selected in three cases: before the rule; after everyone adds 1, the same 300 people; after a random half add 1, a lower cloud. The mean need and the share who could pay are printed above each."}
-n <- 10000
+```{r goodhart_sim, fig.height=3.2, fig.alt="Three scatterplots of the measure Y against need Y*, with the cutoff for 300 places dashed and the selected drawn solid. Before the rule and after everyone adds 1 the same people are selected; after half are able to add 1, the selected are mostly those able, reaching lower need."}
+n <- 10000; places <- 300
 need <- rnorm(n); noise <- rnorm(n)
+can <- rbinom(n, 1, 0.5) == 1                       # able to add 1, unrelated to need
 y0 <- need + noise
-can_pay <- rbinom(n, 1, 0.5) == 1                   # half the people can afford to raise Y
-y_all <- y0 + 1                                     # everyone adds 1
-y_half <- y0 + ifelse(can_pay, 1, 0)                # only those who can pay add 1
-places <- 300
-top <- function(y) rank(-y) <= places
-sim <- bind_rows(data.frame(need = need[top(y0)], paid = can_pay[top(y0)], when = "before the rule"),
-                 data.frame(need = need[top(y_all)], paid = can_pay[top(y_all)], when = "everyone adds 1"),
-                 data.frame(need = need[top(y_half)], paid = can_pay[top(y_half)], when = "half add 1"))
-sim$when <- factor(sim$when, levels = c("before the rule", "everyone adds 1", "half add 1"))
-means <- sim |> group_by(when) |> summarize(m = mean(need), paid = mean(paid), .groups = "drop")
-same <- identical(which(top(y0)), which(top(y_all)))  # the same 300 people in the first two cases
-ggplot(sim, aes(when, need, color = when)) +
-  geom_jitter(width = 0.25, height = 0, alpha = 0.35, size = 1.2, show.legend = FALSE) +
-  geom_point(data = means, aes(when, m), color = "black", size = 5, shape = 18) +
-  geom_text(data = means, aes(when, 4.6, label = sprintf("mean need %.2f\n%.0f%% could pay", m, 100 * paid)),
-            color = "black", size = 4.6, lineheight = 0.9) +
-  scale_color_manual(values = c(navy, slate, gold)) +
-  coord_cartesian(ylim = c(-1.5, 5.3)) +
-  labs(x = NULL, y = "need, selected") +
-  theme(panel.grid.major.x = element_blank(), axis.title.y = element_text(size = 15))
+cases <- list("before the rule" = y0, "everyone adds 1" = y0 + 1,
+              "half are able to add 1" = y0 + ifelse(can, 1, 0))
+d <- bind_rows(lapply(names(cases), function(k) {
+  y <- cases[[k]]; cut <- sort(y, decreasing = TRUE)[places]
+  data.frame(case = k, need = need, y = y, sel = y >= cut, can = can, cut = cut)
+}))
+d$case <- factor(d$case, levels = names(cases))
+lab <- d |> filter(sel) |> group_by(case) |>
+  summarize(m = mean(need), p = mean(can), .groups = "drop") |>
+  mutate(strip = sprintf("%s\nselected: need %.2f, %.0f%% able", case, m, 100 * p))
+d$strip <- factor(lab$strip[match(d$case, lab$case)], levels = lab$strip)
+d$who <- ifelse(d$can, "able to add 1", "not able")
+shown <- d$sel | (rep(seq_len(n), 3) %in% sample(n, 2500))   # every selected point, 2,500 of the rest
+cuts <- d |> distinct(strip, cut)
+ggplot(d[shown, ], aes(need, y, color = who)) +
+  geom_point(data = function(x) filter(x, !sel), alpha = 0.12, size = 0.6) +
+  geom_point(data = function(x) filter(x, sel), alpha = 0.9, size = 1.1) +
+  geom_hline(data = cuts, aes(yintercept = cut), linetype = "dashed", color = cgray) +
+  facet_wrap(~ strip) +
+  scale_color_manual(values = c("able to add 1" = gold, "not able" = navy), name = NULL) +
+  coord_cartesian(xlim = c(-3.7, 3.7), ylim = c(-4.5, 6.0)) +
+  labs(x = "need Y*", y = "the measure Y") +
+  guides(color = guide_legend(override.aes = list(size = 3, alpha = 1))) +
+  theme(legend.position = "top", legend.margin = margin(0, 0, -8, 0), legend.text = element_text(size = 14),
+        strip.text = element_text(size = 12, lineheight = 0.95), strip.clip = "off",
+        panel.grid.minor = element_blank(), axis.text = element_text(size = 11))
 ```
 
 ::: {.leave}
-When everyone adds the same amount, the ranking and the 300 are unchanged. When the response differs between people, the allocation moves toward those who can respond: $Y$'s equation has changed, and with it $E[Y^\star \mid Y]$.
-:::
-
-::: {.retrieval}
-Conditioning is not intervening. Which is the rule doing?
+Everyone adding the same amount leaves the ranking unchanged. A response that differs between people moves the places toward those who can respond: $Y$'s equation has changed.
 :::
 
 ## Gaming and improvement
 
 ::: {.notes}
-Pairs, one minute: sort the three. The third is the hard one; it depends on what the test measures. Miller, Milli and Hardt: whether a response is gaming or improvement depends on whether the feature moved raises the outcome, not only the measure, so designing a rule that rewards improvement is a causal inference problem.
+The gold arrow is the response. Each graph is a claim someone could dispute: memorizing old papers may teach something. Pairs, one minute, on the third case; it depends on what the test measures. Miller, Milli and Hardt: whether a response is gaming or improvement depends on what it changes, so designing a rule that rewards improvement is a causal inference problem.
 :::
 
-A person responds to a rule by changing something the rule looks at.
+A course is judged by its students' test scores. A response is **improvement** if it raises $Y^\star$, and $Y$ with it; **gaming** if it raises $Y$ by a route that does not pass through $Y^\star$.
 
-- **Gaming:** the change raises $Y$ by a route that does not pass through $Y^\star$.
-- **Improvement:** the change raises $Y^\star$, and $Y$ with it.
+```{r gaming_graphs, fig.height=2.0, fig.alt="Two graphs. Improvement: practice points to skill, which points to test score. Gaming: memorizing old papers points straight to test score, beside the arrow from skill."}
+pn <- c("improvement", "gaming")
+nodes <- data.frame(panel = c(rep(pn[1], 3), rep(pn[2], 3)),
+                    name = c("practice", "skill", "test score", "memorize old papers", "skill", "test score"),
+                    x = c(0, 1.3, 2.6, 0, 1.3, 2.6), y = c(0, 1, 0, 0, 1, 0))
+edges <- data.frame(panel = c(pn[1], pn[1], pn[2], pn[2]),
+                    from = c("practice", "skill", "skill", "memorize old papers"),
+                    to = c("skill", "test score", "test score", "test score"))
+nodes$panel <- factor(nodes$panel, levels = pn); edges$panel <- factor(edges$panel, levels = pn)
+draw_dag(nodes, edges, boxes = TRUE, text_size = 5.2, strip_size = 18,
+         highlight = c("practice skill", "memorize old papers test score"),
+         xlim = c(-1.25, 3.4), ylim = c(-0.35, 1.35))
+```
 
 ::: {.ask}
-A course is judged by its students' test scores. Students (1) memorize last year's paper; (2) do more of the exercises; (3) learn the examiner's favorite phrasing. Gaming or improvement, and what does the answer depend on?
+A third response: learning the examiner's favorite phrasing. Draw its graph. Gaming or improvement, and what does it depend on?
 :::
 
 ::: {.source}
@@ -810,7 +824,7 @@ Compress: YouTube ranked by views, got clickable videos, switched to watch time;
 
 **Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
 
-YouTube, September 2012: its discovery features had been "designed to drive views," which rewarded videos that got clicked over videos that kept viewers watching. The reward became watch time.
+YouTube, September 2012: its discovery features had been "designed to drive views," which rewarded videos that got clicked over videos that kept viewers watching. The reward was changed to watch time.
 
 $R$: engagement, whatever the platform can measure.
 $U$: a user who is informed, and not manipulated. Where raising $U$ would lower $R$, revenue pulls the other way.
@@ -826,11 +840,12 @@ YouTube Creator Blog, "YouTube now: why we focus on watch time," 6 September 201
 ## Lenses this week
 
 ::: {.notes}
-Each lens, what it referred to this week. Then the question on the next slide.
+Each lens, what it referred to this week. The third is new: last week's method as a question, with its hidden choice. Then the question on the next slide.
 :::
 
 - **What are we optimizing or predicting?** Cost, standing in for need. Citations, for contribution. A placement rate, for jobs created. Engagement, for a user's good.
 - **Who bears the error?** A threshold at the 97th percentile makes two errors; an offset in the measure moves being left out onto one group. A cleaning robot's owner bears the robot's reward.
+- **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? Benefit compares care with no care for the same patient. A rule on the score assumed the relation between score and need would stay fixed.
 
 ...and why?
 

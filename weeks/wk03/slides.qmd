@@ -63,7 +63,7 @@ st313:
   history: [{minutes: 2, buys: "the Tuskegee study, the National Research Act and the Belmont Report: where the applied principles came from, and why beneficence is a consequentialist clause"}]
   complications: []
   retrieves: [S4]
-  lenses: [C, E]
+  lenses: [C, E, F]                # F added 18 October 2026, when the lens was introduced (week 4 branch)
   readings: [fairmlbook-ch5a, ms4ds-ch3-normative, wiki-consequentialism, wiki-belmont-report]
   results: [R13, R14]               # R15, omitted-variable bias, is in the notes (optional section) and optional class problem 3; R16, weighting, is not taught (convenor, 11 October)
   assumes: [ST102]
@@ -727,6 +727,7 @@ Each lens, what it referred to this week. Then the question on the next slide.
 
 - **Which comparison gets reported?** Attenders against non-attenders, overall or within rows. The average effect, or the effects within groups defined before treatment.
 - **You have to choose, so choose, and defend it.** The adjustment set follows from a graph you drew. The backdoor criterion says which sets are valid given the graph. "Pretending it was forced is its own failure."
+- **What can be changed, and how?** Adjusting for worked last year holds it fixed while attendance is set. Adjusting for a mediator holds fixed something the course would change. Randomization makes "held fixed" true by design.
 
 ...and why?
 

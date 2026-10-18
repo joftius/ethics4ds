@@ -271,14 +271,14 @@ Joshua Loftus
 </div>
 </div>
 </div>
-<p>At every level of the score, the Black patients it selects are sicker than the White patients it selects.</p>
+<p>At every level of the score, the Black patients it selects are sicker.</p>
 <div class="source">
 <p>Obermeyer and colleagues (2019), Figure 1A and text: 4.8 against 3.8 conditions at the 97th percentile (<span class="math inline">\(P &lt; 0.001\)</span>).</p>
 </div>
 </section>
 <section id="a-model-an-offset-for-one-group" class="slide level2">
 <h2>A model: an offset for one group</h2>
-<p><span class="math inline">\(Y^\star\)</span> need, the same in both groups; <span class="math inline">\(A = 1\)</span> for one group, <span class="math inline">\(0\)</span> for the other; selected if <span class="math inline">\(Y &gt; t\)</span>, where <span class="math inline">\(Y = Y^\star + bA\)</span>.</p>
+<p><span class="math inline">\(Y^\star\)</span> need, assumed here to be the same in both groups; <span class="math inline">\(A = 1\)</span> for one group, <span class="math inline">\(0\)</span> for the other; selected if <span class="math inline">\(Y &gt; t\)</span>, where <span class="math inline">\(Y = Y^\star + bA\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -290,7 +290,7 @@ Joshua Loftus
 </div>
 <p>For group <span class="math inline">\(1\)</span>, <span class="math inline">\(Y &gt; t\)</span> is <span class="math inline">\(Y^\star &gt; t - b\)</span>: a threshold moved for that group.</p>
 <div class="ask">
-<p>With <span class="math inline">\(b = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often? Are its selected members more or less ill?</p>
+<p>With <span class="math inline">\(b = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often?</p>
 </div>
 </section>
 <section id="who-is-selected-and-how-ill" class="slide level2">
@@ -311,8 +311,8 @@ Joshua Loftus
 <th style="text-align: left;">selected, group 0</th>
 <th style="text-align: left;">selected, group 1</th>
 <th style="text-align: left;">ratio</th>
-<th style="text-align: left;">mean need of the selected, group 0</th>
-<th style="text-align: left;">mean need, group 1</th>
+<th style="text-align: left;">mean need of selected in group 0</th>
+<th style="text-align: left;">mean need of selected in group 1</th>
 </tr>
 </thead>
 <tbody>
@@ -452,7 +452,6 @@ E[Y^\star \mid Y = y] = \lambda y, \qquad \lambda = \frac{\operatorname{Var}(Y^\
 </div>
 <p>Learning: change <span class="math inline">\(\pi\)</span> to make the expected reward <span class="math inline">\(E_\pi[R]\)</span> large.</p>
 <p>A utilitarian wants the largest <span class="math inline">\(E_\pi[U]\)</span>, with <span class="math inline">\(U\)</span> the good we care about. The agent is given <span class="math inline">\(R\)</span>.</p>
-<p>Whether <span class="math inline">\(E_\pi[U]\)</span> is a causal quantity depends on further assumptions.</p>
 </section>
 <section id="a-cleaning-robot" class="slide level2">
 <h2>A cleaning robot</h2>
@@ -543,8 +542,9 @@ E[Y^\star \mid Y = y] = \lambda y, \qquad \lambda = \frac{\operatorname{Var}(Y^\
 <section id="need-or-benefit" class="slide level2">
 <h2>Need, or benefit</h2>
 <p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
-<p>The job center chose between two utilities: the placement rate rewards sending people likely to be in work; the utilitarian sends the people the course helps most.</p>
+<p>The job center chose between two utilities: people likely to be in work, or people the course helps most.</p>
 <p>The hospital’s program mostly prevents acute episodes in people with chronic illness. Two candidates for <span class="math inline">\(U\)</span>: how ill a patient is, and how much the extra care would help them.</p>
+<p>Benefit is an effect: what the care changes for that patient. Telling need from benefit is a causal question.</p>
 <div class="ask">
 <p>Should the program go to the sickest, or to those the care would help most? What would you need to know to tell them apart, and what are you deciding when you choose?</p>
 </div>
@@ -594,8 +594,8 @@ E[Y^\star \mid Y = y] = \lambda y, \qquad \lambda = \frac{\operatorname{Var}(Y^\
 <h1>Part 4: Systems that adapt</h1>
 
 </section>
-<section id="the-optimizer-arrives" class="slide level2">
-<h2>The optimizer arrives</h2>
+<section id="when-a-measure-becomes-a-target" class="slide level2">
+<h2>When a measure becomes a target</h2>
 <p>Before a rule rewards <span class="math inline">\(Y\)</span>: <span class="math inline">\(\;Y = Y^\star + \varepsilon\)</span>.</p>
 <p>After: each person can add <span class="math inline">\(g \ge 0\)</span> to <span class="math inline">\(Y\)</span>, at a cost, without changing <span class="math inline">\(Y^\star\)</span>: <span class="math display">\[
 Y = Y^\star + \varepsilon + g .
@@ -609,14 +609,14 @@ Y = Y^\star + \varepsilon + g .
 </div>
 </div>
 </div>
-<p>Replacing the line for <span class="math inline">\(Y\)</span> is an intervention. The relation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y^\star\)</span> that held before the rule need not hold after it.</p>
+<p>Replacing the equation for <span class="math inline">\(Y\)</span> is an intervention. The relation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y^\star\)</span> that held before the rule need not hold after it.</p>
 </section>
 <section id="two-ways-to-respond" class="slide level2">
 <h2>Two ways to respond</h2>
 <p>300 places go to the 300 highest <span class="math inline">\(Y\)</span>, where <span class="math inline">\(Y = Y^\star + \varepsilon\)</span>. Then the rule is announced.</p>
 <ol type="1">
 <li>Everyone adds <span class="math inline">\(1\)</span> to their <span class="math inline">\(Y\)</span>.</li>
-<li>A random half of the people add <span class="math inline">\(1\)</span>; the rest cannot.</li>
+<li>Half of the people are able to add <span class="math inline">\(1\)</span>; the rest cannot.</li>
 </ol>
 <div class="ask">
 <p>In each case: who gets the places, compared with before? Does the mean need of the people selected change?</p>
@@ -628,27 +628,29 @@ Y = Y^\star + \varepsilon + g .
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/goodhart_sim-1.png" style="width:100.0%" alt="Dot plots of need among the 300 people selected in three cases: before the rule; after everyone adds 1, the same 300 people; after a random half add 1, a lower cloud. The mean need and the share who could pay are printed above each."></p>
+<p><img data-src="slides_files/figure-revealjs/goodhart_sim-1.png" style="width:100.0%" alt="Three scatterplots of the measure Y against need Y*, with the cutoff for 300 places dashed and the selected drawn solid. Before the rule and after everyone adds 1 the same people are selected; after half are able to add 1, the selected are mostly those able, reaching lower need."></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="leave">
-<p>When everyone adds the same amount, the ranking and the 300 are unchanged. When the response differs between people, the allocation moves toward those who can respond: <span class="math inline">\(Y\)</span>’s equation has changed, and with it <span class="math inline">\(E[Y^\star \mid Y]\)</span>.</p>
-</div>
-<div class="retrieval">
-<p>Conditioning is not intervening. Which is the rule doing?</p>
+<p>Everyone adding the same amount leaves the ranking unchanged. A response that differs between people moves the places toward those who can respond: <span class="math inline">\(Y\)</span>’s equation has changed.</p>
 </div>
 </section>
 <section id="gaming-and-improvement" class="slide level2">
 <h2>Gaming and improvement</h2>
-<p>A person responds to a rule by changing something the rule looks at.</p>
-<ul>
-<li><strong>Gaming:</strong> the change raises <span class="math inline">\(Y\)</span> by a route that does not pass through <span class="math inline">\(Y^\star\)</span>.</li>
-<li><strong>Improvement:</strong> the change raises <span class="math inline">\(Y^\star\)</span>, and <span class="math inline">\(Y\)</span> with it.</li>
-</ul>
+<p>A course is judged by its students’ test scores. A response is <strong>improvement</strong> if it raises <span class="math inline">\(Y^\star\)</span>, and <span class="math inline">\(Y\)</span> with it; <strong>gaming</strong> if it raises <span class="math inline">\(Y\)</span> by a route that does not pass through <span class="math inline">\(Y^\star\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/gaming_graphs-1.png" style="width:100.0%" alt="Two graphs. Improvement: practice points to skill, which points to test score. Gaming: memorizing old papers points straight to test score, beside the arrow from skill."></p>
+</figure>
+</div>
+</div>
+</div>
 <div class="ask">
-<p>A course is judged by its students’ test scores. Students (1) memorize last year’s paper; (2) do more of the exercises; (3) learn the examiner’s favorite phrasing. Gaming or improvement, and what does the answer depend on?</p>
+<p>A third response: learning the examiner’s favorite phrasing. Draw its graph. Gaming or improvement, and what does it depend on?</p>
 </div>
 <div class="source">
 <p>Miller, Milli and Hardt (2020), “Strategic Classification is Causal Modeling in Disguise,” ICML, PMLR 119, 6917–6926.</p>
@@ -678,7 +680,7 @@ Y = Y^\star + \varepsilon + g .
 <section id="engagement" class="slide level2 inverse">
 <h2>Engagement</h2>
 <p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
-<p>YouTube, September 2012: its discovery features had been “designed to drive views,” which rewarded videos that got clicked over videos that kept viewers watching. The reward became watch time.</p>
+<p>YouTube, September 2012: its discovery features had been “designed to drive views,” which rewarded videos that got clicked over videos that kept viewers watching. The reward was changed to watch time.</p>
 <p><span class="math inline">\(R\)</span>: engagement, whatever the platform can measure. <span class="math inline">\(U\)</span>: a user who is informed, and not manipulated. Where raising <span class="math inline">\(U\)</span> would lower <span class="math inline">\(R\)</span>, revenue pulls the other way.</p>
 <div class="ask">
 <p>Who benefits from the gap between <span class="math inline">\(R\)</span> and <span class="math inline">\(U\)</span> staying invisible?</p>
@@ -692,6 +694,7 @@ Y = Y^\star + \varepsilon + g .
 <ul>
 <li><strong>What are we optimizing or predicting?</strong> Cost, standing in for need. Citations, for contribution. A placement rate, for jobs created. Engagement, for a user’s good.</li>
 <li><strong>Who bears the error?</strong> A threshold at the 97th percentile makes two errors; an offset in the measure moves being left out onto one group. A cleaning robot’s owner bears the robot’s reward.</li>
+<li><strong>What can be changed, and how?</strong> What things are considered “controlled for” or “held fixed,” and is that realistic? Benefit compares care with no care for the same patient. A rule on the score assumed the relation between score and need would stay fixed.</li>
 </ul>
 <p>…and why?</p>
 </section>

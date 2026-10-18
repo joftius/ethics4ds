@@ -12,7 +12,7 @@ st313:
   complications: []
   retrieves: [S1, S2, S4]
   introduces: [CC-11, CC-12, CC-13, CC-14]
-  lenses: [A, D]
+  lenses: [A, D, F]                # F first used this week (convenor, 18 October)
   spine_first_encounter: [S5]
   readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart, amodei-2016, youtube-2012, miller-milli-hardt-2020, perdomo-2020, jacobs-wallach-2021, manheim-garrabrant-2018]
   results: [R20, R21, R22, R23, R24]     # R25 and R26 went with the section "Utility and order" to _held/, 17 October
@@ -330,7 +330,7 @@ the paper that teaches it. Read the body.
 
 ### A model: an offset for one group
 
-Take need $Y^\star$ to have the same distribution in both groups, and
+Take need $Y^\star$ to have the same distribution in both groups (an assumption, not a finding: see below), and
 let $A = 1$ for one group and $0$ for the other. The measure is
 $$
 Y = Y^\star + bA ,
@@ -370,7 +370,7 @@ sel <- function(b) {
   data.frame(b = b, share0 = s0, share1 = s1, ratio = s1 / s0, need0 = dnorm(z0) / s0, need1 = dnorm(z1) / s1)
 }
 tab <- bind_rows(sel(0), sel(-0.5), sel(-1))
-cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of the selected, group 0 | mean need, group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
+cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of selected in group 0 | mean need of selected in group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
 for (i in seq_len(nrow(tab))) with(tab[i, ], cat(sprintf("| %s | %.1f%% | %.1f%% | %.2f | %.2f | %.2f |\n",
   format(b, nsmall = 1), 100 * share0, 100 * share1, ratio, need0, need1)))
 ```
@@ -683,7 +683,7 @@ one line.
 
 ## Systems that adapt
 
-### The optimizer arrives
+### When a measure becomes a target
 
 So far the people being measured have done nothing. Now reward the
 measure. Before the rule,
@@ -711,7 +711,7 @@ nodes$panel <- factor(nodes$panel, levels = pn); edges$panel <- factor(edges$pan
 draw_dag(nodes, edges, boxes = TRUE, text_size = 3.6, xlim = c(-0.9, 3.5), ylim = c(-0.3, 1.45))
 ```
 
-Replacing the line that generates $Y$ is what week 3 called an
+Replacing the equation that generates $Y$ is what week 3 called an
 **intervention**: a new assignment for one variable, every other line
 left alone. The relation between $Y$ and $Y^\star$ that held before
 the rule need not hold after it. Which people it fails for depends on
@@ -721,40 +721,50 @@ Who can respond decides what the response does. Compare two cases
 with the same 300 places for the highest $Y$. If everyone adds the
 same $1$ to their $Y$, every ranking is unchanged, the same 300 people
 are selected, and nothing about them has changed: a rewarded measure
-is not spoiled by the reward alone. If a random half of the population
-can add $1$ and the rest cannot, the ranking changes, and it changes
-toward the people who could respond. The simulation below has ten
-thousand people, need and noise standard normal, and ability to pay
-independent of need. In the third case the 300 places go mostly to
-people who could pay, and the mean need of the people selected falls.
+is not spoiled by the reward alone. If half of the people are able to
+add $1$ and the rest cannot, the ranking changes, and it changes toward
+the people who could respond. The simulation below has ten thousand
+people, need and noise standard normal, and who is able to add $1$
+unrelated to need. Each panel plots the measure against need, with the
+cutoff for 300 places dashed and the 300 selected drawn solid. The
+first two panels are the same picture shifted up by one: the same
+people are selected. In the third the 300 places go mostly to people
+who were able to add $1$, and the selected reach further down in need.
 
-```{r goodhart_sim, echo=FALSE, fig.height=2.8, fig.width=7, fig.alt="Dot plots of need among the 300 people selected in three cases: before the rule; after everyone adds 1, the same 300 people; after a random half add 1, a lower cloud. The mean need and the share who could pay are printed above each."}
-n <- 10000
+```{r goodhart_sim, echo=FALSE, fig.height=3.4, fig.width=7.5, fig.alt="Three scatterplots of the measure Y against need Y*, with the cutoff for 300 places dashed and the selected drawn solid. Before the rule and after everyone adds 1 the same people are selected; after half are able to add 1, the selected are mostly those able, reaching lower need."}
+n <- 10000; places <- 300
 need <- rnorm(n); noise <- rnorm(n)
+can <- rbinom(n, 1, 0.5) == 1                       # able to add 1, unrelated to need
 y0 <- need + noise
-can_pay <- rbinom(n, 1, 0.5) == 1
-y_all <- y0 + 1                                     # everyone adds 1
-y_half <- y0 + ifelse(can_pay, 1, 0)                # only those who can pay add 1
-places <- 300
-top <- function(y) rank(-y) <= places
-sim <- bind_rows(data.frame(need = need[top(y0)], paid = can_pay[top(y0)], when = "before the rule"),
-                 data.frame(need = need[top(y_all)], paid = can_pay[top(y_all)], when = "everyone adds 1"),
-                 data.frame(need = need[top(y_half)], paid = can_pay[top(y_half)], when = "half add 1"))
-sim$when <- factor(sim$when, levels = c("before the rule", "everyone adds 1", "half add 1"))
-means <- sim |> group_by(when) |> summarize(m = mean(need), paid = mean(paid), .groups = "drop")
-ggplot(sim, aes(when, need, color = when)) +
-  geom_jitter(width = 0.25, height = 0, alpha = 0.35, size = 0.9, show.legend = FALSE) +
-  geom_point(data = means, aes(when, m), color = "black", size = 3.5, shape = 18) +
-  geom_text(data = means, aes(when, 4.7, label = sprintf("mean need %.2f; %.0f%% could pay", m, 100 * paid)),
-            color = "black", size = 3.2) +
-  scale_color_manual(values = c(navy, slate, gold)) +
-  coord_cartesian(ylim = c(-1.5, 5.1)) +
-  labs(x = NULL, y = "need of the selected") +
-  theme(panel.grid.major.x = element_blank())
+cases <- list("before the rule" = y0, "everyone adds 1" = y0 + 1,
+              "half are able to add 1" = y0 + ifelse(can, 1, 0))
+d <- bind_rows(lapply(names(cases), function(k) {
+  y <- cases[[k]]; cut <- sort(y, decreasing = TRUE)[places]
+  data.frame(case = k, need = need, y = y, sel = y >= cut, can = can, cut = cut)
+}))
+d$case <- factor(d$case, levels = names(cases))
+lab <- d |> filter(sel) |> group_by(case) |>
+  summarize(m = mean(need), p = mean(can), .groups = "drop") |>
+  mutate(strip = sprintf("%s\nselected: need %.2f, %.0f%% able", case, m, 100 * p))
+d$strip <- factor(lab$strip[match(d$case, lab$case)], levels = lab$strip)
+d$who <- ifelse(d$can, "able to add 1", "not able")
+shown <- d$sel | (rep(seq_len(n), 3) %in% sample(n, 2500))
+cuts <- d |> distinct(strip, cut)
+ggplot(d[shown, ], aes(need, y, color = who)) +
+  geom_point(data = function(x) filter(x, !sel), alpha = 0.12, size = 0.4) +
+  geom_point(data = function(x) filter(x, sel), alpha = 0.9, size = 0.8) +
+  geom_hline(data = cuts, aes(yintercept = cut), linetype = "dashed", color = cgray) +
+  facet_wrap(~ strip) +
+  scale_color_manual(values = c("able to add 1" = gold, "not able" = navy), name = NULL) +
+  coord_cartesian(xlim = c(-3.7, 3.7), ylim = c(-4.5, 6.0)) +
+  labs(x = "need Y*", y = "the measure Y") +
+  guides(color = guide_legend(override.aes = list(size = 2.5, alpha = 1))) +
+  theme(legend.position = "top", strip.text = element_text(size = 9.5, lineheight = 0.95),
+        strip.clip = "off", panel.grid.minor = element_blank())
 ```
 
 The fall in mean need in the third case is modest, because the people
-who could pay were drawn from the same need distribution as everyone
+able to add $1$ were drawn from the same need distribution as everyone
 else; what changes most is who the places go to. The first two cases
 select the same people, which is the check that it is the difference
 in response, not the response itself, that moves the allocation. In the paper's setting the equivalent
@@ -764,7 +774,8 @@ score, after which the score measures who responded to the reward.
 ```{r goodhart_check, echo=FALSE}
 # The shrinkage factor behind the "before" column: among the 300 selected by Y, mean need
 # is about half of mean Y (lambda = 1/2 with equal variances).
-c(mean_y = mean(y0[top(y0)]), mean_need = mean(need[top(y0)]))
+top0 <- y0 >= sort(y0, decreasing = TRUE)[places]
+c(mean_y = mean(y0[top0]), mean_need = mean(need[top0]))
 ```
 
 Two formal versions of a system that adapts are in the reading's
@@ -793,11 +804,29 @@ conditions under which it does, and show that strategic classification
 is the special case in which the mechanism is individuals responding to
 a published rule.
 
-**Gaming and improvement** (Miller, Milli and Hardt 2020). Whether a
-response to a rule is gaming or improvement depends on the causal
-model. If the feature a person changes raises the outcome, the change
+**Gaming and improvement** (Miller, Milli and Hardt 2020). Take a course
+judged by its students' test scores. Practicing raises skill, and skill
+raises the score; memorizing old papers raises the score without
+touching skill. Each graph is a claim someone could dispute.
+
+```{r gaming_graphs, echo=FALSE, fig.height=2.0, fig.width=7, fig.alt="Two graphs. Improvement: practice points to skill, which points to test score. Gaming: memorizing old papers points straight to test score, beside the arrow from skill."}
+pn <- c("improvement", "gaming")
+nodes <- data.frame(panel = c(rep(pn[1], 3), rep(pn[2], 3)),
+                    name = c("practice", "skill", "test score", "memorize old papers", "skill", "test score"),
+                    x = c(0, 1.3, 2.6, 0, 1.3, 2.6), y = c(0, 1, 0, 0, 1, 0))
+edges <- data.frame(panel = c(pn[1], pn[1], pn[2], pn[2]),
+                    from = c("practice", "skill", "skill", "memorize old papers"),
+                    to = c("skill", "test score", "test score", "test score"))
+nodes$panel <- factor(nodes$panel, levels = pn); edges$panel <- factor(edges$panel, levels = pn)
+draw_dag(nodes, edges, boxes = TRUE, text_size = 3.6,
+         highlight = c("practice skill", "memorize old papers test score"),
+         xlim = c(-1.25, 3.4), ylim = c(-0.35, 1.35))
+```
+
+Whether a response to a rule is gaming or improvement depends on the
+causal model. If the feature a person changes raises the outcome, the change
 is improvement, and $Y^\star$ rises with $Y$; if it changes only the
-measure, the change is gaming, the second graph above. The graph says
+measure, the change is gaming, as in the second graph. The graph says
 which features can affect the outcome at all; whether a given change
 raises it, and by how much, needs the model's equations too. A rule meant
 to reward improvement has to know which, and that is a causal inference
@@ -852,6 +881,17 @@ were lower at the same need. The cleaning robot's owner bears the
 difference between the robot's reward and a clean room; the job
 seekers a center did not refer bear the difference between its
 placement rate and the jobs the course would have created.
+
+What can be changed, and how? What things are considered "controlled
+for" or "held fixed," and is that realistic? This lens is new this
+week, and it is last week's method put as a question. Benefit is an
+effect: it compares the same patient with the extra care and without
+it, holding the patient fixed. Goodhart's law is the case where something was assumed to stay
+fixed and did not: a rule rewarding the score assumed that the
+relation between the score and need would hold, and the people scored
+changed it. Strategic classification holds the true label fixed while
+people change their features; performative prediction drops that
+assumption and lets the whole distribution move.
 
 And why? A measure is chosen because it can be measured. Cost is in
 the billing system and need is not. Views are counted and a viewer's

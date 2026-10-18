@@ -199,7 +199,7 @@ window.Quarto = {
   <li><a href="#reinforcement-learning" id="toc-reinforcement-learning" class="nav-link" data-scroll-target="#reinforcement-learning">Reinforcement learning</a></li>
   <li><a href="#systems-that-adapt" id="toc-systems-that-adapt" class="nav-link" data-scroll-target="#systems-that-adapt">Systems that adapt</a>
   <ul class="collapse">
-  <li><a href="#the-optimizer-arrives" id="toc-the-optimizer-arrives" class="nav-link" data-scroll-target="#the-optimizer-arrives">The optimizer arrives</a></li>
+  <li><a href="#when-a-measure-becomes-a-target" id="toc-when-a-measure-becomes-a-target" class="nav-link" data-scroll-target="#when-a-measure-becomes-a-target">When a measure becomes a target</a></li>
   <li><a href="#engagement" id="toc-engagement" class="nav-link" data-scroll-target="#engagement">Engagement</a></li>
   </ul></li>
   <li><a href="#lenses" id="toc-lenses" class="nav-link" data-scroll-target="#lenses">Lenses</a></li>
@@ -336,7 +336,7 @@ window.Quarto = {
 </section>
 <section id="a-model-an-offset-for-one-group" class="level3">
 <h3 class="anchored" data-anchor-id="a-model-an-offset-for-one-group">A model: an offset for one group</h3>
-<p>Take need <span class="math inline">\(Y^\star\)</span> to have the same distribution in both groups, and let <span class="math inline">\(A = 1\)</span> for one group and <span class="math inline">\(0\)</span> for the other. The measure is <span class="math display">\[
+<p>Take need <span class="math inline">\(Y^\star\)</span> to have the same distribution in both groups (an assumption, not a finding: see below), and let <span class="math inline">\(A = 1\)</span> for one group and <span class="math inline">\(0\)</span> for the other. The measure is <span class="math display">\[
 Y = Y^\star + bA ,
 \]</span> and the program selects everyone with <span class="math inline">\(Y &gt; t\)</span>. For group <span class="math inline">\(0\)</span> that is <span class="math inline">\(Y^\star &gt; t\)</span>. For group <span class="math inline">\(1\)</span> it is <span class="math inline">\(Y^\star + b &gt; t\)</span>, or <span class="math inline">\(Y^\star &gt; t - b\)</span>. <strong>An offset of <span class="math inline">\(b\)</span> in the measure is a threshold moved by <span class="math inline">\(-b\)</span> for that group.</strong> With <span class="math inline">\(b &lt; 0\)</span>, as in the paper, group <span class="math inline">\(1\)</span> has to be iller to be selected.</p>
 <div class="cell">
@@ -365,8 +365,8 @@ Y = Y^\star + bA ,
 <th style="text-align: left;">selected, group 0</th>
 <th style="text-align: left;">selected, group 1</th>
 <th style="text-align: left;">ratio</th>
-<th style="text-align: left;">mean need of the selected, group 0</th>
-<th style="text-align: left;">mean need, group 1</th>
+<th style="text-align: left;">mean need of selected in group 0</th>
+<th style="text-align: left;">mean need of selected in group 1</th>
 </tr>
 </thead>
 <tbody>
@@ -539,8 +539,8 @@ i Please consider using `annotate()` or provide this layer with data containing
 </section>
 <section id="systems-that-adapt" class="level2">
 <h2 class="anchored" data-anchor-id="systems-that-adapt">Systems that adapt</h2>
-<section id="the-optimizer-arrives" class="level3">
-<h3 class="anchored" data-anchor-id="the-optimizer-arrives">The optimizer arrives</h3>
+<section id="when-a-measure-becomes-a-target" class="level3">
+<h3 class="anchored" data-anchor-id="when-a-measure-becomes-a-target">When a measure becomes a target</h3>
 <p>So far the people being measured have done nothing. Now reward the measure. Before the rule, <span class="math display">\[
 Y = Y^\star + \varepsilon ,
 \]</span> and selecting the people with the highest <span class="math inline">\(Y\)</span> is <strong>conditioning</strong>: it picks out a group whose need is high, shrunk by <span class="math inline">\(\lambda\)</span>, because the old relation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y^\star\)</span> still holds among the people picked. After the rule, each person can add an amount <span class="math inline">\(g \ge 0\)</span> to their own <span class="math inline">\(Y\)</span>, at some cost, without changing <span class="math inline">\(Y^\star\)</span>: <span class="math display">\[
@@ -559,18 +559,18 @@ i Please use the `linewidth` argument instead.</code></pre>
 </div>
 </div>
 </div>
-<p>Replacing the line that generates <span class="math inline">\(Y\)</span> is what week 3 called an <strong>intervention</strong>: a new assignment for one variable, every other line left alone. The relation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y^\star\)</span> that held before the rule need not hold after it. Which people it fails for depends on who can pay for <span class="math inline">\(g\)</span>.</p>
-<p>Who can respond decides what the response does. Compare two cases with the same 300 places for the highest <span class="math inline">\(Y\)</span>. If everyone adds the same <span class="math inline">\(1\)</span> to their <span class="math inline">\(Y\)</span>, every ranking is unchanged, the same 300 people are selected, and nothing about them has changed: a rewarded measure is not spoiled by the reward alone. If a random half of the population can add <span class="math inline">\(1\)</span> and the rest cannot, the ranking changes, and it changes toward the people who could respond. The simulation below has ten thousand people, need and noise standard normal, and ability to pay independent of need. In the third case the 300 places go mostly to people who could pay, and the mean need of the people selected falls.</p>
+<p>Replacing the equation that generates <span class="math inline">\(Y\)</span> is what week 3 called an <strong>intervention</strong>: a new assignment for one variable, every other line left alone. The relation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y^\star\)</span> that held before the rule need not hold after it. Which people it fails for depends on who can pay for <span class="math inline">\(g\)</span>.</p>
+<p>Who can respond decides what the response does. Compare two cases with the same 300 places for the highest <span class="math inline">\(Y\)</span>. If everyone adds the same <span class="math inline">\(1\)</span> to their <span class="math inline">\(Y\)</span>, every ranking is unchanged, the same 300 people are selected, and nothing about them has changed: a rewarded measure is not spoiled by the reward alone. If half of the people are able to add <span class="math inline">\(1\)</span> and the rest cannot, the ranking changes, and it changes toward the people who could respond. The simulation below has ten thousand people, need and noise standard normal, and who is able to add <span class="math inline">\(1\)</span> unrelated to need. Each panel plots the measure against need, with the cutoff for 300 places dashed and the 300 selected drawn solid. The first two panels are the same picture shifted up by one: the same people are selected. In the third the 300 places go mostly to people who were able to add <span class="math inline">\(1\)</span>, and the selected reach further down in need.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="notes_files/figure-html/goodhart_sim-1.png" class="img-fluid figure-img" alt="Dot plots of need among the 300 people selected in three cases: before the rule; after everyone adds 1, the same 300 people; after a random half add 1, a lower cloud. The mean need and the share who could pay are printed above each." width="672"></p>
+<p><img src="notes_files/figure-html/goodhart_sim-1.png" class="img-fluid figure-img" alt="Three scatterplots of the measure Y against need Y*, with the cutoff for 300 places dashed and the selected drawn solid. Before the rule and after everyone adds 1 the same people are selected; after half are able to add 1, the selected are mostly those able, reaching lower need." width="720"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The fall in mean need in the third case is modest, because the people who could pay were drawn from the same need distribution as everyone else; what changes most is who the places go to. The first two cases select the same people, which is the check that it is the difference in response, not the response itself, that moves the allocation. In the paper’s setting the equivalent would be a hospital that rewards patients, or their doctors, for a high score, after which the score measures who responded to the reward.</p>
+<p>The fall in mean need in the third case is modest, because the people able to add <span class="math inline">\(1\)</span> were drawn from the same need distribution as everyone else; what changes most is who the places go to. The first two cases select the same people, which is the check that it is the difference in response, not the response itself, that moves the allocation. In the paper’s setting the equivalent would be a hospital that rewards patients, or their doctors, for a high score, after which the score measures who responded to the reward.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>   mean_y mean_need 
@@ -580,7 +580,17 @@ i Please use the `linewidth` argument instead.</code></pre>
 <p>Two formal versions of a system that adapts are in the reading’s authors’ own work.</p>
 <p><strong>Strategic classification</strong> (Hardt, Megiddo, Papadimitriou and Wootters 2016). A classifier is published. Each person then changes their features, at a cost that depends on the change, to get the label they want. The classifier is scored on the features as changed, against each person’s true label, which is fixed by the features as they were before the change; so every response is gaming, and the design problem is a classifier that stays accurate when everyone games it. The paper gives efficient algorithms for a natural class of cost functions and shows the general problem is hard.</p>
 <p><strong>Performative prediction</strong> (Perdomo, Zrnic, Mendler-Dünner and Hardt 2020). A prediction that is acted on can change the thing it predicts: a traffic forecast changes which roads people take, and a forecast that a loan will default can make it default. The authors call such predictions performative. The distribution the model is evaluated on depends on the model deployed, by whatever mechanism, and the labels can move along with the features. The question is what retraining on the data a model induces converges to, a model they call performatively stable, and whether that point has low loss. They give conditions under which it does, and show that strategic classification is the special case in which the mechanism is individuals responding to a published rule.</p>
-<p><strong>Gaming and improvement</strong> (Miller, Milli and Hardt 2020). Whether a response to a rule is gaming or improvement depends on the causal model. If the feature a person changes raises the outcome, the change is improvement, and <span class="math inline">\(Y^\star\)</span> rises with <span class="math inline">\(Y\)</span>; if it changes only the measure, the change is gaming, the second graph above. The graph says which features can affect the outcome at all; whether a given change raises it, and by how much, needs the model’s equations too. A rule meant to reward improvement has to know which, and that is a causal inference problem; the authors show that any procedure for designing such rules has to solve one. Conditioning is not intervening, a third time: the rule intervenes on the people it is applied to, and what they do in response is decided by the graph, not by the rule’s intentions.</p>
+<p><strong>Gaming and improvement</strong> (Miller, Milli and Hardt 2020). Take a course judged by its students’ test scores. Practicing raises skill, and skill raises the score; memorizing old papers raises the score without touching skill. Each graph is a claim someone could dispute.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/gaming_graphs-1.png" class="img-fluid figure-img" alt="Two graphs. Improvement: practice points to skill, which points to test score. Gaming: memorizing old papers points straight to test score, beside the arrow from skill." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Whether a response to a rule is gaming or improvement depends on the causal model. If the feature a person changes raises the outcome, the change is improvement, and <span class="math inline">\(Y^\star\)</span> rises with <span class="math inline">\(Y\)</span>; if it changes only the measure, the change is gaming, as in the second graph. The graph says which features can affect the outcome at all; whether a given change raises it, and by how much, needs the model’s equations too. A rule meant to reward improvement has to know which, and that is a causal inference problem; the authors show that any procedure for designing such rules has to solve one. Conditioning is not intervening, a third time: the rule intervenes on the people it is applied to, and what they do in response is decided by the graph, not by the rule’s intentions.</p>
 </section>
 <section id="engagement" class="level3">
 <h3 class="anchored" data-anchor-id="engagement">Engagement</h3>
@@ -593,6 +603,7 @@ i Please use the `linewidth` argument instead.</code></pre>
 <h2 class="anchored" data-anchor-id="lenses">Lenses</h2>
 <p>What are we optimizing or predicting? Cost, standing in for need. Citations, standing in for a contribution. A placement rate, standing in for jobs created. Views, or watch time, standing in for a viewer’s good. In each case the first word is what the system can measure and the second is what someone wanted; the system’s designer chose the first and the system optimized it.</p>
 <p>Who bears the error? A threshold at the 97th percentile makes two errors, a place used on someone who did not need it and a person left out who did, and trades them against each other, whether by a judgment about their costs or by how many places the program has. An offset in the measure moves the second error onto one group, the one whose costs were lower at the same need. The cleaning robot’s owner bears the difference between the robot’s reward and a clean room; the job seekers a center did not refer bear the difference between its placement rate and the jobs the course would have created.</p>
+<p>What can be changed, and how? What things are considered “controlled for” or “held fixed,” and is that realistic? This lens is new this week, and it is last week’s method put as a question. Benefit is an effect: it compares the same patient with the extra care and without it, holding the patient fixed. Goodhart’s law is the case where something was assumed to stay fixed and did not: a rule rewarding the score assumed that the relation between the score and need would hold, and the people scored changed it. Strategic classification holds the true label fixed while people change their features; performative prediction drops that assumption and lets the whole distribution move.</p>
 <p>And why? A measure is chosen because it can be measured. Cost is in the billing system and need is not. Views are counted and a viewer’s understanding is not. The choice is made once, often by a vendor, and afterward nobody has to make it again; the score makes it for them.</p>
 </section>
 <section id="for-the-class" class="level2">
