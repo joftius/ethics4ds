@@ -2334,7 +2334,7 @@ window.Quarto = {
 
 <section id="keep-or-rush" class="level2">
 <h2 class="anchored" data-anchor-id="keep-or-rush">Keep or rush</h2>
-<p>In class order. Planned total 76 of the 80 minutes.</p>
+<p>In class order. Planned total 75 of the 80 minutes.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 32%">
@@ -2358,20 +2358,8 @@ window.Quarto = {
 <td>Three examples from the room; then question 2 with hands</td>
 </tr>
 <tr class="even">
-<td>Problem 1: an offset and who is selected, by hand, with feedback</td>
-<td style="text-align: right;">12</td>
-<td>Rush; cut second</td>
-<td>Do (a) together; say (c): at the same score, group 1 has <span class="math inline">\(0.5\)</span> more need</td>
-</tr>
-<tr class="odd">
-<td>Problem 2: noise and an omitted variable, with feedback</td>
-<td style="text-align: right;">12</td>
-<td>Keep</td>
-<td>(b) and (c) only; say (d): classical noise in the report never changes the sign</td>
-</tr>
-<tr class="even">
-<td>Problem 3: need, resources and care-seeking, with feedback</td>
-<td style="text-align: right;">13</td>
+<td>Problem 1: need, resources and care-seeking, with feedback</td>
+<td style="text-align: right;">14</td>
 <td>Keep</td>
 <td>(a) and (c); say (e): among the selected, less need goes with more resources</td>
 </tr>
@@ -2388,6 +2376,18 @@ window.Quarto = {
 <td>Steps 1 and 4; show the plot of step 3 from the complete sheet</td>
 </tr>
 <tr class="odd">
+<td>Problem 2: changing the label, with feedback</td>
+<td style="text-align: right;">14</td>
+<td>Keep</td>
+<td>(a) and (c); say (b): it depends on whether the recorded conditions are real</td>
+</tr>
+<tr class="even">
+<td>Discussion 3: the visa streaming tool</td>
+<td style="text-align: right;">8</td>
+<td>Rush; cut second</td>
+<td>Read the stem; question 2 with hands</td>
+</tr>
+<tr class="odd">
 <td>The task for next time</td>
 <td style="text-align: right;">1</td>
 <td>Keep</td>
@@ -2395,40 +2395,35 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Minimum class, about 45 minutes: problems 2 and 3, the simulation’s steps 1 and 4, discussion 2 in pairs and the task for next time. With more time, add problem 1 back first, then discussion 1.</p>
+<p>Minimum class, about 50 minutes: problems 1 and 2, the simulation’s steps 1 and 4, discussion 2 in pairs and the task for next time. With more time, add discussion 3 back first, then discussion 1.</p>
 </section>
 <section id="if-you-read-on" class="level2">
 <h2 class="anchored" data-anchor-id="if-you-read-on">If you read on</h2>
 <p>How it runs</p>
 <ul>
-<li>Students may not have brought a score: the task was announced with the readings, not set in class. Discussion 1 gives a list to choose from. Open the <a href="https://ethics4ds.com/teachers/wk04/class_complete.html">complete class sheet</a> on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers.</li>
-<li>Discussion 2 is the break between the problems and the simulation. If the room needs a break, take the four minutes of slack. The simulation needs one laptop with R per pair; the code runs in about a second. Everything under “Optional, can be done at home” is outside the class.</li>
-<li>Notation: problem 2 writes the regressor <span class="math inline">\(X\)</span>, as the lecture does (last week’s class problems wrote <span class="math inline">\(T\)</span>). Problems 1 and 3 write cost <span class="math inline">\(Y\)</span> and need <span class="math inline">\(Y^\star\)</span>; problem 2’s <span class="math inline">\(Y\)</span> is health. Each stem declares its letters.</li>
+<li>The exercises at the top of the sheet rederive or apply the lecture’s results. Students do them on their own time; the class does not work them. Students may not have brought a score: the task was announced with the readings, not set in class, so discussion 1 gives a list to choose from. Open the <a href="https://ethics4ds.com/teachers/wk04/class_complete.html">complete class sheet</a> on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers.</li>
+<li>Discussion 2 is the break between problem 1 and the simulation. If the room needs a break, take the five minutes of slack. The simulation needs one laptop with R per pair; the code runs in about a second.</li>
+<li>Notation: cost is <span class="math inline">\(Y\)</span> and need <span class="math inline">\(Y^\star\)</span> throughout the problems. Exercise 2 is the one place where <span class="math inline">\(Y\)</span> is health; its stem says so.</li>
 </ul>
 <p>What the class adds to the lecture</p>
 <ul>
-<li>Problem 2(a) derives <span class="math inline">\(\lambda\)</span>, which the lecture stated. Problem 2(d): classical noise in the regressor never changes the sign of its slope; an omitted variable can, and with <span class="math inline">\(\gamma\delta &gt; 0\)</span> the two biases pull against each other.</li>
-<li>Problem 3 and the simulation are new: cost depends on need, resources and care-seeking, and the selected are a mixture. Each part’s mean among the selected is its share of <span class="math inline">\(\operatorname{Var}(Y)\)</span> times their mean cost (the notes’ section “Need, resources and care-seeking”). Selection makes need and resources negatively related among the selected; do not name colliders beyond a sentence, since they are introduced properly later.</li>
+<li>Problem 1 and the simulation are new: cost depends on need, resources and care-seeking, and the selected are a mixture. Each part’s mean among the selected is its share of <span class="math inline">\(\operatorname{Var}(Y)\)</span> times their mean cost (the notes’ section “Need, resources and care-seeking”). Selection makes need and resources negatively related among the selected; do not name colliders beyond a sentence, since they are introduced properly later.</li>
+<li>Problem 2 applies the lecture’s Goodhart argument to the paper’s own remedy: a label counted from recorded diagnoses still depends on contact with care, and once it is paid on, more diagnoses get recorded (the sheet cites the evidence).</li>
+<li>Discussion 3 is the lecture’s distinction between strategic classification and performative prediction, on a real case; the lecture’s slide on it is the first to go if the lecture runs short.</li>
 </ul>
 <p>What students should see</p>
 <ul>
-<li>Problem 1: shares 0.10 and 0.0375, ratio 0.375; mean need of the selected 1.76 and 2.18; at the same score, group 1 has 0.5 more need.</li>
-<li>Problem 2(c): 1.35 (too large), 0.45 (too small), <span class="math inline">\(-0.45\)</span> (wrong sign). (d): larger than <span class="math inline">\(\beta\)</span> when <span class="math inline">\(\gamma\delta &gt; 1/9\)</span>.</li>
-<li>Problem 3(c): mean cost 3.21; need 1.60, resources 0.80, care-seeking 0.40, noise 0.40. (d): mean need falls to 1.39.</li>
-<li>Simulation: the same means within a few hundredths; about 35% of places go to people in the top 3% by need; correlation of need and resources among the selected about <span class="math inline">\(-0.47\)</span>. With gaming tied to resources, mean need of the selected falls to about 1.51 and the top-3% share to about 0.30.</li>
+<li>Problem 1(c): mean cost 3.21; need 1.60, resources 0.80, care-seeking 0.40, noise 0.40. (d): mean need falls to 1.39, with the variance of need held at 1.</li>
+<li>Simulation: the same means within a few hundredths; about 35% of places go to people in the top 3% by need; correlation of need and resources among the selected about <span class="math inline">\(-0.45\)</span> (<span class="math inline">\(-0.47\)</span> in a very large sample). With gaming tied to resources, mean need of the selected falls to about 1.51 and the top-3% share to about 0.30.</li>
+<li>Problem 2: resources and care-seeking reach the count through contact with doctors; Black share among the top-ranked 14.1% with the cost label and 26.7% with the conditions label; upcoding moves the count by 6% to 16% in the Medicare evidence.</li>
 </ul>
 <p>Where they get stuck</p>
 <ul>
 <li>“The data were biased” as the whole answer to discussion 1. Ask: which number in the hospital’s data was wrong?</li>
-<li>Problem 2(d): thinking that classical noise in the regressor can flip the sign, or that attenuation always means the estimate is too small. (Other noise can move it either way; the notes say so.)</li>
-<li>Problem 3(b): forgetting that <span class="math inline">\(\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)\)</span> only because the parts are independent; in (d) they are not, and the answer to (d) assumes the variance of need stays 1.</li>
-<li>Problem 3(c): using a standard deviation of 1 for cost instead of <span class="math inline">\(\sqrt{2}\)</span>.</li>
+<li>Problem 1(b): forgetting that <span class="math inline">\(\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)\)</span> only because the parts are independent; in (d) they are not, and the answer to (d) assumes the variance of need stays 1.</li>
+<li>Problem 1(c): using a standard deviation of 1 for cost instead of <span class="math inline">\(\sqrt{2}\)</span>.</li>
+<li>Problem 2(b): calling any extra diagnosis gaming. If the condition was there and missed, recording it is a better measurement.</li>
 <li>Discussion 2: treating “under their control” as settled. Care-seeking depends on time off work and on past treatment by doctors.</li>
-</ul>
-<p>If there is time: the prompts</p>
-<ul>
-<li>Changing the label to active chronic conditions: diagnoses are recorded when patients see doctors, so less access can mean fewer recorded conditions, and once payment depends on recorded diagnoses there is a reason to record more of them.</li>
-<li>The visa streaming tool: neither model fits well. The applicants did not change their applications (not strategic classification). The decisions changed the data used to rate later applications, so it is closest to performative prediction, with the system’s own refusals feeding the list.</li>
 </ul>
 </section>
 

@@ -1029,15 +1029,18 @@ afterward nobody has to make it again; the score makes it for them.
 
 ## For the class
 
-### Problems and simulation
+### Exercises, problems and simulation
 
-The class computes who is selected under an offset at a new threshold,
-by hand. It derives $\lambda$ from the covariance algebra above, then the
-slope $\lambda(\beta + \gamma\delta)$, with numbers that make it too
-large, too small and of the wrong sign. It draws the graph of need,
-resources and care-seeking with selection on cost, computes each part's
-mean among the selected, and simulates the selection, with gaming that
-depends on resources.
+The exercises, done on students' own time, compute who is selected
+under an offset at a new threshold and with a fixed number of places,
+derive $\lambda$ from the covariance algebra above, then the slope
+$\lambda(\beta + \gamma\delta)$ with numbers that make it too large,
+too small and of the wrong sign, and simulate it. In class, problem 1
+draws the graph of need, resources and care-seeking with selection on
+cost and computes each part's mean among the selected, and the class
+simulates the selection, with gaming that depends on resources.
+Problem 2 changes the label to the number of active chronic conditions
+and asks what reaches it and what happens once it is paid on.
 
 ## Readings
 
