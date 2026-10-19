@@ -11,7 +11,7 @@ execute:
 ---
 
 ::: {.callout-note}
-This is the student version of the class sheet. Parts marked **(class)** are for the class; the rest are practice. Answers are revealed in class.
+This is the student version of the class sheet. The exercises are for your own time; the class works through everything under "In class". Answers are revealed in class.
 :::
 
 ```{r setup, include=FALSE}
@@ -53,7 +53,204 @@ draw_dag <- function(nodes, edges, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4), gap
 }
 ```
 
-## Discussion 1: absurd trolley problems
+## How this sheet works
+
+Exercises rederive or apply the lecture's results. Do them on your own
+time; they are not worked in class. The class works the discussions
+and the problems under "In class," in that order. Discussions are in
+groups of three or four, then with the room. Each problem is gone
+through as soon as the room has tried it.
+
+## Exercises
+
+The exercises can be done by hand, except the last three, which use R.
+Attempt each part before you open a hint.
+
+::: {.callout-warning title="Hints"}
+Do not open a hint unless you have been stuck for at least a few
+minutes, and open them in order.
+:::
+
+### Exercise 1. Omitted-variable bias
+
+In the linear model of the notes,
+$Z := U_Z$, $X := \alpha Z + U_X$, $Y := \beta X + \gamma Z + U_Y$, with
+independent mean-zero noise, take $\alpha = 2$, $\gamma = 1$,
+$\beta = 0.5$ and $\operatorname{Var}(Z) = \operatorname{Var}(U_X) = 1$.
+
+(a) Compute $\operatorname{Var}(X)$, $\operatorname{Cov}(X, Z)$ and the
+slope of $Y$ on $X$ alone.
+
+(b) Repeat with $\gamma = -1$.
+
+(c) Repeat with $\gamma = 1$ and $\beta = 0$. What would someone with data
+on $X$ and $Y$ alone conclude?
+
+(d) Is the error in (a) a bias or a variance? What happens to it as the
+sample grows?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+$Z$ and $U_X$ are independent, so $\operatorname{Var}(X) = \alpha^2 \operatorname{Var}(Z) + \operatorname{Var}(U_X)$.
+:::
+
+### Exercise 2. Choosing an adjustment set
+
+```{r five_nodes, echo=FALSE, fig.height=3, fig.width=5}
+draw_dag(data.frame(name = c("Z", "X", "M", "Y", "W"),
+                    x = c(1, 0, 1, 2, 2.9), y = c(1.1, 0, -0.6, 0, 1.1)),
+         data.frame(from = c("Z", "Z", "X", "M", "X", "W"),
+                    to = c("X", "Y", "M", "Y", "Y", "Y")),
+         xlim = c(-0.5, 3.4), ylim = c(-0.9, 1.4))
+```
+
+(a) List the backdoor paths from $X$ to $Y$.
+
+(b) Which of these sets satisfy the backdoor criterion: the empty set,
+$\{Z\}$, $\{M\}$, $\{Z, M\}$, $\{W\}$, $\{Z, W\}$?
+
+(c) In a linear model, what does the coefficient on $X$ estimate if you
+adjust for $\{Z, M\}$?
+
+(d) If more than one of the sets in (b) satisfies the criterion, which
+would you use, and why?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+A backdoor path starts with an arrow into $X$. How many arrows point into $X$?
+:::
+
+### Exercise 3. The graph behind an argument
+
+A university says: "Students who use the library more get better
+grades. We will extend the library's opening hours, because using the
+library improves grades."
+
+(a) Draw the causal graph the argument presupposes, and mark the action.
+
+(b) Add one variable that would make the observed difference larger
+than the effect, with its arrows.
+
+(c) What comparison would support the university's claim?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+The university's evidence compares students. Its action changes opening hours. Are those the same thing?
+:::
+
+### Exercise 4. Hormone therapy
+
+The notes' section on hormone therapy and heart disease gives three
+studies of whether to prescribe hormone therapy to prevent heart
+disease. Two of them are Grodstein and colleagues (1996) and Hernán
+and colleagues (2008).
+
+(a) Write the decision with $X$ and $Y$. Say what the treatment and the
+outcome are, and write the quantity a doctor needs with $do(\cdot)$.
+
+(b) The 1996 estimate (0.39) and the 2008 intention-to-treat estimates
+(1.42 over the first two years, 0.96 over the whole follow-up) come
+from the same cohort, the Nurses' Health Study.
+Which comparison did each make?
+
+(c) Draw a graph under which the 1996 estimate is confounded.
+
+(d) Which comparison matches the decision a doctor makes, and why?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For (a), what does the doctor choose, and which outcome is the choice about? For (b), ask which two groups each analysis compares.
+:::
+
+### Exercise 5. Prediction and intervention, in R
+
+Open a fresh R script. You will need the tidyverse.
+
+```{r coding_a_setup}
+n <- 10000
+# program 1: X causes Y
+X1 <- rnorm(n); Y1 <- 2 * X1 + rnorm(n)
+# program 2: Z causes both
+Z2 <- rnorm(n); X2 <- Z2 + rnorm(n); Y2 <- Z2 + rnorm(n)
+# program 3: X causes Y through M
+X3 <- sqrt(2) * rnorm(n); M3 <- X3 + sqrt(2) * rnorm(n); Y3 <- 0.5 * M3 + rnorm(n)
+```
+
+1. Write down the slope of $Y$ on $X$ you expect in each program. Then
+   fit `lm` and compare.
+2. For each program, intervene: set $X$ to 1 for everyone and run the
+   statements after the one for $X$ again, then the same with $X$ set
+   to 0. Compute the difference in the means of $Y$.
+3. In program 2, fit `lm(Y2 ~ X2 + Z2)`. In program 3, fit
+   `lm(Y3 ~ X3 + M3)`. Compare the coefficients on $X$ with your
+   answers to 2.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+In each program, which statements after the one for $X$ use $X$, directly or through a variable computed from it? Those are the ones whose values change when you set $X$.
+:::
+
+### Exercise 6. Adjustment on data, in R
+
+The table of problem 1, one row for each rider.
+
+```{r coding_b_setup}
+cells <- data.frame(Z = c(1, 1, 1, 1, 0, 0, 0, 0),
+                    W = c(1, 1, 0, 0, 1, 1, 0, 0),
+                    T = c(1, 0, 1, 0, 1, 0, 1, 0),
+                    n = c(70, 30, 100, 100, 80, 120, 50, 450),
+                    accidents = c(21, 12, 10, 15, 4, 18, 1, 18))
+# In base R, T means TRUE; inside dplyr verbs, T is the column
+riders <- bind_rows(
+  cells |> mutate(Y = 1, count = accidents),
+  cells |> mutate(Y = 0, count = n - accidents)
+) |>
+  select(Z, W, T, Y, count) |>
+  tidyr::uncount(count)
+nrow(riders)
+```
+
+1. Compute the share with an accident among riders who took the course
+   and among those who did not, from `riders`, and the difference.
+2. Compute the adjusted difference: the difference within each
+   combination of $Z$ and $W$, averaged with weights $P(Z = z, W = w)$.
+   Then adjust for $Z$ alone, and for $W$ alone.
+3. A randomized version: give each of the 1,000 riders the course with
+   probability 0.3, whatever their group, and draw whether they have an
+   accident from the table's rates. Compute the difference. Repeat 200
+   times. What is the average difference, and how much does it vary?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For 2: `riders |> group_by(Z, W) |> summarize(...)` gives one row for each group of riders; compute the difference and the group's share of all riders there.
+:::
+
+### Exercise 7. Intervening in a program, in R
+
+The job center from the lecture, as a program. As in the lecture,
+everyone referred attends and nobody else does. Each line generates one
+variable from the ones above it.
+
+```{r course_starter, eval=FALSE}
+n <- 10000
+Z <- rbinom(n, 1, 0.5)                        # worked last year
+X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))   # attended the course
+Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)    # in work six months later
+mean(Y[X == 1]) - mean(Y[X == 0])             # attenders against the others
+```
+
+1. Run it. Compare the difference with the lecture's first job-center table (64% against 36%).
+2. Compute the adjusted difference: the difference between attenders
+   and non-attenders within $Z = 1$ and within $Z = 0$, averaged with
+   weights `mean(Z == 1)` and `mean(Z == 0)`.
+3. Intervene. Replace the line for `X` by `X <- rep(1, n)`, run the
+   line for `Y` again, and record `mean(Y)`. Do the same with
+   `X <- rep(0, n)`. Compare the difference with your answer to 2.
+4. The center changes its referrals to 0.95 for $Z = 1$ and 0.05 for
+   $Z = 0$. Before you run anything, write down what you expect for the
+   differences in 1 and in 3. Then run it.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For step 3, replace the line for `X` and leave the line for `Z` alone. Then run the line for `Y` again, so that it uses the new `X`.
+:::
+
+## In class
+
+### Discussion 1: absurd trolley problems
 
 In your group, open
 [Absurd Trolley Problems](https://neal.fun/absurd-trolley-problems/)
@@ -66,7 +263,7 @@ found hard to choose.
 2. Did any of your choices depend on a prediction of what would happen?
    How sure of it were you?
 
-## Discussion 2: a model that decides about people
+### Discussion 2: a model that decides about people
 
 Think of a scenario in which a predictive algorithm is deployed to make,
 or help to make, decisions with large effects on people: which
@@ -76,21 +273,22 @@ claims are checked for fraud. Choose one in your group.
 1. Describe the scenario: who uses the model, what it predicts, from
    what data, and what is decided with it.
 2. Decide what features or mechanisms would have to be in place to
-   satisfy the four Belmont--Menlo principles and the five Cs (consent;
-   clarity; consistency and trust; control and transparency;
-   consequences). Say which principle or C each one serves.
+   satisfy the four Belmont--Menlo principles (National Commission 1979;
+   Dittrich and Kenneally 2012) and the five Cs of Patil, Mason and
+   Loukides (2018): consent; clarity; consistency and trust; control
+   and transparency; consequences. Say which principle or C each one serves.
 3. Which of your requirements is about an effect, so that checking it
    needs a causal claim?
 
 At the end, each group describes its scenario and its requirements to
 the other groups.
 
-## Problems
+### The adjustment formula, from memory
 
-Before you start, from memory: what does the adjustment formula
+Before the problems, from memory: what does the adjustment formula
 average, and with what weights?
 
-### 1. A safety course for riders
+### Problem 1. A safety course for riders
 
 A food-delivery platform offers its riders a road-safety course. It
 pushes the course hardest to new riders and to riders who work mostly
@@ -129,7 +327,7 @@ adjusts only for whether riders are new finds that the course lowers
 the chance of an accident by about 2.5 percentage points. What would
 you tell each of them?
 
-### 2. Backdoor paths
+### Problem 2. Backdoor paths
 
 In each graph, $T$ is the treatment and $Y$ the outcome.
 
@@ -156,8 +354,9 @@ A path is blocked by a set of variables if somewhere along it
 - a collider, $\to V \leftarrow$, has neither $V$ nor any descendant of
   $V$ in the set.
 
-The second rule is the reading's: a path through a collider is blocked
-when you adjust for nothing, and adjusting for the collider opens it.
+The second rule is the reading's (Barocas, Hardt and Narayanan 2023,
+pp. 115--116): a path through a collider is blocked when you adjust
+for nothing, and adjusting for the collider opens it.
 
 (a) For each graph, list the backdoor paths from $T$ to $Y$. Which of
 them are open when you adjust for nothing?
@@ -171,13 +370,13 @@ before $T$ and "adjusting for more can't hurt." Which path does that
 open? Suppose $A$, $B$ and $C$ are yes-or-no variables, $A$ and $B$
 are independent, and $A = 1$ or $B = 1$ is enough to make $C = 1$, as
 either disease was enough for admission to hospital in the reading's
-example. Among people with $C = 1$, are $A$ and $B$
+example (p. 113). Among people with $C = 1$, are $A$ and $B$
 associated, and in which direction?
 
 (d) In graph 3, only $C$ was measured. Can the effect of $T$ on $Y$ be
 estimated by adjusting for measured variables?
 
-## Discussion 3: the case for one framework
+### Discussion 3: the case for one framework
 
 The room splits into three groups. Each group develops an argument for
 one statement and presents it to the other groups.
@@ -204,8 +403,8 @@ or none of them?
 
 - One sentence, individually: what is the difference between
   $P(Y = 1 \mid T = 1)$ and $P(Y = 1 \mid do(T := 1))$?
-- The reading warns against judging an admissions test by how well it
-  predicts success among the students who were admitted. Draw the
+- The reading (p. 113) warns against judging an admissions test by how
+  well it predicts success among the students who were admitted. Draw the
   graph. Where is the collider?
 - "Correlation (more generally, association) is not causation." This
   is true and important, but can it be misused?
@@ -225,190 +424,51 @@ Bring one score or algorithm used to make decisions about people. Write
 down what it measures and what it stands in for. Every group's examples
 will go on the screen.
 
-## Optional, can be done at home
+## References
 
-Practice for afterward: problems 3 to 6, then coding A to C. The
-problems can be done by hand. Attempt each part before you open a hint.
-
-::: {.callout-warning title="Hints"}
-Do not open a hint unless you have been stuck for at least a few
-minutes, and open them in order.
-:::
-
-### 3. Omitted-variable bias
-
-In the linear model of the notes,
-$Z := U_Z$, $X := \alpha Z + U_X$, $Y := \beta X + \gamma Z + U_Y$, with
-independent mean-zero noise, take $\alpha = 2$, $\gamma = 1$,
-$\beta = 0.5$ and $\operatorname{Var}(Z) = \operatorname{Var}(U_X) = 1$.
-
-(a) Compute $\operatorname{Var}(X)$, $\operatorname{Cov}(X, Z)$ and the
-slope of $Y$ on $X$ alone.
-
-(b) Repeat with $\gamma = -1$.
-
-(c) Repeat with $\gamma = 1$ and $\beta = 0$. What would someone with data
-on $X$ and $Y$ alone conclude?
-
-(d) Is the error in (a) a bias or a variance? What happens to it as the
-sample grows?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-$Z$ and $U_X$ are independent, so $\operatorname{Var}(X) = \alpha^2 \operatorname{Var}(Z) + \operatorname{Var}(U_X)$.
-:::
-
-### 4. Choosing an adjustment set
-
-```{r five_nodes, echo=FALSE, fig.height=3, fig.width=5}
-draw_dag(data.frame(name = c("Z", "X", "M", "Y", "W"),
-                    x = c(1, 0, 1, 2, 2.9), y = c(1.1, 0, -0.6, 0, 1.1)),
-         data.frame(from = c("Z", "Z", "X", "M", "X", "W"),
-                    to = c("X", "Y", "M", "Y", "Y", "Y")),
-         xlim = c(-0.5, 3.4), ylim = c(-0.9, 1.4))
-```
-
-(a) List the backdoor paths from $X$ to $Y$.
-
-(b) Which of these sets satisfy the backdoor criterion: the empty set,
-$\{Z\}$, $\{M\}$, $\{Z, M\}$, $\{W\}$, $\{Z, W\}$?
-
-(c) In a linear model, what does the coefficient on $X$ estimate if you
-adjust for $\{Z, M\}$?
-
-(d) If more than one of the sets in (b) satisfies the criterion, which
-would you use, and why?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-A backdoor path starts with an arrow into $X$. How many arrows point into $X$?
-:::
-
-### 5. The graph behind an argument
-
-A university says: "Students who use the library more get better
-grades. We will extend the library's opening hours, because using the
-library improves grades."
-
-(a) Draw the causal graph the argument presupposes, and mark the action.
-
-(b) Add one variable that would make the observed difference larger
-than the effect, with its arrows.
-
-(c) What comparison would support the university's claim?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-The university's evidence compares students. Its action changes opening hours. Are those the same thing?
-:::
-
-### 6. Hormone therapy
-
-The notes' section on hormone therapy and heart disease gives three
-studies of whether to prescribe hormone therapy to prevent heart
-disease.
-
-(a) Write the decision with $X$ and $Y$. Say what the treatment and the
-outcome are, and write the quantity a doctor needs with $do(\cdot)$.
-
-(b) The 1996 estimate (0.39) and the 2008 estimates (1.42 over the first
-two years, 0.96 over the whole follow-up) come from the same cohort.
-Which comparison did each make?
-
-(c) Draw a graph under which the 1996 estimate is confounded.
-
-(d) Which comparison matches the decision a doctor makes, and why?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For (a), what does the doctor choose, and which outcome is the choice about? For (b), ask which two groups each analysis compares.
-:::
-
-### Coding
-
-Open a fresh R script. You will need the tidyverse.
-
-#### A. Prediction and intervention
-
-```{r coding_a_setup}
-n <- 10000
-# program 1: X causes Y
-X1 <- rnorm(n); Y1 <- 2 * X1 + rnorm(n)
-# program 2: Z causes both
-Z2 <- rnorm(n); X2 <- Z2 + rnorm(n); Y2 <- Z2 + rnorm(n)
-# program 3: X causes Y through M
-X3 <- sqrt(2) * rnorm(n); M3 <- X3 + sqrt(2) * rnorm(n); Y3 <- 0.5 * M3 + rnorm(n)
-```
-
-1. Write down the slope of $Y$ on $X$ you expect in each program. Then
-   fit `lm` and compare.
-2. For each program, intervene: set $X$ to 1 for everyone and run the
-   statements after the one for $X$ again, then the same with $X$ set
-   to 0. Compute the difference in the means of $Y$.
-3. In program 2, fit `lm(Y2 ~ X2 + Z2)`. In program 3, fit
-   `lm(Y3 ~ X3 + M3)`. Compare the coefficients on $X$ with your
-   answers to 2.
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-In each program, which statements after the one for $X$ use $X$, directly or through a variable computed from it? Those are the ones whose values change when you set $X$.
-:::
-
-#### B. Adjustment on data
-
-The table of problem 1, one row for each rider.
-
-```{r coding_b_setup}
-cells <- data.frame(Z = c(1, 1, 1, 1, 0, 0, 0, 0),
-                    W = c(1, 1, 0, 0, 1, 1, 0, 0),
-                    T = c(1, 0, 1, 0, 1, 0, 1, 0),
-                    n = c(70, 30, 100, 100, 80, 120, 50, 450),
-                    accidents = c(21, 12, 10, 15, 4, 18, 1, 18))
-# In base R, T means TRUE; inside dplyr verbs, T is the column
-riders <- bind_rows(
-  cells |> mutate(Y = 1, count = accidents),
-  cells |> mutate(Y = 0, count = n - accidents)
-) |>
-  select(Z, W, T, Y, count) |>
-  tidyr::uncount(count)
-nrow(riders)
-```
-
-1. Compute the share with an accident among riders who took the course
-   and among those who did not, from `riders`, and the difference.
-2. Compute the adjusted difference: the difference within each
-   combination of $Z$ and $W$, averaged with weights $P(Z = z, W = w)$.
-   Then adjust for $Z$ alone, and for $W$ alone.
-3. A randomized version: give each of the 1,000 riders the course with
-   probability 0.3, whatever their group, and draw whether they have an
-   accident from the table's rates. Compute the difference. Repeat 200
-   times. What is the average difference, and how much does it vary?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For 2: `riders |> group_by(Z, W) |> summarize(...)` gives one row for each group of riders; compute the difference and the group's share of all riders there.
-:::
-
-#### C. Intervening in a program
-
-The job center from the lecture, as a program. As in the lecture,
-everyone referred attends and nobody else does. Each line generates one
-variable from the ones above it.
-
-```{r course_starter, eval=FALSE}
-n <- 10000
-Z <- rbinom(n, 1, 0.5)                        # worked last year
-X <- rbinom(n, 1, ifelse(Z == 1, 0.8, 0.2))   # attended the course
-Y <- rbinom(n, 1, 0.3 + 0.1 * X + 0.3 * Z)    # in work six months later
-mean(Y[X == 1]) - mean(Y[X == 0])             # attenders against the others
-```
-
-1. Run it. Compare the difference with the lecture's first job-center table (64% against 36%).
-2. Compute the adjusted difference: the difference between attenders
-   and non-attenders within $Z = 1$ and within $Z = 0$, averaged with
-   weights `mean(Z == 1)` and `mean(Z == 0)`.
-3. Intervene. Replace the line for `X` by `X <- rep(1, n)`, run the
-   line for `Y` again, and record `mean(Y)`. Do the same with
-   `X <- rep(0, n)`. Compare the difference with your answer to 2.
-4. The center changes its referrals to 0.95 for $Z = 1$ and 0.05 for
-   $Z = 0$. Before you run anything, write down what you expect for the
-   differences in 1 and in 3. Then run it.
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For step 3, replace the line for `X` and leave the line for `Z` alone. Then run the line for `Y` again, so that it uses the new `X`.
-:::
-
+- American Statistical Association, Committee on Professional Ethics,
+  "Ethical Guidelines for Statistical Practice" (2018), Principle A,
+  as quoted in Loftus, section 3.3.3. The current version (2022),
+  <https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice>,
+  asks instead that a statistician represent "their capabilities and
+  activities honestly" (Principle A).
+- Barocas, Solon, Moritz Hardt and Arvind Narayanan, *Fairness and
+  Machine Learning: Limitations and Opportunities* (MIT Press, 2023),
+  ch. 5, "Causality," pp. 105--116,
+  <https://fairmlbook.org/pdf/fairmlbook.pdf>.
+- Dittrich, David and Erin Kenneally, "The Menlo Report: Ethical
+  Principles Guiding Information and Communication Technology Research"
+  (US Department of Homeland Security, Science and Technology
+  Directorate, August 2012),
+  <https://www.caida.org/catalog/papers/2012_menlo_report_actual_formatted/menlo_report_actual_formatted.pdf>.
+- Grodstein, Francine, Meir J. Stampfer, JoAnn E. Manson, Graham A.
+  Colditz, Walter C. Willett, Bernard Rosner, Frank E. Speizer and
+  Charles H. Hennekens, "Postmenopausal estrogen and progestin use and
+  the risk of cardiovascular disease" (*New England Journal of
+  Medicine* 335(7), 1996, 453--461),
+  <https://doi.org/10.1056/NEJM199608153350701>.
+- Hernán, Miguel A., Alvaro Alonso, Roger Logan, Francine Grodstein,
+  Karin B. Michels, Walter C. Willett, JoAnn E. Manson and James M.
+  Robins, "Observational studies analyzed like randomized experiments:
+  an application to postmenopausal hormone therapy and coronary heart
+  disease" (*Epidemiology* 19(6), 2008, 766--779),
+  <https://doi.org/10.1097/EDE.0b013e3181875e61>.
+- Larrazabal, Agostina J., Nicolás Nieto, Victoria Peterson, Diego H.
+  Milone and Enzo Ferrante, "Gender imbalance in medical imaging
+  datasets produces biased classifiers for computer-aided diagnosis"
+  (*Proceedings of the National Academy of Sciences* 117(23), 2020,
+  12592--12594), <https://doi.org/10.1073/pnas.1919012117>.
+- Loftus, Joshua, *Modern Statistics 4 Data Science*, ch. 3, "Ethical
+  data science," sections 3.2--3.3,
+  <https://joshualoftus.com/ms4ds/ethical-data-science.html>.
+- National Commission for the Protection of Human Subjects of
+  Biomedical and Behavioral Research, "The Belmont Report: Ethical
+  Principles and Guidelines for the Protection of Human Subjects of
+  Research" (*Federal Register* 44(76), 18 April 1979, 23192--23197),
+  <https://www.govinfo.gov/content/pkg/FR-1979-04-18/pdf/FR-1979-04-18.pdf>.
+- Obermeyer, Ziad, Brian Powers, Christine Vogeli and Sendhil
+  Mullainathan, "Dissecting racial bias in an algorithm used to manage
+  the health of populations" (*Science* 366(6464), 2019, 447--453),
+  <https://doi.org/10.1126/science.aax2342>.
+- Patil, DJ, Hilary Mason and Mike Loukides, "The five Cs" (*O'Reilly
+  Radar*, 24 July 2018), <https://www.oreilly.com/radar/the-five-cs/>.

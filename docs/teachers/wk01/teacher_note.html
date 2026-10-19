@@ -2337,7 +2337,7 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td>6–18</td>
-<td>Problems 1(a), 2(a), 3(a)–(b). Do not reveal answers. The sticking point is 3(b), the denominator of the bias term</td>
+<td>Problem 1: what a field’s literature looks like. Do not reveal answers. The sticking point is (c), what the formula shows and what it does not</td>
 </tr>
 <tr class="odd">
 <td>18–28</td>
@@ -2349,7 +2349,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>52–59</td>
-<td>Reveal solutions to the in-class problems and the code; show the two survivor histograms (null, and <span class="math inline">\(\theta = 1\)</span>) side by side</td>
+<td>Reveal the solution to problem 1 and the code; show the two survivor histograms (null, and <span class="math inline">\(\theta = 1\)</span>) side by side</td>
 </tr>
 <tr class="even">
 <td>59–74</td>
@@ -2366,7 +2366,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>If coding runs over, take the time from discussion prompt 3, not from the break or from prompts 1 and 2.</p>
-<p>Everything else in the notebook (1b, 2b–c, 3c, 4, coding A.4 and B.4) is practice. Say so. No marks are attached to any of it.</p>
+<p>The exercises at the top of the sheet (1 to 3) are for students’ own time, and coding A.4 and B.4 are practice. Say so. No marks are attached to any of it. (Until 19 October the in-class problems were 1(a), 2(a) and 3(a)–(b); the convenor’s convention of that day made problems 1 to 3 exercises and the old problem 4 the class’s problem.)</p>
 </section>
 <section id="what-the-class-works-that-the-lecture-only-stated" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-class-works-that-the-lecture-only-stated">What the class works that the lecture only stated</h2>
@@ -2374,24 +2374,24 @@ window.Quarto = {
 <ul>
 <li><strong>Coding A.</strong> The lecture asked for a prediction of the survivors’ mean. The class builds the survivors’ distribution and checks the formula. Notes: “The filter on its own”.</li>
 <li><strong>Coding B.2.</strong> The lecture said <span class="math inline">\(1 - 0.95^k\)</span>. The class finds about 0.16, not the independent-tests figure 0.19, because the four <span class="math inline">\(p\)</span>-values are dependent. Say that aloud when revealing.</li>
-<li><strong>Problem 4</strong> (practice). One slide in the lecture; derived in the notes under “How much of the crisis does selection alone explain?”.</li>
+<li><strong>Problem 1.</strong> One slide in the lecture; derived in the notes under “How much of the crisis does selection alone explain?”. The class adds what the formula shows and does not show, and which ingredient is about who is in the data. The calculation is Ioannidis’s (2005).</li>
 </ul>
 </section>
 <section id="expected-misconceptions" class="level2">
 <h2 class="anchored" data-anchor-id="expected-misconceptions">Expected misconceptions</h2>
 <ol type="1">
 <li><strong>“Reproducibility” and “replication” used interchangeably.</strong> The notes define replication in one sentence. Do not spend time on it unless a group builds an argument on the confusion.</li>
-<li><strong>“p-values can be significant at some sample sizes and not others.”</strong> Half right. Larger <span class="math inline">\(n\)</span> at the same <span class="math inline">\(\mu\)</span> raises <span class="math inline">\(\theta\)</span>. The wrong version is that the same data can be made significant by choosing <span class="math inline">\(n\)</span> after the fact; that is a stopping rule and belongs with 1(b). Redirect to <span class="math inline">\(\theta = \mu\sqrt n/\sigma\)</span>.</li>
-<li><strong>“p-hacking is fraud.”</strong> The lecture’s point is that the filter distorts the literature with honest tests. Students who arrive with “cause: incentives; fix: pre-registration” have skipped the mechanism. 1(b) and the closing sentence are where to make them say what pre-registration changes (the reported comparison) and what it does not (power).</li>
+<li><strong>“p-values can be significant at some sample sizes and not others.”</strong> Half right. Larger <span class="math inline">\(n\)</span> at the same <span class="math inline">\(\mu\)</span> raises <span class="math inline">\(\theta\)</span>. The wrong version is that the same data can be made significant by choosing <span class="math inline">\(n\)</span> after the fact; that is a stopping rule and belongs with exercise 1(b). Redirect to <span class="math inline">\(\theta = \mu\sqrt n/\sigma\)</span>.</li>
+<li><strong>“p-hacking is fraud.”</strong> The lecture’s point is that the filter distorts the literature with honest tests. Students who arrive with “cause: incentives; fix: pre-registration” have skipped the mechanism. Exercise 1(b) and the closing sentence are where to make them say what pre-registration changes (the reported comparison) and what it does not (power).</li>
 <li><strong>“Correlation is not causation” as the explanation of non-replication.</strong> A confounded effect replicates perfectly well; that failure comes later in the course. This week’s failures are about selection.</li>
 <li><strong>No direction on the bias.</strong> “Away from the truth” is not an answer. Upward in magnitude, always, under a magnitude filter.</li>
-<li><strong>3(c).</strong> The common wrong answer is “bias” alone. The size of the bias is set by the variance, through the power. The sentence to get out of them: “the file-drawer effect turns variance into bias.”</li>
+<li><strong>Exercise 3(c).</strong> The common wrong answer is “bias” alone. The size of the bias is set by the variance, through the power. The sentence to get out of them: “the file-drawer effect turns variance into bias.”</li>
 </ol>
 </section>
 <section id="on-the-screen" class="level2">
 <h2 class="anchored" data-anchor-id="on-the-screen">On the screen</h2>
 <ul>
-<li>During the problems: the five constants and nothing else.</li>
+<li>During problem 1: its three ingredients (<span class="math inline">\(p\)</span>, <span class="math inline">\(\alpha\)</span> and the power) and nothing else.</li>
 <li>During coding: the <code>generate_data()</code> / <code>one_experiment()</code> block.</li>
 <li>At 52 min: the two survivor histograms side by side. The <span class="math inline">\(\theta = 1\)</span> survivors look like the null survivors.</li>
 <li>During discussion: the shared document. Do not tidy it.</li>
@@ -2409,7 +2409,13 @@ window.Quarto = {
 </section>
 <section id="notation" class="level2">
 <h2 class="anchored" data-anchor-id="notation">Notation</h2>
-<p><span class="math inline">\(\mu\)</span> is the effect, <span class="math inline">\(\theta = \mu/\mathrm{se}\)</span> the standardized effect. <span class="math inline">\(p\)</span> in problem 4 is the prevalence of true hypotheses among those tested; do not write it as <span class="math inline">\(\pi\)</span>.</p>
+<p><span class="math inline">\(\mu\)</span> is the effect, <span class="math inline">\(\theta = \mu/\mathrm{se}\)</span> the standardized effect. <span class="math inline">\(p\)</span> in problem 1 is the prevalence of true hypotheses among those tested; do not write it as <span class="math inline">\(\pi\)</span>.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Ioannidis, John P. A., “Why Most Published Research Findings Are False” (<em>PLoS Medicine</em> 2(8), 2005, e124), <a href="https://doi.org/10.1371/journal.pmed.0020124" class="uri">https://doi.org/10.1371/journal.pmed.0020124</a>.</li>
+</ul>
 </section>
 </section>
 

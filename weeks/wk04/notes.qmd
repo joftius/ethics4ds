@@ -192,27 +192,26 @@ a reason to find one, and week 1's p-hacking loop is a way of finding
 one. Last week's lecture put it in one sentence: what a score does to
 the people who write for it is a different mechanism from selection.
 
-The usual name for this is **Goodhart's law**. Charles Goodhart, a
-Bank of England economist, wrote in 1975 that "Any observed statistical
-regularity will tend to collapse once pressure is placed upon it for
-control purposes." He was writing about monetary targets: once the Bank
-tried to control a money-supply measure that had predicted inflation,
-the measure stopped predicting it. The wording most people know is
-Marilyn Strathern's, from a 1997 paper on auditing British
-universities: "When a measure becomes a target, it ceases to be a good
-measure." (Both as cited in the
-[Wikipedia article](https://en.wikipedia.org/wiki/Goodhart%27s_law), which
-you were asked to skim.) Donald Campbell said something close in 1979
-about social indicators, and the two are often quoted together.
+The usual name for this is **Goodhart's law**. Charles Goodhart, in a
+1975 paper on monetary management in the United Kingdom, wrote that
+"Any observed statistical regularity will tend to collapse once
+pressure is placed upon it for control purposes." The quotation is the
+one the [Wikipedia article](https://en.wikipedia.org/w/index.php?title=Goodhart%27s_law&oldid=1379318143) you were asked to skim
+gives, from the paper's 1981 reprint, page 116; the paper itself was
+not available to check. The wording most people know is Marilyn
+Strathern's, from a 1997 paper on auditing British universities: "When
+a measure becomes a target, it ceases to be a good measure" (Strathern
+1997, p. 308).
 
 Manheim and Garrabrant (2018) sort the ways this happens into four.
 Their *regressional* case is the one the next section derives: a proxy
 that is the goal plus noise overstates the goal wherever the proxy is
-large. Their *causal* case is the one this week's title is about: the
-regulator's own action on the proxy breaks the relation between proxy
-and goal. The other two, *extremal* (an optimizer pushes the system
-into a region where the old relation does not hold) and *adversarial*
-(someone with other aims acts on the measure), are named here and not
+large. Their *adversarial* case is the one the section on systems that
+adapt takes up: once the measure is rewarded, other people, with aims
+of their own, act on it. In their *causal* case the regulator's own
+intervention on the proxy changes its relation to the goal, and in
+their *extremal* case an optimizer pushes the system into a region
+where the old relation does not hold; both are named here and not
 developed.
 
 ### Measured and intended
@@ -276,8 +275,8 @@ At a given score, Black and White patients cost about the same in the
 following year, which is what a cost model should deliver. At a given
 score, Black patients were sicker. The paper's Figure 1A plots the
 number of active chronic conditions against the score's percentile,
-one curve per group, and the Black curve lies above the White one
-everywhere. At the 97th percentile, the automatic-enrollment point,
+one curve per group, and the paper reports that at the same score
+Black patients had more illness. At the 97th percentile, the automatic-enrollment point,
 Black patients averaged 4.8 active chronic conditions and White
 patients 3.8, 26% more.
 
@@ -308,8 +307,9 @@ everyone in the sample was insured. The authors name two routes.
 Barriers to care: poverty, geography, transport, the demands of work
 and child care, and knowing when to seek care, all of which reduce
 spending at a given level of illness. And the effect of race on the
-care a patient receives once they are seen; the paper cites a trial in
-which Black patients took up more preventive care from a Black doctor.
+care a patient receives once they are seen; the paper cites a trial
+(its reference 32) that found higher uptake of recommended preventive
+care when the doctor was Black.
 Either way, cost measures need with an offset that depends on race.
 
 The authors simulate what removing the gap would do. The share of Black
@@ -437,8 +437,9 @@ who that is. The fourth lens asks who bears the error; here the answer
 is the group whose costs were lower at the same need.
 
 Then the standing question. Who benefited from that choice being
-invisible? The tool predicted cost, and for a program whose aim was to
-cut costs that was a defensible label, which the authors say. Nobody
+invisible? The tool predicted cost, and the authors call that choice
+reasonable, since "the program's goal, at least in part, is to reduce
+costs" (Obermeyer and colleagues 2019, "Problem formulation"). Nobody
 had to decide that cost stood for need; the label did it for them. And
 would a more competent analyst have chosen differently? The paper's own
 answer is yes, in a specific way: the program mostly prevents acute
@@ -564,7 +565,7 @@ it is larger than $\beta$ when $\gamma\delta > \beta(1 - \lambda)/\lambda$.
 The classic case is the return to a year of schooling, with earnings
 for health, years of schooling for visits and ability left out. Ability
 is usually taken to raise both schooling and earnings, so
-$\gamma\delta > 0$. Card (1999, section 3) reviews the evidence: the
+$\gamma\delta > 0$. Card (1999, section 3.3 and the abstract) reviews the evidence: the
 reliability of self-reported schooling is about 0.9, and studies of
 identical twins suggest a small upward bias from ability, so the two
 partly offset.
@@ -929,8 +930,12 @@ conditions under which it does, and show that strategic classification
 is the special case in which the mechanism is individuals responding to
 a published rule.
 
-**Gaming and improvement** (Miller, Milli and Hardt 2020). Take a course
-judged by its students' test scores. Practicing raises skill, and skill
+**Gaming and improvement.** Miller, Milli and Hardt (2020) separate
+responses to a rule that game it from responses that improve what it
+stands for, and show that designing a rule that rewards improvement
+"must inevitably solve a non-trivial causal inference problem." The
+example here is ours. Take a course judged by its students' test
+scores. Practicing raises skill, and skill
 raises the score; memorizing old papers raises the score without
 touching skill. Each graph is a claim someone could dispute.
 
@@ -968,7 +973,7 @@ $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
 A recommender system is an agent. Its state is what it knows about a
 user, its action is what to show next, and its reward is whatever the
 platform can measure about the response: a click, a view, time
-watched, a share. In September 2012 YouTube told its creators that its
+watched, a share. In August 2012 YouTube told its creators that its
 discovery features had been "designed to drive views," which rewarded
 videos that got clicked over videos that kept viewers watching, and
 that it would rank by watch time instead. A platform's reward is
@@ -1048,32 +1053,34 @@ and asks what reaches it and what happens once it is paid on.
 
 - Obermeyer, Powers, Vogeli and Mullainathan,
   [Dissecting racial bias in an algorithm used to manage the health of populations](https://escholarship.org/uc/item/6h92v832)
-  (*Science* 366, 2019, 447--453): the abstract and the sections
+  (*Science* 366(6464), 2019, 447--453, <https://doi.org/10.1126/science.aax2342>): the abstract and the sections
   "Health disparities conditional on risk score," "Mechanism of bias"
   and "Problem formulation" (pages 448 to 451, with Figure 1).
-- Barocas, Hardt and Narayanan, *Fairness and Machine Learning*,
+- Barocas, Hardt and Narayanan, *Fairness and Machine Learning:
+  Limitations and Opportunities* (MIT Press, 2023),
   [chapter 1, Introduction](https://fairmlbook.org/pdf/fairmlbook.pdf),
   from "The trouble with measurement" through "Feedback and feedback
   loops" (pages 7 to 14).
-- Skim the Wikipedia article [Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law).
+- Skim the Wikipedia article [Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law)
+  (the [revision](https://en.wikipedia.org/w/index.php?title=Goodhart%27s_law&oldid=1379318143) of 9 October 2026 was the one checked).
 
 ### Optional
 
 - Amodei, Olah, Steinhardt, Christiano, Schulman and Mané,
   [Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)
   (2016), sections 2 and 4.
-- YouTube Creator Blog,
-  [YouTube now: why we focus on watch time](https://youtubecreator-uk.googleblog.com/2012/09/youtube-now-why-we-focus-on-watch-time.html)
-  (6 September 2012).
+- Meyerson, Eric,
+  [YouTube now: why we focus on watch time](https://blog.youtube/news-and-events/youtube-now-why-we-focus-on-watch-time/)
+  (YouTube Official Blog, 10 August 2012).
 - Miller, Milli and Hardt,
   [Strategic Classification is Causal Modeling in Disguise](https://proceedings.mlr.press/v119/miller20b.html)
-  (ICML 2020), section 1.
+  (ICML 2020, PMLR 119, 6917--6926), section 1.
 - Perdomo, Zrnic, Mendler-Dünner and Hardt,
   [Performative Prediction](https://arxiv.org/abs/2002.06673)
-  (ICML 2020), section 1.
+  (ICML 2020, PMLR 119, 7599--7609), section 1.
 - Jacobs and Wallach,
   [Measurement and Fairness](https://arxiv.org/abs/1912.05511)
-  (ACM FAccT 2021).
+  (ACM FAccT 2021, 375--385, <https://doi.org/10.1145/3442188.3445901>).
 - Manheim and Garrabrant,
   [Categorizing Variants of Goodhart's Law](https://arxiv.org/abs/1803.04585)
   (2018).
@@ -1081,13 +1088,24 @@ and asks what reaches it and what happens once it is paid on.
 Cited in the text and not assigned: de Vries, Roest, de Jonge,
 Cuijpers, Munafò and Bastiaansen, "The cumulative effect of reporting
 and citation biases on the apparent efficacy of treatments: the case of
-depression" (*Psychological Medicine* 48, 2018, 2453--2455, CC BY 4.0);
-Goodhart, "Problems of Monetary Management: The UK Experience" (1975);
-Strathern, "'Improving ratings': audit in the British University
-system" (*European Review* 5, 1997); Heckman, Heinrich and Smith, "The
-Performance of Performance Standards" (NBER Working Paper 9002, 2002);
-Deng, Jiang, Long and Zhang, "Causal Reinforcement Learning: A Survey"
-(*Transactions on Machine Learning Research*, 2023); Hardt, Megiddo,
-Papadimitriou and Wootters, "Strategic Classification" (ITCS 2016;
-arXiv 1506.06980); Card, "The causal effect of education on earnings"
-(*Handbook of Labor Economics* 3A, 1999, 1801--1863).
+depression" (*Psychological Medicine* 48(15), 2018, 2453--2455,
+<https://doi.org/10.1017/S0033291718001873>, CC BY 4.0); Goodhart,
+"Problems of Monetary Management: The UK Experience" (*Papers in
+Monetary Economics* 1, Reserve Bank of Australia, 1975; reprinted in
+A. S. Courakis, ed., *Inflation, Depression, and Economic Policy in the
+West*, Barnes and Noble, 1981, from page 111; not checked, quoted as
+the Wikipedia revision above gives it); Strathern, "'Improving
+ratings': audit in the British University system" (*European Review*
+5(3), 1997, 305--321, <https://doi.org/10.1002/(SICI)1234-981X(199707)5:3%3C305::AID-EURO184%3E3.0.CO;2-4>);
+Heckman, Heinrich and Smith, "The Performance of Performance Standards"
+(NBER Working Paper 9002, 2002, <https://doi.org/10.3386/w9002>); Deng,
+Jiang, Long and Zhang, "Causal Reinforcement Learning: A Survey"
+(*Transactions on Machine Learning Research*, 2023,
+<https://openreview.net/forum?id=qqnttX9LPo>); Hardt, Megiddo,
+Papadimitriou and Wootters, "Strategic Classification" (*Proceedings of
+the 2016 ACM Conference on Innovations in Theoretical Computer
+Science*, 111--122, <https://doi.org/10.1145/2840728.2840730>); Card,
+"The causal effect of education on earnings" (in O. Ashenfelter and
+D. Card, eds., *Handbook of Labor Economics* 3A, Elsevier, 1999,
+1801--1863, <https://doi.org/10.1016/S1573-4463(99)03011-4>); Obermeyer
+and colleagues' reference 32 is the trial cited above.

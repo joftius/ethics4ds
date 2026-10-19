@@ -241,7 +241,7 @@ The week 1 filter again, three stages further down the pipeline. 105 trials; 77 
 ![](../../files/devries_2018_fig1.png){fig-align="center" height="470"}
 
 ::: {.source}
-de Vries, Roest, de Jonge, Cuijpers, Munafò and Bastiaansen (2018), *Psychological Medicine* 48, 2453--2455, Figure 1 (CC BY 4.0): 105 antidepressant trials, from the FDA's record to the literature.
+de Vries, Roest, de Jonge, Cuijpers, Munafò and Bastiaansen (2018), *Psychological Medicine* 48(15), 2453--2455, doi:10.1017/S0033291718001873, Figure 1 (CC BY 4.0): 105 antidepressant trials, from the FDA's record to the literature.
 :::
 
 ## What a score does to the people it is applied to
@@ -261,7 +261,7 @@ A researcher tries comparisons until one gives $p < 0.05$. Which is the score, a
 :::
 
 ::: {.source}
-Goodhart, "Problems of Monetary Management: The UK Experience" (1975); Strathern, "'Improving ratings': audit in the British University system," *European Review* 5(3), 1997 (both as cited in the Wikipedia article on Goodhart's law).
+Goodhart, "Problems of Monetary Management: The UK Experience," *Papers in Monetary Economics* 1, Reserve Bank of Australia (1975), quoted from the 1981 reprint (ed. Courakis), p. 116, as the Wikipedia article "Goodhart's law" (revision of 9 October 2026) gives it; not checked against the paper. Strathern, "'Improving ratings': audit in the British University system," *European Review* 5(3), 305--321 (1997), p. 308.
 :::
 
 ## Measured and intended
@@ -299,7 +299,7 @@ The score predicts **next year's medical cost**. Race is not one of its inputs.
 By industry estimates, tools of this class are applied to roughly 200 million people in the United States each year.
 
 ::: {.source}
-Obermeyer, Powers, Vogeli and Mullainathan (2019), "Dissecting racial bias in an algorithm used to manage the health of populations," *Science* 366, 447--453 (free full text at eScholarship).
+Obermeyer, Powers, Vogeli and Mullainathan (2019), "Dissecting racial bias in an algorithm used to manage the health of populations," *Science* 366(6464), 447--453, doi:10.1126/science.aax2342; free full text at escholarship.org/uc/item/6h92v832.
 :::
 
 ## Sketch it
@@ -672,7 +672,7 @@ ggplot(skim, aes(group, value, fill = group)) +
 Cream skimming: choosing people who would have found work anyway. In the US Job Training Partnership Act programs, centers were judged on short-run measures ($R$) that were "weakly, and sometimes perversely, related to long run impacts" ($U$).
 
 ::: {.source}
-Heckman, Heinrich and Smith (2002), "The Performance of Performance Standards," NBER Working Paper 9002, abstract.
+Heckman, Heinrich and Smith (2002), "The Performance of Performance Standards," NBER Working Paper 9002, doi:10.3386/w9002, abstract.
 :::
 
 ## Need, or benefit
@@ -830,7 +830,7 @@ A third response: learning the examiner's favorite phrasing. Draw its graph. Gam
 :::
 
 ::: {.source}
-Miller, Milli and Hardt (2020), "Strategic Classification is Causal Modeling in Disguise," ICML, PMLR 119, 6917--6926.
+Miller, Milli and Hardt (2020), "Strategic Classification is Causal Modeling in Disguise," ICML, PMLR 119, 6917--6926. The example is ours.
 :::
 
 ## Two models of a system that adapts {.inverse}
@@ -857,7 +857,7 @@ Skip if behind. Strategic classification names the mechanism and holds the true 
 In both, the rule is an intervention, not a sample.
 
 ::: {.source style="color: #BCAF6F"}
-Hardt, Megiddo, Papadimitriou and Wootters (2016), "Strategic Classification," arXiv 1506.06980; Perdomo, Zrnic, Mendler-Dünner and Hardt (2020), "Performative Prediction," arXiv 2002.06673.
+Hardt, Megiddo, Papadimitriou and Wootters (2016), "Strategic Classification," ITCS 2016, 111--122, doi:10.1145/2840728.2840730; Perdomo, Zrnic, Mendler-Dünner and Hardt (2020), "Performative Prediction," ICML, PMLR 119, 7599--7609.
 :::
 
 ## Engagement {.inverse}
@@ -868,7 +868,7 @@ Compress: YouTube ranked by views, got clickable videos, switched to watch time;
 
 **Notation:** reinforcement learning ($S$, $A$, $R$, $\pi$, $U$).
 
-YouTube, September 2012: its discovery features had been "designed to drive views," which rewarded videos that got clicked over videos that kept viewers watching. The reward was changed to watch time.
+YouTube, August 2012: its discovery features had been "designed to drive views," which rewarded videos that got clicked over videos that kept viewers watching. The reward was changed to watch time.
 
 $R$: engagement, whatever the platform can measure.
 $U$: a user who is informed, and not manipulated. Where raising $U$ would lower $R$, revenue pulls the other way.
@@ -878,7 +878,7 @@ Who benefits from the gap between $R$ and $U$ staying invisible?
 :::
 
 ::: {.source style="color: #BCAF6F"}
-YouTube Creator Blog, "YouTube now: why we focus on watch time," 6 September 2012.
+Meyerson, "YouTube now: why we focus on watch time," YouTube Official Blog, 10 August 2012, blog.youtube/news-and-events/youtube-now-why-we-focus-on-watch-time.
 :::
 
 ## Lenses this week
