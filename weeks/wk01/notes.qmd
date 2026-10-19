@@ -32,7 +32,7 @@ made without anyone noticing. This course is about those steps. The formal
 content, mostly probability you already know and some causal modeling you
 may not, is there to make the hidden choice visible.
 
-There are five questions we will keep asking, lenses that bring hidden
+There are six questions we will keep asking, lenses that bring hidden
 choices into focus.
 
 - **What are we optimizing or predicting?** Whose definition of the outcome
@@ -46,6 +46,8 @@ choices into focus.
 - **You have to choose, so choose, and defend it.** Sometimes the
   mathematics proves that a choice is unavoidable. Pretending it was forced
   is its own failure.
+- **What can be changed, and how?** What things are considered
+  "controlled for" or "held fixed," and is that realistic?
 
 Each of these ends with the same two words: *and why?*
 

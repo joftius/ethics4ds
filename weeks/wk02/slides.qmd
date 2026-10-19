@@ -4,7 +4,7 @@ author: "Joshua Loftus"
 format:
   revealjs:
     theme: [default, ../../theme/st313.scss]
-    slide-number: false
+    slide-number: c/t
     auto-stretch: false
     filters: [../../_build_env/strip_notes.lua]
     fig-width: 8
@@ -71,7 +71,7 @@ st313:
   history: [{minutes: 2, buys: "the cargo cults of the wartime Pacific as Feynman (1974) tells them: the image for form without substance that Stark and Saltelli's title borrows"}]
   complications: []
   retrieves: [S3, S4]
-  lenses: [A, B, E]
+  lenses: [A, B, E, F]             # F added 18 October 2026, when the lens was introduced (week 4 branch)
   readings: [stark-saltelli-cargo-cult, gigerenzer-surrogate, hyde-mertz-2009, freedman-tr549]
   results: [R8, R12]
   assumes: [ST102]
@@ -875,6 +875,7 @@ The first lens covers both halves of the title. Then the two questions on the ne
 - **You have to choose, so choose, and defend it.** "Pretending it was forced is its own failure." In the null ritual nobody chose the hypothesis, the level or the test. In the variance argument the first step is a correct calculation, and the steps after it are stated as if they followed from it.
 - **What are we optimizing or predicting?** A state's rate, or a person's. A group's average, or one of its members.
 - **Who is in the data?** Under the two normal curves, 1 person in 26,000 is four standard deviations out. Fifteen-year-olds in one country or another, with a variance ratio from 0.95 to 1.24.
+- **What can be changed, and how?** Group rates held fixed across states.
 
 ...and why?
 

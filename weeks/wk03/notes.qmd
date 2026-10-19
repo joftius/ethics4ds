@@ -12,7 +12,7 @@ st313:
   complications: []
   retrieves: [S4]
   introduces: [CC-08, CC-09, CC-10]
-  lenses: [C, E]
+  lenses: [C, E, F]                # F added 18 October 2026, when the lens was introduced (week 4 branch)
   spine_first_encounter: [S1, S6]
   readings: [fairmlbook-ch5a, ms4ds-ch3-normative, wiki-consequentialism, wiki-deontology, wiki-virtue-ethics,
              wiki-pragmatic-ethics, wiki-belmont-report, mixtape-dags, tukey-conclusions-decisions, bross-shoe-clerk]
@@ -198,7 +198,7 @@ ms4ds lists four difficulties:
 
 - Defining utility. Someone has to say what counts as good and how to
   measure it. In data science this is the choice of an outcome, a
-  metric or a loss function, and the first of the five lenses asks
+  metric or a loss function, and the first of the lenses asks
   about it: what are we optimizing or predicting?
 - Trading off one person's good against another's. A total or an
   average lets a gain to one person make up for a loss to another. The
@@ -989,6 +989,17 @@ tells you which sets are valid. Drawing the graph is up to you.
 Declining to draw one does not remove the choice. The argument you are
 reading has usually drawn it already, as "$X$ causes $Y$", without
 saying so.
+
+What can be changed, and how? What things are considered "controlled
+for" or "held fixed," and is that realistic? Adjusting for whether
+people worked last year holds that fixed while attendance is set; the
+colleague's graph says motivation would need holding fixed too, and
+nobody measured it. Adjusting for a mediator holds fixed something the
+course would change, so what is left is not the total effect of the
+course. The women who chose hormones were compared with
+women who did not, as if everything else about them were held fixed. A
+randomized trial makes "held fixed" true by design: the coin decides
+who is treated, and nothing else does.
 
 And why? The observational comparison comes free with the data. The
 interventional one needs a graph, and a graph is an argument that

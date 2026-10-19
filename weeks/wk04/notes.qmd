@@ -12,10 +12,10 @@ st313:
   complications: []
   retrieves: [S1, S2, S4]
   introduces: [CC-11, CC-12, CC-13, CC-14]
-  lenses: [A, D]
+  lenses: [A, D, F]                # F first used this week (convenor, 18 October)
   spine_first_encounter: [S5]
-  readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart, amodei-2016, youtube-2012, miller-milli-hardt-2020, perdomo-2020, jacobs-wallach-2021, manheim-garrabrant-2018, fourcade-healy-2013]
-  results: [R20, R21, R22, R23, R24, R25, R26]
+  readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart, amodei-2016, youtube-2012, miller-milli-hardt-2020, perdomo-2020, jacobs-wallach-2021, manheim-garrabrant-2018]
+  results: [R20, R21, R22, R23, R24, R27, R28]     # R27, the slope on a noisy measure with a variable left out, and R28, what the selected are made of, added 19 October; R25 and R26 went with the section "Utility and order" to _held/, 17 October
   assumes: [ST102]
   figures: [../../files/devries_2018_fig1.png]
 # ---------------------------------------------------------------------------------
@@ -35,17 +35,11 @@ to stand for another, $Y^\star$. The two come apart in three ways:
 noise, an offset that differs between groups, and a response by the
 people being measured. A health system's risk score measured next year's
 medical cost and was taken to stand for how ill a patient was; at the
-same cost, Black patients were sicker, so the score enrolled fewer of
-them and the ones it did enroll were sicker than the White patients it
-enrolled. In a model with an offset $b$ for one group, selecting above a
+same cost, Black patients were sicker, so the score flagged fewer of
+them for extra care, and the ones it did flag were sicker than the
+White patients it flagged. In a model with an offset $b$ for one group, selecting above a
 threshold $t$ on the measure is selecting above $t - b$ on the thing
 measured, for that group only.
-
-A score is also a total order: any two people can be compared. A
-preference relation has a utility representation only if it is complete
-and transitive, and on a countable set that is also enough. "Better for
-this person" is a partial order, and every partial order can be
-completed into a total one, usually in many ways; a score picks one.
 
 Once a score is rewarded, the people and systems it is applied to act
 on the score. That changes the equation for $Y$, an intervention, and
@@ -186,8 +180,9 @@ the same way. The file-drawer effect turns variance into bias.
 
 A citation count is a score. It is what a researcher's output is
 measured by, and it is taken to stand for a contribution to knowledge.
-The figure shows the two coming apart with nobody doing anything
-dishonest: at each stage, more of the positive results survive.
+The figure shows the two coming apart stage by stage: at each stage,
+more of the positive results survive. The paper documents the
+selections; it says nothing about anyone's intentions.
 
 ### What a score does to the people it is applied to
 
@@ -197,27 +192,26 @@ a reason to find one, and week 1's p-hacking loop is a way of finding
 one. Last week's lecture put it in one sentence: what a score does to
 the people who write for it is a different mechanism from selection.
 
-The usual name for this is **Goodhart's law**. Charles Goodhart, a
-Bank of England economist, wrote in 1975 that "Any observed statistical
-regularity will tend to collapse once pressure is placed upon it for
-control purposes." He was writing about monetary targets: once the Bank
-tried to control a money-supply measure that had predicted inflation,
-the measure stopped predicting it. The wording most people know is
-Marilyn Strathern's, from a 1997 paper on auditing British
-universities: "When a measure becomes a target, it ceases to be a good
-measure." (Both as cited in the
-[Wikipedia article](https://en.wikipedia.org/wiki/Goodhart%27s_law), which
-you were asked to skim.) Donald Campbell said something close in 1979
-about social indicators, and the two are often quoted together.
+The usual name for this is **Goodhart's law**. Charles Goodhart, in a
+1975 paper on monetary management in the United Kingdom, wrote that
+"Any observed statistical regularity will tend to collapse once
+pressure is placed upon it for control purposes." The quotation is the
+one the [Wikipedia article](https://en.wikipedia.org/w/index.php?title=Goodhart%27s_law&oldid=1379318143) you were asked to skim
+gives, from the paper's 1981 reprint, page 116; the paper itself was
+not available to check. The wording most people know is Marilyn
+Strathern's, from a 1997 paper on auditing British universities: "When
+a measure becomes a target, it ceases to be a good measure" (Strathern
+1997, p. 308).
 
 Manheim and Garrabrant (2018) sort the ways this happens into four.
 Their *regressional* case is the one the next section derives: a proxy
 that is the goal plus noise overstates the goal wherever the proxy is
-large. Their *causal* case is the one this week's title is about: the
-regulator's own action on the proxy breaks the relation between proxy
-and goal. The other two, *extremal* (an optimizer pushes the system
-into a region where the old relation does not hold) and *adversarial*
-(someone with other aims acts on the measure), are named here and not
+large. Their *adversarial* case is the one the section on systems that
+adapt takes up: once the measure is rewarded, other people, with aims
+of their own, act on it. In their *causal* case the regulator's own
+intervention on the proxy changes its relation to the goal, and in
+their *extremal* case an optimizer pushes the system into a region
+where the old relation does not hold; both are named here and not
 developed.
 
 ### Measured and intended
@@ -240,7 +234,7 @@ in turn.
 
 1. **Noise.** $Y = Y^\star + \varepsilon$, with $\varepsilon$
    unrelated to anything else. A noisy measure is still right on
-   average, but anything estimated from it is attenuated.
+   average, but a slope on it is flattened toward zero.
 2. **An offset that differs between groups.**
    $Y = Y^\star + bA$, with $A$ a group and $b \ne 0$. The measure is
    right on average for one group and off by $b$ for the other, and
@@ -260,9 +254,12 @@ for, and who decided that it could.
 
 Obermeyer, Powers, Vogeli and Mullainathan (2019) studied a commercial
 risk score at a large academic hospital. The score was used to decide
-which patients got extra care. Patients above the 97th percentile of
-the score were enrolled in a care-management program automatically;
-patients above the 55th were flagged to their doctor. The score was a
+which patients were offered extra care. Patients above the 97th
+percentile of the score were identified for a care-management program
+automatically; patients above the 55th were flagged to their doctor.
+Whether an identified patient was then enrolled was a decision for
+clinicians, so the paper's numbers are about identification, and these
+notes say "selected" for it. The score was a
 prediction of each patient's **medical costs** in the coming year, and
 race was not one of its inputs. By industry estimates, the authors
 write, tools of this class are applied to roughly 200 million people in
@@ -278,21 +275,30 @@ At a given score, Black and White patients cost about the same in the
 following year, which is what a cost model should deliver. At a given
 score, Black patients were sicker. The paper's Figure 1A plots the
 number of active chronic conditions against the score's percentile,
-one curve per group, and the Black curve lies above the White one
-everywhere. At the 97th percentile, the automatic-enrollment point,
+one curve per group, and the paper reports that at the same score
+Black patients had more illness. At the 97th percentile, the automatic-enrollment point,
 Black patients averaged 4.8 active chronic conditions and White
 patients 3.8, 26% more.
 
-```{r obermeyer97, echo=FALSE, fig.height=2.6, fig.width=5, fig.alt="Two bars at the 97th percentile of the risk score: Black patients average 4.8 active chronic conditions, White patients 3.8."}
-ob <- data.frame(group = factor(c("Black patients", "White patients"), levels = c("Black patients", "White patients")),
-                 conditions = c(4.8, 3.8))
-ggplot(ob, aes(group, conditions, fill = group)) +
-  geom_col(width = 0.55, show.legend = FALSE) +
-  geom_text(aes(label = conditions), vjust = -0.4, size = 4) +
-  scale_fill_manual(values = two) +
-  scale_y_continuous(limits = c(0, 5.6), expand = c(0, 0)) +
-  labs(x = "patients at the 97th percentile of the risk score", y = "active chronic conditions") +
-  theme(panel.grid.major.x = element_blank(), panel.grid.minor = element_blank())
+```{r obermeyer_curves, echo=FALSE, fig.height=2.8, fig.width=6, fig.alt="Two rising curves of active chronic conditions against risk-score percentile, the Black patients' curve above the White patients' at every percentile; at the dashed 97th-percentile line the curves are labeled 4.8 and 3.8."}
+pct <- seq(0, 100, by = 1)
+# a sketch of the paper's Figure 1A: conditions rising with the score, the Black curve one
+# condition above the White one, both through the paper's numbers at the 97th percentile
+white <- 0.6 + 3.4 * (pct / 100)^2
+curves <- bind_rows(data.frame(pct = pct, cond = white + 1.0, group = "Black patients"),
+                    data.frame(pct = pct, cond = white, group = "White patients"))
+curves$group <- factor(curves$group, levels = c("Black patients", "White patients"))
+ggplot(curves, aes(pct, cond, color = group)) +
+  geom_vline(xintercept = 97, linetype = "dashed", color = cgray) +
+  geom_line(linewidth = 1) +
+  annotate("text", x = 95.5, y = c(4.8, 3.8), label = c("4.8", "3.8"), hjust = 1, size = 4, color = two) +
+  scale_color_manual(values = two, name = NULL) +
+  scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, 25)) +
+  scale_y_continuous(limits = c(0, 6), breaks = 0:6) +
+  labs(x = "risk score (percentile)", y = "active chronic conditions",
+       caption = "a sketch of the paper's Figure 1A, drawn through its two numbers at the 97th percentile") +
+  theme(panel.grid.minor = element_blank(), legend.position = c(0.2, 0.85),
+        plot.caption = element_text(color = cgray))
 ```
 
 Why? At the same number of chronic conditions, Black patients in the
@@ -301,13 +307,14 @@ everyone in the sample was insured. The authors name two routes.
 Barriers to care: poverty, geography, transport, the demands of work
 and child care, and knowing when to seek care, all of which reduce
 spending at a given level of illness. And the effect of race on the
-care a patient receives once they are seen; the paper cites a trial in
-which Black patients took up more preventive care from a Black doctor.
+care a patient receives once they are seen; the paper cites a trial
+(its reference 32) that found higher uptake of recommended preventive
+care when the doctor was Black.
 Either way, cost measures need with an offset that depends on race.
 
-The authors cannot change the hospital's tool, so they simulate what
-removing the gap would do. The share of Black patients among those
-enrolled automatically would rise from 17.7% to 46.5%. Separately,
+The authors simulate what removing the gap would do. The share of Black
+patients among those identified automatically would rise from 17.7% to
+46.5%. Separately,
 they trained new models on three labels. With total cost as the label,
 Black patients were 14.1% of the highest-risk group (the 97th
 percentile and above); with avoidable cost, 21.0%; with the number of
@@ -323,16 +330,16 @@ the paper that teaches it. Read the body.
 
 ### A model: an offset for one group
 
-Take need $Y^\star$ to have the same distribution in both groups, and
+Take need $Y^\star$ to have the same distribution in both groups (an assumption, not a finding: see below), and
 let $A = 1$ for one group and $0$ for the other. The measure is
 $$
 Y = Y^\star + bA ,
 $$
-and the program enrolls everyone with $Y > t$. For group $0$ that is
+and the program selects everyone with $Y > t$. For group $0$ that is
 $Y^\star > t$. For group $1$ it is $Y^\star + b > t$, or
 $Y^\star > t - b$. **An offset of $b$ in the measure is a threshold
 moved by $-b$ for that group.** With $b < 0$, as in the paper, group
-$1$ has to be iller to be enrolled.
+$1$ has to be iller to be selected.
 
 ```{r offset_densities, echo=FALSE, fig.height=2.4, fig.width=6, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
 t97 <- qnorm(0.97)
@@ -352,7 +359,7 @@ ggplot(dens, aes(y, d, color = group)) +
 
 Two things follow, and both are in the paper's data.
 
-**Who is selected.** Group $1$ is enrolled with probability
+**Who is selected.** Group $1$ is selected with probability
 $P(Y^\star > t - b)$ and group $0$ with probability $P(Y^\star > t)$.
 With $Y^\star \sim N(0, 1)$ and $t$ the 97th percentile, $t = 1.88$:
 
@@ -363,16 +370,17 @@ sel <- function(b) {
   data.frame(b = b, share0 = s0, share1 = s1, ratio = s1 / s0, need0 = dnorm(z0) / s0, need1 = dnorm(z1) / s1)
 }
 tab <- bind_rows(sel(0), sel(-0.5), sel(-1))
-cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of the selected, group 0 | mean need, group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
+cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of selected in group 0 | mean need of selected in group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
 for (i in seq_len(nrow(tab))) with(tab[i, ], cat(sprintf("| %s | %.1f%% | %.1f%% | %.2f | %.2f | %.2f |\n",
   format(b, nsmall = 1), 100 * share0, 100 * share1, ratio, need0, need1)))
 ```
 
 An offset of half a standard deviation cuts group $1$'s chance of
-enrollment to less than a third of group $0$'s. The ratio falls fast
-because the threshold is in the tail, where the normal density drops
-quickly: the same offset at the median would change the two shares by
-much less.
+selection to less than a third of group $0$'s. In percentage points
+the gap is small, 3.0 against 0.9; at the median the same offset would
+move the shares from 50% to 31%, a gap of 19 points but a ratio of only
+0.62. A threshold in the tail turns a small offset into a large
+proportional disparity, because the normal density falls quickly there.
 
 **How ill the selected are.** The mean of a standard normal variable
 given that it exceeds $z$ is
@@ -381,17 +389,22 @@ E[Y^\star \mid Y^\star > z] = \frac{\phi(z)}{1 - \Phi(z)} ,
 $$
 the inverse Mills ratio from week 1, where it gave the expected size of
 an estimate that survived the significance filter. Here it gives the
-mean need of the enrolled in each group: $z = t$ for group $0$ and
+mean need of the selected in each group: $z = t$ for group $0$ and
 $z = t - b$ for group $1$. Since the ratio increases in $z$, the
-enrolled members of group $1$ are iller on average than the enrolled
+selected members of group $1$ are iller on average than the selected
 members of group $0$, by about half a standard deviation in the second
-row of the table. That is the paper's Figure 1A: at every score, and
-in particular at the 97th percentile, the Black patients the score
-selected had more chronic conditions than the White patients it
-selected.
+row of the table.
+
+The paper's Figure 1A compares a different quantity: need at a given
+score, not above a threshold. In this model that comparison is
+simpler. Two patients with the same measure $Y = y$ have needs $y$ and
+$y - b$, so at every score group $1$ is iller by $-b$, and the gap does
+not depend on where the threshold is. The table's comparison, among
+the selected, adds the tail effect on top: group $1$'s selected members
+are drawn from further out in the need distribution.
 
 This is a bias, and more data does not touch it. A larger sample
-estimates the offset more precisely and enrolls the same people.
+estimates the offset more precisely and selects the same people.
 
 The model assumes need has the same distribution in both groups. In
 the paper's sample it does not (Black patients were on average sicker),
@@ -403,28 +416,30 @@ table as a mechanism, not as the hospital's numbers.
 
 ### Who bears the error
 
-A threshold makes two kinds of mistake. A patient can be enrolled
+A threshold makes two kinds of mistake. A patient can be selected
 without needing the program, which uses a place and the program's
 time. A patient can be left out while needing it, which costs the
-patient. Setting $t$ at the 97th percentile rather than the 90th says
-how the hospital priced the two: fewer places used, more people left
-out.
+patient. Setting $t$ at the 97th percentile rather than the 90th trades
+the two: fewer places used, more people left out. The threshold fixes
+the trade without saying how it was valued; a budget for places would
+fix it too.
 
-| | enrolled | not enrolled |
+| | selected | not selected |
 |:---|:---|:---|
 | **ill enough to need the program** | right | left out |
 | **not** | a place used | right |
 
 The offset moves the second error onto one group. For a Black patient
 at the enrollment threshold, the score says "not ill enough" at a level
-of illness at which it says "enrolled" for a White patient. The price
+of illness at which it says "selected" for a White patient. The price
 of an error is paid by the person it falls on, and the offset decides
 who that is. The fourth lens asks who bears the error; here the answer
 is the group whose costs were lower at the same need.
 
 Then the standing question. Who benefited from that choice being
-invisible? The tool predicted cost, and for a program whose aim was to
-cut costs that was a defensible label, which the authors say. Nobody
+invisible? The tool predicted cost, and the authors call that choice
+reasonable, since "the program's goal, at least in part, is to reduce
+costs" (Obermeyer and colleagues 2019, "Problem formulation"). Nobody
 had to decide that cost stood for need; the label did it for them. And
 would a more competent analyst have chosen differently? The paper's own
 answer is yes, in a specific way: the program mostly prevents acute
@@ -435,58 +450,190 @@ for, and the authors worked with the manufacturer to change the label.
 ### A noisy measure flattens a slope
 
 The first of the three routes is noise. Let $Y = Y^\star + \varepsilon$,
-with $\varepsilon$ independent of $Y^\star$ and of everything else, mean
-zero and variance $\sigma_\varepsilon^2$. Suppose an outcome $V$ depends on
-need, $V = \beta Y^\star + U$, with $U$ independent noise. Someone with
-the measure but not the need regresses $V$ on $Y$. The population slope
-is
+with $\varepsilon$ independent of $Y^\star$, mean zero and variance
+$\sigma_\varepsilon^2$. The hospital has the measure and wants need.
+The best linear guess of need from the measure is the regression of
+$Y^\star$ on $Y$, whose slope is
 $$
-\frac{\operatorname{Cov}(V, Y)}{\operatorname{Var}(Y)}
-= \frac{\operatorname{Cov}(\beta Y^\star + U,\; Y^\star + \varepsilon)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
-= \frac{\beta \operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
-= \beta\lambda ,
+\frac{\operatorname{Cov}(Y^\star, Y)}{\operatorname{Var}(Y)}
+= \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
+= \lambda ,
 $$
-because every cross-covariance between the noises and $Y^\star$ is
-zero. The factor
+because $\operatorname{Cov}(Y^\star, \varepsilon) = 0$. The factor
+$\lambda$ is between $0$ and $1$ and is called the **reliability** of
+the measure: the share of its variance that is need rather than noise.
+When $Y^\star$ and $\varepsilon$ are jointly normal with mean zero the
+regression is the conditional mean,
 $$
-\lambda = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y^\star) + \sigma_\varepsilon^2}
+E[Y^\star \mid Y = y] = \lambda y .
 $$
-is between $0$ and $1$. It is called the **reliability** of the
-measure: the share of its variance that is need rather than noise. The
-slope is **attenuated** toward zero by $\lambda$, however large the
-sample. Noise in the outcome $V$ does nothing of the kind: it widens the
-interval around the slope and leaves its center alone. This is week 2's
-sentence again, more data, the same wrong answer, with variance in the
-measure turned into bias in the slope.
 
-```{r attenuation, echo=FALSE, fig.height=2.6, fig.width=7, fig.alt="Two scatterplots of the same outcome: against the true measure, with a fitted line of slope 1, and against the noisy measure, with a fitted line of slope about one half."}
+```{r attenuation, echo=FALSE, fig.height=2.8, fig.width=5.5, fig.alt="A scatterplot of need against the noisy measure, with the fitted line of slope one half flatter than the dashed identity line."}
 n <- 400
-ystar <- rnorm(n); eps <- rnorm(n); v <- 1 * ystar + rnorm(n, sd = 0.7)
-att <- bind_rows(data.frame(x = ystar, v = v, panel = "V on Y*: slope 1"),
-                 data.frame(x = ystar + eps, v = v, panel = "V on Y = Y* + noise: slope 1/2"))
-att$panel <- factor(att$panel, levels = unique(att$panel))
-ggplot(att, aes(x, v)) +
+ystar <- rnorm(n); eps <- rnorm(n)
+att <- data.frame(y = ystar + eps, ystar = ystar)
+ggplot(att, aes(y, ystar)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = cgray) +
   geom_point(alpha = 0.3, size = 0.9, color = slate) +
   geom_smooth(method = "lm", se = FALSE, color = gold, linewidth = 1) +
-  facet_wrap(~ panel) +
-  labs(x = NULL, y = "outcome V")
+  annotate("text", x = 2.5, y = 0.6, label = "slope 1/2", color = gold, size = 4, hjust = 0) +
+  annotate("text", x = -3.4, y = -2.0, label = "need = measure", color = cgray, size = 3.5, hjust = 0) +
+  coord_cartesian(xlim = c(-3.5, 3.9), ylim = c(-3, 3)) +
+  labs(x = "the measure Y", y = "need Y*", caption = "Var(Y*) = Var(noise) = 1, so lambda = 1/2") +
+  theme(plot.caption = element_text(color = cgray))
 ```
 
 The figure has $\operatorname{Var}(Y^\star) = \sigma_\varepsilon^2 = 1$,
-so $\lambda = 1/2$. The same algebra with $V$ replaced by $Y^\star$
-itself gives the regression of need on the measure,
+so $\lambda = 1/2$. A patient whose measure is two units above average
+is expected to be one unit above average in need (the measure has a
+larger standard deviation than need, so in each variable's own standard
+deviations the shrinkage is by $\sqrt{\lambda}$). Selecting the top 3%
+by the measure selects people whose need is high, but less high than
+their measure says, by the factor $\lambda$. Manheim and Garrabrant
+call this the regressional version of Goodhart's law: pick the largest
+values of a proxy and you have picked its noise along with its signal.
+The slope is **attenuated** toward zero by $\lambda$, however large the
+sample. This is week 2's sentence again, more data, the same wrong
+answer, with variance in the measure turned into bias in the slope.
+
+### Noise and an omitted variable
+
+The slope above has need on the left. In a regression course the noisy
+measure is usually on the right, as the predictor, and often something
+is left out as well. Does care improve health? In this subsection $Y$
+is an outcome, not the measure of need. Let $Y$ be a person's health
+next year, $X^\star$ the number of times they saw a doctor this
+year, and $X = X^\star + \varepsilon$ the number they report, with
+$\varepsilon$ independent of everything else. Let $Z$ be how ill they
+were this year, which is not in the data, and
 $$
-E[Y^\star \mid Y] = \lambda Y
+Y = \beta X^\star + \gamma Z + U ,
 $$
-when $Y^\star$ and $\varepsilon$ are jointly normal with mean zero. A
-patient whose measure is two standard deviations above average is
-expected to be one above average in need. Selecting the top 3% by the
-measure selects people whose need is high, but less high than their
-measure says, by the factor $\lambda$. Manheim and Garrabrant call this
-the regressional version of Goodhart's law: pick the largest values of
-a proxy and you have picked its noise along with its signal. This is
-where the week's two routes meet: an offset biases the slope's location
-for one group, and noise biases its size for everyone.
+with $U$ independent of $X^\star$, $Z$ and $\varepsilon$. Someone with
+data on $X$ and $Y$ regresses health on reported visits. The population
+slope is
+$$
+\frac{\operatorname{Cov}(X, Y)}{\operatorname{Var}(X)}
+= \frac{\beta \operatorname{Var}(X^\star) + \gamma \operatorname{Cov}(X^\star, Z)}{\operatorname{Var}(X^\star) + \sigma_\varepsilon^2}
+= \lambda\,(\beta + \gamma\delta),
+\qquad
+\delta = \frac{\operatorname{Cov}(X^\star, Z)}{\operatorname{Var}(X^\star)} ,
+$$
+where $\lambda$ is the reliability of the report and $\delta$ is the
+slope of illness on visits. With $\gamma = 0$ this is $\beta\lambda$,
+attenuation alone. With no noise, $\lambda = 1$, it is last week's slope
+with a variable left out, $\beta + \gamma\delta$, whose bias is
+$\gamma\delta$.
+
+The two biases work differently. Noise multiplies the slope by
+$\lambda$, which is between 0 and 1: it pulls the slope toward zero and
+never changes its sign. The left-out variable adds $\gamma\delta$ to
+$\beta$ inside the bracket. Its sign is the sign of the product of the
+two arrows out of $Z$, and it can change the sign of the slope. Visits help, $\beta > 0$. The ill visit more,
+$\delta > 0$, and are less healthy next year, $\gamma < 0$, so
+$\gamma\delta < 0$. If $\gamma\delta < -\beta$, the people who visit
+more are less healthy next year, the slope is negative, and the data
+say that care does harm. Noise only shrinks that wrong answer toward
+zero.
+
+```{r noise_ovb, echo=FALSE, fig.width=6.5, fig.height=2.4, fig.alt="The slope of health on reported visits against lambda, from 0 to 1, for three values of gamma times delta with beta equal to one half. With gamma delta 0.25 the line rises to 0.75 and crosses beta at lambda two thirds; with minus 0.25 it rises to 0.25, below beta; with minus 1 it falls to minus 0.5, below zero for every lambda."}
+beta <- 0.5
+cases <- data.frame(gd = c(0.25, -0.25, -1), col = c(gold, slate, navy))
+lines <- do.call(rbind, lapply(seq_len(nrow(cases)), function(i)
+  data.frame(lambda = c(0, 1), slope = c(0, 1) * (beta + cases$gd[i]), gd = cases$gd[i], col = cases$col[i])))
+ends <- data.frame(x = 1.03, y = beta + cases$gd, col = cases$col,
+                   label = sprintf("$\u03b3\u03b4$ = %s", sub("-", "\u2212", as.character(cases$gd))))
+regions <- data.frame(x = 0.02, y = c(0.66, 0.36, -0.3), label = c("too large", "too small", "wrong sign"))
+ggplot(lines, aes(lambda, slope, group = gd)) +
+  annotate("segment", x = 0, xend = 1, y = beta, yend = beta, linetype = "dashed", color = cgray) +
+  annotate("segment", x = 0, xend = 1, y = 0, yend = 0, color = cgray, linewidth = 0.3) +
+  geom_line(aes(color = col), linewidth = 1.1) +
+  scale_color_identity() +
+  geom_mathtext(data = ends, aes(x, y, label = label, colour = col), size = 3.8, hjust = 0) +
+  geom_mathtext(data = data.frame(x = 1.03, y = beta, label = "$\u03b2$, the effect"),
+                aes(x, y, label = label), colour = cgray, size = 3.4, hjust = 0) +
+  annotate("text", x = regions$x, y = regions$y, label = regions$label, hjust = 0, color = cgray, size = 3.4, fontface = "italic") +
+  scale_x_continuous(breaks = c(0, 0.5, 1), labels = c("\u03bb = 0", "0.5", "1"), limits = c(0, 1.4)) +
+  scale_y_continuous(breaks = c(-0.5, 0, 0.5)) + coord_cartesian(ylim = c(-0.58, 0.8), clip = "off") +
+  labs(x = NULL, y = "slope") +
+  theme(panel.grid.minor = element_blank())
+```
+
+The figure has $\beta = 1/2$. When $\gamma\delta > 0$ the two biases
+pull against each other, and the slope can be too large or too small:
+it is larger than $\beta$ when $\gamma\delta > \beta(1 - \lambda)/\lambda$.
+The classic case is the return to a year of schooling, with earnings
+for health, years of schooling for visits and ability left out. Ability
+is usually taken to raise both schooling and earnings, so
+$\gamma\delta > 0$. Card (1999, section 3.3 and the abstract) reviews the evidence: the
+reliability of self-reported schooling is about 0.9, and studies of
+identical twins suggest a small upward bias from ability, so the two
+partly offset.
+
+None of $\lambda$, $\gamma$ and $\delta$ comes from the data on $X$
+and $Y$. The reliability needs a second report of the same quantity,
+and the term for the left-out variable needs a measure of it or a
+design that holds it fixed. From $X$ and $Y$ alone you cannot tell
+whether the slope is too large, too small or of the wrong sign.
+
+This is classical noise, independent of everything else. Noise that is
+related to the true value, to the outcome or to the left-out variable
+can move the slope in either direction, and so can noise in a variable
+that is adjusted for, which leaves part of the confounding it was meant
+to remove. Noise in the outcome is different again: it goes into $U$,
+widens the interval around the slope and leaves its center alone.
+
+### Need, resources and care-seeking
+
+The hospital selected on cost and wanted need, and the model so far
+has cost differ from need by an offset and by noise. Cost also depends
+on other things about a person. Write
+$$
+Y = Y^\star + W + C + \varepsilon ,
+$$
+where $W$ stands for a person's resources (insurance that pays, income,
+transport, time off work, a doctor who records every diagnosis), what
+turns need into care and care into cost, and $C$ for care-seeking, how
+readily a person goes to a doctor at a given level of need. The noise
+$\varepsilon$ is the rest: an accident, a test that had to be repeated.
+Suppose the four are independent and normal with mean zero.
+
+The best guess of each part from the measure is the calculation that
+gave $\lambda$. For need, $\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)$,
+so
+$$
+E[Y^\star \mid Y = y] = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, y ,
+$$
+and likewise for $W$, $C$ and $\varepsilon$. The four fractions add up
+to 1, because $\operatorname{Var}(Y)$ is the sum of the four variances.
+Averaging over the people selected, those with $Y > t$, gives each
+part's mean among them: its share of $\operatorname{Var}(Y)$ times
+their mean cost,
+$$
+E[Y^\star \mid Y > t] = E\big[E[Y^\star \mid Y] \,\big|\, Y > t\big]
+= \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, E[Y \mid Y > t] .
+$$
+With variances 1, 1/2, 1/4 and 1/4, the shares are 1/2, 1/4, 1/8 and
+1/8. Of the selected's mean cost above the population mean, half is
+need, a quarter resources, an eighth care-seeking and an eighth noise.
+The selected are a mixture: some are there mostly because they are
+ill, some because they could turn need into care, some because they
+seek care readily.
+
+Two more things follow. Among the selected the parts are negatively
+related, although they are independent in the population: to clear the
+threshold with less need, a person needed more of something else. And
+when the parts are related in the population, the mixture changes. If
+poorer people are sicker, with the spread of need unchanged, the sickest have fewer resources and generate
+less cost than their need, and the places go less to need: the
+hospital's offset again, inside one group.
+
+Some of the parts are more under a person's control than others. How
+readily someone seeks care is partly a choice. Illness, income and
+where someone lives are much less so. The ability to raise a score
+without raising what it stands for, gaming in the section on systems
+that adapt below, is often a resource. A program that selects on the
+score rewards all of these together.
 
 ## Reinforcement learning
 
@@ -555,9 +702,12 @@ ggplot() +
 ```
 
 Now a variant of week 3's job center, with 100 places on the course,
-which helps some people more than others. Of people who worked last
-year, 70% are in work six months later if they take the course and 64%
-if they do not; of people who did not work last year, 40% and 14%. The
+which helps some people more than others. Take the rates that follow as
+what would happen under assignment to the course or to no course, so
+that the differences are effects and not last week's confounded
+comparison. Of people who worked last year, 70% are in work six months
+later if they take the course and 64% if they do not; of people who
+did not work last year, 40% and 14%. The
 state is a person's record, the action is to refer or not, and the
 center is judged on the share of the people it refers who are in work,
 its placement rate. That rate is its reward. Referring 100 people who
@@ -598,6 +748,19 @@ to the programs' efficiency, in either direction, unlike the invented
 numbers above, and concluded: "Opposition to cream skimming must come
 on equity grounds." Equity here is about who is served; efficiency is
 about the total.
+
+The job center chose between two utilities, and the hospital faces the
+same choice. Its program, the paper says, mostly prevents acute
+episodes in people with chronic illness. One candidate for $U$ is how
+ill a patient is; another is how much the extra care would help them.
+They pick out different people whenever the care helps some patients
+more than others, which is the heterogeneity last week's average
+treatment effect averaged over. Telling the two apart needs an
+estimate of the program's effect on each kind of patient, a causal
+claim that the hospital's data, on patients it chose to enroll, do not
+give by themselves. Choosing between them is not an estimate at all:
+it is a judgment about whose good the program is for, and no label
+makes it for you.
 
 Each of the four difficulties of utilitarianism from week 3 becomes a
 choice someone makes in building such an agent. Defining utility
@@ -644,199 +807,9 @@ its prediction $\hat Y$ as its action, which reinforcement learning
 would write as $A$. Mixing the two there would give $A$ two meanings in
 one line.
 
-## Utility and order
-
-### A score is a total order
-
-Before anything is said about what a score measures, it does one thing:
-it puts the people it is applied to in order. Any two of them get a
-number, so any two can be compared, and if the first is above the
-second and the second above the third, the first is above the third.
-
-The language for this is decision theory's. A **preference relation**
-$\succsim$ on a set of options reads "at least as good as". It is
-
-- **complete** if for every pair of options $x$ and $y$, $x \succsim y$
-  or $y \succsim x$ (or both);
-- **transitive** if $x \succsim y$ and $y \succsim z$ imply
-  $x \succsim z$.
-
-A complete and transitive relation is a **total preorder**, or, when no
-two distinct options are tied, a **total order**. A **utility
-representation** of $\succsim$ is a function $u$ from options to
-numbers with
-$$
-x \succsim y \iff u(x) \ge u(y) .
-$$
-
-If $u$ exists, $\succsim$ is complete and transitive. Any two numbers
-compare, and $\ge$ on numbers is transitive, so the relation $u$
-represents inherits both. That one line is the necessity half of the
-next theorem, and it says what a score assumes: whatever the score is
-taken to stand for, the score has ranked everyone against everyone.
-
-### When a number exists
-
-The converse is the question. Given a complete and transitive
-preference, is there always a number?
-
-On a finite or countable set, yes. List the options as
-$x_1, x_2, x_3, \ldots$ and define
-$$
-u(x) = \sum_{k:\; x \succsim x_k} 2^{-k} .
-$$
-The sum converges, and it adds a term for every option that $x$ is at
-least as good as. If $x \succsim y$ then, by transitivity, every $x_k$
-that $y$ beats or ties is also beaten or tied by $x$, so $u(x) \ge u(y)$.
-If $x \succsim y$ fails then, by completeness, $y \succ x$ strictly;
-then $y$'s sum contains every term of $x$'s and also the term for $y$
-itself, which $x$'s sum lacks, so $u(y) > u(x)$. So $u$ represents
-$\succsim$.
-
-**On a finite or countable set, $\succsim$ has a utility
-representation if and only if it is complete and transitive.**
-
-On an uncountable set, complete and transitive are not enough. Order
-the points of the plane **lexicographically**: $(a, b) \succ (c, d)$
-if $a > c$, or if $a = c$ and $b > d$, as words are ordered in a
-dictionary. This is complete and transitive. Suppose $u$ represented
-it. For each real number $a$, the points $(a, 1)$ and $(a, 0)$ satisfy
-$(a, 1) \succ (a, 0)$, so $u(a, 1) > u(a, 0)$: an interval of positive
-length on the number line. For $a < a'$ the interval for $a'$ lies
-entirely above the interval for $a$, since $(a', 0) \succ (a, 1)$. So
-there would be uncountably many disjoint intervals of positive length
-in the real line, and there cannot be: each contains a rational number,
-and there are only countably many of those. No $u$ exists, continuous
-or not.
-
-Debreu (1954) gives the extra condition that makes an uncountable case
-work: if the set of options is connected and separable (the real line,
-or a region of the plane, is), and $\succsim$ is complete, transitive
-and **continuous** (the set of options at least as good as $x$, and the
-set at most as good as $x$, are both closed), then a continuous utility
-representation exists. The lexicographic order is not continuous:
-points just to the left of $(a, 1)$ are all below $(a, 0)$, however
-close they come.
-
-### Under risk
-
-A choice among lotteries, each a probability distribution over
-outcomes, is the setting of von Neumann and Morgenstern (1947). Their
-axioms are completeness, transitivity, a continuity condition, and
-**independence**: if $L \succsim M$, then mixing both with the same
-third lottery $N$ at the same probability $p$ preserves the preference,
-$pL + (1-p)N \succsim pM + (1-p)N$. Under the four, there is a function
-$u$ on outcomes such that
-$$
-L \succsim M \iff E_L[u] \ge E_M[u] ,
-$$
-the **expected utility** representation, and $u$ is unique up to a
-positive affine transformation: $au + c$ with $a > 0$ represents the
-same preferences and nothing else does.
-
-Two consequences for this course. The agent of the previous section,
-which chooses the policy with the largest $E_\pi[R]$, is a von
-Neumann--Morgenstern agent whose outcomes are rewards; a reward is a
-utility that someone else wrote down. And the uniqueness clause says
-what adding utility across people assumes. Each person's $u$ is free to
-be rescaled by any $a > 0$, so $u_1(x) + u_2(x)$ depends on which scale
-each person was assigned, and no axiom about either person's choices
-fixes it. Utilitarianism's second difficulty from week 3, trading off
-one person's good against another's, is this: the total needs a scale
-for each person that the theory of individual choice does not supply.
-
-### Partial orders
-
-Drop completeness. A relation that is reflexive ($x \succsim x$),
-transitive and antisymmetric (if $x \succsim y$ and $y \succsim x$ then
-$x = y$) is a **partial order**: some pairs compare, others do not. Two
-partial orders matter here.
-
-- **Pareto.** One state of affairs is at least as good as another if
-  it is at least as good for every person. Most pairs of states do not
-  compare, because most changes help someone and hurt someone else.
-- **Dominance on several measures.** One patient is at least as ill as
-  another if every measure of illness is at least as high.
-
-Take four patients and two measures.
-
-| patient | active chronic conditions | emergency visits last year |
-|:---|:---|:---|
-| 1 | 4 | 2 |
-| 2 | 3 | 2 |
-| 3 | 2 | 3 |
-| 4 | 1 | 1 |
-
-Patient 1 is at least as ill as patient 2 on both measures, and all
-three of 1, 2 and 3 are iller than 4. Patient 3 has fewer conditions
-than 1 and 2 and more visits, so 3 compares with neither.
-
-```{r hasse, echo=FALSE, fig.height=2.2, fig.width=3.5, fig.alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither."}
-draw_dag(data.frame(name = c("1", "2", "3", "4"), x = c(0, 0, 1.6, 0.8), y = c(1.4, 0.7, 1.05, 0)),
-         data.frame(from = c("1", "2", "3"), to = c("2", "4", "4")),
-         xlim = c(-0.6, 2.2), ylim = c(-0.3, 1.7))
-```
-
-A cost model turns the two measures into one number. At £1,000 per
-condition and £1,500 per visit, the four patients cost 7,000, 6,000,
-6,500 and 2,500, and the order is 1, 3, 2, 4. At £1,000 and £3,000 the
-costs are 10,000, 9,000, 11,000 and 4,000, and the order is 3, 1, 2, 4.
-Both orders agree with every comparison the partial order makes. Where
-the partial order is silent, the weights decide.
-
-### Every partial order can be completed
-
-Szpilrajn (1930) proved that every partial order is contained in a
-total order: one that keeps every comparison of the original and adds
-comparisons for every pair the original left open. For a finite set
-this is easy to see, and the number of ways to do it can be counted.
-The four patients allow three: patient 3 can go first, second or third,
-and nothing else is free. Four patients with no comparisons at all
-would allow $4! = 24$.
-
-A score chooses one of the total orders that contain the partial one,
-if it respects the partial order at all. The comparisons it adds, 1
-against 3 and 2 against 3 above, are not in the measures; they are in
-the weights, and someone chose the weights. The same holds for any
-score built from several things: a credit score, a university ranking,
-a risk score.
-
-This is the shape of the week's point about scores. "This person is
-better off than they were" and "this change is better for this person
-and worse for no one" are statements in a partial order, and they need
-no weights. "This person ranks above that one" needs the order
-completed, and completing it is a choice. We can keep the local
-comparison without granting that everyone can be compared with
-everyone else; and when a system does compare everyone, the question
-is who completed the order and how.
-
-### The ordinal society
-
-Fourcade and Healy (2024) call a society organized by rankings
-**ordinal**: nearly every person and organization is scored, by many
-systems, and the scores decide access to credit, work, housing and
-attention. The word points at ranking, and at the French *ordinateur*,
-a computer. In an earlier article (Fourcade and Healy 2013) they
-described how credit scores sort people into what they call
-**classification situations**: positions in a market that carry their
-own prices, terms and life chances, so that the score does not describe
-a person's situation so much as assign it. Their examples are US credit
-markets, where scoring widened access to borrowers once excluded and at
-the same time drew finer distinctions among them, distinctions that
-then spread to insurance, housing and employment. They also observe
-that a score built from past behavior looks fairer than the older
-exclusions it replaced, such as redlining, while carrying present
-inequalities forward, and that sorting by merit makes the resulting
-inequality look deserved.
-
-I read their argument through the previous section. A classification
-situation is a total order imposed on people whose situations were only
-partially ordered, and the authors' concern is with who did the
-completing and what it did to the people completed.
-
 ## Systems that adapt
 
-### The optimizer arrives
+### When a measure becomes a target
 
 So far the people being measured have done nothing. Now reward the
 measure. Before the rule,
@@ -864,52 +837,71 @@ nodes$panel <- factor(nodes$panel, levels = pn); edges$panel <- factor(edges$pan
 draw_dag(nodes, edges, boxes = TRUE, text_size = 3.6, xlim = c(-0.9, 3.5), ylim = c(-0.3, 1.45))
 ```
 
-Replacing the line that generates $Y$ is what week 3 called an
+Replacing the equation that generates $Y$ is what week 3 called an
 **intervention**: a new assignment for one variable, every other line
 left alone. The relation between $Y$ and $Y^\star$ that held before
 the rule need not hold after it. Which people it fails for depends on
 who can pay for $g$.
 
-A simulation makes the mechanism visible. Ten thousand people, need and
-noise standard normal, and 300 places for the highest $Y$. After the
-rule, the half of the population who can afford it add $1$ to their
-$Y$; ability to pay is independent of need. The 300 places now go
-mostly to people who paid, and the mean need of the people selected
-falls.
+Who can respond decides what the response does. Compare two cases
+with the same 300 places for the highest $Y$. If everyone adds the
+same $1$ to their $Y$, every ranking is unchanged, the same 300 people
+are selected, and nothing about them has changed: a rewarded measure
+is not spoiled by the reward alone. If half of the people are able to
+add $1$ and the rest cannot, the ranking changes, and it changes toward
+the people who could respond. The simulation below has ten thousand
+people, need and noise standard normal, and who is able to add $1$
+unrelated to need. Each panel plots the measure against need, with the
+cutoff for 300 places dashed and the 300 selected drawn solid. The
+first two panels are the same picture shifted up by one: the same
+people are selected. In the third the 300 places go mostly to people
+who were able to add $1$, and the selected reach further down in need.
 
-```{r goodhart_sim, echo=FALSE, fig.height=2.8, fig.width=6, fig.alt="Dot plots of need among the 300 people selected: before the rule, a cloud with mean about 1.7; after the half who can pay add 1 to their score, a lower cloud, with the mean and the share who paid printed above each."}
-n <- 10000
+```{r goodhart_sim, echo=FALSE, fig.height=3.4, fig.width=7.5, fig.alt="Three scatterplots of the measure Y against need Y*, with the cutoff for 300 places dashed and the selected drawn solid. Before the rule and after everyone adds 1 the same people are selected; after half are able to add 1, the selected are mostly those able, reaching lower need."}
+n <- 10000; places <- 300
 need <- rnorm(n); noise <- rnorm(n)
+can <- rbinom(n, 1, 0.5) == 1                       # able to add 1, unrelated to need
 y0 <- need + noise
-can_pay <- rbinom(n, 1, 0.5) == 1
-y1 <- y0 + ifelse(can_pay, 1, 0)
-places <- 300
-top <- function(y) rank(-y) <= places
-sim <- bind_rows(data.frame(need = need[top(y0)], paid = can_pay[top(y0)], when = "before the rule"),
-                 data.frame(need = need[top(y1)], paid = can_pay[top(y1)], when = "after"))
-sim$when <- factor(sim$when, levels = c("before the rule", "after"))
-means <- sim |> group_by(when) |> summarize(m = mean(need), paid = mean(paid), .groups = "drop")
-ggplot(sim, aes(when, need, color = when)) +
-  geom_jitter(width = 0.25, height = 0, alpha = 0.35, size = 0.9, show.legend = FALSE) +
-  geom_point(data = means, aes(when, m), color = "black", size = 3.5, shape = 18) +
-  geom_text(data = means, aes(when, 4.6, label = sprintf("mean need %.2f; %.0f%% paid", m, 100 * paid)),
-            color = "black", size = 3.6) +
-  scale_color_manual(values = two) +
-  coord_cartesian(ylim = c(-1.5, 4.9)) +
-  labs(x = NULL, y = "need of the selected") +
-  theme(panel.grid.major.x = element_blank())
+cases <- list("before the rule" = y0, "everyone adds 1" = y0 + 1,
+              "half are able to add 1" = y0 + ifelse(can, 1, 0))
+d <- bind_rows(lapply(names(cases), function(k) {
+  y <- cases[[k]]; cut <- sort(y, decreasing = TRUE)[places]
+  data.frame(case = k, need = need, y = y, sel = y >= cut, can = can, cut = cut)
+}))
+d$case <- factor(d$case, levels = names(cases))
+lab <- d |> filter(sel) |> group_by(case) |>
+  summarize(m = mean(need), p = mean(can), .groups = "drop") |>
+  mutate(strip = sprintf("%s\nselected: need %.2f, %.0f%% able", case, m, 100 * p))
+d$strip <- factor(lab$strip[match(d$case, lab$case)], levels = lab$strip)
+d$who <- ifelse(d$can, "able to add 1", "not able")
+shown <- d$sel | (rep(seq_len(n), 3) %in% sample(n, 2500))
+cuts <- d |> distinct(strip, cut)
+ggplot(d[shown, ], aes(need, y, color = who)) +
+  geom_point(data = function(x) filter(x, !sel), alpha = 0.12, size = 0.4) +
+  geom_point(data = function(x) filter(x, sel), alpha = 0.9, size = 0.8) +
+  geom_hline(data = cuts, aes(yintercept = cut), linetype = "dashed", color = cgray) +
+  facet_wrap(~ strip) +
+  scale_color_manual(values = c("able to add 1" = gold, "not able" = navy), name = NULL) +
+  coord_cartesian(xlim = c(-3.7, 3.7), ylim = c(-4.5, 6.0)) +
+  labs(x = "need Y*", y = "the measure Y") +
+  guides(color = guide_legend(override.aes = list(size = 2.5, alpha = 1))) +
+  theme(legend.position = "top", strip.text = element_text(size = 9.5, lineheight = 0.95),
+        strip.clip = "off", panel.grid.minor = element_blank())
 ```
 
-The fall in mean need is modest here, because the people who paid were
-drawn from the same need distribution as everyone else; what changes
-most is who the places go to. In the paper's setting the equivalent
+The fall in mean need in the third case is modest, because the people
+able to add $1$ were drawn from the same need distribution as everyone
+else; what changes most is who the places go to. The first two cases
+select the same people, which is the check that it is the difference
+in response, not the response itself, that moves the allocation. In the paper's setting the equivalent
 would be a hospital that rewards patients, or their doctors, for a high
 score, after which the score measures who responded to the reward.
 
 ```{r goodhart_check, echo=FALSE}
 # The shrinkage factor behind the "before" column: among the 300 selected by Y, mean need
 # is about half of mean Y (lambda = 1/2 with equal variances).
-c(mean_y = mean(y0[top(y0)]), mean_need = mean(need[top(y0)]))
+top0 <- y0 >= sort(y0, decreasing = TRUE)[places]
+c(mean_y = mean(y0[top0]), mean_need = mean(need[top0]))
 ```
 
 Two formal versions of a system that adapts are in the reading's
@@ -918,9 +910,9 @@ authors' own work.
 **Strategic classification** (Hardt, Megiddo, Papadimitriou and
 Wootters 2016). A classifier is published. Each person then changes
 their features, at a cost that depends on the change, to get the label
-they want, and the classifier's accuracy is judged against the features
-as they were before the change and an underlying target function. The
-true label is taken as fixed, so every response is gaming, and the
+they want. The classifier is scored on the features as changed, against
+each person's true label, which is fixed by the features as they were
+before the change; so every response is gaming, and the
 design problem is a classifier that stays accurate when everyone games
 it. The paper gives efficient algorithms for a natural class of cost
 functions and shows the general problem is hard.
@@ -938,11 +930,35 @@ conditions under which it does, and show that strategic classification
 is the special case in which the mechanism is individuals responding to
 a published rule.
 
-**Gaming and improvement** (Miller, Milli and Hardt 2020). Whether a
-response to a rule is gaming or improvement depends on the causal
-graph. If the feature a person changes causes the outcome, the change
-improves the outcome, and $Y^\star$ rises with $Y$; if it causes only
-the measure, the change is gaming, the second graph above. A rule meant
+**Gaming and improvement.** Miller, Milli and Hardt (2020) separate
+responses to a rule that game it from responses that improve what it
+stands for, and show that designing a rule that rewards improvement
+"must inevitably solve a non-trivial causal inference problem." The
+example here is ours. Take a course judged by its students' test
+scores. Practicing raises skill, and skill
+raises the score; memorizing old papers raises the score without
+touching skill. Each graph is a claim someone could dispute.
+
+```{r gaming_graphs, echo=FALSE, fig.height=2.0, fig.width=7, fig.alt="Two graphs. Improvement: practice points to skill, which points to test score. Gaming: memorizing old papers points straight to test score, beside the arrow from skill."}
+pn <- c("improvement", "gaming")
+nodes <- data.frame(panel = c(rep(pn[1], 3), rep(pn[2], 3)),
+                    name = c("practice", "skill", "test score", "memorize old papers", "skill", "test score"),
+                    x = c(0, 1.3, 2.6, 0, 1.3, 2.6), y = c(0, 1, 0, 0, 1, 0))
+edges <- data.frame(panel = c(pn[1], pn[1], pn[2], pn[2]),
+                    from = c("practice", "skill", "skill", "memorize old papers"),
+                    to = c("skill", "test score", "test score", "test score"))
+nodes$panel <- factor(nodes$panel, levels = pn); edges$panel <- factor(edges$panel, levels = pn)
+draw_dag(nodes, edges, boxes = TRUE, text_size = 3.6,
+         highlight = c("practice skill", "memorize old papers test score"),
+         xlim = c(-1.25, 3.4), ylim = c(-0.35, 1.35))
+```
+
+Whether a response to a rule is gaming or improvement depends on the
+causal model. If the feature a person changes raises the outcome, the change
+is improvement, and $Y^\star$ rises with $Y$; if it changes only the
+measure, the change is gaming, as in the second graph. The graph says
+which features can affect the outcome at all; whether a given change
+raises it, and by how much, needs the model's equations too. A rule meant
 to reward improvement has to know which, and that is a causal inference
 problem; the authors show that any procedure for designing such rules
 has to solve one. Conditioning is not intervening, a third time: the
@@ -957,14 +973,18 @@ $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility.
 A recommender system is an agent. Its state is what it knows about a
 user, its action is what to show next, and its reward is whatever the
 platform can measure about the response: a click, a view, time
-watched, a share. In September 2012 YouTube told its creators that its
+watched, a share. In August 2012 YouTube told its creators that its
 discovery features had been "designed to drive views," which rewarded
 videos that got clicked over videos that kept viewers watching, and
 that it would rank by watch time instead. A platform's reward is
 engagement in some form. A user's utility is something else: being
-informed, or entertained, on their own terms, and not manipulated. The
-gap between the two is where a platform's revenue is, and that is a
-reason for nobody inside the platform to close it. Last week's lens
+informed, or entertained, on their own terms, and not manipulated.
+The two need not conflict: a change that keeps viewers watching can
+serve them too. Where they do conflict, where raising $U$ would lower
+$R$, a platform whose revenue rises with $R$ has a reason not to, and
+nobody inside has to decide to leave the gap open; the reward decides
+for them. The post describes one change of reward, not the incentives
+behind it; that reading is mine. Last week's lens
 asked which comparison gets reported; this week's asks what is being
 optimized, and for whom.
 
@@ -984,12 +1004,28 @@ first and the system optimized it.
 
 Who bears the error? A threshold at the 97th percentile makes two
 errors, a place used on someone who did not need it and a person left
-out who did, and prices them against each other. An offset in the
+out who did, and trades them against each other, whether by a judgment
+about their costs or by how many places the program has. An offset in the
 measure moves the second error onto one group, the one whose costs
 were lower at the same need. The cleaning robot's owner bears the
 difference between the robot's reward and a clean room; the job
 seekers a center did not refer bear the difference between its
 placement rate and the jobs the course would have created.
+
+What can be changed, and how? What things are considered "controlled
+for" or "held fixed," and is that realistic? This lens is new this
+week, and it is last week's method put as a question. Benefit is an
+effect: it compares the same patient with the extra care and without
+it, holding the patient fixed. A slope of health on reported visits
+is read as the effect of a visit with illness held fixed; illness is not
+in the data, so nothing held it fixed. The lens also asks what the
+people scored can change: how readily they seek care is easier for them
+to change than how ill they are. Goodhart's law is the case where something was assumed to stay
+fixed and did not: a rule rewarding the score assumed that the
+relation between the score and need would hold, and the people scored
+changed it. Strategic classification holds the true label fixed while
+people change their features; performative prediction drops that
+assumption and lets the whole distribution move.
 
 And why? A measure is chosen because it can be measured. Cost is in
 the billing system and need is not. Views are counted and a viewer's
@@ -998,25 +1034,18 @@ afterward nobody has to make it again; the score makes it for them.
 
 ## For the class
 
-### Attenuation, derived
+### Exercises, problems and simulation
 
-The class derives the slope $\beta\lambda$ from the covariance algebra
-above and checks it by simulation, then asks what happens when the
-noise is in $V$ instead of in $Y$, and when $\varepsilon$ is correlated
-with $Y^\star$.
-
-### The four patients
-
-The class counts the total orders that extend a partial order by hand,
-for the four patients and for a fifth patient added to the table, and
-shows which cost weights pick which order.
-
-### Necessity in one line
-
-If $u$ represents $\succsim$, then $\succsim$ is complete and
-transitive: for any $x, y$, either $u(x) \ge u(y)$ or $u(y) \ge u(x)$,
-so $x \succsim y$ or $y \succsim x$; and $u(x) \ge u(y) \ge u(z)$ gives
-$u(x) \ge u(z)$.
+The exercises, done on students' own time, compute who is selected
+under an offset at a new threshold and with a fixed number of places,
+derive $\lambda$ from the covariance algebra above, then the slope
+$\lambda(\beta + \gamma\delta)$ with numbers that make it too large,
+too small and of the wrong sign, and simulate it. In class, problem 1
+draws the graph of need, resources and care-seeking with selection on
+cost and computes each part's mean among the selected, and the class
+simulates the selection, with gaming that depends on resources.
+Problem 2 changes the label to the number of active chronic conditions
+and asks what reaches it and what happens once it is paid on.
 
 ## Readings
 
@@ -1024,52 +1053,59 @@ $u(x) \ge u(z)$.
 
 - Obermeyer, Powers, Vogeli and Mullainathan,
   [Dissecting racial bias in an algorithm used to manage the health of populations](https://escholarship.org/uc/item/6h92v832)
-  (*Science* 366, 2019, 447--453). Read the body, not only the abstract.
-- Barocas, Hardt and Narayanan, *Fairness and Machine Learning*,
+  (*Science* 366(6464), 2019, 447--453, <https://doi.org/10.1126/science.aax2342>): the abstract and the sections
+  "Health disparities conditional on risk score," "Mechanism of bias"
+  and "Problem formulation" (pages 448 to 451, with Figure 1).
+- Barocas, Hardt and Narayanan, *Fairness and Machine Learning:
+  Limitations and Opportunities* (MIT Press, 2023),
   [chapter 1, Introduction](https://fairmlbook.org/pdf/fairmlbook.pdf),
   from "The trouble with measurement" through "Feedback and feedback
   loops" (pages 7 to 14).
-- Skim the Wikipedia article [Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law).
+- Skim the Wikipedia article [Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law)
+  (the [revision](https://en.wikipedia.org/w/index.php?title=Goodhart%27s_law&oldid=1379318143) of 9 October 2026 was the one checked).
 
 ### Optional
 
 - Amodei, Olah, Steinhardt, Christiano, Schulman and Mané,
   [Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)
   (2016), sections 2 and 4.
-- YouTube Creator Blog,
-  [YouTube now: why we focus on watch time](https://youtubecreator-uk.googleblog.com/2012/09/youtube-now-why-we-focus-on-watch-time.html)
-  (6 September 2012).
+- Meyerson, Eric,
+  [YouTube now: why we focus on watch time](https://blog.youtube/news-and-events/youtube-now-why-we-focus-on-watch-time/)
+  (YouTube Official Blog, 10 August 2012).
 - Miller, Milli and Hardt,
   [Strategic Classification is Causal Modeling in Disguise](https://proceedings.mlr.press/v119/miller20b.html)
-  (ICML 2020), section 1.
+  (ICML 2020, PMLR 119, 6917--6926), section 1.
 - Perdomo, Zrnic, Mendler-Dünner and Hardt,
   [Performative Prediction](https://arxiv.org/abs/2002.06673)
-  (ICML 2020), section 1.
+  (ICML 2020, PMLR 119, 7599--7609), section 1.
 - Jacobs and Wallach,
   [Measurement and Fairness](https://arxiv.org/abs/1912.05511)
-  (ACM FAccT 2021).
+  (ACM FAccT 2021, 375--385, <https://doi.org/10.1145/3442188.3445901>).
 - Manheim and Garrabrant,
   [Categorizing Variants of Goodhart's Law](https://arxiv.org/abs/1803.04585)
   (2018).
-- Fourcade and Healy,
-  [Classification situations: Life-chances in the neoliberal era](https://kieranhealy.org/publications/classific-sit/)
-  (*Accounting, Organizations and Society* 38, 2013, 559--572); their
-  book *The Ordinal Society* (Harvard University Press, 2024) develops
-  the argument.
 
 Cited in the text and not assigned: de Vries, Roest, de Jonge,
 Cuijpers, Munafò and Bastiaansen, "The cumulative effect of reporting
 and citation biases on the apparent efficacy of treatments: the case of
-depression" (*Psychological Medicine* 48, 2018, 2453--2455, CC BY 4.0);
-Goodhart, "Problems of Monetary Management: The UK Experience" (1975);
-Strathern, "'Improving ratings': audit in the British University
-system" (*European Review* 5, 1997); Heckman, Heinrich and Smith, "The
-Performance of Performance Standards" (NBER Working Paper 9002, 2002);
-Deng, Jiang, Long and Zhang, "Causal Reinforcement Learning: A Survey"
-(*Transactions on Machine Learning Research*, 2023); Hardt, Megiddo,
-Papadimitriou and Wootters, "Strategic Classification" (ITCS 2016;
-arXiv 1506.06980); Debreu, "Representation of a preference ordering by
-a numerical function" (1954); von Neumann and Morgenstern, *Theory of
-Games and Economic Behavior* (2nd edition, 1947); Szpilrajn, "Sur
-l'extension de l'ordre partiel" (*Fundamenta Mathematicae* 16, 1930,
-386--389).
+depression" (*Psychological Medicine* 48(15), 2018, 2453--2455,
+<https://doi.org/10.1017/S0033291718001873>, CC BY 4.0); Goodhart,
+"Problems of Monetary Management: The UK Experience" (*Papers in
+Monetary Economics* 1, Reserve Bank of Australia, 1975; reprinted in
+A. S. Courakis, ed., *Inflation, Depression, and Economic Policy in the
+West*, Barnes and Noble, 1981, from page 111; not checked, quoted as
+the Wikipedia revision above gives it); Strathern, "'Improving
+ratings': audit in the British University system" (*European Review*
+5(3), 1997, 305--321, <https://doi.org/10.1002/(SICI)1234-981X(199707)5:3%3C305::AID-EURO184%3E3.0.CO;2-4>);
+Heckman, Heinrich and Smith, "The Performance of Performance Standards"
+(NBER Working Paper 9002, 2002, <https://doi.org/10.3386/w9002>); Deng,
+Jiang, Long and Zhang, "Causal Reinforcement Learning: A Survey"
+(*Transactions on Machine Learning Research*, 2023,
+<https://openreview.net/forum?id=qqnttX9LPo>); Hardt, Megiddo,
+Papadimitriou and Wootters, "Strategic Classification" (*Proceedings of
+the 2016 ACM Conference on Innovations in Theoretical Computer
+Science*, 111--122, <https://doi.org/10.1145/2840728.2840730>); Card,
+"The causal effect of education on earnings" (in O. Ashenfelter and
+D. Card, eds., *Handbook of Labor Economics* 3A, Elsevier, 1999,
+1801--1863, <https://doi.org/10.1016/S1573-4463(99)03011-4>); Obermeyer
+and colleagues' reference 32 is the trial cited above.

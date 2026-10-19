@@ -18,7 +18,9 @@ ST313 variant of ST310's generator (28 September 2026). The teacher file
 carries every answer in a collapsible callout that the class teacher opens on
 screen; the student file is the teacher file with those callouts removed, the
 instructor-side `st313:` front-matter block removed. The notice at the top
-says that answers are revealed in class and nothing about release: the
+says which part is for the class (everything under "In class"; the exercises
+are for students' own time, convenor, 19 October 2026), that answers are
+revealed in class, and nothing about release: the
 complete sheet is released the week after its class by a link on the course
 page (convenor, 8 October 2026), and the sheet must read true before and after.
 
@@ -50,8 +52,9 @@ import sys, re
 RELEASE = "Answers are revealed in class. Attempt each part first."
 NOTICE = (
     "::: {.callout-note}\n"
-    "This is the student version of the class sheet. Parts marked **(class)** "
-    "are for the class; the rest are practice. Answers are revealed in class.\n"
+    "This is the student version of the class sheet. The exercises are for "
+    "your own time; the class works through everything under \"In class\". "
+    "Answers are revealed in class.\n"
     ":::\n"
 )
 

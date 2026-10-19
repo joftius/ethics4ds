@@ -12,7 +12,7 @@ st313:
   complications: []
   retrieves: [S3, S4]
   introduces: [CC-05, CC-06, CC-07]
-  lenses: [A, B, E]
+  lenses: [A, B, E, F]             # F added 18 October 2026, when the lens was introduced (week 4 branch)
   spine_first_encounter: [S2]
   readings: [stark-saltelli-cargo-cult, hyde-mertz-2009, freedman-tr549, connellan-2000, alexander-2009, rathje-2021, gigerenzer-surrogate]
   results: [R8, R9, R10, R11, R12]
@@ -1056,6 +1056,15 @@ everyone else. The variance ratios came from fifteen-year-olds in one
 country or another and ran from 0.95 to 1.24. The ratios in the tail
 came from one state's students and from the children who entered a
 talent search. A feed shows one item in 10,000.
+
+What can be changed, and how? What things are considered "controlled
+for" or "held fixed," and is that realistic? Reading the two ends of
+the fifty-state line as the native-born and foreign-born rates holds
+each group's rate fixed from state to state, and the native-born rate
+was higher in the states where immigrants settled. Calling a variance
+ratio intrinsic holds it fixed whatever the country, and across
+countries it ran from 0.95 to 1.24. That challenges a universal ratio;
+by itself it does not exclude an intrinsic contribution.
 
 And why? Who finds it useful that a group average can be read as a
 description of a member, or that a feed shows the most extreme item

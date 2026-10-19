@@ -16,10 +16,10 @@ assumes: [ST102]
 | min | block |
 |---|---|
 | 0--6 | Opener: one concern each on the shared doc; two sentences from memory |
-| 6--18 | Problems 1(a), 2(a), 3(a)--(b). Do not reveal answers. The sticking point is 3(b), the denominator of the bias term |
+| 6--18 | Problem 1: what a field's literature looks like. Do not reveal answers. The sticking point is (c), what the formula shows and what it does not |
 | 18--28 | Discussion break: causes of the crisis, cultural and statistical. Groups, then the room |
 | 28--52 | Coding A.1--A.3, B.1--B.3. Part A is ten minutes at most; push everyone to B.2 and B.3 |
-| 52--59 | Reveal solutions to the in-class problems and the code; show the two survivor histograms (null, and $\theta = 1$) side by side |
+| 52--59 | Reveal the solution to problem 1 and the code; show the two survivor histograms (null, and $\theta = 1$) side by side |
 | 59--74 | Discussion prompts 1 and 2 with the room; 3 only if there is time; 4 as a fallback |
 | 74--77 | Close: one written sentence on p-hacking, cause and fix |
 | 77--80 | Prep task |
@@ -27,8 +27,11 @@ assumes: [ST102]
 If coding runs over, take the time from discussion prompt 3, not from the
 break or from prompts 1 and 2.
 
-Everything else in the notebook (1b, 2b--c, 3c, 4, coding A.4 and B.4) is
-practice. Say so. No marks are attached to any of it.
+The exercises at the top of the sheet (1 to 3) are for students' own
+time, and coding A.4 and B.4 are practice. Say so. No marks are attached
+to any of it. (Until 19 October the in-class problems were 1(a), 2(a)
+and 3(a)--(b); the convenor's convention of that day made problems 1 to
+3 exercises and the old problem 4 the class's problem.)
 
 ## What the class works that the lecture only stated
 
@@ -41,8 +44,10 @@ reference.
 - **Coding B.2.** The lecture said $1 - 0.95^k$. The class finds about
   0.16, not the independent-tests figure 0.19, because the four
   $p$-values are dependent. Say that aloud when revealing.
-- **Problem 4** (practice). One slide in the lecture; derived in the
-  notes under "How much of the crisis does selection alone explain?".
+- **Problem 1.** One slide in the lecture; derived in the notes under
+  "How much of the crisis does selection alone explain?". The class adds
+  what the formula shows and does not show, and which ingredient is about
+  who is in the data. The calculation is Ioannidis's (2005).
 
 ## Expected misconceptions
 
@@ -52,12 +57,12 @@ reference.
 2. **"p-values can be significant at some sample sizes and not others."**
    Half right. Larger $n$ at the same $\mu$ raises $\theta$. The wrong
    version is that the same data can be made significant by choosing $n$
-   after the fact; that is a stopping rule and belongs with 1(b).
+   after the fact; that is a stopping rule and belongs with exercise 1(b).
    Redirect to $\theta = \mu\sqrt n/\sigma$.
 3. **"p-hacking is fraud."** The lecture's point is that the filter
    distorts the literature with honest tests. Students who arrive with
    "cause: incentives; fix: pre-registration" have skipped the mechanism.
-   1(b) and the closing sentence are where to make them say what
+   Exercise 1(b) and the closing sentence are where to make them say what
    pre-registration changes (the reported comparison) and what it does
    not (power).
 4. **"Correlation is not causation" as the explanation of
@@ -66,13 +71,13 @@ reference.
    selection.
 5. **No direction on the bias.** "Away from the truth" is not an answer.
    Upward in magnitude, always, under a magnitude filter.
-6. **3(c).** The common wrong answer is "bias" alone. The size of the bias
+6. **Exercise 3(c).** The common wrong answer is "bias" alone. The size of the bias
    is set by the variance, through the power. The sentence to get out of
    them: "the file-drawer effect turns variance into bias."
 
 ## On the screen
 
-- During the problems: the five constants and nothing else.
+- During problem 1: its three ingredients ($p$, $\alpha$ and the power) and nothing else.
 - During coding: the `generate_data()` / `one_experiment()` block.
 - At 52 min: the two survivor histograms side by side. The $\theta = 1$
   survivors look like the null survivors.
@@ -97,5 +102,11 @@ reference.
 ## Notation
 
 $\mu$ is the effect, $\theta = \mu/\mathrm{se}$ the standardized effect.
-$p$ in problem 4 is the prevalence of true hypotheses among those tested;
+$p$ in problem 1 is the prevalence of true hypotheses among those tested;
 do not write it as $\pi$.
+
+## References
+
+- Ioannidis, John P. A., "Why Most Published Research Findings Are
+  False" (*PLoS Medicine* 2(8), 2005, e124),
+  <https://doi.org/10.1371/journal.pmed.0020124>.

@@ -1,0 +1,64 @@
+---
+title: "Teacher note: week 4 class"
+subtitle: "For class teachers"
+format:
+  html:
+    toc: false
+    embed-resources: true
+---
+
+## Keep or rush
+
+In class order. Planned total 75 of the 80 minutes.
+
+| Item | Min | | If short |
+|---|---:|---|---|
+| Discussion 1: a score you know, what it measures and what it stands for; were the hospital's cost data wrong? | 10 | Rush; cut first | Three examples from the room; then question 2 with hands |
+| Problem 1: need, resources and care-seeking, with feedback | 14 | Keep | (a) and (c); say (e): among the selected, less need goes with more resources |
+| Discussion 2: allocating the places, and last week's closing question | 12 | Rush | Question 1 in pairs, then question 3 with hands |
+| Simulation in R: selection on cost, with feedback | 16 | Keep | Steps 1 and 4; show the plot of step 3 from the complete sheet |
+| Problem 2: changing the label, with feedback | 14 | Keep | (a) and (c); say (b): it depends on whether the recorded conditions are real |
+| Discussion 3: the visa streaming tool | 8 | Rush; cut second | Read the stem; question 2 with hands |
+| The task for next time | 1 | Keep | Read the task aloud |
+
+: {tbl-colwidths="[32,6,16,46]"}
+
+Minimum class, about 50 minutes: problems 1 and 2, the simulation's steps 1 and 4, discussion 2 in pairs and the task for next time. With more time, add discussion 3 back first, then discussion 1.
+
+## If you read on
+
+How it runs
+
+- The exercises at the top of the sheet rederive or apply the lecture's results. Students do them on their own time; the class does not work them. Students may not have brought a score: the task was announced with the readings, not set in class, so discussion 1 gives a list to choose from. Open the [complete class sheet](https://ethics4ds.com/teachers/wk04/class_complete.html) on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers.
+- Discussion 2 is the break between problem 1 and the simulation. If the room needs a break, take the five minutes of slack. The simulation needs one laptop with R per pair; the code runs in about a second.
+- Notation: cost is $Y$ and need $Y^\star$ throughout the problems. Exercise 2 is the one place where $Y$ is health; its stem says so.
+
+What the class adds to the lecture
+
+- Problem 1 and the simulation are new: cost depends on need, resources and care-seeking, and the selected are a mixture. Each part's mean among the selected is its share of $\operatorname{Var}(Y)$ times their mean cost (the notes' section "Need, resources and care-seeking"). Selection makes need and resources negatively related among the selected; do not name colliders beyond a sentence, since they are introduced properly later.
+- Problem 2 applies the lecture's Goodhart argument to the remedy in Obermeyer and colleagues (2019): a label counted from recorded diagnoses still depends on contact with care, and once it is paid on, more diagnoses get recorded (Geruso and Layton 2020).
+- Discussion 3 is the lecture's distinction between strategic classification and performative prediction, on a real case; the lecture's slide on it is the first to go if the lecture runs short.
+
+What students should see
+
+- Problem 1(c): mean cost 3.21; need 1.60, resources 0.80, care-seeking 0.40, noise 0.40. (d): mean need falls to 1.39, with the variance of need held at 1.
+- Simulation: the same means within a few hundredths; about 35% of places go to people in the top 3% by need; correlation of need and resources among the selected about $-0.45$ ($-0.47$ in a very large sample). With gaming tied to resources, mean need of the selected falls to about 1.51 and the top-3% share to about 0.30.
+- Problem 2: resources and care-seeking reach the count through contact with doctors; Black share among the top-ranked 14.1% with the cost label and 26.7% with the conditions label; upcoding moves the count by 6% to 16% in the Medicare evidence.
+
+Where they get stuck
+
+- "The data were biased" as the whole answer to discussion 1. Ask: which number in the hospital's data was wrong?
+- Problem 1(b): forgetting that $\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)$ only because the parts are independent; in (d) they are not, and the answer to (d) assumes the variance of need stays 1.
+- Problem 1(c): using a standard deviation of 1 for cost instead of $\sqrt{2}$.
+- Problem 2(b): calling any extra diagnosis gaming. If the condition was there and missed, recording it is a better measurement.
+- Discussion 2: treating "under their control" as settled. Care-seeking depends on time off work and on past treatment by doctors.
+
+## References
+
+- Geruso, Michael and Timothy Layton, "Upcoding: Evidence from Medicare
+  on Squishy Risk Adjustment" (*Journal of Political Economy* 128(3),
+  2020, 984--1026), <https://doi.org/10.1086/704756>.
+- Obermeyer, Ziad, Brian Powers, Christine Vogeli and Sendhil
+  Mullainathan, "Dissecting racial bias in an algorithm used to manage
+  the health of populations" (*Science* 366(6464), 2019, 447--453),
+  <https://doi.org/10.1126/science.aax2342>.

@@ -31,11 +31,11 @@ How it runs
 
 - The order and the timings follow the class slides, including the five-minute break between the problems. Open the [complete class sheet](https://ethics4ds.com/teachers/wk03/class_complete.html) on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers.
 - Discussion 1 needs one phone or laptop per group for [Absurd Trolley Problems](https://neal.fun/absurd-trolley-problems/). Groups will not finish the game; stop them at six minutes.
-- Discussion 2: every group takes both the Belmont--Menlo principles and the five Cs. The slides' GP example is the first blue box; the second, on checking benefit claims, is for after the groups have reported.
+- Discussion 2: every group takes both the Belmont--Menlo principles and the five Cs (references below). The slides' GP example is the first blue box; the second, on checking benefit claims, is for after the groups have reported.
 - Problem 1 writes the treatment $T$; the lecture and the notes write $X$. All four variables enter the calculation: the adjustment set is $\{Z, W\}$, and the formula averages over the four groups of riders. The difference changes sign after adjustment.
 - Problem 2 goes past the lecture, which defined blocking for forks and chains only. The sheet states the rule for colliders, from the reading. Collider stratification is a core item of week 5; this is where students first meet it.
 - Discussion 3: three groups, with the slides' three statements (the lecture also covered pragmatic ethics, which is not one of them). Fifteen minutes to prepare, two minutes each, then the vote. Everyone votes for the account they find most convincing, which need not be the one they argued for.
-- Everything headed "Optional, can be done at home" is outside the class, including the R simulation (coding C).
+- The exercises at the top of the sheet, including the three in R, are for students' own time; the class does not work them (convenor, 19 October).
 
 What students should see
 
@@ -52,3 +52,18 @@ Where they get stuck
 - Problem 2(b), graph 3: stopping at $\{C\}$.
 - Problem 2(c): assuming that a variable measured before $T$ is always safe to adjust for.
 - Discussion 3: groups that attack the other frameworks instead of making the case for their own. Ask for their best case first.
+
+## References
+
+- Dittrich, David and Erin Kenneally, "The Menlo Report: Ethical
+  Principles Guiding Information and Communication Technology Research"
+  (US Department of Homeland Security, Science and Technology
+  Directorate, August 2012),
+  <https://www.caida.org/catalog/papers/2012_menlo_report_actual_formatted/menlo_report_actual_formatted.pdf>.
+- National Commission for the Protection of Human Subjects of
+  Biomedical and Behavioral Research, "The Belmont Report: Ethical
+  Principles and Guidelines for the Protection of Human Subjects of
+  Research" (*Federal Register* 44(76), 18 April 1979, 23192--23197),
+  <https://www.govinfo.gov/content/pkg/FR-1979-04-18/pdf/FR-1979-04-18.pdf>.
+- Patil, DJ, Hilary Mason and Mike Loukides, "The five Cs" (*O'Reilly
+  Radar*, 24 July 2018), <https://www.oreilly.com/radar/the-five-cs/>.

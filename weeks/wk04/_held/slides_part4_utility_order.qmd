@@ -1,0 +1,122 @@
+<!--
+Part 4 of the week 4 deck as drafted, "Utility and order": six slides, cut from the
+lecture on 17 October 2026 (convenor: too many topics in one lecture). Kept here so that
+a later week can take it up; nothing in this folder is rendered or published (Quarto skips
+folders whose names start with "_"). The chunks need the deck's setup chunk (draw_dag and
+the cividis colors) and nothing else. Figures: lexico (two points in the plane) and hasse
+(the four patients). See README.md.
+-->
+
+# Part 4: Utility and order
+
+## A score is a total order
+
+::: {.notes}
+Any two people get a number, so any two can be compared, and comparisons chain. That is the content of a score before anything is said about what it measures. The one-line proof is the necessity half of the theorem on the next slide.
+:::
+
+A preference relation $\succsim$ on a set of options ("at least as good as") is
+
+- **complete** if for every pair, $x \succsim y$ or $y \succsim x$ (or both);
+- **transitive** if $x \succsim y$ and $y \succsim z$ imply $x \succsim z$.
+
+A **utility representation** is a function $u$ with
+$$
+x \succsim y \iff u(x) \ge u(y) .
+$$
+
+If $u$ exists, $\succsim$ is complete and transitive, because $\ge$ on numbers is. A score is a total order on the people it is applied to, with ties allowed.
+
+## When a number exists
+
+::: {.notes}
+Countable: complete and transitive are enough, and necessary. Uncountable: Debreu's sufficient condition adds continuity. The lexicographic order on the plane is complete and transitive and has no representation at all: each vertical line would need its own interval of numbers, and there are uncountably many lines.
+:::
+
+::: {.leave}
+On a finite or countable set, $\succsim$ has a utility representation if and only if it is complete and transitive. On an uncountable set that is not enough; continuity on a connected, separable set is (Debreu 1954).
+:::
+
+```{r lexico, fig.height=1.9, fig.alt="Two points in the plane, P and Q, with Q to the right of P and lower; the lexicographic order ranks Q above P because its first coordinate is larger."}
+pts <- data.frame(x = c(1, 1.6), y = c(1.2, 0.5), label = c("P", "Q"))
+ggplot(pts, aes(x, y)) +
+  geom_point(size = 5, color = navy) +
+  geom_text(aes(label = label), nudge_y = 0.2, size = 7) +
+  coord_fixed(xlim = c(0.5, 2.3), ylim = c(0, 1.7)) +
+  labs(x = NULL, y = NULL) +
+  theme(axis.text = element_blank(), panel.grid.minor = element_blank())
+```
+
+Lexicographic: $Q \succ P$ when $Q$'s first coordinate is larger, whatever the second. Complete, transitive, and no $u$ represents it.
+
+## Under risk
+
+::: {.notes}
+Von Neumann and Morgenstern: add independence and the utility of a lottery is its expected utility, which is what the agent in part 3 maximizes. Unique up to a positive affine transformation: each person's scale is free. A sum across people needs a scale for each, and no axiom supplies it. Week 3's second difficulty, located.
+:::
+
+Choices among lotteries. Add to completeness, transitivity and continuity the **independence** axiom: a preference between two lotteries survives mixing both with the same third lottery.
+
+Then there is a $u$ on outcomes with
+$$
+L \succsim M \iff E_L[u] \ge E_M[u] ,
+$$
+unique up to $a u + c$ with $a > 0$ (von Neumann and Morgenstern 1947).
+
+$E_\pi[U]$ in part 3 is this, for one agent. Adding $U$ across people needs a scale for each person, and no axiom here supplies one.
+
+::: {.source}
+Wikipedia, Von Neumann--Morgenstern utility theorem; the theorem is in *Theory of Games and Economic Behavior*, 2nd edition (1947), appendix.
+:::
+
+## Four patients, two measures
+
+::: {.notes}
+Pairs, three minutes. "At least as ill" when both measures are at least as high: a partial order. Which pairs are comparable; how many orderings of the four agree with every comparable pair; which one each weighting picks. Answers on the next slide.
+:::
+
+| patient | active chronic conditions | emergency visits last year |
+|:---|:---|:---|
+| 1 | 4 | 2 |
+| 2 | 3 | 2 |
+| 3 | 2 | 3 |
+| 4 | 1 | 1 |
+
+"At least as ill as": both measures at least as high.
+
+::: {.ask}
+Which pairs can be compared? How many orderings of the four patients agree with every comparison you can make? Which ordering does a cost of £1,000 per condition and £1,500 per visit give? And £1,000 and £3,000?
+:::
+
+## Every partial order can be completed
+
+::: {.notes}
+Three orderings agree with the partial order; the two costs pick two different ones. Szpilrajn 1930: every partial order extends to a total order, and in general in many ways. A score picks one extension; the comparisons it adds are the score's, not the patients'.
+:::
+
+```{r hasse, fig.height=2.0, fig.alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither."}
+draw_dag(data.frame(name = c("1", "2", "3", "4"), x = c(0, 0.9, 2.7, 1.8), y = c(1.6, 0.8, 0.8, 0)),
+         data.frame(from = c("1", "2", "3"), to = c("2", "4", "4")),
+         xlim = c(-0.5, 3.2), ylim = c(-0.35, 1.95))
+```
+
+Patient 3 compares with neither 1 nor 2. Three total orders agree with every comparison: 3 first, second or third. £1,000 and £1,500 gives 1, 3, 2, 4; £1,000 and £3,000 gives 3, 1, 2, 4.
+
+::: {.leave}
+Every partial order is contained in a total order (Szpilrajn 1930), usually in many. A score that respects the measures chooses one; the comparisons it adds are the score's, not the patients'.
+:::
+
+## The ordinal society
+
+::: {.notes}
+Fourcade and Healy: ranking as the organizing form of a society in which nearly everyone is scored, and scores decide access to credit, jobs and services. Their earlier phrase: classification situations, the life chances a score sorts a person into. Keep the local comparison; refuse the global one. One minute.
+:::
+
+Fourcade and Healy call a society organized by rankings **ordinal**: nearly everyone is scored, and the scores decide access to credit, work, housing and attention. A score, they wrote earlier, sorts a person into a **classification situation**, a set of life chances.
+
+"This person is better off than they were" is a comparison in a partial order. "This person ranks above that one," for a pair the measures leave open, needs the order completed, and someone to have completed it.
+
+::: {.source}
+Fourcade and Healy, *The Ordinal Society* (Harvard University Press, 2024); Fourcade and Healy, "Classification situations: Life-chances in the neoliberal era," *Accounting, Organizations and Society* 38 (2013), 559--572.
+:::
+

@@ -1,0 +1,215 @@
+<!--
+The notes' section "Utility and order" as drafted for week 4, cut on 17 October 2026 with
+the deck's part 4. Needs the notes' setup chunk (draw_dag) for the hasse figure. The
+class-sheet ideas that went with it are at the end. See README.md.
+-->
+
+## Utility and order
+
+### A score is a total order
+
+Before anything is said about what a score measures, it does one thing:
+it puts the people it is applied to in order. Any two of them get a
+number, so any two can be compared (or tie), and if the first is above
+the second and the second above the third, the first is above the third.
+
+The language for this is decision theory's. A **preference relation**
+$\succsim$ on a set of options reads "at least as good as". It is
+
+- **complete** if for every pair of options $x$ and $y$, $x \succsim y$
+  or $y \succsim x$ (or both);
+- **transitive** if $x \succsim y$ and $y \succsim z$ imply
+  $x \succsim z$.
+
+A complete and transitive relation is a **total preorder**, or, when no
+two distinct options are tied, a **total order**. A **utility
+representation** of $\succsim$ is a function $u$ from options to
+numbers with
+$$
+x \succsim y \iff u(x) \ge u(y) .
+$$
+
+If $u$ exists, $\succsim$ is complete and transitive. Any two numbers
+compare, and $\ge$ on numbers is transitive, so the relation $u$
+represents inherits both. That one line is the necessity half of the
+next theorem, and it says what a score assumes: whatever the score is
+taken to stand for, the score has ranked everyone against everyone,
+with ties allowed. A score is a total preorder; with ties broken, a
+total order.
+
+### When a number exists
+
+The converse is the question. Given a complete and transitive
+preference, is there always a number?
+
+On a finite or countable set, yes. List the options as
+$x_1, x_2, x_3, \ldots$ and define
+$$
+u(x) = \sum_{k:\; x \succsim x_k} 2^{-k} .
+$$
+The sum converges, and it adds a term for every option that $x$ is at
+least as good as. If $x \succsim y$ then, by transitivity, every $x_k$
+that $y$ beats or ties is also beaten or tied by $x$, so $u(x) \ge u(y)$.
+If $x \succsim y$ fails then, by completeness, $y \succ x$ strictly;
+then $y$'s sum contains every term of $x$'s and also the term for $y$
+itself, which $x$'s sum lacks, so $u(y) > u(x)$. So $u$ represents
+$\succsim$.
+
+**On a finite or countable set, $\succsim$ has a utility
+representation if and only if it is complete and transitive.**
+
+On an uncountable set, complete and transitive are not enough. Order
+the points of the plane **lexicographically**: $(a, b) \succ (c, d)$
+if $a > c$, or if $a = c$ and $b > d$, as words are ordered in a
+dictionary. This is complete and transitive. Suppose $u$ represented
+it. For each real number $a$, the points $(a, 1)$ and $(a, 0)$ satisfy
+$(a, 1) \succ (a, 0)$, so $u(a, 1) > u(a, 0)$: an interval of positive
+length on the number line. For $a < a'$ the interval for $a'$ lies
+entirely above the interval for $a$, since $(a', 0) \succ (a, 1)$. So
+there would be uncountably many disjoint intervals of positive length
+in the real line, and there cannot be: each contains a rational number,
+and there are only countably many of those. No $u$ exists, continuous
+or not.
+
+Debreu (1954) gives the extra condition that makes an uncountable case
+work: if the set of options is connected and separable (the real line,
+or a region of the plane, is), and $\succsim$ is complete, transitive
+and **continuous** (the set of options at least as good as $x$, and the
+set at most as good as $x$, are both closed), then a continuous utility
+representation exists. The lexicographic order is not continuous:
+points just to the left of $(a, 1)$ are all below $(a, 0)$, however
+close they come.
+
+### Under risk
+
+A choice among lotteries, each a probability distribution over
+outcomes, is the setting of von Neumann and Morgenstern (1947). Their
+axioms are completeness, transitivity, a continuity condition, and
+**independence**: if $L \succsim M$, then mixing both with the same
+third lottery $N$ at the same probability $q$ preserves the preference,
+$qL + (1-q)N \succsim qM + (1-q)N$. Under the four, there is a function
+$u$ on outcomes such that
+$$
+L \succsim M \iff E_L[u] \ge E_M[u] ,
+$$
+the **expected utility** representation, and $u$ is unique up to a
+positive affine transformation: $au + c$ with $a > 0$ represents the
+same preferences and nothing else does.
+
+Two consequences for this course. The agent of the previous section,
+which chooses the policy with the largest $E_\pi[R]$, is a von
+Neumann--Morgenstern agent whose outcomes are rewards; a reward is a
+utility that someone else wrote down. And the uniqueness clause says
+what adding utility across people assumes. Each person's $u$ is free to
+be rescaled by any $a > 0$, so $u_1(x) + u_2(x)$ depends on which scale
+each person was assigned, and no axiom about either person's choices
+fixes it. Utilitarianism's second difficulty from week 3, trading off
+one person's good against another's, is this: the total needs a scale
+for each person that the theory of individual choice does not supply.
+
+### Partial orders
+
+Drop completeness. A relation that is reflexive ($x \succsim x$),
+transitive and antisymmetric (if $x \succsim y$ and $y \succsim x$ then
+$x = y$) is a **partial order**: some pairs compare, others do not. Two
+partial orders matter here.
+
+- **Pareto.** One state of affairs is at least as good as another if
+  it is at least as good for every person. Most pairs of states do not
+  compare, because most changes help someone and hurt someone else.
+- **Dominance on several measures.** One patient is at least as ill as
+  another if every measure of illness is at least as high.
+
+Take four patients and two measures.
+
+| patient | active chronic conditions | emergency visits last year |
+|:---|:---|:---|
+| 1 | 4 | 2 |
+| 2 | 3 | 2 |
+| 3 | 2 | 3 |
+| 4 | 1 | 1 |
+
+Patient 1 is at least as ill as patient 2 on both measures, and all
+three of 1, 2 and 3 are iller than 4. Patient 3 has fewer conditions
+than 1 and 2 and more visits, so 3 compares with neither.
+
+```{r hasse, echo=FALSE, fig.height=2.2, fig.width=4.5, fig.alt="A diagram of the partial order on the four patients: 1 above 2, both and 3 above 4, with 3 beside 1 and 2 and joined to neither."}
+draw_dag(data.frame(name = c("1", "2", "3", "4"), x = c(0, 0.9, 2.7, 1.8), y = c(1.6, 0.8, 0.8, 0)),
+         data.frame(from = c("1", "2", "3"), to = c("2", "4", "4")),
+         xlim = c(-0.5, 3.2), ylim = c(-0.35, 1.95))
+```
+
+A cost model turns the two measures into one number. At £1,000 per
+condition and £1,500 per visit, the four patients cost 7,000, 6,000,
+6,500 and 2,500, and the order is 1, 3, 2, 4. At £1,000 and £3,000 the
+costs are 10,000, 9,000, 11,000 and 4,000, and the order is 3, 1, 2, 4.
+Both orders agree with every comparison the partial order makes. Where
+the partial order is silent, the weights decide.
+
+### Every partial order can be completed
+
+Szpilrajn (1930) proved that every partial order is contained in a
+total order: one that keeps every comparison of the original and adds
+comparisons for every pair the original left open. For a finite set
+this is easy to see, and the number of ways to do it can be counted.
+The four patients allow three: patient 3 can go first, second or third,
+and nothing else is free. Four patients with no comparisons at all
+would allow $4! = 24$.
+
+A score chooses one of the total orders that contain the partial one,
+if it respects the partial order at all. The comparisons it adds, 1
+against 3 and 2 against 3 above, are not in the measures; they are in
+the weights, and someone chose the weights. The same holds for any
+score built from several things: a credit score, a university ranking,
+a risk score.
+
+This is the shape of the week's point about scores. "This person is
+better off than they were" and "this change is better for this person
+and worse for no one" are statements in a partial order, and they need
+no weights. "This person ranks above that one," for a pair the
+measures leave open, needs the order completed, and completing it is a
+choice. We can keep the local
+comparison without granting that everyone can be compared with
+everyone else; and when a system does compare everyone, the question
+is who completed the order and how.
+
+### The ordinal society
+
+Fourcade and Healy (2024) call a society organized by rankings
+**ordinal**: nearly every person and organization is scored, by many
+systems, and the scores decide access to credit, work, housing and
+attention. In an earlier article (Fourcade and Healy 2013) they
+described how credit scores sort people into what they call
+**classification situations**: positions in a market that carry their
+own prices, terms and life chances, so that the score does not describe
+a person's situation so much as assign it. Their examples are US credit
+markets, where scoring widened access to borrowers once excluded and at
+the same time drew finer distinctions among them, distinctions that
+then spread to insurance, housing and employment. They also observe
+that a score built from past behavior looks fairer than the older
+exclusions it replaced, such as redlining, while carrying present
+inequalities forward, and that sorting by merit makes the resulting
+inequality look deserved.
+
+I read their argument through the previous section. A classification
+situation is a total order imposed on people whose situations were only
+partially ordered, and the authors' concern is with who did the
+completing and what it did to the people completed.
+
+
+<!-- Class-sheet ideas that went with the section:
+
+### The four patients
+
+The class counts the total orders that extend a partial order by hand,
+for the four patients and for a fifth patient added to the table, and
+shows which cost weights pick which order.
+
+### Necessity in one line
+
+If $u$ represents $\succsim$, then $\succsim$ is complete and
+transitive: for any $x, y$, either $u(x) \ge u(y)$ or $u(y) \ge u(x)$,
+so $x \succsim y$ or $y \succsim x$; and $u(x) \ge u(y) \ge u(z)$ gives
+$u(x) \ge u(z)$.
+
+-->

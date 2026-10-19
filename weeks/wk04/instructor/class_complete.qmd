@@ -1,0 +1,810 @@
+---
+title: "Scores and what they stand for"
+subtitle: "Class"
+author: "Joshua Loftus"
+format:
+  html:
+    toc: true
+execute:
+  message: false
+  warning: false
+# ---- instructor-side front matter (CONTRACT.md), nested under st313: so that Quarto
+# ---- ignores it (Quarto reserves top-level keys such as `history`); stripped from output
+st313:
+  week: 04
+  session: class
+  register: 1                      # schema key; only exercise 5 uses the reinforcement-learning letters, declared in its stem. Student-facing text never says "register"
+  segments:                        # sums to 80: 75 of material and 5 of slack; production 68 (85%); discussion 30. Exercises (rederiving or applying the lecture) are for students' own time and sit outside the segments; the class works the problems (convenor, 19 October: exercises before problems, a convention for all weeks). Discussion 2 is the break before the coding (STYLE.md section 4); the coding is in class (convenor, 19 October)
+    - {label: "discussion 1: a score you know, from the 2024 prompts (a real-world algorithm and one ethical consideration; why inequality appears in algorithms); does not assume the prep task was done; the hospital's cost data were accurate and the label was the choice", minutes: 10, mode: production}
+    # the theme the convenor asked for on 19 October: the selected are a mixture of need, resources and care-seeking, sorted by how far each is under a person's control
+    - {label: "problem 1: need, resources and care-seeking; the graph with selection on cost (D); sorted by control; each part's mean among the selected as its share of Var(Y); poorer people sicker; need and resources related among the selected", minutes: 12, mode: production,
+       results: [R24, R28]}
+    - {label: "feedback on problem 1", minutes: 2, mode: exposition}
+    - {label: "discussion 2, the break before the coding: allocating the places; whether it matters why a person cleared the threshold; need, benefit and care-seeking; last week's closing question, asked of everyone", minutes: 12, mode: production}
+    - {label: "simulation in R, starter code supplied: selection on cost; the overlap with the top 3% by need; need against resources among the selected; gaming that depends on resources", minutes: 14, mode: production,
+       results: [R28]}
+    - {label: "feedback on the simulation", minutes: 2, mode: exposition}
+    - {label: "problem 2: changing the label to active chronic conditions; resources and care-seeking reach the count through contact with doctors; recording every diagnosis, gaming or a better measurement; upcoding (Geruso and Layton 2020) as Goodhart on the new label; the authors' index", minutes: 12, mode: production,
+       core: CC-13, results: [R22, R28]}
+    - {label: "feedback on problem 2", minutes: 2, mode: exposition}
+    - {label: "discussion 3: the Home Office visa streaming tool (2024 prompt); the loop from refusals to the suspect list; strategic classification or performative prediction; who bears the error", minutes: 8, mode: production}
+    - {label: "prep task for next class", minutes: 1, mode: exposition}
+    - {label: "slack: overrun", minutes: 5, mode: exposition}
+  history: []
+  complications: []
+  retrieves: [S2, S5]
+  lenses: [A, D, F]
+  readings: [obermeyer-2019, fairmlbook-ch1]
+  results: [R20, R21, R22, R24, R27, R28]   # R20, R21 and R27 in the exercises; R22, R24 and R28 in the problems
+  assumes: [ST102]
+  solutions: complete             # this file carries answers; the student file is generated
+# ---------------------------------------------------------------------------------
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+theme_set(theme_minimal())
+
+# Causal graphs: letters in circles, one panel per value of `panel` (from last week's class sheet). A
+# circle's size is fixed on the page, in inches, while the figure's size decides how many
+# inches a data unit is. draw_dag measures both on the graphics device open when it is
+# called, and stops every arrow `gap` inches short of the circles.
+draw_dag <- function(nodes, edges, xlim = c(-0.5, 2.5), ylim = c(-0.4, 1.4), gap = 0.05) {
+  if (!"panel" %in% names(nodes)) { nodes$panel <- ""; edges$panel <- "" }
+  dot <- 10; stroke <- 0.5; lw <- 0.5
+  p <- ggplot() +
+    geom_point(data = nodes, aes(x, y), size = dot, shape = 21, fill = "white", stroke = stroke) +
+    geom_text(data = nodes, aes(x, y, label = name), size = 4.5) +
+    facet_wrap(~ panel, nrow = 1) +
+    coord_fixed(xlim = xlim, ylim = ylim) +
+    theme_void()
+  inch <- function(u, f) f(u, "in", valueOnly = TRUE)
+  g <- ggplotGrob(p)
+  pp <- ggplot_build(p)$layout$panel_params[[1]]
+  per_unit <- min((dev.size("in")[1] - sum(inch(g$widths, grid::convertWidth))) /
+                    (length(unique(nodes$panel)) * diff(pp$x.range)),
+                  (dev.size("in")[2] - sum(inch(g$heights, grid::convertHeight))) / diff(pp$y.range))
+  r <- 0.375 * (dot * .pt + stroke * .stroke / 2) / 72 + stroke * .stroke / 2 / 96 / 2
+  e <- edges |>
+    left_join(nodes, by = c("panel", "from" = "name")) |> rename(x0 = x, y0 = y) |>
+    left_join(nodes, by = c("panel", "to" = "name")) |>
+    mutate(len = sqrt((x - x0)^2 + (y - y0)^2), ux = (x - x0) / len, uy = (y - y0) / len,
+           s0 = (r + gap) / per_unit, s1 = (r + gap + lw * .pt / 96 / 2) / per_unit,
+           xs = x0 + s0 * ux, ys = y0 + s0 * uy, xe = x - s1 * ux, ye = y - s1 * uy)
+  p + geom_segment(data = e, aes(x = xs, y = ys, xend = xe, yend = ye),
+                   arrow = arrow(length = unit(0.18, "cm"), type = "closed"), linewidth = lw)
+}
+```
+
+::: {.answer}
+```{r seed, include=FALSE}
+# The teacher's sheet and the sheet with solutions start from this seed. The student
+# sheet gets none: the generator drops this div with the answers (convenor, 13 October).
+set.seed(313)
+```
+:::
+
+## How this sheet works
+
+Exercises rederive or apply the lecture's results. Do them on your own
+time; they are not worked in class. The class works the discussions,
+the problems and the simulation under "In class," in that order.
+Discussions are in groups of three or four, then with the room. Each
+problem, and the simulation, is gone through as soon as the room has
+tried it.
+
+## Exercises
+
+Attempt each part before you open a hint.
+
+::: {.callout-warning title="Hints"}
+Do not open a hint unless you have been stuck for at least a few
+minutes, and open them in order.
+:::
+
+### Exercise 1. An offset and who is selected
+
+The lecture's model: need $Y^\star \sim N(0, 1)$ in both groups,
+$A = 1$ for one group and $A = 0$ for the other, the measure
+$Y = Y^\star + bA$, and a person is selected if $Y > t$. Now $t$ is
+group 0's 90th percentile, $t = 1.28$, and $b = -0.5$. Use
+$\Phi(1.28) = 0.900$, $\Phi(1.78) = 0.9625$, $\phi(1.28) = 0.1758$ and
+$\phi(1.78) = 0.0818$, where $\Phi$ is the standard normal distribution
+function and $\phi$ its density.
+
+(a) What share of each group is selected? What is the ratio of the two
+shares?
+
+(b) What is the mean need of the selected in each group?
+
+(c) Two people, one from each group, have the same score $y$. How much
+more need does the person from group 1 have?
+
+(d) Which group's selected members are sicker? Say why in one sentence.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For group 1, $Y > t$ is the same event as $Y^\star > t - b$.
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+The mean of a standard normal above $z$ is $\phi(z)/(1 - \Phi(z))$.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Group 0: $P(Y^\star > 1.28) = 0.10$. Group 1:
+$P(Y^\star > 1.28 + 0.5) = 1 - 0.9625 = 0.0375$. The ratio is
+$0.0375/0.10 = 0.375$: an offset of half a standard deviation cuts
+group 1's chance of selection to under two fifths of group 0's.
+
+(b) Group 0: $0.1758/0.10 = 1.76$. Group 1: $0.0818/0.0375 = 2.18$.
+
+(c) $Y^\star = Y - bA$, so the person from group 0 has need $y$ and the
+person from group 1 has need $y + 0.5$: half a standard deviation more,
+whatever $y$ is. This is the comparison of the paper's Figure 1A, where
+at the same score Black patients had more active chronic conditions
+(Obermeyer and colleagues 2019).
+
+(d) Group 1's: its threshold on need is $t - b = 1.78$, not $1.28$, so
+only its sicker members clear it.
+:::
+
+### Exercise 2. Noise and an omitted variable
+
+From the lecture: health next year $Y$, doctor visits $X^\star$,
+reported as $X = X^\star + \varepsilon$, and illness $Z$, which is not
+in the data, with
+$$
+Y = \beta X^\star + \gamma Z + U ,
+$$
+where $U$ is everything else that affects health, and $\varepsilon$ and
+$U$ have mean zero and are independent of each other and of $X^\star$
+and $Z$. Here $Y$ is health, not the measure of need of exercise 1 and
+problem 1.
+
+(a) Show that the slope of $X^\star$ on $X$ is
+$\lambda = \operatorname{Var}(X^\star)/\operatorname{Var}(X)$. (The
+lecture's best guess of need from cost is the same calculation.)
+
+(b) Show that the slope of $Y$ on $X$ is $\lambda(\beta + \gamma\delta)$,
+where $\delta = \operatorname{Cov}(X^\star, Z)/\operatorname{Var}(X^\star)$.
+
+(c) Take $\beta = 1$ and $\lambda = 0.9$. Compute the slope for
+$\gamma\delta = 0.5$, $-0.5$ and $-1.5$. In each case, is it too large,
+too small or of the wrong sign?
+
+(d) Can noise in the report, independent of everything else as here,
+change the sign of the slope? For which
+values of $\gamma\delta$ is the slope in (c) larger than $\beta$?
+
+(e) Which of $\lambda$, $\gamma$ and $\delta$ can you learn from data on
+$X$ and $Y$ alone? What would you need to collect?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Write $\operatorname{Cov}(X, Y)$ term by term. Every covariance between $\varepsilon$ or $U$ and anything else is zero.
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+For (d), $\lambda$ is a ratio of variances.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $\operatorname{Cov}(X^\star, X) = \operatorname{Cov}(X^\star, X^\star + \varepsilon) = \operatorname{Var}(X^\star)$
+and $\operatorname{Var}(X) = \operatorname{Var}(X^\star) + \operatorname{Var}(\varepsilon)$,
+so the slope is $\operatorname{Var}(X^\star)/\operatorname{Var}(X) = \lambda$.
+
+(b)
+$$
+\operatorname{Cov}(X, Y) = \operatorname{Cov}(X^\star + \varepsilon,\ \beta X^\star + \gamma Z + U)
+= \beta \operatorname{Var}(X^\star) + \gamma \operatorname{Cov}(X^\star, Z),
+$$
+since every term with $\varepsilon$ or $U$ is zero. Dividing by
+$\operatorname{Var}(X) = \operatorname{Var}(X^\star)/\lambda$ gives
+$\lambda\,[\beta + \gamma \operatorname{Cov}(X^\star, Z)/\operatorname{Var}(X^\star)] = \lambda(\beta + \gamma\delta)$.
+
+(c) $0.9 \times 1.5 = 1.35$, too large. $0.9 \times 0.5 = 0.45$, too
+small. $0.9 \times (-0.5) = -0.45$, the wrong sign: in these data the
+people who visit more are less healthy next year, and the regression
+says visits do harm.
+
+(d) No. $\lambda$ is positive, so the slope has the sign of
+$\beta + \gamma\delta$; noise of this kind, independent of everything
+else, shrinks it toward zero, wrong sign and all. (Noise related to the
+true value, to the outcome or to $Z$ could move it either way.) The slope is larger than $\beta$ when
+$0.9(1 + \gamma\delta) > 1$, that is, $\gamma\delta > 1/9$. In general,
+for $\beta > 0$, when $\gamma\delta > \beta(1 - \lambda)/\lambda$. At
+$\gamma\delta = 1/9$ the two biases cancel and the estimate is right
+for the wrong reason.
+
+(e) None of them. The reliability $\lambda$ needs a second report of
+the same visits with its own independent error, such as the clinic's
+records: the covariance of two such reports is
+$\operatorname{Var}(X^\star)$. The term $\gamma\delta$ needs a measure
+of illness, or a design in which visits do not depend on illness, such
+as free visits offered at random. With only $X$ and $Y$, the slope
+could be too large, too small or of the wrong sign. The slope is read
+as the effect of a visit with illness held fixed, and nothing held it
+fixed.
+:::
+
+### Exercise 3. A fixed number of places (harder)
+
+In exercise 1, suppose instead that the program has places for 10% of
+all patients, that the two groups are the same size, and that one
+threshold $t$ applies to both.
+
+(a) Write the equation that $t$ solves. Is $t$ above or below 1.28?
+
+(b) Solve it in R with `uniroot`. What share of the places goes to
+group 1? With no offset it would be half.
+
+(c) Compute the mean need of the selected in each group.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+The share of all patients selected is the average of the two groups' shares.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $\tfrac{1}{2}\,[1 - \Phi(t)] + \tfrac{1}{2}\,[1 - \Phi(t - b)] = 0.10$
+with $b = -0.5$. At $t = 1.28$ only
+$\tfrac{1}{2}(0.10 + 0.0375) = 0.069$ of patients are selected, so to
+fill the places the threshold must fall below 1.28.
+
+```{r fixed_places}
+b <- -0.5
+f <- function(t) 0.5 * (1 - pnorm(t)) + 0.5 * (1 - pnorm(t - b)) - 0.10
+t <- uniroot(f, c(0, 3))$root
+s0 <- 1 - pnorm(t); s1 <- 1 - pnorm(t - b)
+round(c(t = t, share0 = s0, share1 = s1, group1_places = s1 / (s0 + s1),
+        need0 = dnorm(t) / s0, need1 = dnorm(t - b) / s1), 3)
+```
+
+(b) $t = 1.07$. Group 0 has 14.2% selected and group 1 5.8%, so group 1
+gets 29% of the places instead of half. With a fixed number of places,
+an offset that lowers one group's scores moves places to the other
+group.
+
+(c) 1.58 in group 0 and 2.00 in group 1: the selected in group 1 are
+sicker by 0.42.
+:::
+
+### Exercise 4. Gaming or improvement
+
+(a) From the lecture: learning the examiner's favorite phrasing. Draw
+its graph. Is it gaming or improvement?
+
+(b) Choose a score and one way people respond to it. Draw the graph and
+say which it is.
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+A response is improvement if it raises what the score stands for, and the score with it; gaming if it raises the score by a route that does not pass through what the score stands for.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Phrasing $\to$ test score, beside skill $\to$ test score. If the
+test is meant to measure understanding of the subject, the arrow goes
+around skill and it is gaming. If writing in the expected form is part
+of the skill being taught, the arrow goes through skill and it is
+improvement. The graph depends on what the test is for.
+
+(b) For example: students who take more practice tests before a
+standardized test (practice $\to$ skill $\to$ score is improvement,
+practice $\to$ familiarity with the format $\to$ score is not), or
+borrowers who open a credit card to build a credit history.
+:::
+
+### Exercise 5. Prediction letters and reinforcement-learning letters
+
+The decision whether to prescribe hormone therapy to prevent heart
+disease can be written with the letters used for prediction or with
+those of reinforcement learning.
+
+(a) Write it with the letters used for prediction. Say what the
+treatment, the outcome and a confounder are, and write the quantity a
+doctor needs with $do(\cdot)$.
+
+(b) Write it with the letters of reinforcement learning, with the
+one-line declaration at the top. Say what the state, the action, the
+reward, the policy and the utility are.
+
+(c) Which letters would mean different things if you used them in both
+answers?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For (a), what does the doctor choose, and what could affect both that choice and heart disease? For (b), what does the doctor know when choosing?
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $X = 1$ if the doctor prescribes hormone therapy, $Y = 1$ if the
+woman has coronary heart disease within five years, $Z$ her
+socioeconomic status.
+A doctor needs $P(Y = 1 \mid do(X := 1))$ against
+$P(Y = 1 \mid do(X := 0))$, not $P(Y = 1 \mid X = 1)$ against
+$P(Y = 1 \mid X = 0)$.
+
+(b) **Notation:** this answer uses the letters of reinforcement
+learning, $S$ state, $A$ action, $R$ reward, $\pi$ policy, $U$ utility. $S$ is
+the patient's state: age, time since the menopause, risk factors. $A$ is
+prescribe or do not. $\pi$ is the prescribing rule from state to
+action. $R$ is a measured reward, such as no heart attack recorded in
+five years. $U$ is what we care about: her health, including breast
+cancer, stroke and fractures as well as the heart.
+
+(c) $A$, $R$ and $U$. With the letters used for prediction they are a
+group, a risk score and an unobserved variable.
+:::
+
+### Exercise 6. Noise and an omitted variable, simulated
+
+Exercise 2's model as a program.
+
+```{r noise_starter, eval=FALSE}
+n <- 100000
+illness  <- rnorm(n)                                  # Z, not in the data
+visits   <- illness + rnorm(n)                        # X*: the ill visit more
+reported <- visits + rnorm(n, sd = 0.5)               # X, the number reported
+health   <- 0.5 * visits - 1.5 * illness + rnorm(n)   # Y: beta = 0.5, gamma = -1.5
+coef(lm(health ~ reported))
+```
+
+1. Compute $\lambda$, $\delta$ and the slope you expect from exercise 2.
+   Then run it.
+2. Make the reports noisier, `sd = 2`. What do you expect? Run it.
+3. Fit `lm(health ~ reported + illness)`. Is the coefficient on
+   `reported` now $\beta = 0.5$? Why or why not?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+$\operatorname{Var}(X^\star) = \operatorname{Var}(Z) + 1$ and $\operatorname{Cov}(X^\star, Z) = \operatorname{Var}(Z)$.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r noise_solution}
+n <- 100000
+illness  <- rnorm(n)
+visits   <- illness + rnorm(n)
+reported <- visits + rnorm(n, sd = 0.5)
+health   <- 0.5 * visits - 1.5 * illness + rnorm(n)
+noisier  <- visits + rnorm(n, sd = 2)
+round(c(slope = coef(lm(health ~ reported))[[2]],
+        noisier = coef(lm(health ~ noisier))[[2]],
+        adjusted = coef(lm(health ~ reported + illness))[[2]]), 3)
+```
+
+1. $\operatorname{Var}(X^\star) = 2$, so $\lambda = 2/2.25 = 0.89$;
+$\delta = 1/2$, so $\gamma\delta = -0.75$; the slope is
+$0.89 \times (0.5 - 0.75) = -0.22$. The fit gives about that.
+
+2. $\lambda = 2/6 = 1/3$ and the slope is $-0.25/3 = -0.083$: closer to
+zero, still the wrong sign.
+
+3. About 0.40, not 0.5. Adjusting for illness removes the confounding,
+but the noise remains, and it now matters more. The coefficient is the
+slope of health on the part of `reported` that illness does not
+predict, $(X^\star - Z) + \varepsilon$, whose reliability is
+$1/(1 + 0.25) = 0.8$, so the coefficient is $0.8 \times 0.5 = 0.40$.
+Adjusting for a variable related to the true value leaves less of the
+true value's variation, and the noise is a larger share of what is
+left.
+:::
+
+## In class
+
+### Discussion 1: a score you know
+
+If you brought a score or algorithm used to make decisions about
+people, use it. If not, choose one: a credit score, a tool that screens
+CVs, a map that tells police where to patrol, the ranking of a social
+media feed, a university league table, the $h$-index.
+
+1. What does it measure, and what is it taken to stand for? Give one
+   ethical consideration it raises.
+2. A common answer to "why do algorithms treat groups unequally?" is
+   "the training data were biased." Think of the hospital's risk score
+   from the lecture. Were its cost data wrong? Where did the problem
+   come from?
+
+Every group's examples go on the screen.
+
+::: {.callout-note .answer title="Some examples" collapse="true"}
+- A credit score measures how a person has repaid credit before and is
+  taken to stand for whether they will repay a new loan. Someone who
+  has never borrowed has little to measure.
+- A CV-screening tool measures how much a CV resembles the CVs of past
+  hires and is taken to stand for how well the applicant would do the
+  job. It inherits whoever chose the past hires.
+- A predictive-policing map measures recorded crime, which depends on
+  where police already patrol, and is taken to stand for where crime
+  happens.
+- A feed's ranking measures engagement and is taken to stand for what
+  is worth a user's time.
+- The $h$-index measures citations and is taken to stand for a
+  researcher's contribution.
+
+The hospital's cost data were an accurate record of cost. The problem
+was what cost was used to stand for: at the same need, Black patients
+generated less cost, so a score trained to predict cost flagged fewer
+of them. "Biased data" is too vague to act on. The authors' remedy
+changed what the score predicts, not the data: in experiments with the
+manufacturer, they replaced future cost by "an index variable that combined health
+prediction with cost prediction," which reduced the excess of chronic
+conditions among Black patients at the same score by 84% (Obermeyer
+and colleagues 2019, p. 453).
+:::
+
+### Problem 1. Need, resources and care-seeking
+
+The hospital's cost depends on more than need. Write a person's cost as
+$$
+Y = Y^\star + W + C + \varepsilon ,
+$$
+with need $Y^\star$; resources $W$ (insurance that pays, income,
+transport, time off work, a doctor who records every diagnosis);
+care-seeking $C$, how readily a person goes to a doctor at a given
+level of need; and noise $\varepsilon$. The four are independent and
+normal with mean zero and variances $1$, $1/2$, $1/4$ and $1/4$. The
+program offers a place to everyone whose cost is in the top 3%: $D = 1$
+if $Y > t$.
+
+(a) Draw the graph with $Y^\star$, $W$, $C$, $Y$ and $D$. Then sort
+$Y^\star$, $W$ and $C$ by how far each is under a person's own control.
+
+(b) Show that
+$E[Y^\star \mid Y = y] = \dfrac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, y$,
+and write the same for $W$ and $C$. What do these three fractions and
+the one for $\varepsilon$ add up to?
+
+(c) The mean of a standard normal above its 97th percentile is 2.27.
+Compute the mean cost of the people offered a place, and the mean of
+each part among them. What share of their mean cost, measured from the
+population mean of zero, comes from need? What share from the part most
+under their control?
+
+(d) Suppose poorer people are sicker: add an arrow from $W$ to
+$Y^\star$, with a negative effect, keeping the variance of need at 1.
+Without computing, does the mean need of the people offered a place go
+up or down? Why?
+
+(e) In the original model, $Y^\star$ and $W$ are independent. Among the
+people offered a place, would you expect need and resources to be
+related? In which direction?
+
+::: {.callout-tip .answer collapse="true" title="Hint 1"}
+For (b), use exercise 2(a), with $Y$ in the place of exercise 2's $X$ and $Y^\star$ in the place of $X^\star$: everything in $Y$ except $Y^\star$ plays the part of the noise. When the parts are normal, $E[Y^\star \mid Y = y]$ is that slope times $y$.
+:::
+
+::: {.callout-tip .answer collapse="true" title="Hint 2"}
+For (c), $E[Y^\star \mid Y > t] = E\big[E[Y^\star \mid Y] \,\big|\, Y > t\big]$, and $Y$ is normal with standard deviation $\sqrt{2}$.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) $Y^\star \to Y$, $W \to Y$, $C \to Y$ and $Y \to D$. The noise
+$\varepsilon$ can be drawn with its own arrow into $Y$ or left out. The
+second panel is the graph of (d).
+
+```{r selection_graph, echo=FALSE, fig.height=2.4, fig.width=7}
+panels <- c("Problem 1", "With (d)")
+nodes <- data.frame(panel = rep(panels, each = 5),
+                    name = rep(c("Y*", "W", "C", "Y", "D"), 2),
+                    x = rep(c(0, 1, 2, 1, 2.2), 2),
+                    y = rep(c(1.1, 1.5, 1.1, 0, 0), 2))
+edges <- data.frame(panel = rep(panels, times = c(4, 5)),
+                    from = c("Y*", "W", "C", "Y", "Y*", "W", "C", "Y", "W"),
+                    to = c("Y", "Y", "Y", "D", "Y", "Y", "Y", "D", "Y*"))
+draw_dag(nodes, edges, xlim = c(-0.4, 2.6), ylim = c(-0.4, 1.9))
+```
+
+Care-seeking $C$ is the most under a person's control: going to the
+doctor is partly a choice. Resources $W$ much less: income, insurance
+that comes with a job, where a person lives. Need $Y^\star$ least. The
+sort is itself a judgment. How readily someone seeks care depends on
+circumstances too (time off work, distance, how doctors have treated
+them before), and some illness follows from past choices.
+
+(b) The parts are independent, so
+$\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)$, and as in
+exercise 2(a) the slope of $Y^\star$ on $Y$ is
+$\operatorname{Var}(Y^\star)/\operatorname{Var}(Y)$. With everything
+normal, that slope is the conditional mean. In the same way
+$E[W \mid Y = y] = \dfrac{\operatorname{Var}(W)}{\operatorname{Var}(Y)}\, y$
+and $E[C \mid Y = y] = \dfrac{\operatorname{Var}(C)}{\operatorname{Var}(Y)}\, y$.
+The four fractions add up to 1, because $\operatorname{Var}(Y)$ is the
+sum of the four variances.
+
+(c) $\operatorname{Var}(Y) = 2$, so the mean cost of those offered a
+place is $\sqrt{2} \times 2.27 = 3.21$. The shares are $1/2$, $1/4$,
+$1/8$ and $1/8$, so the means are 1.60 for need, 0.80 for resources,
+0.40 for care-seeking and 0.40 for noise. Half of their mean cost
+above the population mean comes from need, and an eighth from
+care-seeking, the part most under their control. A quarter comes from resources. The people offered a place are
+a mixture: some are there mostly because they are ill, some because
+they could turn need into care, some because they seek care readily.
+
+(d) Down. The sickest now tend to have fewer resources, so their cost
+is lower than their need, and cost picks out need less well. With
+$Y^\star = -0.5\,W + V$ and $\operatorname{Var}(V) = 0.875$, so that need
+still has variance 1, $\operatorname{Var}(Y) = 1.5$ and
+$\operatorname{Cov}(Y^\star, Y) = 0.75$, and the mean need of those
+offered a place falls from 1.60 to
+$0.5 \times \sqrt{1.5} \times 2.27 = 1.39$. This is the lecture's offset
+again, inside one group.
+
+(e) Yes, negatively. To clear the threshold with less need, a person
+needed more of something else, such as resources. Selecting on
+something that both affect makes them related among the selected,
+although they are independent in the population. The simulation shows
+it.
+:::
+
+### Discussion 2: allocating the places
+
+The people offered a place in problem 1 got there by different
+routes.
+
+1. Should it matter to the program why a person cleared the threshold?
+   Would you treat a place that came from resources differently from
+   one that came from seeking care readily?
+2. The lecture's question was whether the program should go to the
+   sickest or to those it would help most. Where do resources and
+   care-seeking come in? Someone who seeks care readily may also be the
+   most likely to use the program.
+3. Last week's closing question, for everyone this time: does
+   consequentialism become more or less defensible once you have to
+   write the causal model down?
+
+::: {.callout-note .answer title="Some lines of argument" collapse="true"}
+There is no house answer.
+
+One view in political philosophy holds that inequalities that come
+from people's choices can be fair and those that come from their
+circumstances are not. Elizabeth Anderson, who calls it "luck
+egalitarianism," describes its central distinction as one between
+outcomes that result from a person's voluntary choices and outcomes
+"that occur independent of her choice or of what she could have
+reasonably foreseen" (Anderson 1999, pp. 289 and 292). On that view, a
+score that gives places for having resources rewards good luck, and
+one that gives places for seeking care rewards a choice. Anderson
+argues against the view: it would leave without help people whose own
+negligent choices led to their need, which she calls "the problem of
+abandonment of negligent victims" (p. 296), and it "makes demeaning and
+intrusive judgments of people's capacities to exercise responsibility"
+(p. 289). And choices such as how readily to see a doctor are
+themselves shaped by circumstances: time off work, distance, how
+doctors have treated someone before.
+
+A program judged by its benefit needs people to use it, and care-seeking
+may predict that. Choosing by benefit can then move places toward people
+who already get care.
+
+Writing the causal model down makes the consequentialist's claims
+explicit and open to criticism. Here the model needs the effect of the
+program for each kind of patient, and, if control matters, what each
+person could have done otherwise. Seeing how much rests on those
+assumptions is also an argument against relying on them.
+:::
+
+### Simulation: selection on cost
+
+One laptop between two. The model of problem 1, for 100,000 people.
+
+```{r selection_starter, eval=FALSE}
+n <- 100000
+need      <- rnorm(n)                     # Y*
+resources <- rnorm(n, sd = sqrt(0.5))     # W
+seeking   <- rnorm(n, sd = 0.5)           # C
+noise     <- rnorm(n, sd = 0.5)
+cost      <- need + resources + seeking + noise
+selected  <- cost > quantile(cost, 0.97)  # the top 3% by cost are offered a place
+parts <- data.frame(cost, need, resources, seeking, noise)
+colMeans(parts[selected, ])
+```
+
+1. Run it, and compare the means with your answers to problem 1(c).
+2. What share of the people offered a place are in the top 3% by need?
+   `mean(need[selected] > quantile(need, 0.97))`
+3. Plot need against resources for the people offered a place. What do
+   you see? Compare it with your answer to problem 1(e).
+4. Some people can raise their cost without being more ill: a doctor
+   who records every diagnosis, knowing which tests to ask for. Say
+   everyone with resources above the median adds 1 to their cost.
+   Before you run anything, write down who you expect to gain places.
+   Then change `cost`, run steps 1 and 2 again, and compare.
+5. At home: make poorer people sicker,
+   `need <- -0.5 * resources + rnorm(n, sd = sqrt(0.875))` (need still
+   has variance 1), and run it again. Compare with problem 1(d).
+
+::: {.callout-tip .answer collapse="true" title="Hint 1"}
+For step 4, add `(resources > median(resources))` to `cost`, then compute `selected` again.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+```{r selection_solution}
+n <- 100000
+need      <- rnorm(n)
+resources <- rnorm(n, sd = sqrt(0.5))
+seeking   <- rnorm(n, sd = 0.5)
+noise     <- rnorm(n, sd = 0.5)
+cost      <- need + resources + seeking + noise
+selected  <- cost > quantile(cost, 0.97)
+parts <- data.frame(cost, need, resources, seeking, noise)
+round(colMeans(parts[selected, ]), 2)                  # step 1
+mean(need[selected] > quantile(need, 0.97))            # step 2
+cor(need[selected], resources[selected])               # step 3
+```
+
+```{r selection_plot, fig.height=3, fig.width=5}
+ggplot(parts[selected, ], aes(resources, need)) +
+  geom_point(alpha = 0.25, size = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "#BCAF6F") +
+  labs(x = "resources", y = "need", title = "The people offered a place")
+```
+
+```{r selection_gaming}
+cost_g <- cost + (resources > median(resources))       # step 4
+selected_g <- cost_g > quantile(cost_g, 0.97)
+round(colMeans(data.frame(cost = cost_g, need, resources, seeking, noise)[selected_g, ]), 2)
+mean(need[selected_g] > quantile(need, 0.97))
+c(before = mean(resources[selected] > median(resources)),
+  after = mean(resources[selected_g] > median(resources)))
+
+need2 <- -0.5 * resources + rnorm(n, sd = sqrt(0.875))  # step 5
+cost2 <- need2 + resources + seeking + noise
+round(mean(need2[cost2 > quantile(cost2, 0.97)]), 2)
+```
+
+1. About 3.21, 1.60, 0.80, 0.40 and 0.40, the answers to problem 1(c).
+Each run differs by a few hundredths.
+
+2. About 0.35. About a third of the places go to people in the top 3%
+by need. The rest go to people with less need than others who were
+not offered a place.
+
+3. A cloud that slopes down, with a correlation of about $-0.45$
+($-0.47$ in a very large sample). In the
+population the two are independent. Among the people offered a place,
+those with less need have more resources: they cleared the threshold
+another way.
+
+4. People with resources above the median gain places: they were about
+90% of those offered a place, and now are about 99%. The mean need of
+those offered a place falls from 1.60 to about 1.51, and the share in
+the top 3% by need from about 0.35 to about 0.30. The gain went to the
+people who could respond, as in the lecture's simulation, and here the
+ability to respond is a resource.
+
+5. About 1.39, the answer to problem 1(d).
+:::
+
+### Problem 2. Changing the label
+
+The paper's authors measured health by the number of active chronic
+conditions, counted from the diagnoses in patients' electronic health
+records (Obermeyer and colleagues 2019, p. 448), and trained a model
+to predict that count instead of cost (p. 451). Suppose the hospital
+offers its places by predicted active chronic conditions instead of
+predicted cost.
+
+(a) A condition is recorded only when a doctor sees the patient. Draw
+the graph with need $Y^\star$, resources $W$, care-seeking $C$, contact
+with doctors and the recorded count. Which of problem 1's arrows into
+cost reach the count, and by what route?
+
+(b) A doctor who records every diagnosis raises a patient's count. Is
+that gaming or improvement? What does the answer depend on?
+
+(c) Suppose payments come to depend on the count. What would you expect
+to happen to the count, and to what it says about need?
+
+(d) In experiments with the manufacturer, the authors replaced future
+cost by "an index variable that combined health prediction with cost
+prediction" (p. 453). Which lens asks about that choice? What is still
+chosen by someone?
+
+::: {.callout-tip .answer collapse="true" title="Hint 1"}
+For (a), what has to happen before a condition appears in a record?
+:::
+
+::: {.callout-tip .answer collapse="true" title="Hint 2"}
+For (b), use the lecture's definitions: a response is improvement if it raises what the measure stands for, and the measure with it; gaming if it raises the measure by a route that does not pass through what it stands for.
+:::
+
+::: {.callout-note .answer title="Solution" collapse="true"}
+(a) Need $\to$ contact with doctors $\to$ count, and need $\to$ count
+directly (a condition has to exist to be recorded); resources $W$ and
+care-seeking $C$ $\to$ contact with doctors. The arrows from $W$ and $C$
+still reach the label, through contact with doctors rather than through
+spending. The paper's Table 2 shows the label mattered: among the
+patients each model ranks highest, the Black share is 14.1% for the
+model that predicts total cost and 26.7% for the model that predicts
+active chronic conditions (Obermeyer and colleagues 2019, p. 452). That
+the share rose does not show that the gap in contact with care stopped
+mattering.
+
+(b) It depends on whether the recorded conditions are real. If they
+were there and had been missed, the record moves closer to need: a
+better measurement, though the patient is no sicker. If they are not,
+the count rises by a route that does not pass through need, which is
+gaming with need as what the count stands for. A record cannot show
+which, without an independent check of the patient.
+
+(c) Once payments depend on the count, there is a reason to record more
+diagnoses, and the count comes to measure coding as well as need: the
+lecture's intervention on the equation for the measure. This has been
+measured in Medicare. Enrollees in private Medicare plans, whose
+payments depend on the diagnoses they report, have diagnosis-based
+risk scores 6% to 16% higher than they would have in traditional
+Medicare, "where diagnoses do not affect most provider payments"
+(Geruso and Layton 2020, abstract). Who can code more intensively
+(insurers and practices with the staff to do it) is a resource, so the
+count can pick up $W$ again by another route.
+
+(d) What are we optimizing or predicting? The index still needs a
+weight on health against cost, a measure of health (here, recorded
+diagnoses again) and a threshold, and someone chooses each.
+:::
+
+### Discussion 3: a visa streaming tool
+
+The Home Office used a "streaming tool" that rated each visa
+application red, amber or green. A red rating meant more scrutiny, and
+red applications were much less likely to succeed. Applications from
+nationalities on a "suspect" list were rated red automatically, and a
+nationality could be put on the list for a high number of "adverse
+events," which included having visa applications refused (Jennings
+2020). After the Joint Council for the Welfare of Immigrants and
+Foxglove brought a legal challenge, the Home Office said in August 2020
+that it would stop using the tool, pending a redesign (Jennings 2020;
+Foxglove 2020).
+
+1. Draw the loop from a rating to the list and back.
+2. Is this strategic classification, performative prediction or
+   neither?
+3. Who bears the error?
+
+::: {.callout-note .answer title="Some lines of argument" collapse="true"}
+Rating red $\to$ more refusals $\to$ more "adverse events" for that
+nationality $\to$ the nationality stays on the list $\to$ rated red.
+Jennings (2020) calls it a risk of "a vicious cycle where certain
+nationalities would be locked onto the EANRA 'suspect' list."
+
+The applicants did not change their applications to get a better
+rating, so this is not strategic classification in the lecture's
+sense. The ratings changed the data that later decided the ratings:
+the predictions changed the distribution they were judged on, which is
+the setting of performative prediction, here through the decisions of
+the system itself rather than through the people scored.
+
+The error falls on applicants from the listed nationalities: the more
+scrutiny an application gets, the more chances to refuse it, whatever
+the applicant's own circumstances.
+:::
+
+## If there is time
+
+- For the score from discussion 1, draw the graph of one way people
+  respond to it. Is it gaming or improvement?
+- The score from discussion 1: which of the things it responds to are
+  under the control of the people scored?
+
+## For next time
+
+Bring one dataset or study where some people who should be in it are
+not. Write down who is missing, and in which direction their absence
+pushes the result. Every group's examples will go on the screen.
+
+## References
+
+- Anderson, Elizabeth S., "What Is the Point of Equality?" (*Ethics*
+  109(2), 1999, 287--337), <https://doi.org/10.1086/233897>.
+- Foxglove, "Home Office says it will abandon its racist visa algorithm
+  -- after we sued them" (4 August 2020),
+  <https://www.foxglove.org.uk/news/home-office-says-it-will-abandon-its-racist-visa-algorithm-nbsp-after-we-sued-them>.
+- Geruso, Michael and Timothy Layton, "Upcoding: Evidence from Medicare
+  on Squishy Risk Adjustment" (*Journal of Political Economy* 128(3),
+  2020, 984--1026), <https://doi.org/10.1086/704756>.
+- Jennings, Rafe, "Government Scraps Immigration 'Streaming Tool' before
+  Judicial Review" (*UK Human Rights Blog*, 6 August 2020),
+  <https://ukhumanrightsblog.com/2020/08/06/government-scraps-immigration-streaming-tool-before-judicial-review/>.
+- Obermeyer, Ziad, Brian Powers, Christine Vogeli and Sendhil
+  Mullainathan, "Dissecting racial bias in an algorithm used to manage
+  the health of populations" (*Science* 366(6464), 2019, 447--453),
+  <https://doi.org/10.1126/science.aax2342>.
