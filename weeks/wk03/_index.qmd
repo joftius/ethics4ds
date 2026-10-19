@@ -8,4 +8,4 @@ Four frameworks of normative ethics for judging whether an action is right, util
 
 **Lecture:** [notes](weeks/wk03/notes.html) · [slides](weeks/wk03/slides.html)
 
-**Class:** [class sheet](weeks/wk03/class.html) ([.qmd](https://ethics4ds.com/weeks/wk03/class.qmd){download="class.qmd"})
+**Class:** [class sheet](weeks/wk03/class.html) ([.qmd](https://ethics4ds.com/weeks/wk03/class.qmd){download="class.qmd"}) · [class sheet with solutions](https://ethics4ds.com/solutions/wk03/class_solutions.html)
