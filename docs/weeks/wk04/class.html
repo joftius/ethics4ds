@@ -223,10 +223,10 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#an-offset-and-who-is-selected" id="toc-an-offset-and-who-is-selected" class="nav-link" data-scroll-target="#an-offset-and-who-is-selected">1. An offset and who is selected</a></li>
   <li><a href="#noise-and-an-omitted-variable" id="toc-noise-and-an-omitted-variable" class="nav-link" data-scroll-target="#noise-and-an-omitted-variable">2. Noise and an omitted variable</a></li>
-  <li><a href="#who-is-selected" id="toc-who-is-selected" class="nav-link" data-scroll-target="#who-is-selected">3. Who is selected</a></li>
+  <li><a href="#need-resources-and-care-seeking" id="toc-need-resources-and-care-seeking" class="nav-link" data-scroll-target="#need-resources-and-care-seeking">3. Need, resources and care-seeking</a></li>
   </ul></li>
-  <li><a href="#discussion-2-who-should-get-the-places" id="toc-discussion-2-who-should-get-the-places" class="nav-link" data-scroll-target="#discussion-2-who-should-get-the-places">Discussion 2: who should get the places?</a></li>
-  <li><a href="#simulation-who-is-selected" id="toc-simulation-who-is-selected" class="nav-link" data-scroll-target="#simulation-who-is-selected">Simulation: who is selected</a></li>
+  <li><a href="#discussion-2-allocating-the-places" id="toc-discussion-2-allocating-the-places" class="nav-link" data-scroll-target="#discussion-2-allocating-the-places">Discussion 2: allocating the places</a></li>
+  <li><a href="#simulation-selection-on-cost" id="toc-simulation-selection-on-cost" class="nav-link" data-scroll-target="#simulation-selection-on-cost">Simulation: selection on cost</a></li>
   <li><a href="#if-there-is-time" id="toc-if-there-is-time" class="nav-link" data-scroll-target="#if-there-is-time">If there is time</a></li>
   <li><a href="#for-next-time" id="toc-for-next-time" class="nav-link" data-scroll-target="#for-next-time">For next time</a></li>
   <li><a href="#optional-can-be-done-at-home" id="toc-optional-can-be-done-at-home" class="nav-link" data-scroll-target="#optional-can-be-done-at-home">Optional, can be done at home</a>
@@ -234,7 +234,7 @@ window.Quarto = {
   <li><a href="#a-fixed-number-of-places-harder" id="toc-a-fixed-number-of-places-harder" class="nav-link" data-scroll-target="#a-fixed-number-of-places-harder">4. A fixed number of places (harder)</a></li>
   <li><a href="#gaming-or-improvement" id="toc-gaming-or-improvement" class="nav-link" data-scroll-target="#gaming-or-improvement">5. Gaming or improvement</a></li>
   <li><a href="#prediction-letters-and-reinforcement-learning-letters" id="toc-prediction-letters-and-reinforcement-learning-letters" class="nav-link" data-scroll-target="#prediction-letters-and-reinforcement-learning-letters">6. Prediction letters and reinforcement-learning letters</a></li>
-  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a></li>
+  <li><a href="#coding-noise-and-an-omitted-variable" id="toc-coding-noise-and-an-omitted-variable" class="nav-link" data-scroll-target="#coding-noise-and-an-omitted-variable">Coding: noise and an omitted variable</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -296,7 +296,7 @@ Note
 <p>If you brought a score or algorithm used to make decisions about people, use it. If not, choose one: a credit score, a tool that screens CVs, a map that tells police where to patrol, the ranking of a social media feed, a university league table, the <span class="math inline">\(h\)</span>-index.</p>
 <ol type="1">
 <li>What does it measure, and what is it taken to stand for? Give one ethical consideration it raises.</li>
-<li>A common answer to “why do algorithms treat groups unequally?” is “the training data were biased.” Think of the hospital’s risk score from the lecture. Were its cost data wrong? If not, what was the problem?</li>
+<li>A common answer to “why do algorithms treat groups unequally?” is “the training data were biased.” Think of the hospital’s risk score from the lecture. Were its cost data wrong? Where did the problem come from?</li>
 </ol>
 <p>Every group’s examples go on the screen.</p>
 </section>
@@ -305,7 +305,7 @@ Note
 <p>Problems 1 to 3 can be done by hand.</p>
 <section id="an-offset-and-who-is-selected" class="level3">
 <h3 class="anchored" data-anchor-id="an-offset-and-who-is-selected">1. An offset and who is selected</h3>
-<p>The lecture’s model: need <span class="math inline">\(Y^\star \sim N(0, 1)\)</span> in both groups, <span class="math inline">\(A = 1\)</span> for one group and <span class="math inline">\(A = 0\)</span> for the other, the measure <span class="math inline">\(Y = Y^\star + bA\)</span>, and a person is selected if <span class="math inline">\(Y &gt; t\)</span>. Now the program takes the top 10% of group 0, so <span class="math inline">\(t = 1.28\)</span>, and <span class="math inline">\(b = -0.5\)</span>. Use <span class="math inline">\(\Phi(1.28) = 0.900\)</span>, <span class="math inline">\(\Phi(1.78) = 0.9625\)</span>, <span class="math inline">\(\phi(1.28) = 0.1758\)</span> and <span class="math inline">\(\phi(1.78) = 0.0818\)</span>, where <span class="math inline">\(\phi\)</span> is the standard normal density.</p>
+<p>The lecture’s model: need <span class="math inline">\(Y^\star \sim N(0, 1)\)</span> in both groups, <span class="math inline">\(A = 1\)</span> for one group and <span class="math inline">\(A = 0\)</span> for the other, the measure <span class="math inline">\(Y = Y^\star + bA\)</span>, and a person is selected if <span class="math inline">\(Y &gt; t\)</span>. Now <span class="math inline">\(t\)</span> is group 0’s 90th percentile, <span class="math inline">\(t = 1.28\)</span>, and <span class="math inline">\(b = -0.5\)</span>. Use <span class="math inline">\(\Phi(1.28) = 0.900\)</span>, <span class="math inline">\(\Phi(1.78) = 0.9625\)</span>, <span class="math inline">\(\phi(1.28) = 0.1758\)</span> and <span class="math inline">\(\phi(1.78) = 0.0818\)</span>, where <span class="math inline">\(\Phi\)</span> is the standard normal distribution function and <span class="math inline">\(\phi\)</span> its density.</p>
 <ol type="a">
 <li><p>What share of each group is selected? What is the ratio of the two shares?</p></li>
 <li><p>What is the mean need of the selected in each group?</p></li>
@@ -317,40 +317,40 @@ Note
 <h3 class="anchored" data-anchor-id="noise-and-an-omitted-variable">2. Noise and an omitted variable</h3>
 <p>From the lecture: health next year <span class="math inline">\(Y\)</span>, doctor visits <span class="math inline">\(X^\star\)</span>, reported as <span class="math inline">\(X = X^\star + \varepsilon\)</span>, and illness <span class="math inline">\(Z\)</span>, which is not in the data, with <span class="math display">\[
 Y = \beta X^\star + \gamma Z + U ,
-\]</span> where <span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(U\)</span> have mean zero and are independent of each other and of <span class="math inline">\(X^\star\)</span> and <span class="math inline">\(Z\)</span>.</p>
+\]</span> where <span class="math inline">\(U\)</span> is everything else that affects health, and <span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(U\)</span> have mean zero and are independent of each other and of <span class="math inline">\(X^\star\)</span> and <span class="math inline">\(Z\)</span>. Here <span class="math inline">\(Y\)</span> is health, not the measure of need of problems 1 and 3.</p>
 <ol type="a">
 <li><p>Show that the slope of <span class="math inline">\(X^\star\)</span> on <span class="math inline">\(X\)</span> is <span class="math inline">\(\lambda = \operatorname{Var}(X^\star)/\operatorname{Var}(X)\)</span>. (The lecture’s best guess of need from cost is the same calculation.)</p></li>
 <li><p>Show that the slope of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> is <span class="math inline">\(\lambda(\beta + \gamma\delta)\)</span>, where <span class="math inline">\(\delta = \operatorname{Cov}(X^\star, Z)/\operatorname{Var}(X^\star)\)</span>.</p></li>
 <li><p>Take <span class="math inline">\(\beta = 1\)</span> and <span class="math inline">\(\lambda = 0.9\)</span>. Compute the slope for <span class="math inline">\(\gamma\delta = 0.5\)</span>, <span class="math inline">\(-0.5\)</span> and <span class="math inline">\(-1.5\)</span>. In each case, is it too large, too small or of the wrong sign?</p></li>
-<li><p>Can noise in the report change the sign of the slope? For which values of <span class="math inline">\(\gamma\delta\)</span> is the slope in (c) larger than <span class="math inline">\(\beta\)</span>?</p></li>
+<li><p>Can noise in the report, independent of everything else as here, change the sign of the slope? For which values of <span class="math inline">\(\gamma\delta\)</span> is the slope in (c) larger than <span class="math inline">\(\beta\)</span>?</p></li>
 <li><p>Which of <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\delta\)</span> can you learn from data on <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> alone? What would you need to collect?</p></li>
 </ol>
 </section>
-<section id="who-is-selected" class="level3">
-<h3 class="anchored" data-anchor-id="who-is-selected">3. Who is selected</h3>
+<section id="need-resources-and-care-seeking" class="level3">
+<h3 class="anchored" data-anchor-id="need-resources-and-care-seeking">3. Need, resources and care-seeking</h3>
 <p>The hospital’s cost depends on more than need. Write a person’s cost as <span class="math display">\[
 Y = Y^\star + W + C + \varepsilon ,
-\]</span> with need <span class="math inline">\(Y^\star\)</span>; resources <span class="math inline">\(W\)</span> (insurance that pays, income, transport, time off work, a doctor who records every diagnosis); care-seeking <span class="math inline">\(C\)</span>, how readily a person goes to a doctor at a given level of need; and noise <span class="math inline">\(\varepsilon\)</span>. The four are independent and normal with mean zero and variances <span class="math inline">\(1\)</span>, <span class="math inline">\(1/2\)</span>, <span class="math inline">\(1/4\)</span> and <span class="math inline">\(1/4\)</span>. The program offers a place to everyone whose cost is in the top 3%: <span class="math inline">\(S = 1\)</span> if <span class="math inline">\(Y &gt; t\)</span>.</p>
+\]</span> with need <span class="math inline">\(Y^\star\)</span>; resources <span class="math inline">\(W\)</span> (insurance that pays, income, transport, time off work, a doctor who records every diagnosis); care-seeking <span class="math inline">\(C\)</span>, how readily a person goes to a doctor at a given level of need; and noise <span class="math inline">\(\varepsilon\)</span>. The four are independent and normal with mean zero and variances <span class="math inline">\(1\)</span>, <span class="math inline">\(1/2\)</span>, <span class="math inline">\(1/4\)</span> and <span class="math inline">\(1/4\)</span>. The program offers a place to everyone whose cost is in the top 3%: <span class="math inline">\(D = 1\)</span> if <span class="math inline">\(Y &gt; t\)</span>.</p>
 <ol type="a">
-<li><p>Draw the graph with <span class="math inline">\(Y^\star\)</span>, <span class="math inline">\(W\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(S\)</span>. Then sort <span class="math inline">\(Y^\star\)</span>, <span class="math inline">\(W\)</span> and <span class="math inline">\(C\)</span> by how far each is under a person’s own control.</p></li>
-<li><p>Show that <span class="math inline">\(E[Y^\star \mid Y = y] = \dfrac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, y\)</span>, and write the same for <span class="math inline">\(W\)</span> and <span class="math inline">\(C\)</span>. What do the four fractions, with the one for <span class="math inline">\(\varepsilon\)</span>, add up to?</p></li>
-<li><p>The mean of a standard normal above its 97th percentile is 2.27. Compute the mean cost of the people offered a place, and the mean of each part among them. What share of their mean cost comes from need? What share from the part most under their control?</p></li>
-<li><p>Suppose poorer people are sicker: add an arrow from <span class="math inline">\(W\)</span> to <span class="math inline">\(Y^\star\)</span>, with a negative effect. Without computing, does the mean need of the people offered a place go up or down? Why?</p></li>
+<li><p>Draw the graph with <span class="math inline">\(Y^\star\)</span>, <span class="math inline">\(W\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(D\)</span>. Then sort <span class="math inline">\(Y^\star\)</span>, <span class="math inline">\(W\)</span> and <span class="math inline">\(C\)</span> by how far each is under a person’s own control.</p></li>
+<li><p>Show that <span class="math inline">\(E[Y^\star \mid Y = y] = \dfrac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, y\)</span>, and write the same for <span class="math inline">\(W\)</span> and <span class="math inline">\(C\)</span>. What do these three fractions and the one for <span class="math inline">\(\varepsilon\)</span> add up to?</p></li>
+<li><p>The mean of a standard normal above its 97th percentile is 2.27. Compute the mean cost of the people offered a place, and the mean of each part among them. What share of their mean cost, measured from the population mean of zero, comes from need? What share from the part most under their control?</p></li>
+<li><p>Suppose poorer people are sicker: add an arrow from <span class="math inline">\(W\)</span> to <span class="math inline">\(Y^\star\)</span>, with a negative effect, keeping the variance of need at 1. Without computing, does the mean need of the people offered a place go up or down? Why?</p></li>
 <li><p>In the original model, <span class="math inline">\(Y^\star\)</span> and <span class="math inline">\(W\)</span> are independent. Among the people offered a place, would you expect need and resources to be related? In which direction?</p></li>
 </ol>
 </section>
 </section>
-<section id="discussion-2-who-should-get-the-places" class="level2">
-<h2 class="anchored" data-anchor-id="discussion-2-who-should-get-the-places">Discussion 2: who should get the places?</h2>
-<p>The people offered a place in problem 3 are a mixture: some are there mostly because they are ill, some because they could turn need into care, some because they seek care readily.</p>
+<section id="discussion-2-allocating-the-places" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-2-allocating-the-places">Discussion 2: allocating the places</h2>
+<p>The people offered a place in problem 3 got there by different routes.</p>
 <ol type="1">
 <li>Should it matter to the program why a person cleared the threshold? Would you treat a place that came from resources differently from one that came from seeking care readily?</li>
 <li>The lecture’s question was whether the program should go to the sickest or to those it would help most. Where do resources and care-seeking come in? Someone who seeks care readily may also be the most likely to use the program.</li>
 <li>Last week’s closing question, for everyone this time: does consequentialism become more or less defensible once you have to write the causal model down?</li>
 </ol>
 </section>
-<section id="simulation-who-is-selected" class="level2">
-<h2 class="anchored" data-anchor-id="simulation-who-is-selected">Simulation: who is selected</h2>
+<section id="simulation-selection-on-cost" class="level2">
+<h2 class="anchored" data-anchor-id="simulation-selection-on-cost">Simulation: selection on cost</h2>
 <p>One laptop between two. The model of problem 3, for 100,000 people.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
@@ -375,7 +375,7 @@ Y = Y^\star + W + C + \varepsilon ,
 <h2 class="anchored" data-anchor-id="if-there-is-time">If there is time</h2>
 <ul>
 <li>The paper’s authors proposed changing the label, for example to the number of active chronic conditions. What could go wrong with that label?</li>
-<li>The Home Office used a “streaming tool” that rated visa applications red, amber or green, partly by nationality. Refusals could add a nationality to a list that made its applications red. The Home Office stopped using it in 2020, after a legal challenge. Is this strategic classification, performative prediction or neither?</li>
+<li>The Home Office used a “streaming tool” that rated visa applications red, amber or green, partly by nationality. Refusals could add a nationality to a list that made its applications red. The Home Office suspended it in August 2020, pending a redesign, after a legal challenge. Is this strategic classification, performative prediction or neither?</li>
 <li>A doctor who records every diagnosis raises a patient’s cost and the record of their illness. Gaming or improvement? Draw the graph.</li>
 <li>The score from discussion 1: which of the things it responds to are under the control of the people scored?</li>
 </ul>
@@ -386,7 +386,7 @@ Y = Y^\star + W + C + \varepsilon ,
 </section>
 <section id="optional-can-be-done-at-home" class="level2">
 <h2 class="anchored" data-anchor-id="optional-can-be-done-at-home">Optional, can be done at home</h2>
-<p>Practice for afterward: problems 4 to 6, step 5 of the simulation, and coding B. Attempt each part before you open a hint.</p>
+<p>Practice for afterward: problems 4 to 6, step 5 of the simulation, and the coding exercise on noise and an omitted variable. Attempt each part before you open a hint.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Hints">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -474,10 +474,8 @@ Y = Y^\star + W + C + \varepsilon ,
 </div>
 </div>
 </section>
-<section id="coding" class="level3">
-<h3 class="anchored" data-anchor-id="coding">Coding</h3>
-<section id="b.-noise-and-an-omitted-variable" class="level4">
-<h4 class="anchored" data-anchor-id="b.-noise-and-an-omitted-variable">B. Noise and an omitted variable</h4>
+<section id="coding-noise-and-an-omitted-variable" class="level3">
+<h3 class="anchored" data-anchor-id="coding-noise-and-an-omitted-variable">Coding: noise and an omitted variable</h3>
 <p>Problem 2’s model as a program.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
@@ -510,7 +508,6 @@ Y = Y^\star + W + C + \varepsilon ,
 </div>
 
 
-</section>
 </section>
 </section>
 

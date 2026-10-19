@@ -2354,35 +2354,35 @@ window.Quarto = {
 <tr class="odd">
 <td>Discussion 1: a score you know, what it measures and what it stands for; were the hospital’s cost data wrong?</td>
 <td style="text-align: right;">10</td>
-<td>Rush</td>
+<td>Rush; cut first</td>
 <td>Three examples from the room; then question 2 with hands</td>
 </tr>
 <tr class="even">
 <td>Problem 1: an offset and who is selected, by hand, with feedback</td>
 <td style="text-align: right;">12</td>
-<td>Rush; cut first</td>
+<td>Rush; cut second</td>
 <td>Do (a) together; say (c): at the same score, group 1 has <span class="math inline">\(0.5\)</span> more need</td>
 </tr>
 <tr class="odd">
 <td>Problem 2: noise and an omitted variable, with feedback</td>
 <td style="text-align: right;">12</td>
 <td>Keep</td>
-<td>(b) and (c) only; say (d): noise never changes the sign</td>
+<td>(b) and (c) only; say (d): classical noise in the report never changes the sign</td>
 </tr>
 <tr class="even">
-<td>Problem 3: who is selected, with feedback</td>
+<td>Problem 3: need, resources and care-seeking, with feedback</td>
 <td style="text-align: right;">13</td>
 <td>Keep</td>
 <td>(a) and (c); say (e): among the selected, less need goes with more resources</td>
 </tr>
 <tr class="odd">
-<td>Discussion 2: who should get the places, and last week’s closing question</td>
+<td>Discussion 2: allocating the places, and last week’s closing question</td>
 <td style="text-align: right;">12</td>
 <td>Rush</td>
 <td>Question 1 in pairs, then question 3 with hands</td>
 </tr>
 <tr class="even">
-<td>Simulation in R: who is selected, with feedback</td>
+<td>Simulation in R: selection on cost, with feedback</td>
 <td style="text-align: right;">16</td>
 <td>Keep</td>
 <td>Steps 1 and 4; show the plot of step 3 from the complete sheet</td>
@@ -2395,19 +2395,19 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Minimum class, about 45 minutes: problems 2 and 3, the simulation’s steps 1 and 4, discussion 2 in pairs and the task for next time. With more time, add problem 1 back first.</p>
+<p>Minimum class, about 45 minutes: problems 2 and 3, the simulation’s steps 1 and 4, discussion 2 in pairs and the task for next time. With more time, add problem 1 back first, then discussion 1.</p>
 </section>
 <section id="if-you-read-on" class="level2">
 <h2 class="anchored" data-anchor-id="if-you-read-on">If you read on</h2>
 <p>How it runs</p>
 <ul>
 <li>Students may not have brought a score: the task was announced with the readings, not set in class. Discussion 1 gives a list to choose from. Open the <a href="https://ethics4ds.com/teachers/wk04/class_complete.html">complete class sheet</a> on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers.</li>
-<li>Discussion 2 is the break between the problems and the simulation. Take a five-minute break instead from the slack if the room needs one. The simulation needs one laptop with R per pair; the code runs in about a second. Everything under “Optional, can be done at home” is outside the class.</li>
+<li>Discussion 2 is the break between the problems and the simulation. If the room needs a break, take the four minutes of slack. The simulation needs one laptop with R per pair; the code runs in about a second. Everything under “Optional, can be done at home” is outside the class.</li>
 <li>Notation: problem 2 writes the regressor <span class="math inline">\(X\)</span>, as the lecture does (last week’s class problems wrote <span class="math inline">\(T\)</span>). Problems 1 and 3 write cost <span class="math inline">\(Y\)</span> and need <span class="math inline">\(Y^\star\)</span>; problem 2’s <span class="math inline">\(Y\)</span> is health. Each stem declares its letters.</li>
 </ul>
 <p>What the class adds to the lecture</p>
 <ul>
-<li>Problem 2(a) derives <span class="math inline">\(\lambda\)</span>, which the lecture stated. Problem 2(d): classical noise never changes the sign of a slope; an omitted variable can, and with <span class="math inline">\(\gamma\delta &gt; 0\)</span> the two biases pull against each other.</li>
+<li>Problem 2(a) derives <span class="math inline">\(\lambda\)</span>, which the lecture stated. Problem 2(d): classical noise in the regressor never changes the sign of its slope; an omitted variable can, and with <span class="math inline">\(\gamma\delta &gt; 0\)</span> the two biases pull against each other.</li>
 <li>Problem 3 and the simulation are new: cost depends on need, resources and care-seeking, and the selected are a mixture. Each part’s mean among the selected is its share of <span class="math inline">\(\operatorname{Var}(Y)\)</span> times their mean cost (the notes’ section “Need, resources and care-seeking”). Selection makes need and resources negatively related among the selected; do not name colliders beyond a sentence, since they are introduced properly later.</li>
 </ul>
 <p>What students should see</p>
@@ -2420,8 +2420,8 @@ window.Quarto = {
 <p>Where they get stuck</p>
 <ul>
 <li>“The data were biased” as the whole answer to discussion 1. Ask: which number in the hospital’s data was wrong?</li>
-<li>Problem 2(d): thinking noise can flip the sign, or that attenuation always means the estimate is too small.</li>
-<li>Problem 3(b): forgetting that <span class="math inline">\(\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)\)</span> only because the parts are independent; in (d) they are not.</li>
+<li>Problem 2(d): thinking that classical noise in the regressor can flip the sign, or that attenuation always means the estimate is too small. (Other noise can move it either way; the notes say so.)</li>
+<li>Problem 3(b): forgetting that <span class="math inline">\(\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)\)</span> only because the parts are independent; in (d) they are not, and the answer to (d) assumes the variance of need stays 1.</li>
 <li>Problem 3(c): using a standard deviation of 1 for cost instead of <span class="math inline">\(\sqrt{2}\)</span>.</li>
 <li>Discussion 2: treating “under their control” as settled. Care-seeking depends on time off work and on past treatment by doctors.</li>
 </ul>

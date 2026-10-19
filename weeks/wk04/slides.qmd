@@ -491,7 +491,7 @@ ggplot(att, aes(y, ystar)) +
 ## Noise and an omitted variable
 
 ::: {.notes}
-Last week's omitted-variable bias, with a noisy measure. Does care improve health? Visits are reported with error, independent of everything else, which shrinks the slope by lambda; illness is not in the data, brings more visits and worse health, and adds gamma times delta. Pairs, one minute, on the question; then the figure. Noise never changes the sign, since lambda is positive; the left-out variable can. When gamma delta is positive, as with ability and schooling, the two pull against each other and the slope can be too large or too small. Lens F: the slope is read as the effect of a visit with illness held fixed. The class derives the formula.
+Last week's omitted-variable bias, with a noisy measure. Does care improve health? Y here is health, an outcome, not the measure of need. Visits are reported with error, independent of everything else (U is everything else that affects health, also independent), which shrinks the slope by lambda; illness is not in the data, brings more visits and worse health, and adds gamma times delta. Pairs, one minute, on the question; then the figure. Classical noise in the report never changes the sign, since lambda is positive; the left-out variable can. When gamma delta is positive, as with ability and schooling, the two pull against each other and the slope can be too large or too small. Lens F: the slope is read as the effect of a visit with illness held fixed. The class derives the formula.
 :::
 
 Health $Y$; visits $X^\star$, reported as $X = X^\star + \varepsilon$; illness $Z$, not in the data.
@@ -888,8 +888,8 @@ Each lens, what it referred to this week. The third is new: last week's method a
 :::
 
 - **What are we optimizing or predicting?** Cost, standing in for need. Citations, for contribution. A placement rate, for jobs created. Engagement, for a user's good.
-- **Who bears the error?** A threshold at the 97th percentile makes two errors; an offset in the measure moves being left out onto one group. A cleaning robot's owner bears the robot's reward.
-- **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? Benefit compares care with no care for the same patient. A slope of health on visits is read with illness held fixed. A rule on the score assumed the relation between score and need would stay fixed.
+- **Who bears the error?** A threshold makes two errors; an offset moves the error of leaving people out onto one group. A robot's owner bears the gap between its reward and a clean room.
+- **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? Benefit compares care with no care for the same patient. A slope of health on visits is read with illness held fixed. A rule on the score assumed that the score-need relation would stay fixed.
 
 ...and why?
 

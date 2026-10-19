@@ -19,14 +19,14 @@ st313:
     - {label: "problem 1: Y = Y* + bA at the top 10%, b = -0.5, by hand: shares and their ratio, the mean need of the selected by the inverse Mills ratio, the gap at the same score", minutes: 10, mode: production,
        core: CC-11, results: [R20, R24]}
     - {label: "feedback on problem 1", minutes: 2, mode: exposition}
-    - {label: "problem 2: lambda derived; the slope on a noisy measure with a variable left out, lambda(beta + gamma delta); too large, too small and the wrong sign; noise never changes the sign", minutes: 10, mode: production,
+    - {label: "problem 2: lambda derived; the slope on a noisy measure with a variable left out, lambda(beta + gamma delta); too large, too small and the wrong sign; classical noise in the regressor never changes the sign", minutes: 10, mode: production,
        core: CC-12, results: [R21, R27]}
     - {label: "feedback on problem 2", minutes: 2, mode: exposition}
     # the theme the convenor asked for on 19 October: the selected are a mixture of need, resources and care-seeking, sorted by how far each is under a person's control
-    - {label: "problem 3: who is selected; the graph of need, resources and care-seeking with selection on cost; sorted by control; each part's mean among the selected as its share of Var(Y); poorer people sicker; need and resources related among the selected", minutes: 11, mode: production,
+    - {label: "problem 3: who is selected; the graph of need, resources and care-seeking with selection on cost (D); sorted by control; each part's mean among the selected as its share of Var(Y); poorer people sicker; need and resources related among the selected", minutes: 11, mode: production,
        results: [R24, R28]}
     - {label: "feedback on problem 3", minutes: 2, mode: exposition}
-    - {label: "discussion 2, the break before the coding: who should get the places; whether it matters why a person cleared the threshold; need, benefit and care-seeking; last week's closing question, asked of everyone", minutes: 12, mode: production}
+    - {label: "discussion 2, the break before the coding: allocating the places; whether it matters why a person cleared the threshold; need, benefit and care-seeking; last week's closing question, asked of everyone", minutes: 12, mode: production}
     - {label: "simulation in R, starter code supplied: who is selected; the overlap with the top 3% by need; need against resources among the selected; gaming that depends on resources", minutes: 14, mode: production,
        results: [R28]}
     - {label: "feedback on the simulation", minutes: 2, mode: exposition}
@@ -48,7 +48,7 @@ library(ggplot2)
 library(dplyr)
 theme_set(theme_minimal())
 
-# Causal graphs: letters in circles, one panel per value of `panel` (week 3's helper). A
+# Causal graphs: letters in circles, one panel per value of `panel` (from last week's class sheet). A
 # circle's size is fixed on the page, in inches, while the figure's size decides how many
 # inches a data unit is. draw_dag measures both on the graphics device open when it is
 # called, and stops every arrow `gap` inches short of the circles.
@@ -110,8 +110,8 @@ media feed, a university league table, the $h$-index.
    ethical consideration it raises.
 2. A common answer to "why do algorithms treat groups unequally?" is
    "the training data were biased." Think of the hospital's risk score
-   from the lecture. Were its cost data wrong? If not, what was the
-   problem?
+   from the lecture. Were its cost data wrong? Where did the problem
+   come from?
 
 Every group's examples go on the screen.
 
@@ -145,10 +145,11 @@ Problems 1 to 3 can be done by hand.
 
 The lecture's model: need $Y^\star \sim N(0, 1)$ in both groups,
 $A = 1$ for one group and $A = 0$ for the other, the measure
-$Y = Y^\star + bA$, and a person is selected if $Y > t$. Now the
-program takes the top 10% of group 0, so $t = 1.28$, and $b = -0.5$.
-Use $\Phi(1.28) = 0.900$, $\Phi(1.78) = 0.9625$, $\phi(1.28) = 0.1758$
-and $\phi(1.78) = 0.0818$, where $\phi$ is the standard normal density.
+$Y = Y^\star + bA$, and a person is selected if $Y > t$. Now $t$ is
+group 0's 90th percentile, $t = 1.28$, and $b = -0.5$. Use
+$\Phi(1.28) = 0.900$, $\Phi(1.78) = 0.9625$, $\phi(1.28) = 0.1758$ and
+$\phi(1.78) = 0.0818$, where $\Phi$ is the standard normal distribution
+function and $\phi$ its density.
 
 (a) What share of each group is selected? What is the ratio of the two
 shares?
@@ -193,8 +194,10 @@ in the data, with
 $$
 Y = \beta X^\star + \gamma Z + U ,
 $$
-where $\varepsilon$ and $U$ have mean zero and are independent of each
-other and of $X^\star$ and $Z$.
+where $U$ is everything else that affects health, and $\varepsilon$ and
+$U$ have mean zero and are independent of each other and of $X^\star$
+and $Z$. Here $Y$ is health, not the measure of need of problems 1
+and 3.
 
 (a) Show that the slope of $X^\star$ on $X$ is
 $\lambda = \operatorname{Var}(X^\star)/\operatorname{Var}(X)$. (The
@@ -207,7 +210,8 @@ where $\delta = \operatorname{Cov}(X^\star, Z)/\operatorname{Var}(X^\star)$.
 $\gamma\delta = 0.5$, $-0.5$ and $-1.5$. In each case, is it too large,
 too small or of the wrong sign?
 
-(d) Can noise in the report change the sign of the slope? For which
+(d) Can noise in the report, independent of everything else as here,
+change the sign of the slope? For which
 values of $\gamma\delta$ is the slope in (c) larger than $\beta$?
 
 (e) Which of $\lambda$, $\gamma$ and $\delta$ can you learn from data on
@@ -241,8 +245,9 @@ people who visit more are less healthy next year, and the regression
 says visits do harm.
 
 (d) No. $\lambda$ is positive, so the slope has the sign of
-$\beta + \gamma\delta$; noise shrinks it toward zero, wrong sign and
-all. The slope is larger than $\beta$ when
+$\beta + \gamma\delta$; noise of this kind, independent of everything
+else, shrinks it toward zero, wrong sign and all. (Noise related to the
+true value, to the outcome or to $Z$ could move it either way.) The slope is larger than $\beta$ when
 $0.9(1 + \gamma\delta) > 1$, that is, $\gamma\delta > 1/9$. In general,
 for $\beta > 0$, when $\gamma\delta > \beta(1 - \lambda)/\lambda$. At
 $\gamma\delta = 1/9$ the two biases cancel and the estimate is right
@@ -259,7 +264,7 @@ as the effect of a visit with illness held fixed, and nothing held it
 fixed.
 :::
 
-### 3. Who is selected
+### 3. Need, resources and care-seeking
 
 The hospital's cost depends on more than need. Write a person's cost as
 $$
@@ -270,32 +275,34 @@ transport, time off work, a doctor who records every diagnosis);
 care-seeking $C$, how readily a person goes to a doctor at a given
 level of need; and noise $\varepsilon$. The four are independent and
 normal with mean zero and variances $1$, $1/2$, $1/4$ and $1/4$. The
-program offers a place to everyone whose cost is in the top 3%: $S = 1$
+program offers a place to everyone whose cost is in the top 3%: $D = 1$
 if $Y > t$.
 
-(a) Draw the graph with $Y^\star$, $W$, $C$, $Y$ and $S$. Then sort
+(a) Draw the graph with $Y^\star$, $W$, $C$, $Y$ and $D$. Then sort
 $Y^\star$, $W$ and $C$ by how far each is under a person's own control.
 
 (b) Show that
 $E[Y^\star \mid Y = y] = \dfrac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, y$,
-and write the same for $W$ and $C$. What do the four fractions, with
-the one for $\varepsilon$, add up to?
+and write the same for $W$ and $C$. What do these three fractions and
+the one for $\varepsilon$ add up to?
 
 (c) The mean of a standard normal above its 97th percentile is 2.27.
 Compute the mean cost of the people offered a place, and the mean of
-each part among them. What share of their mean cost comes from need?
-What share from the part most under their control?
+each part among them. What share of their mean cost, measured from the
+population mean of zero, comes from need? What share from the part most
+under their control?
 
 (d) Suppose poorer people are sicker: add an arrow from $W$ to
-$Y^\star$, with a negative effect. Without computing, does the mean
-need of the people offered a place go up or down? Why?
+$Y^\star$, with a negative effect, keeping the variance of need at 1.
+Without computing, does the mean need of the people offered a place go
+up or down? Why?
 
 (e) In the original model, $Y^\star$ and $W$ are independent. Among the
 people offered a place, would you expect need and resources to be
 related? In which direction?
 
 ::: {.callout-tip .answer collapse="true" title="Hint 1"}
-For (b), use problem 2(a): everything in $Y$ except $Y^\star$ plays the part of the noise. When the parts are normal, the slope of $Y^\star$ on $Y$ is $E[Y^\star \mid Y = y]/y$.
+For (b), use problem 2(a), with $Y$ in the place of problem 2's $X$ and $Y^\star$ in the place of $X^\star$: everything in $Y$ except $Y^\star$ plays the part of the noise. When the parts are normal, $E[Y^\star \mid Y = y]$ is that slope times $y$.
 :::
 
 ::: {.callout-tip .answer collapse="true" title="Hint 2"}
@@ -303,19 +310,19 @@ For (c), $E[Y^\star \mid Y > t] = E\big[E[Y^\star \mid Y] \,\big|\, Y > t\big]$,
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
-(a) $Y^\star \to Y$, $W \to Y$, $C \to Y$ and $Y \to S$. The noise
+(a) $Y^\star \to Y$, $W \to Y$, $C \to Y$ and $Y \to D$. The noise
 $\varepsilon$ can be drawn with its own arrow into $Y$ or left out. The
 second panel is the graph of (d).
 
 ```{r selection_graph, echo=FALSE, fig.height=2.4, fig.width=7}
 panels <- c("Problem 3", "With (d)")
 nodes <- data.frame(panel = rep(panels, each = 5),
-                    name = rep(c("Y*", "W", "C", "Y", "S"), 2),
+                    name = rep(c("Y*", "W", "C", "Y", "D"), 2),
                     x = rep(c(0, 1, 2, 1, 2.2), 2),
                     y = rep(c(1.1, 1.5, 1.1, 0, 0), 2))
 edges <- data.frame(panel = rep(panels, times = c(4, 5)),
                     from = c("Y*", "W", "C", "Y", "Y*", "W", "C", "Y", "W"),
-                    to = c("Y", "Y", "Y", "S", "Y", "Y", "Y", "S", "Y*"))
+                    to = c("Y", "Y", "Y", "D", "Y", "Y", "Y", "D", "Y*"))
 draw_dag(nodes, edges, xlim = c(-0.4, 2.6), ylim = c(-0.4, 1.9))
 ```
 
@@ -339,9 +346,9 @@ sum of the four variances.
 (c) $\operatorname{Var}(Y) = 2$, so the mean cost of those offered a
 place is $\sqrt{2} \times 2.27 = 3.21$. The shares are $1/2$, $1/4$,
 $1/8$ and $1/8$, so the means are 1.60 for need, 0.80 for resources,
-0.40 for care-seeking and 0.40 for noise. Half of their mean cost comes
-from need, and an eighth from care-seeking, the part most under their
-control. A quarter comes from resources. The people offered a place are
+0.40 for care-seeking and 0.40 for noise. Half of their mean cost
+above the population mean comes from need, and an eighth from
+care-seeking, the part most under their control. A quarter comes from resources. The people offered a place are
 a mixture: some are there mostly because they are ill, some because
 they could turn need into care, some because they seek care readily.
 
@@ -361,11 +368,10 @@ although they are independent in the population. The simulation shows
 it.
 :::
 
-## Discussion 2: who should get the places?
+## Discussion 2: allocating the places
 
-The people offered a place in problem 3 are a mixture: some are there
-mostly because they are ill, some because they could turn need into
-care, some because they seek care readily.
+The people offered a place in problem 3 got there by different
+routes.
 
 1. Should it matter to the program why a person cleared the threshold?
    Would you treat a place that came from resources differently from
@@ -385,12 +391,13 @@ One view in political philosophy, called luck egalitarianism, holds
 that inequalities that come from people's choices can be fair and
 those that come from their circumstances are not. On that view, a
 score that gives places for having resources rewards good luck, and
-one that gives places for seeking care rewards a choice. Its critics,
-Elizabeth Anderson (1999) among them, answer that a program should not
-have to judge which of a person's disadvantages they chose before
-helping them, and that choices such as how readily to see a doctor are
-shaped by circumstances: time off work, distance, how doctors have
-treated them before.
+one that gives places for seeking care rewards a choice. Elizabeth
+Anderson (1999) argued that the view is too harsh, since it would leave
+without help people whose own risky choices led to their need, and
+that it asks the state to make intrusive and insulting judgments about
+who is responsible for their disadvantages. Others add that choices
+such as how readily to see a doctor are shaped by circumstances: time
+off work, distance, how doctors have treated someone before.
 
 A program judged by its benefit needs people to use it, and care-seeking
 may predict that. Choosing by benefit can then move places toward people
@@ -403,7 +410,7 @@ person could have done otherwise. Seeing how much rests on those
 assumptions is also an argument against relying on them.
 :::
 
-## Simulation: who is selected
+## Simulation: selection on cost
 
 One laptop between two. The model of problem 3, for 100,000 people.
 
@@ -502,8 +509,9 @@ ability to respond is a resource.
 - The Home Office used a "streaming tool" that rated visa applications
   red, amber or green, partly by nationality. Refusals could add a
   nationality to a list that made its applications red. The Home Office
-  stopped using it in 2020, after a legal challenge. Is this strategic
-  classification, performative prediction or neither?
+  suspended it in August 2020, pending a redesign, after a legal
+  challenge. Is this strategic classification, performative prediction
+  or neither?
 - A doctor who records every diagnosis raises a patient's cost and the
   record of their illness. Gaming or improvement? Draw the graph.
 - The score from discussion 1: which of the things it responds to are
@@ -518,7 +526,7 @@ pushes the result. Every group's examples will go on the screen.
 ## Optional, can be done at home
 
 Practice for afterward: problems 4 to 6, step 5 of the simulation, and
-coding B. Attempt each part before you open a hint.
+the coding exercise on noise and an omitted variable. Attempt each part before you open a hint.
 
 ::: {.callout-warning title="Hints"}
 Do not open a hint unless you have been stuck for at least a few
@@ -595,12 +603,12 @@ need: gaming, with need as what cost stands for. But if the doctor
 records conditions that the patient has and that were missed before, it
 brings the record closer to need. It is then a better measurement,
 though the patient is no sicker. The answer depends on whether the
-recorded conditions are real. Where insurers are paid more for sicker
-enrollees it is not only a question: Geruso and Layton (2020) found
+recorded conditions are real. Where payments depend on the diagnoses
+recorded, more of them get recorded: Geruso and Layton (2020) found
 that people in private Medicare plans, whose payments depend on the
 diagnoses they report, have risk scores 6% to 16% higher than they
 would have in traditional Medicare, where diagnoses do not affect most
-payments to doctors and hospitals.
+payments to providers.
 
 (c) For example: students who take more practice tests before a
 standardized test (practice $\to$ skill $\to$ score is improvement,
@@ -649,9 +657,7 @@ cancer, stroke and fractures as well as the heart.
 group, a risk score and an unobserved variable.
 :::
 
-### Coding
-
-#### B. Noise and an omitted variable
+### Coding: noise and an omitted variable
 
 Problem 2's model as a program.
 

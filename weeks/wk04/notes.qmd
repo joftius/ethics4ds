@@ -499,8 +499,9 @@ answer, with variance in the measure turned into bias in the slope.
 
 The slope above has need on the left. In a regression course the noisy
 measure is usually on the right, as the predictor, and often something
-is left out as well. Does care improve health? Let $Y$ be a person's
-health next year, $X^\star$ the number of times they saw a doctor this
+is left out as well. Does care improve health? In this subsection $Y$
+is an outcome, not the measure of need. Let $Y$ be a person's health
+next year, $X^\star$ the number of times they saw a doctor this
 year, and $X = X^\star + \varepsilon$ the number they report, with
 $\varepsilon$ independent of everything else. Let $Z$ be how ill they
 were this year, which is not in the data, and
@@ -519,14 +520,15 @@ $$
 $$
 where $\lambda$ is the reliability of the report and $\delta$ is the
 slope of illness on visits. With $\gamma = 0$ this is $\beta\lambda$,
-attenuation alone. With no noise, $\lambda = 1$, it is last week's
-omitted-variable bias, $\beta + \gamma\delta$.
+attenuation alone. With no noise, $\lambda = 1$, it is last week's slope
+with a variable left out, $\beta + \gamma\delta$, whose bias is
+$\gamma\delta$.
 
 The two biases work differently. Noise multiplies the slope by
 $\lambda$, which is between 0 and 1: it pulls the slope toward zero and
-never changes its sign. The left-out variable adds $\gamma\delta$, whose
-sign is the sign of the product of the two arrows out of $Z$, and it can
-change the sign. Visits help, $\beta > 0$. The ill visit more,
+never changes its sign. The left-out variable adds $\gamma\delta$ to
+$\beta$ inside the bracket. Its sign is the sign of the product of the
+two arrows out of $Z$, and it can change the sign of the slope. Visits help, $\beta > 0$. The ill visit more,
 $\delta > 0$, and are less healthy next year, $\gamma < 0$, so
 $\gamma\delta < 0$. If $\gamma\delta < -\beta$, the people who visit
 more are less healthy next year, the slope is negative, and the data
@@ -621,7 +623,7 @@ Two more things follow. Among the selected the parts are negatively
 related, although they are independent in the population: to clear the
 threshold with less need, a person needed more of something else. And
 when the parts are related in the population, the mixture changes. If
-poorer people are sicker, the sickest have fewer resources and generate
+poorer people are sicker, with the spread of need unchanged, the sickest have fewer resources and generate
 less cost than their need, and the places go less to need: the
 hospital's offset again, inside one group.
 
@@ -1012,8 +1014,8 @@ effect: it compares the same patient with the extra care and without
 it, holding the patient fixed. A slope of health on reported visits
 is read as the effect of a visit with illness held fixed; illness is not
 in the data, so nothing held it fixed. The lens also asks what the
-people scored can change: how readily they seek care more than how ill
-they are. Goodhart's law is the case where something was assumed to stay
+people scored can change: how readily they seek care is easier for them
+to change than how ill they are. Goodhart's law is the case where something was assumed to stay
 fixed and did not: a rule rewarding the score assumed that the
 relation between the score and need would hold, and the people scored
 changed it. Strategic classification holds the true label fixed while
@@ -1027,9 +1029,10 @@ afterward nobody has to make it again; the score makes it for them.
 
 ## For the class
 
-### Attenuation, derived
+### Problems and simulation
 
-The class derives $\lambda$ from the covariance algebra above, then the
+The class computes who is selected under an offset at a new threshold,
+by hand. It derives $\lambda$ from the covariance algebra above, then the
 slope $\lambda(\beta + \gamma\delta)$, with numbers that make it too
 large, too small and of the wrong sign. It draws the graph of need,
 resources and care-seeking with selection on cost, computes each part's
