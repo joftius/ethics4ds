@@ -23,14 +23,14 @@ st313:
   week: 04
   session: lecture
   register: 1                      # schema key; part 3 and the engagement slide declare the reinforcement-learning letters on the slide. Student-facing text never says "register"
-  segments:                        # sums to 80: 60 of material and 20 of slack; production 30 (38%)
+  segments:                        # sums to 80: 62 of material and 18 of slack; production 32 (40%)
     # opener: 2
     - {label: "plan; written commitment: a score that has been used on you, what it measures, what it stands for", minutes: 2, mode: production}
     # part 1, scores: 8
     - {label: "citation counts: de Vries 2018 figure 1, the week 1 filter three stages further down the pipeline", minutes: 3, mode: exposition, retrieves: [S4]}
     - {label: "what a score does to the people it is applied to: Goodhart 1975, Strathern 1997; the p-hacking loop as the first case, asked of the room", minutes: 2, mode: production, retrieves: [S4]}
     - {label: "Y and Y*: measured and intended; the room sorts its own scores", minutes: 3, mode: production, introduces: [CC-11], retrieves: [S2]}
-    # part 2, cost as a proxy for need: 18
+    # part 2, cost as a proxy for need: 21
     - {label: "the case: a commercial risk score, cost as the label, enrollment at the 97th percentile", minutes: 2, mode: exposition}
     - {label: "commitment: sketch conditions against risk percentile for two groups if cost tracked need equally; then the paper's numbers", minutes: 3, mode: production}
     - {label: "Y = Y* + bA: an offset for one group is a threshold moved for that group; predict, for b = -0.5, who is selected and how ill", minutes: 2, mode: production, introduces: [CC-11], core: CC-11, results: [R20]}
@@ -39,16 +39,17 @@ st313:
     - {label: "why b is not zero: lower spending at the same number of conditions; access; the choice of label", minutes: 2, mode: exposition, retrieves: [S2]}
     - {label: "lens D: the threshold prices two errors, and who bears each; the standing question", minutes: 3, mode: production, spine_first_encounter: [S5]}
     - {label: "attenuation: the best guess of need from a noisy measure is the measure shrunk by lambda; derived in the class", minutes: 2, mode: exposition, introduces: [CC-12], core: CC-12, results: [R21, R23]}
+    - {label: "noise and an omitted variable: the slope on a noisy measure is lambda(beta + gamma delta); returns to schooling, reported schooling noisy and ability left out; pairs: too large or too small; lens F", minutes: 2, mode: production, retrieves: [S2], results: [R21, R27]}
     # part 3, what gets rewarded: 12 (the reinforcement-learning part from week 3; convenor, 13 October)
-    - {label: "reinforcement learning, its letters declared; the agent maximizes E_pi[R], a utilitarian wants E_pi[U]; whether E_pi[U] is causal depends on further assumptions", minutes: 2, mode: exposition, register: 2}
+    - {label: "reinforcement learning, its letters declared; R is what the agent is given, U is what we wanted", minutes: 2, mode: exposition, register: 2}
     - {label: "toy example: a cleaning robot rewarded for not seeing mess (Amodei and colleagues 2016)", minutes: 2, mode: exposition, register: 2}
     - {label: "realistic example, pairs: week 3's job center judged on its placement rate; who does it send, and who would a utilitarian send", minutes: 2, mode: production, register: 2}
     - {label: "what the placement rate rewards: 70% and 6 jobs against 40% and 26; cream skimming in JTPA (Heckman, Heinrich and Smith 2002)", minutes: 2, mode: exposition, register: 2}
     - {label: "need, or benefit: back to the hospital; the sickest patient and the one the care would help most; hands, then what you would need to know and what you are deciding", minutes: 2, mode: production, register: 2}
     - {label: "utilitarianism with a reward: week 3's four difficulties retrieved, then as choices made in building the agent", minutes: 2, mode: production, register: 2}
-    # part 4, systems that adapt: 12
+    # part 4, systems that adapt: 13
     - {label: "Goodhart as an intervention on the measured target: the graph, before and after", minutes: 3, mode: exposition, introduces: [CC-13], core: CC-13, results: [R22, R23], retrieves: [S1]}
-    - {label: "predict: 300 places; everyone adds 1, or a random half add 1; who is selected, and does mean need change; then the simulation", minutes: 3, mode: production, results: [R22]}
+    - {label: "predict: 300 places; everyone adds 1, or half are able to add 1; who is selected, and does mean need change; then the simulation", minutes: 3, mode: production, results: [R22]}
     - {label: "gaming and improvement: two graphs (practice, memorizing old papers); pairs draw the third case; Miller, Milli and Hardt 2020", minutes: 3, mode: production, introduces: [CC-14]}
     - {label: "dark: strategic classification and performative prediction: what each assumes, how they differ", minutes: 2, mode: exposition, introduces: [CC-14]}
     - {label: "dark: engagement; YouTube 2012, views to watch time; R against U; the standing question", minutes: 2, mode: exposition, register: 2}
@@ -56,8 +57,8 @@ st313:
     - {label: "lenses this week", minutes: 2, mode: exposition}
     - {label: "written, individually: one change to how the score from the opener is used, the mechanism it addresses, who loses; two read out", minutes: 2, mode: production}
     - {label: "the question that splits the room: hands and one reason from each side; the task for next time on the same slide", minutes: 2, mode: production}
-    # slack: 22
-    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 20, mode: exposition}
+    # slack: 18
+    - {label: "slack: questions and overrun; no next-week slide (the task is on the last slide and the class sheet)", minutes: 18, mode: exposition}
   history: [{minutes: 1, buys: "Goodhart (1975) and Strathern (1997): where the name and the usual wording of the law come from"}]
   complications: []
   retrieves: [S1, S2, S4]
@@ -65,7 +66,7 @@ st313:
   lenses: [A, D, F]                # F, "What can be changed, and how?", first used this week (convenor, 18 October)
   spine_first_encounter: [S5]
   readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart]
-  results: [R20, R21, R22, R23, R24]     # R25 and R26 (utility representation; Szpilrajn) went with part 4 to _held/, 17 October
+  results: [R20, R21, R22, R23, R24, R27]     # R27, the slope on a noisy measure with a variable left out, added 19 October; R25 and R26 (utility representation; Szpilrajn) went with part 4 to _held/, 17 October
   assumes: [ST102]
   figures: [../../files/devries_2018_fig1.png]
 # ---------------------------------------------------------------------------------
@@ -202,11 +203,11 @@ sel <- function(b) {                       # for group A = 1 with offset b, agai
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 60 in the 80: opener 2, scores 8, cost as a proxy for need 21, what gets rewarded 12, systems that adapt 11, close 6; then 20 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 62 in the 80: opener 2, scores 8, cost as a proxy for need 21, what gets rewarded 12, systems that adapt 13, close 6; then 18 of slack. Dark = rush or skip.
 
-Cut order: (1) the two-models slide; (2) the engagement slide; (3) the commentary on the citation figure, keeping the figure; (4) attenuation, which the class derives anyway. Do not cut the predictions before the table and the simulation, the job center, the written close or the question at the end.
+Cut order: (1) the two-models slide; (2) the engagement slide; (3) the commentary on the citation figure, keeping the figure; (4) attenuation and the slide after it, which the class works anyway. Do not cut the predictions before the table and the simulation, the job center, the written close or the question at the end.
 
-Pace: 0:10 Part 2; 0:31 Part 3; 0:43 Part 4; 0:54 lenses; 1:00 end.
+Pace: 0:10 Part 2; 0:31 Part 3; 0:43 Part 4; 0:56 lenses; 1:02 end.
 :::
 
 ### Week 4
@@ -487,6 +488,31 @@ ggplot(att, aes(y, ystar)) +
   theme(plot.caption = element_text(size = 12, color = cgray))
 ```
 
+## Noise and an omitted variable
+
+::: {.notes}
+Week 3's omitted-variable bias, now with a noisy measure. The classic case is the return to a year of schooling. Reported schooling has errors, which shrink the slope by lambda; ability is not in the data, raises both schooling and earnings, and adds gamma times delta. Pairs, one minute, then hands for "too large" and "too small". After the hands: Card puts the reliability of reported schooling at about 0.9, and studies of twins suggest a small upward bias from ability, so the two partly offset. Neither number comes from the data on X and Y. Lens F: the slope is read as the effect of a year of schooling with ability held fixed. The class derives the formula and works numbers on both sides of beta.
+:::
+
+Earnings $Y$; years of schooling $X^\star$, reported as $X = X^\star + \varepsilon$; ability $Z$, not in the data; $\varepsilon$ and $U$ independent noise.
+$$
+Y = \beta X^\star + \gamma Z + U ,
+\qquad
+\text{slope of } Y \text{ on } X = \lambda\,(\beta + \gamma\delta),
+$$
+with $\lambda = \operatorname{Var}(X^\star)/\operatorname{Var}(X)$ and $\delta = \operatorname{Cov}(X^\star, Z)/\operatorname{Var}(X^\star)$.
+
+- Noise in the report: $\lambda < 1$ pulls the slope toward zero.
+- Ability left out: $\gamma\delta > 0$ pushes it up.
+
+::: {.ask}
+Is the slope of earnings on reported schooling larger or smaller than $\beta$? What would you need to know that is not in the data?
+:::
+
+::: {.source}
+Card (1999), "The causal effect of education on earnings," *Handbook of Labor Economics* 3A, 1801--1863, section 3.
+:::
+
 # Part 3: What gets rewarded
 
 ## Reinforcement learning
@@ -643,7 +669,7 @@ The job center chose between two utilities: people likely to be in work, or peop
 
 The hospital's program mostly prevents acute episodes in people with chronic illness. Two candidates for $U$: how ill a patient is, and how much the extra care would help them.
 
-Benefit is an effect: what the care changes for that patient. Telling need from benefit is a causal question.
+Benefit is an effect, a causal question.
 
 ::: {.ask}
 Should the program go to the sickest, or to those the care would help most? What would you need to know to tell them apart, and what are you deciding when you choose?
@@ -845,7 +871,7 @@ Each lens, what it referred to this week. The third is new: last week's method a
 
 - **What are we optimizing or predicting?** Cost, standing in for need. Citations, for contribution. A placement rate, for jobs created. Engagement, for a user's good.
 - **Who bears the error?** A threshold at the 97th percentile makes two errors; an offset in the measure moves being left out onto one group. A cleaning robot's owner bears the robot's reward.
-- **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? Benefit compares care with no care for the same patient. A rule on the score assumed the relation between score and need would stay fixed.
+- **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? Benefit compares care with no care for the same patient. A slope of earnings on schooling is read with ability held fixed. A rule on the score assumed the relation between score and need would stay fixed.
 
 ...and why?
 

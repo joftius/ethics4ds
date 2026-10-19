@@ -15,7 +15,7 @@ st313:
   lenses: [A, D, F]                # F first used this week (convenor, 18 October)
   spine_first_encounter: [S5]
   readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart, amodei-2016, youtube-2012, miller-milli-hardt-2020, perdomo-2020, jacobs-wallach-2021, manheim-garrabrant-2018]
-  results: [R20, R21, R22, R23, R24]     # R25 and R26 went with the section "Utility and order" to _held/, 17 October
+  results: [R20, R21, R22, R23, R24, R27]     # R27, the slope on a noisy measure with a variable left out, added 19 October; R25 and R26 went with the section "Utility and order" to _held/, 17 October
   assumes: [ST102]
   figures: [../../files/devries_2018_fig1.png]
 # ---------------------------------------------------------------------------------
@@ -495,19 +495,49 @@ The slope is **attenuated** toward zero by $\lambda$, however large the
 sample. This is week 2's sentence again, more data, the same wrong
 answer, with variance in the measure turned into bias in the slope.
 
-The same algebra covers the form you will meet in a regression course.
-Suppose an outcome $V$ depends on need, $V = \beta Y^\star + U$, with
-$U$ independent of $Y^\star$ and of $\varepsilon$, and someone with the
-measure but not the need regresses $V$ on $Y$. The population slope is
-$\operatorname{Cov}(V, Y)/\operatorname{Var}(Y) = \beta\lambda$, because
-every cross-covariance between the noises and $Y^\star$ is zero; the
-case above is $\beta = 1$, $U = 0$. Noise in the outcome $V$ does
-nothing of the kind: it widens the interval around the slope and
-leaves its center alone. The independence of $U$ matters: if $U$ were
-the same noise as $\varepsilon$, then $V$ would equal $Y$ and the slope
-would be $1$. This is where the week's two routes meet: an offset
-biases the slope's location for one group, and noise biases its size
-for everyone.
+### Noise and an omitted variable
+
+The slope above has need on the left. In a regression course the noisy
+measure is usually on the right, as the predictor. The classic case is
+the return to a year of schooling. Let $Y$ be earnings, $X^\star$ years
+of schooling, and $X = X^\star + \varepsilon$ the years a person
+reports, with $\varepsilon$ independent of everything else. Let $Z$ be
+ability, which is not in the data, and
+$$
+Y = \beta X^\star + \gamma Z + U ,
+$$
+with $U$ independent of $X^\star$, $Z$ and $\varepsilon$. Someone with
+data on $X$ and $Y$ regresses earnings on reported schooling. The
+population slope is
+$$
+\frac{\operatorname{Cov}(X, Y)}{\operatorname{Var}(X)}
+= \frac{\beta \operatorname{Var}(X^\star) + \gamma \operatorname{Cov}(X^\star, Z)}{\operatorname{Var}(X^\star) + \sigma_\varepsilon^2}
+= \lambda\,(\beta + \gamma\delta),
+\qquad
+\delta = \frac{\operatorname{Cov}(X^\star, Z)}{\operatorname{Var}(X^\star)} ,
+$$
+where $\lambda$ is the reliability of reported schooling and $\delta$ is
+the slope of ability on schooling. With $\gamma = 0$ this is
+$\beta\lambda$, attenuation alone. With no noise, $\lambda = 1$, it is
+last week's omitted-variable bias, $\beta + \gamma\delta$.
+
+The two biases work differently. Noise multiplies the slope by
+$\lambda < 1$ and pulls it toward zero. The left-out variable adds
+$\gamma\delta$, whose sign is the sign of the product of the two arrows
+out of $Z$. Ability is usually taken to raise both schooling and
+earnings, so $\gamma\delta > 0$ and the slope is pushed up. Which wins?
+Card (1999, section 3) reviews the evidence: the reliability of
+self-reported schooling is about 0.9, and studies of identical twins
+suggest a small upward bias from ability, so the two partly offset.
+Neither number comes from the data on $X$ and $Y$. The reliability
+needs a second report of the same person's schooling, and the ability
+term needs a measure of ability or a design that holds it fixed. From
+$X$ and $Y$ alone you cannot tell whether the slope is too large or too
+small.
+
+Noise in the outcome is different again. Measurement error in $Y$ goes
+into $U$: it widens the interval around the slope and leaves its center
+alone.
 
 ## Reinforcement learning
 
@@ -886,7 +916,10 @@ What can be changed, and how? What things are considered "controlled
 for" or "held fixed," and is that realistic? This lens is new this
 week, and it is last week's method put as a question. Benefit is an
 effect: it compares the same patient with the extra care and without
-it, holding the patient fixed. Goodhart's law is the case where something was assumed to stay
+it, holding the patient fixed. A slope of earnings on reported
+schooling is read as the effect of a year of schooling with ability
+held fixed; ability is not in the data, so nothing held it fixed, and
+the noise in the report pulls the other way. Goodhart's law is the case where something was assumed to stay
 fixed and did not: a rule rewarding the score assumed that the
 relation between the score and need would hold, and the people scored
 changed it. Strategic classification holds the true label fixed while
@@ -902,10 +935,9 @@ afterward nobody has to make it again; the score makes it for them.
 
 ### Attenuation, derived
 
-The class derives the slope $\beta\lambda$ from the covariance algebra
-above and checks it by simulation, then asks what happens when the
-noise is in $V$ instead of in $Y$, and when $\varepsilon$ is correlated
-with $Y^\star$.
+The class derives $\lambda$ from the covariance algebra above, then the
+slope $\lambda(\beta + \gamma\delta)$ of an outcome on a noisy measure
+with a variable left out, and works numbers on both sides of $\beta$.
 
 ## Readings
 
