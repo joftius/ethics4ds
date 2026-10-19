@@ -435,20 +435,24 @@ E[Y^\star \mid Y = y] = \lambda y, \qquad \lambda = \frac{\operatorname{Var}(Y^\
 </section>
 <section id="noise-and-an-omitted-variable" class="slide level2">
 <h2>Noise and an omitted variable</h2>
-<p>Earnings <span class="math inline">\(Y\)</span>; years of schooling <span class="math inline">\(X^\star\)</span>, reported as <span class="math inline">\(X = X^\star + \varepsilon\)</span>; ability <span class="math inline">\(Z\)</span>, not in the data; <span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(U\)</span> independent noise. <span class="math display">\[
+<p>Health <span class="math inline">\(Y\)</span>; visits <span class="math inline">\(X^\star\)</span>, reported as <span class="math inline">\(X = X^\star + \varepsilon\)</span>; illness <span class="math inline">\(Z\)</span>, not in the data. <span class="math display">\[
 Y = \beta X^\star + \gamma Z + U ,
 \qquad
 \text{slope of } Y \text{ on } X = \lambda\,(\beta + \gamma\delta),
 \]</span> with <span class="math inline">\(\lambda = \operatorname{Var}(X^\star)/\operatorname{Var}(X)\)</span> and <span class="math inline">\(\delta = \operatorname{Cov}(X^\star, Z)/\operatorname{Var}(X^\star)\)</span>.</p>
-<ul>
-<li>Noise in the report: <span class="math inline">\(\lambda &lt; 1\)</span> pulls the slope toward zero.</li>
-<li>Ability left out: <span class="math inline">\(\gamma\delta &gt; 0\)</span> pushes it up.</li>
-</ul>
 <div class="ask">
-<p>Is the slope of earnings on reported schooling larger or smaller than <span class="math inline">\(\beta\)</span>? What would you need to know that is not in the data?</p>
+<p>Visits help, <span class="math inline">\(\beta &gt; 0\)</span>. The ill visit more and are less healthy next year. Can the slope be negative? Can noise make it so?</p>
 </div>
-<div class="source">
-<p>Card (1999), “The causal effect of education on earnings,” <em>Handbook of Labor Economics</em> 3A, 1801–1863, section 3.</p>
+<div class="fragment">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/noise_ovb-1.png" style="width:88.0%" alt="The slope of health on reported visits against lambda, from 0 to 1, for three values of gamma times delta with beta equal to one half. With gamma delta 0.25 the line rises to 0.75 and crosses beta at lambda two thirds; with minus 0.25 it rises to 0.25, below beta; with minus 1 it falls to minus 0.5, below zero for every lambda."></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 </section></section>
 <section>
@@ -712,7 +716,7 @@ Y = Y^\star + \varepsilon + g .
 <ul>
 <li><strong>What are we optimizing or predicting?</strong> Cost, standing in for need. Citations, for contribution. A placement rate, for jobs created. Engagement, for a user’s good.</li>
 <li><strong>Who bears the error?</strong> A threshold at the 97th percentile makes two errors; an offset in the measure moves being left out onto one group. A cleaning robot’s owner bears the robot’s reward.</li>
-<li><strong>What can be changed, and how?</strong> What things are considered “controlled for” or “held fixed,” and is that realistic? Benefit compares care with no care for the same patient. A slope of earnings on schooling is read with ability held fixed. A rule on the score assumed the relation between score and need would stay fixed.</li>
+<li><strong>What can be changed, and how?</strong> What things are considered “controlled for” or “held fixed,” and is that realistic? Benefit compares care with no care for the same patient. A slope of health on visits is read with illness held fixed. A rule on the score assumed the relation between score and need would stay fixed.</li>
 </ul>
 <p>…and why?</p>
 </section>

@@ -1,0 +1,59 @@
+---
+title: "Teacher note: week 4 class"
+subtitle: "For class teachers"
+format:
+  html:
+    toc: false
+    embed-resources: true
+---
+
+## Keep or rush
+
+In class order. Planned total 76 of the 80 minutes.
+
+| Item | Min | | If short |
+|---|---:|---|---|
+| Discussion 1: a score you know, what it measures and what it stands for; were the hospital's cost data wrong? | 10 | Rush | Three examples from the room; then question 2 with hands |
+| Problem 1: an offset and who is selected, by hand, with feedback | 12 | Rush; cut first | Do (a) together; say (c): at the same score, group 1 has $0.5$ more need |
+| Problem 2: noise and an omitted variable, with feedback | 12 | Keep | (b) and (c) only; say (d): noise never changes the sign |
+| Problem 3: who is selected, with feedback | 13 | Keep | (a) and (c); say (e): among the selected, less need goes with more resources |
+| Discussion 2: who should get the places, and last week's closing question | 12 | Rush | Question 1 in pairs, then question 3 with hands |
+| Simulation in R: who is selected, with feedback | 16 | Keep | Steps 1 and 4; show the plot of step 3 from the complete sheet |
+| The task for next time | 1 | Keep | Read the task aloud |
+
+: {tbl-colwidths="[32,6,16,46]"}
+
+Minimum class, about 45 minutes: problems 2 and 3, the simulation's steps 1 and 4, discussion 2 in pairs and the task for next time. With more time, add problem 1 back first.
+
+## If you read on
+
+How it runs
+
+- Students may not have brought a score: the task was announced with the readings, not set in class. Discussion 1 gives a list to choose from. Open the [complete class sheet](https://ethics4ds.com/teachers/wk04/class_complete.html) on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers.
+- Discussion 2 is the break between the problems and the simulation. Take a five-minute break instead from the slack if the room needs one. The simulation needs one laptop with R per pair; the code runs in about a second. Everything under "Optional, can be done at home" is outside the class.
+- Notation: problem 2 writes the regressor $X$, as the lecture does (last week's class problems wrote $T$). Problems 1 and 3 write cost $Y$ and need $Y^\star$; problem 2's $Y$ is health. Each stem declares its letters.
+
+What the class adds to the lecture
+
+- Problem 2(a) derives $\lambda$, which the lecture stated. Problem 2(d): classical noise never changes the sign of a slope; an omitted variable can, and with $\gamma\delta > 0$ the two biases pull against each other.
+- Problem 3 and the simulation are new: cost depends on need, resources and care-seeking, and the selected are a mixture. Each part's mean among the selected is its share of $\operatorname{Var}(Y)$ times their mean cost (the notes' section "Need, resources and care-seeking"). Selection makes need and resources negatively related among the selected; do not name colliders beyond a sentence, since they are introduced properly later.
+
+What students should see
+
+- Problem 1: shares 0.10 and 0.0375, ratio 0.375; mean need of the selected 1.76 and 2.18; at the same score, group 1 has 0.5 more need.
+- Problem 2(c): 1.35 (too large), 0.45 (too small), $-0.45$ (wrong sign). (d): larger than $\beta$ when $\gamma\delta > 1/9$.
+- Problem 3(c): mean cost 3.21; need 1.60, resources 0.80, care-seeking 0.40, noise 0.40. (d): mean need falls to 1.39.
+- Simulation: the same means within a few hundredths; about 35% of places go to people in the top 3% by need; correlation of need and resources among the selected about $-0.47$. With gaming tied to resources, mean need of the selected falls to about 1.51 and the top-3% share to about 0.30.
+
+Where they get stuck
+
+- "The data were biased" as the whole answer to discussion 1. Ask: which number in the hospital's data was wrong?
+- Problem 2(d): thinking noise can flip the sign, or that attenuation always means the estimate is too small.
+- Problem 3(b): forgetting that $\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)$ only because the parts are independent; in (d) they are not.
+- Problem 3(c): using a standard deviation of 1 for cost instead of $\sqrt{2}$.
+- Discussion 2: treating "under their control" as settled. Care-seeking depends on time off work and on past treatment by doctors.
+
+If there is time: the prompts
+
+- Changing the label to active chronic conditions: diagnoses are recorded when patients see doctors, so less access can mean fewer recorded conditions, and once payment depends on recorded diagnoses there is a reason to record more of them.
+- The visa streaming tool: neither model fits well. The applicants did not change their applications (not strategic classification). The decisions changed the data used to rate later applications, so it is closest to performative prediction, with the system's own refusals feeding the list.

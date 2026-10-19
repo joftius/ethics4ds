@@ -9,3 +9,5 @@ A score measures one thing and is taken to stand for another. A hospital's risk 
 **Bring to the class:** one score or algorithm used to make decisions about people, with what it measures and what it stands in for.
 
 **Lecture:** [notes](weeks/wk04/notes.html) · [slides](weeks/wk04/slides.html)
+
+**Class:** [class sheet](weeks/wk04/class.html) ([.qmd](https://ethics4ds.com/weeks/wk04/class.qmd){download="class.qmd"})

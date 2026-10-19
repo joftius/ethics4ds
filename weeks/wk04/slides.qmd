@@ -39,7 +39,7 @@ st313:
     - {label: "why b is not zero: lower spending at the same number of conditions; access; the choice of label", minutes: 2, mode: exposition, retrieves: [S2]}
     - {label: "lens D: the threshold prices two errors, and who bears each; the standing question", minutes: 3, mode: production, spine_first_encounter: [S5]}
     - {label: "attenuation: the best guess of need from a noisy measure is the measure shrunk by lambda; derived in the class", minutes: 2, mode: exposition, introduces: [CC-12], core: CC-12, results: [R21, R23]}
-    - {label: "noise and an omitted variable: the slope on a noisy measure is lambda(beta + gamma delta); returns to schooling, reported schooling noisy and ability left out; pairs: too large or too small; lens F", minutes: 2, mode: production, retrieves: [S2], results: [R21, R27]}
+    - {label: "noise and an omitted variable: the slope on a noisy measure is lambda(beta + gamma delta); care and health, visits reported with error and illness left out; pairs: can the slope be negative, can noise make it so; then the figure: too large, too small, wrong sign; lens F", minutes: 2, mode: production, retrieves: [S2], results: [R21, R27]}
     # part 3, what gets rewarded: 12 (the reinforcement-learning part from week 3; convenor, 13 October)
     - {label: "reinforcement learning, its letters declared; R is what the agent is given, U is what we wanted", minutes: 2, mode: exposition, register: 2}
     - {label: "toy example: a cleaning robot rewarded for not seeing mess (Amodei and colleagues 2016)", minutes: 2, mode: exposition, register: 2}
@@ -491,10 +491,10 @@ ggplot(att, aes(y, ystar)) +
 ## Noise and an omitted variable
 
 ::: {.notes}
-Week 3's omitted-variable bias, now with a noisy measure. The classic case is the return to a year of schooling. Reported schooling has errors, which shrink the slope by lambda; ability is not in the data, raises both schooling and earnings, and adds gamma times delta. Pairs, one minute, then hands for "too large" and "too small". After the hands: Card puts the reliability of reported schooling at about 0.9, and studies of twins suggest a small upward bias from ability, so the two partly offset. Neither number comes from the data on X and Y. Lens F: the slope is read as the effect of a year of schooling with ability held fixed. The class derives the formula and works numbers on both sides of beta.
+Last week's omitted-variable bias, with a noisy measure. Does care improve health? Visits are reported with error, independent of everything else, which shrinks the slope by lambda; illness is not in the data, brings more visits and worse health, and adds gamma times delta. Pairs, one minute, on the question; then the figure. Noise never changes the sign, since lambda is positive; the left-out variable can. When gamma delta is positive, as with ability and schooling, the two pull against each other and the slope can be too large or too small. Lens F: the slope is read as the effect of a visit with illness held fixed. The class derives the formula.
 :::
 
-Earnings $Y$; years of schooling $X^\star$, reported as $X = X^\star + \varepsilon$; ability $Z$, not in the data; $\varepsilon$ and $U$ independent noise.
+Health $Y$; visits $X^\star$, reported as $X = X^\star + \varepsilon$; illness $Z$, not in the data.
 $$
 Y = \beta X^\star + \gamma Z + U ,
 \qquad
@@ -502,16 +502,34 @@ Y = \beta X^\star + \gamma Z + U ,
 $$
 with $\lambda = \operatorname{Var}(X^\star)/\operatorname{Var}(X)$ and $\delta = \operatorname{Cov}(X^\star, Z)/\operatorname{Var}(X^\star)$.
 
-- Noise in the report: $\lambda < 1$ pulls the slope toward zero.
-- Ability left out: $\gamma\delta > 0$ pushes it up.
-
 ::: {.ask}
-Is the slope of earnings on reported schooling larger or smaller than $\beta$? What would you need to know that is not in the data?
+Visits help, $\beta > 0$. The ill visit more and are less healthy next year. Can the slope be negative? Can noise make it so?
 :::
 
-::: {.source}
-Card (1999), "The causal effect of education on earnings," *Handbook of Labor Economics* 3A, 1801--1863, section 3.
-:::
+. . .
+
+```{r noise_ovb, fig.width=8.5, fig.height=2, out.width="88%", fig.alt="The slope of health on reported visits against lambda, from 0 to 1, for three values of gamma times delta with beta equal to one half. With gamma delta 0.25 the line rises to 0.75 and crosses beta at lambda two thirds; with minus 0.25 it rises to 0.25, below beta; with minus 1 it falls to minus 0.5, below zero for every lambda."}
+beta <- 0.5
+cases <- data.frame(gd = c(0.25, -0.25, -1), col = c(gold, slate, navy))
+lines <- do.call(rbind, lapply(seq_len(nrow(cases)), function(i)
+  data.frame(lambda = c(0, 1), slope = c(0, 1) * (beta + cases$gd[i]), gd = cases$gd[i], col = cases$col[i])))
+ends <- data.frame(x = 1.03, y = beta + cases$gd, col = cases$col,
+                   label = sprintf("$\u03b3\u03b4$ = %s", sub("-", "\u2212", as.character(cases$gd))))
+regions <- data.frame(x = 0.02, y = c(0.66, 0.36, -0.3), label = c("too large", "too small", "wrong sign"))
+ggplot(lines, aes(lambda, slope, group = gd)) +
+  annotate("segment", x = 0, xend = 1, y = beta, yend = beta, linetype = "dashed", color = cgray) +
+  annotate("segment", x = 0, xend = 1, y = 0, yend = 0, color = cgray, linewidth = 0.3) +
+  geom_line(aes(color = col), linewidth = 1.4) +
+  scale_color_identity() +
+  geom_mathtext(data = ends, aes(x, y, label = label, colour = col), size = 5.2, hjust = 0) +
+  geom_mathtext(data = data.frame(x = 1.03, y = beta, label = "$\u03b2$, the effect"),
+                aes(x, y, label = label), colour = cgray, size = 4.6, hjust = 0) +
+  annotate("text", x = regions$x, y = regions$y, label = regions$label, hjust = 0, color = cgray, size = 4.6, fontface = "italic") +
+  scale_x_continuous(breaks = c(0, 0.5, 1), labels = c("\u03bb = 0", "0.5", "1"), limits = c(0, 1.4)) +
+  scale_y_continuous(breaks = c(-0.5, 0, 0.5)) + coord_cartesian(ylim = c(-0.58, 0.8), clip = "off") +
+  labs(x = NULL, y = "slope") +
+  theme(panel.grid.minor = element_blank(), axis.title = element_text(size = 14), axis.text = element_text(size = 12))
+```
 
 # Part 3: What gets rewarded
 
@@ -871,7 +889,7 @@ Each lens, what it referred to this week. The third is new: last week's method a
 
 - **What are we optimizing or predicting?** Cost, standing in for need. Citations, for contribution. A placement rate, for jobs created. Engagement, for a user's good.
 - **Who bears the error?** A threshold at the 97th percentile makes two errors; an offset in the measure moves being left out onto one group. A cleaning robot's owner bears the robot's reward.
-- **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? Benefit compares care with no care for the same patient. A slope of earnings on schooling is read with ability held fixed. A rule on the score assumed the relation between score and need would stay fixed.
+- **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? Benefit compares care with no care for the same patient. A slope of health on visits is read with illness held fixed. A rule on the score assumed the relation between score and need would stay fixed.
 
 ...and why?
 

@@ -15,7 +15,7 @@ st313:
   lenses: [A, D, F]                # F first used this week (convenor, 18 October)
   spine_first_encounter: [S5]
   readings: [obermeyer-2019, fairmlbook-ch1, wiki-goodhart, amodei-2016, youtube-2012, miller-milli-hardt-2020, perdomo-2020, jacobs-wallach-2021, manheim-garrabrant-2018]
-  results: [R20, R21, R22, R23, R24, R27]     # R27, the slope on a noisy measure with a variable left out, added 19 October; R25 and R26 went with the section "Utility and order" to _held/, 17 October
+  results: [R20, R21, R22, R23, R24, R27, R28]     # R27, the slope on a noisy measure with a variable left out, and R28, what the selected are made of, added 19 October; R25 and R26 went with the section "Utility and order" to _held/, 17 October
   assumes: [ST102]
   figures: [../../files/devries_2018_fig1.png]
 # ---------------------------------------------------------------------------------
@@ -498,17 +498,18 @@ answer, with variance in the measure turned into bias in the slope.
 ### Noise and an omitted variable
 
 The slope above has need on the left. In a regression course the noisy
-measure is usually on the right, as the predictor. The classic case is
-the return to a year of schooling. Let $Y$ be earnings, $X^\star$ years
-of schooling, and $X = X^\star + \varepsilon$ the years a person
-reports, with $\varepsilon$ independent of everything else. Let $Z$ be
-ability, which is not in the data, and
+measure is usually on the right, as the predictor, and often something
+is left out as well. Does care improve health? Let $Y$ be a person's
+health next year, $X^\star$ the number of times they saw a doctor this
+year, and $X = X^\star + \varepsilon$ the number they report, with
+$\varepsilon$ independent of everything else. Let $Z$ be how ill they
+were this year, which is not in the data, and
 $$
 Y = \beta X^\star + \gamma Z + U ,
 $$
 with $U$ independent of $X^\star$, $Z$ and $\varepsilon$. Someone with
-data on $X$ and $Y$ regresses earnings on reported schooling. The
-population slope is
+data on $X$ and $Y$ regresses health on reported visits. The population
+slope is
 $$
 \frac{\operatorname{Cov}(X, Y)}{\operatorname{Var}(X)}
 = \frac{\beta \operatorname{Var}(X^\star) + \gamma \operatorname{Cov}(X^\star, Z)}{\operatorname{Var}(X^\star) + \sigma_\varepsilon^2}
@@ -516,28 +517,120 @@ $$
 \qquad
 \delta = \frac{\operatorname{Cov}(X^\star, Z)}{\operatorname{Var}(X^\star)} ,
 $$
-where $\lambda$ is the reliability of reported schooling and $\delta$ is
-the slope of ability on schooling. With $\gamma = 0$ this is
-$\beta\lambda$, attenuation alone. With no noise, $\lambda = 1$, it is
-last week's omitted-variable bias, $\beta + \gamma\delta$.
+where $\lambda$ is the reliability of the report and $\delta$ is the
+slope of illness on visits. With $\gamma = 0$ this is $\beta\lambda$,
+attenuation alone. With no noise, $\lambda = 1$, it is last week's
+omitted-variable bias, $\beta + \gamma\delta$.
 
 The two biases work differently. Noise multiplies the slope by
-$\lambda < 1$ and pulls it toward zero. The left-out variable adds
-$\gamma\delta$, whose sign is the sign of the product of the two arrows
-out of $Z$. Ability is usually taken to raise both schooling and
-earnings, so $\gamma\delta > 0$ and the slope is pushed up. Which wins?
-Card (1999, section 3) reviews the evidence: the reliability of
-self-reported schooling is about 0.9, and studies of identical twins
-suggest a small upward bias from ability, so the two partly offset.
-Neither number comes from the data on $X$ and $Y$. The reliability
-needs a second report of the same person's schooling, and the ability
-term needs a measure of ability or a design that holds it fixed. From
-$X$ and $Y$ alone you cannot tell whether the slope is too large or too
-small.
+$\lambda$, which is between 0 and 1: it pulls the slope toward zero and
+never changes its sign. The left-out variable adds $\gamma\delta$, whose
+sign is the sign of the product of the two arrows out of $Z$, and it can
+change the sign. Visits help, $\beta > 0$. The ill visit more,
+$\delta > 0$, and are less healthy next year, $\gamma < 0$, so
+$\gamma\delta < 0$. If $\gamma\delta < -\beta$, the people who visit
+more are less healthy next year, the slope is negative, and the data
+say that care does harm. Noise only shrinks that wrong answer toward
+zero.
 
-Noise in the outcome is different again. Measurement error in $Y$ goes
-into $U$: it widens the interval around the slope and leaves its center
-alone.
+```{r noise_ovb, echo=FALSE, fig.width=6.5, fig.height=2.4, fig.alt="The slope of health on reported visits against lambda, from 0 to 1, for three values of gamma times delta with beta equal to one half. With gamma delta 0.25 the line rises to 0.75 and crosses beta at lambda two thirds; with minus 0.25 it rises to 0.25, below beta; with minus 1 it falls to minus 0.5, below zero for every lambda."}
+beta <- 0.5
+cases <- data.frame(gd = c(0.25, -0.25, -1), col = c(gold, slate, navy))
+lines <- do.call(rbind, lapply(seq_len(nrow(cases)), function(i)
+  data.frame(lambda = c(0, 1), slope = c(0, 1) * (beta + cases$gd[i]), gd = cases$gd[i], col = cases$col[i])))
+ends <- data.frame(x = 1.03, y = beta + cases$gd, col = cases$col,
+                   label = sprintf("$\u03b3\u03b4$ = %s", sub("-", "\u2212", as.character(cases$gd))))
+regions <- data.frame(x = 0.02, y = c(0.66, 0.36, -0.3), label = c("too large", "too small", "wrong sign"))
+ggplot(lines, aes(lambda, slope, group = gd)) +
+  annotate("segment", x = 0, xend = 1, y = beta, yend = beta, linetype = "dashed", color = cgray) +
+  annotate("segment", x = 0, xend = 1, y = 0, yend = 0, color = cgray, linewidth = 0.3) +
+  geom_line(aes(color = col), linewidth = 1.1) +
+  scale_color_identity() +
+  geom_mathtext(data = ends, aes(x, y, label = label, colour = col), size = 3.8, hjust = 0) +
+  geom_mathtext(data = data.frame(x = 1.03, y = beta, label = "$\u03b2$, the effect"),
+                aes(x, y, label = label), colour = cgray, size = 3.4, hjust = 0) +
+  annotate("text", x = regions$x, y = regions$y, label = regions$label, hjust = 0, color = cgray, size = 3.4, fontface = "italic") +
+  scale_x_continuous(breaks = c(0, 0.5, 1), labels = c("\u03bb = 0", "0.5", "1"), limits = c(0, 1.4)) +
+  scale_y_continuous(breaks = c(-0.5, 0, 0.5)) + coord_cartesian(ylim = c(-0.58, 0.8), clip = "off") +
+  labs(x = NULL, y = "slope") +
+  theme(panel.grid.minor = element_blank())
+```
+
+The figure has $\beta = 1/2$. When $\gamma\delta > 0$ the two biases
+pull against each other, and the slope can be too large or too small:
+it is larger than $\beta$ when $\gamma\delta > \beta(1 - \lambda)/\lambda$.
+The classic case is the return to a year of schooling, with earnings
+for health, years of schooling for visits and ability left out. Ability
+is usually taken to raise both schooling and earnings, so
+$\gamma\delta > 0$. Card (1999, section 3) reviews the evidence: the
+reliability of self-reported schooling is about 0.9, and studies of
+identical twins suggest a small upward bias from ability, so the two
+partly offset.
+
+None of $\lambda$, $\gamma$ and $\delta$ comes from the data on $X$
+and $Y$. The reliability needs a second report of the same quantity,
+and the term for the left-out variable needs a measure of it or a
+design that holds it fixed. From $X$ and $Y$ alone you cannot tell
+whether the slope is too large, too small or of the wrong sign.
+
+This is classical noise, independent of everything else. Noise that is
+related to the true value, to the outcome or to the left-out variable
+can move the slope in either direction, and so can noise in a variable
+that is adjusted for, which leaves part of the confounding it was meant
+to remove. Noise in the outcome is different again: it goes into $U$,
+widens the interval around the slope and leaves its center alone.
+
+### Need, resources and care-seeking
+
+The hospital selected on cost and wanted need, and the model so far
+has cost differ from need by an offset and by noise. Cost also depends
+on other things about a person. Write
+$$
+Y = Y^\star + W + C + \varepsilon ,
+$$
+where $W$ stands for a person's resources (insurance that pays, income,
+transport, time off work, a doctor who records every diagnosis), what
+turns need into care and care into cost, and $C$ for care-seeking, how
+readily a person goes to a doctor at a given level of need. The noise
+$\varepsilon$ is the rest: an accident, a test that had to be repeated.
+Suppose the four are independent and normal with mean zero.
+
+The best guess of each part from the measure is the calculation that
+gave $\lambda$. For need, $\operatorname{Cov}(Y^\star, Y) = \operatorname{Var}(Y^\star)$,
+so
+$$
+E[Y^\star \mid Y = y] = \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, y ,
+$$
+and likewise for $W$, $C$ and $\varepsilon$. The four fractions add up
+to 1, because $\operatorname{Var}(Y)$ is the sum of the four variances.
+Averaging over the people selected, those with $Y > t$, gives each
+part's mean among them: its share of $\operatorname{Var}(Y)$ times
+their mean cost,
+$$
+E[Y^\star \mid Y > t] = E\big[E[Y^\star \mid Y] \,\big|\, Y > t\big]
+= \frac{\operatorname{Var}(Y^\star)}{\operatorname{Var}(Y)}\, E[Y \mid Y > t] .
+$$
+With variances 1, 1/2, 1/4 and 1/4, the shares are 1/2, 1/4, 1/8 and
+1/8. Of the selected's mean cost above the population mean, half is
+need, a quarter resources, an eighth care-seeking and an eighth noise.
+The selected are a mixture: some are there mostly because they are
+ill, some because they could turn need into care, some because they
+seek care readily.
+
+Two more things follow. Among the selected the parts are negatively
+related, although they are independent in the population: to clear the
+threshold with less need, a person needed more of something else. And
+when the parts are related in the population, the mixture changes. If
+poorer people are sicker, the sickest have fewer resources and generate
+less cost than their need, and the places go less to need: the
+hospital's offset again, inside one group.
+
+Some of the parts are more under a person's control than others. How
+readily someone seeks care is partly a choice. Illness, income and
+where someone lives are much less so. The ability to raise a score
+without raising what it stands for, gaming in the section on systems
+that adapt below, is often a resource. A program that selects on the
+score rewards all of these together.
 
 ## Reinforcement learning
 
@@ -916,10 +1009,11 @@ What can be changed, and how? What things are considered "controlled
 for" or "held fixed," and is that realistic? This lens is new this
 week, and it is last week's method put as a question. Benefit is an
 effect: it compares the same patient with the extra care and without
-it, holding the patient fixed. A slope of earnings on reported
-schooling is read as the effect of a year of schooling with ability
-held fixed; ability is not in the data, so nothing held it fixed, and
-the noise in the report pulls the other way. Goodhart's law is the case where something was assumed to stay
+it, holding the patient fixed. A slope of health on reported visits
+is read as the effect of a visit with illness held fixed; illness is not
+in the data, so nothing held it fixed. The lens also asks what the
+people scored can change: how readily they seek care more than how ill
+they are. Goodhart's law is the case where something was assumed to stay
 fixed and did not: a rule rewarding the score assumed that the
 relation between the score and need would hold, and the people scored
 changed it. Strategic classification holds the true label fixed while
@@ -936,8 +1030,11 @@ afterward nobody has to make it again; the score makes it for them.
 ### Attenuation, derived
 
 The class derives $\lambda$ from the covariance algebra above, then the
-slope $\lambda(\beta + \gamma\delta)$ of an outcome on a noisy measure
-with a variable left out, and works numbers on both sides of $\beta$.
+slope $\lambda(\beta + \gamma\delta)$, with numbers that make it too
+large, too small and of the wrong sign. It draws the graph of need,
+resources and care-seeking with selection on cost, computes each part's
+mean among the selected, and simulates the selection, with gaming that
+depends on resources.
 
 ## Readings
 
@@ -986,4 +1083,5 @@ Performance of Performance Standards" (NBER Working Paper 9002, 2002);
 Deng, Jiang, Long and Zhang, "Causal Reinforcement Learning: A Survey"
 (*Transactions on Machine Learning Research*, 2023); Hardt, Megiddo,
 Papadimitriou and Wootters, "Strategic Classification" (ITCS 2016;
-arXiv 1506.06980).
+arXiv 1506.06980); Card, "The causal effect of education on earnings"
+(*Handbook of Labor Economics* 3A, 1999, 1801--1863).
