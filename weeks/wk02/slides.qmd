@@ -107,6 +107,7 @@ Compress: the three parts. Plan 75 in the 80: part 1 34, part 2 17, part 3 19, c
 Cut order: (1) Young's rats, (2) courses and software, (3) tail ratios in other samples, (4) the most extreme item (three slides; the class simulates it).
 
 Pace: 0:34 Freedman's Figure 1, 0:51 Schwartz, 1:06 the four steps, 1:11 calculation and interpretation, 1:15 end.
+The bar opening each note is the share of the deck's estimated minutes done before the slide: 2 a slide, 3 a derivation or a pause for the room, 1 a dark slide or divider.
 :::
 
 ### Week 2
@@ -133,7 +134,7 @@ The story: islanders who had watched wartime airfields built runways, lit fires 
 Richard Feynman, "Cargo Cult Science," Caltech commencement address, 1974.
 :::
 
-## Cargo-cult statistics
+## Cargo-cult statistics {minutes="3"}
 
 ::: {.notes}
 Two minutes on the quotation, then three in pairs with two or three answers from the room.
@@ -243,7 +244,7 @@ Fisher and Neyman-Pearson disagreed; the ritual is a hybrid neither accepted. Dw
 The three steps and the sentence are quoted from Gigerenzer and Marewski (2015), "Surrogate Science" (optional reading). "Mindless statistics" is the title of Gigerenzer (2004).
 :::
 
-## $p = 0.01$
+## $p = 0.01$ {minutes="3"}
 
 ::: {.notes}
 Alone, on paper: true or false for each. Then hands for "true" on each statement in turn. No answers until all six have had hands.
@@ -340,7 +341,7 @@ $$\frac{(2347 - 1202.5)^2}{1202.5} + \frac{(58 - 1202.5)^2}{1202.5} = 2178.6$$
 The first is Franco, Blau and Zimbardo (2011) as quoted by Gigerenzer and Marewski (2015); the second is Gigerenzer and Marewski's own.
 :::
 
-## Have you had courses taught that way?
+## Have you had courses taught that way? {minutes="3"}
 
 ::: {.notes}
 Groups of three or four, then the room. No house answer. Stark and Saltelli's causes, for afterward: courses, software, editorial policies, science as a career.
@@ -450,7 +451,7 @@ This is also an example of Simpson's paradox.
 Freedman (1999).
 :::
 
-## $R^2$: definition and common misreadings
+## $R^2$: definition and common misreadings {minutes="3"}
 
 ::: {.notes}
 With slope and noise fixed, R-squared rises with the spread of X. Hill's strength was a ratio of rates: 200 for chimney sweeps, 9 to 10 for smokers. Freedman's line had the wrong slope; the next two slides have the right slope and a fit that still misleads.
@@ -574,7 +575,7 @@ ggplot(sd_df, aes(x, density, fill = group)) +
 
 Group membership accounts for 6% of the variance. Take one person from each group at random: the one from the group with the lower mean is the higher of the two 36% of the time.
 
-## Decisions from group averages
+## Decisions from group averages {minutes="3"}
 
 ::: {.notes}
 Pairs, then the room. No house answer. Cases if the room is stuck: an insurer pricing a driver by age or postcode; a lender deciding by neighborhood; a doctor quoting a survival rate to one patient.
@@ -741,7 +742,7 @@ ggplot(oth, aes(who, ratio)) +
 Numbers as reported by Hyde and Mertz (2009). Dotted line: one boy per girl.
 :::
 
-## Which step would you question?
+## Which step would you question? {minutes="3"}
 
 ::: {.notes}
 Pairs write the steps first, then three or four answers. No house answer. Stark and Saltelli's "whether or not we like the conclusion" applies to Hyde and Mertz's 32% as much as to Summers's sentence. The four steps are on the next slide; take the room's list before showing it.
@@ -810,7 +811,7 @@ ggplot(feed, aes(x, group)) +
 Both groups draw from the same distribution. Each of the 10,100 items is equally likely to be the most extreme, so the larger group's item is the more extreme of the two with probability $10{,}000/10{,}100 = 0.99$.
 :::
 
-## The largest of $n$
+## The largest of $n$ {minutes="3"}
 
 ::: {.notes}
 All $n$ draws are below $x$ with probability $F(x)^n$. Uniform by hand; normal from the values. The far end of a distribution moves with the size of the group and its spread as well as its center.

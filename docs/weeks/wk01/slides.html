@@ -162,7 +162,7 @@ Joshua Loftus
 <p>Large NHLBI trials. Before 2000: 17 of 30 showed benefit (57%). After registration at clinicaltrials.gov became required: 2 of 25 (8%). Kaplan and Irvin (2015), <em>PLoS ONE</em> 10(8): e0132382, Figure 1, CC0.</p>
 </div>
 </section>
-<section id="write-it-down" class="slide level2">
+<section id="write-it-down" class="slide level2" data-minutes="3">
 <h2>Write it down</h2>
 <p>Every study is honest. Results are written up only if significant.</p>
 <p>Sketch the histogram of published <span class="math inline">\(z\)</span>-values.</p>
@@ -178,7 +178,7 @@ Joshua Loftus
 <p>Medline abstracts, 1976–2019. “The under-representation of <span class="math inline">\(z\)</span>-values between <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span> is striking.” van Zwet and Cator (2020), <a href="https://arxiv.org/abs/2009.09440">arXiv:2009.09440</a>, Figure 1.</p>
 </div>
 </section>
-<section id="rejection-rate-and-power" class="slide level2">
+<section id="rejection-rate-and-power" class="slide level2" data-minutes="3">
 <h2>Rejection rate and power</h2>
 <p><span class="math display">\[Z = \frac{\hat\mu}{\mathrm{se}} \sim N(\theta, 1),\qquad \theta = \frac{\mu}{\mathrm{se}} = \frac{\mu\sqrt n}{\sigma}\]</span></p>
 <p>Reject when <span class="math inline">\(|Z| &gt; 1.96\)</span>.</p>
@@ -201,7 +201,7 @@ Joshua Loftus
 <h2>Predict</h2>
 <p>Among published studies whose null was true and which had to pass the filter: the average of <span class="math inline">\(|z|\)</span>?</p>
 </section>
-<section id="the-significance-filter" class="slide level2">
+<section id="the-significance-filter" class="slide level2" data-minutes="3">
 <h2>The significance filter</h2>
 <p><span class="math inline">\(Z \sim N(\theta, 1)\)</span>, seen only when <span class="math inline">\(Z &gt; c\)</span>:</p>
 <p><span class="math display">\[E[Z \mid Z &gt; c] = \theta + \frac{\phi(c-\theta)}{1 - \Phi(c-\theta)}\]</span></p>
@@ -271,7 +271,7 @@ Joshua Loftus
 <p>Exaggeration: a bias in what gets published.</p>
 <p>The file-drawer effect turns variance into bias.</p>
 </section>
-<section id="in-pairs" class="slide level2">
+<section id="in-pairs" class="slide level2" data-minutes="3">
 <h2>In pairs</h2>
 <p>How much of the replication crisis does selection alone explain, without anyone behaving badly?</p>
 <p>One sentence each, with a number in it if you can.</p>
@@ -299,7 +299,7 @@ Joshua Loftus
 <p>“…transparent about a priori versus post hoc objectives and planned versus unplanned statistical practices. Discloses when multiple comparisons are conducted and any relevant adjustments.”</p>
 </blockquote>
 </section>
-<section id="ab-testing" class="slide level2">
+<section id="ab-testing" class="slide level2" data-minutes="3">
 <h2>A/B testing</h2>
 <p>A company runs 200 A/B tests a year. It ships a variant only if the measured lift is significant at 5%. Six months later it re-measures the shipped variants.</p>
 <ol type="1">
@@ -346,11 +346,11 @@ Joshua Loftus
 <p><strong>Prepare and bring:</strong> one published claim about a difference between two groups. Write down the comparison that was reported, and one that could have been reported instead.</p>
 </section>
 <section>
-<section id="backup" class="title-slide slide level1 center">
+<section id="backup" class="title-slide slide level1 center" data-minutes="0">
 <h1>Backup</h1>
 
 </section>
-<section id="power-of-the-z-test" class="slide level2">
+<section id="power-of-the-z-test" class="slide level2" data-minutes="0">
 <h2>Power of the <span class="math inline">\(z\)</span>-test</h2>
 <p><span class="math inline">\(Z \sim N(\theta,1)\)</span>, reject if <span class="math inline">\(|Z| &gt; c\)</span>.</p>
 <p><span class="math display">\[
@@ -362,7 +362,7 @@ P(|Z|&gt;c) &amp;= P(Z &gt; c) + P(Z &lt; -c)\\
 \]</span></p>
 <p>At <span class="math inline">\(\theta = 0\)</span>: <span class="math inline">\(2(1-\Phi(c)) = \alpha\)</span>.</p>
 </section>
-<section id="the-truncated-normal-mean" class="slide level2">
+<section id="the-truncated-normal-mean" class="slide level2" data-minutes="0">
 <h2>The truncated normal mean</h2>
 <p><span class="math display">\[E[Z\mid Z&gt;c] = \frac{\int_c^\infty z\,\phi(z-\theta)\,dz}{1-\Phi(c-\theta)}\]</span></p>
 <p>Substitute <span class="math inline">\(u = z-\theta\)</span>:</p>
@@ -370,7 +370,7 @@ P(|Z|&gt;c) &amp;= P(Z &gt; c) + P(Z &lt; -c)\\
 <p>Since <span class="math inline">\(\phi'(u) = -u\,\phi(u)\)</span>: <span class="math inline">\(\;\int_{c-\theta}^\infty u\,\phi(u)\,du = \phi(c-\theta)\)</span>.</p>
 <p><span class="math display">\[\Rightarrow\quad E[Z\mid Z&gt;c] = \theta + \frac{\phi(c-\theta)}{1-\Phi(c-\theta)}\]</span></p>
 </section>
-<section id="the-false-discovery-proportion" class="slide level2">
+<section id="the-false-discovery-proportion" class="slide level2" data-minutes="0">
 <h2>The false discovery proportion</h2>
 <p>Share <span class="math inline">\(p\)</span> of tested hypotheses true; level <span class="math inline">\(\alpha\)</span>; power <span class="math inline">\(1-\beta\)</span>.</p>
 <p><span class="math display">\[P(\text{reject}) = (1-p)\,\alpha + p\,(1-\beta)\]</span></p>
