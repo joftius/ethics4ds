@@ -1,4 +1,4 @@
-## Week 4: Scores and what they stand for
+## Week 4: What's the score?
 
 A score measures one thing and is taken to stand for another. A hospital's risk score predicted next year's medical cost and was used to decide who was offered extra care; at the same cost, Black patients were sicker, so the score flagged fewer of them. A model of a measure with an offset for one group, who it selects and how ill they are, and a noisy measure that flattens a slope. Reinforcement learning: an agent given a reward, and the good we care about. What happens once a score is rewarded: Goodhart's law as an intervention, strategic classification, performative prediction, and a platform that ranked by views.
 

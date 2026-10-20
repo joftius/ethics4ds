@@ -1,5 +1,5 @@
 ---
-title: "Scores and what they stand for"
+title: "What's the score?"
 subtitle: "Class"
 author: "Joshua Loftus"
 format:

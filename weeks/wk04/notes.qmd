@@ -1,5 +1,5 @@
 ---
-title: "Scores and what they stand for"
+title: "What's the score?"
 author: "Joshua Loftus"
 # ---- instructor-side front matter (CONTRACT.md), nested under st313: so that Quarto
 # ---- ignores it (Quarto reserves top-level keys such as `history`); stripped from output

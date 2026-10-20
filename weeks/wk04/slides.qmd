@@ -1,5 +1,5 @@
 ---
-title: "Scores and what they stand for"
+title: "What's the score?"
 author: "Joshua Loftus"
 format:
   revealjs:
@@ -208,6 +208,7 @@ Compress: the four parts. Plan 62 in the 80: opener 2, scores 8, cost as a proxy
 Cut order: (1) the two-models slide; (2) the engagement slide; (3) the commentary on the citation figure, keeping the figure; (4) attenuation and the slide after it, which the class works anyway. Do not cut the predictions before the table and the simulation, the job center, the written close or the question at the end.
 
 Pace: 0:10 Part 2; 0:31 Part 3; 0:43 Part 4; 0:56 lenses; 1:02 end.
+The bar opening each note is the share of the deck's estimated minutes done before the slide: 2 a slide, 3 a derivation or a pause for the room, 1 a dark slide or divider.
 :::
 
 ### Week 4
@@ -264,7 +265,7 @@ A researcher tries comparisons until one gives $p < 0.05$. Which is the score, a
 Goodhart, "Problems of Monetary Management: The UK Experience," *Papers in Monetary Economics* 1, Reserve Bank of Australia (1975), quoted from the 1981 reprint (ed. Courakis), p. 116, as the Wikipedia article "Goodhart's law" (revision of 9 October 2026) gives it; not checked against the paper. Strathern, "'Improving ratings': audit in the British University system," *European Review* 5(3), 305--321 (1997), p. 308.
 :::
 
-## Measured and intended
+## Measured and intended {minutes="3"}
 
 ::: {.notes}
 Y is what gets recorded; Y* is what we wanted. Three minutes: the room sorts its own scores into the table's two columns, and says which route makes them differ.
@@ -302,7 +303,7 @@ By industry estimates, tools of this class are applied to roughly 200 million pe
 Obermeyer, Powers, Vogeli and Mullainathan (2019), "Dissecting racial bias in an algorithm used to manage the health of populations," *Science* 366(6464), 447--453, doi:10.1126/science.aax2342; free full text at escholarship.org/uc/item/6h92v832.
 :::
 
-## Sketch it
+## Sketch it {minutes="3"}
 
 ::: {.notes}
 Everyone draws before the next slide: the number of chronic conditions a patient has against the score, one curve for each group. Then hands: the same curve, or different?
@@ -384,7 +385,7 @@ For group $1$, $Y > t$ is $Y^\star > t - b$: a threshold moved for that group.
 With $b = -0.5$: is group $1$ selected more or less often?
 :::
 
-## Who is selected, and how ill
+## Who is selected, and how ill {minutes="3"}
 
 ::: {.notes}
 Standard normal need, t at the 97th percentile. Share selected, the ratio, and the mean need of the selected: the inverse Mills ratio, which in week 1 gave the expected size of an estimate that survived the significance filter. A half-standard-deviation offset cuts group 1's chance of selection to a third and makes its selected members sicker. The paper's Figure 1A compares at the same score, not above a threshold; in this model that gap is exactly -b.
@@ -445,7 +446,7 @@ Two routes the authors name: barriers to care (poverty, geography, transport, wo
 What are we optimizing or predicting? Who chose cost as the label, and why?
 :::
 
-## Who bears the error
+## Who bears the error {minutes="3"}
 
 ::: {.notes}
 The threshold makes two errors: selected though not ill enough to need it, and left out though ill. A percentile fixes the trade between them without saying how it was valued; a budget for places would fix it too. The score's offset moves the second error onto one group. Then the standing question: whose proxy, who chose it, who benefited from the choice being invisible. Three minutes with hands.
@@ -488,7 +489,7 @@ ggplot(att, aes(y, ystar)) +
   theme(plot.caption = element_text(size = 12, color = cgray))
 ```
 
-## Noise and an omitted variable
+## Noise and an omitted variable {minutes="3"}
 
 ::: {.notes}
 Last week's omitted-variable bias, with a noisy measure. Does care improve health? Y here is health, an outcome, not the measure of need. Visits are reported with error, independent of everything else (U is everything else that affects health, also independent), which shrinks the slope by lambda; illness is not in the data, brings more visits and worse health, and adds gamma times delta. Pairs, one minute, on the question; then the figure. Classical noise in the report never changes the sign, since lambda is positive; the left-out variable can. When gamma delta is positive, as with ability and schooling, the two pull against each other and the slope can be too large or too small. Lens F: the slope is read as the effect of a visit with illness held fixed. The class derives the formula.
@@ -610,7 +611,7 @@ ggplot() +
 Amodei, Olah, Steinhardt, Christiano, Schulman and Mané (2016), "Concrete Problems in AI Safety," sections 2 and 4.
 :::
 
-## A job center as an agent
+## A job center as an agent {minutes="3"}
 
 ::: {.notes}
 Pairs, one minute, then hands for each question. A variant of week 3's table in which the course helps one group more.
@@ -745,7 +746,7 @@ draw_dag(nodes, edges, boxes = TRUE, text_size = 5.5, xlim = c(-0.9, 3.5), ylim 
 
 Replacing the equation for $Y$ is an intervention. The relation between $Y$ and $Y^\star$ that held before the rule need not hold after it.
 
-## Two ways to respond
+## Two ways to respond {minutes="3"}
 
 ::: {.notes}
 Pairs, two minutes, before the simulation. In the simulation, who is able to add 1 is unrelated to need. If everyone adds the same amount, the ranking is unchanged and so is the allocation: targeting a measure does not by itself spoil it. If only some can respond, the allocation changes, and it changes toward the people who could respond. Hands on each, then the next slide.
@@ -803,7 +804,7 @@ ggplot(d[shown, ], aes(need, y, color = who)) +
 Everyone adding the same amount leaves the ranking unchanged. A response that differs between people moves the places toward those who can respond: $Y$'s equation has changed.
 :::
 
-## Gaming and improvement
+## Gaming and improvement {minutes="3"}
 
 ::: {.notes}
 The gold arrow is the response. Each graph is a claim someone could dispute: memorizing old papers may teach something. Pairs, one minute, on the third case; it depends on what the test measures. Miller, Milli and Hardt: whether a response is gaming or improvement depends on what it changes, so designing a rule that rewards improvement is a causal inference problem.
@@ -893,7 +894,7 @@ Each lens, what it referred to this week. The third is new: last week's method a
 
 ...and why?
 
-## Your score, again
+## Your score, again {minutes="3"}
 
 ::: {.notes}
 Two minutes, written, individually, on the score from the start. Then two responses read out, chosen for different mechanisms (an offset; a response to the score; noise), before the vote on the next slide.
