@@ -161,6 +161,7 @@ Compress: the three parts. Plan 62 in the 80: part 1 19, part 2 15, part 3 23, l
 Cut order: (1) the observational studies that recommend a practice. Then shorten the pairs work to a show of hands, and the drawing to one graph from the room. Do not cut the drawing or the question at the end.
 
 Pace: 0:19 Part 2; 0:34 the job-search course; 0:57 lenses; 1:02 end.
+The bar opening each note is the share of the deck's estimated minutes done before the slide: 2 a slide, 3 a derivation or a pause for the room, 1 a dark slide or divider.
 :::
 
 ### Week 3
@@ -192,7 +193,7 @@ These approaches are not mutually exclusive or exhaustive, so we do not have to 
 ms4ds, section 3.2.2 (the last line) and sections 3.2.2.1 to 3.2.2.3 (the first three rows); Wikipedia, Deontology and Pragmatic ethics.
 :::
 
-## Which framework?
+## Which framework? {minutes="3"}
 
 ::: {.notes}
 Pairs, two minutes, then hands for each argument. Then ask which of the four would need data to settle, and what kind of data.
@@ -255,7 +256,7 @@ Bentham and Mill: choose the action that does the most good, adding up everyone'
 ms4ds, section 3.2.2.1 (the four difficulties); Wikipedia, Consequentialism.
 :::
 
-## Utilitarian language
+## Utilitarian language {minutes="3"}
 
 ::: {.notes}
 Pairs, two minutes; two pairs report. If a pair is stuck: an A/B test that keeps whichever version has the higher average time in the app.
@@ -380,7 +381,7 @@ $Z$ a common cause, $M$ a mediator, $C$ a common effect.
 fairmlbook, chapter 5, "Causal models" and "Causal graphs."
 :::
 
-## Exercise, weight and heart disease
+## Exercise, weight and heart disease {minutes="3"}
 
 ::: {.notes}
 The reading's first example. Alone, then compare with a neighbor. Both numbers from the room before the next slide.
@@ -412,7 +413,7 @@ Compute $P(H = 1)$ and $P(H = 1 \mid W = 1)$.
 fairmlbook, chapter 5, "A first example."
 :::
 
-## Conditioning and intervening
+## Conditioning and intervening {minutes="3"}
 
 ::: {.notes}
 Overweight people have twice the population's rate. Intervening replaces the line for W, which deletes the arrow into W; H is unchanged. Definition of confounded from the reading.
@@ -536,7 +537,7 @@ A job center refers some of the 1,000 people registered with it to a job-search 
 How much does the course raise the chance of being in work? Write down a number, or what else you would need to know.
 :::
 
-## Draw the graph
+## Draw the graph {minutes="3"}
 
 ::: {.notes}
 Pairs, three minutes. Take two graphs from the room, one with a variable nobody measured, such as motivation, if anyone added one. Ask what else the 28 points needs besides the arrow: no arrows from worked last year into both.
@@ -600,7 +601,7 @@ draw_dag(data.frame(name = c("Z", "X", "Y"), x = c(1, 0, 2), y = c(1, 0, 0)),
 
 $Z$ = worked last year, $X$ = attended the course, $Y$ = in work six months later.
 
-## The adjustment formula
+## The adjustment formula {minutes="3"}
 
 ::: {.notes}
 Intervening deletes the arrow from Z to X; Z keeps its distribution. Ten points.
@@ -639,7 +640,7 @@ $$
 
 Attenders come mostly from the $Z = 1$ row, where more people find work whether or not they attend.
 
-## Referral at random
+## Referral at random {minutes="3"}
 
 ::: {.notes}
 Alone, two minutes. The answer is on the next slide.

@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Joshua Loftus">
-  <title>ethics 4 data science – Scores and what they stand for</title>
+  <title>ethics 4 data science – What’s the score?</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -133,7 +133,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Scores and what they stand for</h1>
+  <h1 class="title">What’s the score?</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -190,7 +190,7 @@ Joshua Loftus
 <p>Goodhart, “Problems of Monetary Management: The UK Experience,” <em>Papers in Monetary Economics</em> 1, Reserve Bank of Australia (1975), quoted from the 1981 reprint (ed.&nbsp;Courakis), p.&nbsp;116, as the Wikipedia article “Goodhart’s law” (revision of 9 October 2026) gives it; not checked against the paper. Strathern, “‘Improving ratings’: audit in the British University system,” <em>European Review</em> 5(3), 305–321 (1997), p.&nbsp;308.</p>
 </div>
 </section>
-<section id="measured-and-intended" class="slide level2">
+<section id="measured-and-intended" class="slide level2" data-minutes="3">
 <h2>Measured and intended</h2>
 <p><span class="math inline">\(Y\)</span> is the outcome we measure. <span class="math inline">\(Y^\star\)</span> is the outcome we intend: the one we would use if we could.</p>
 <table class="caption-top">
@@ -245,7 +245,7 @@ Joshua Loftus
 <p>Obermeyer, Powers, Vogeli and Mullainathan (2019), “Dissecting racial bias in an algorithm used to manage the health of populations,” <em>Science</em> 366(6464), 447–453, doi:10.1126/science.aax2342; free full text at escholarship.org/uc/item/6h92v832.</p>
 </div>
 </section>
-<section id="sketch-it" class="slide level2">
+<section id="sketch-it" class="slide level2" data-minutes="3">
 <h2>Sketch it</h2>
 <div class="cell">
 <div class="cell-output-display">
@@ -293,7 +293,7 @@ Joshua Loftus
 <p>With <span class="math inline">\(b = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often?</p>
 </div>
 </section>
-<section id="who-is-selected-and-how-ill" class="slide level2">
+<section id="who-is-selected-and-how-ill" class="slide level2" data-minutes="3">
 <h2>Who is selected, and how ill</h2>
 <p><span class="math inline">\(Y^\star \sim N(0, 1)\)</span> in both groups; <span class="math inline">\(t\)</span> is the 97th percentile.</p>
 <table class="caption-top" style="width:100%;">
@@ -390,7 +390,7 @@ Joshua Loftus
 <p>What are we optimizing or predicting? Who chose cost as the label, and why?</p>
 </div>
 </section>
-<section id="who-bears-the-error" class="slide level2">
+<section id="who-bears-the-error" class="slide level2" data-minutes="3">
 <h2>Who bears the error</h2>
 <table class="caption-top">
 <thead>
@@ -433,7 +433,7 @@ E[Y^\star \mid Y = y] = \lambda y, \qquad \lambda = \frac{\operatorname{Var}(Y^\
 </div>
 </div>
 </section>
-<section id="noise-and-an-omitted-variable" class="slide level2">
+<section id="noise-and-an-omitted-variable" class="slide level2" data-minutes="3">
 <h2>Noise and an omitted variable</h2>
 <p>Health <span class="math inline">\(Y\)</span>; visits <span class="math inline">\(X^\star\)</span>, reported as <span class="math inline">\(X = X^\star + \varepsilon\)</span>; illness <span class="math inline">\(Z\)</span>, not in the data. <span class="math display">\[
 Y = \beta X^\star + \gamma Z + U ,
@@ -503,7 +503,7 @@ Y = \beta X^\star + \gamma Z + U ,
 <p>Amodei, Olah, Steinhardt, Christiano, Schulman and Mané (2016), “Concrete Problems in AI Safety,” sections 2 and 4.</p>
 </div>
 </section>
-<section id="a-job-center-as-an-agent" class="slide level2">
+<section id="a-job-center-as-an-agent" class="slide level2" data-minutes="3">
 <h2>A job center as an agent</h2>
 <p><strong>Notation:</strong> reinforcement learning (<span class="math inline">\(S\)</span>, <span class="math inline">\(A\)</span>, <span class="math inline">\(R\)</span>, <span class="math inline">\(\pi\)</span>, <span class="math inline">\(U\)</span>).</p>
 <p>A variant of week 3’s job center: 100 places on the course, which helps some people more than others. Take the rates below as what would happen if the course were assigned, or withheld.</p>
@@ -633,7 +633,7 @@ Y = Y^\star + \varepsilon + g .
 </div>
 <p>Replacing the equation for <span class="math inline">\(Y\)</span> is an intervention. The relation between <span class="math inline">\(Y\)</span> and <span class="math inline">\(Y^\star\)</span> that held before the rule need not hold after it.</p>
 </section>
-<section id="two-ways-to-respond" class="slide level2">
+<section id="two-ways-to-respond" class="slide level2" data-minutes="3">
 <h2>Two ways to respond</h2>
 <p>300 places go to the 300 highest <span class="math inline">\(Y\)</span>, where <span class="math inline">\(Y = Y^\star + \varepsilon\)</span>. Then the rule is announced.</p>
 <ol type="1">
@@ -659,7 +659,7 @@ Y = Y^\star + \varepsilon + g .
 <p>Everyone adding the same amount leaves the ranking unchanged. A response that differs between people moves the places toward those who can respond: <span class="math inline">\(Y\)</span>’s equation has changed.</p>
 </div>
 </section>
-<section id="gaming-and-improvement" class="slide level2">
+<section id="gaming-and-improvement" class="slide level2" data-minutes="3">
 <h2>Gaming and improvement</h2>
 <p>A course is judged by its students’ test scores. A response is <strong>improvement</strong> if it raises <span class="math inline">\(Y^\star\)</span>, and <span class="math inline">\(Y\)</span> with it; <strong>gaming</strong> if it raises <span class="math inline">\(Y\)</span> by a route that does not pass through <span class="math inline">\(Y^\star\)</span>.</p>
 <div class="cell">
@@ -720,7 +720,7 @@ Y = Y^\star + \varepsilon + g .
 </ul>
 <p>…and why?</p>
 </section>
-<section id="your-score-again" class="slide level2">
+<section id="your-score-again" class="slide level2" data-minutes="3">
 <h2>Your score, again</h2>
 <div class="ask">
 <p>The score you wrote down at the start. Recommend one change to how it is used. Which mechanism from today does your change address, and who might lose from it?</p>

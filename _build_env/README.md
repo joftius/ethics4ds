@@ -63,6 +63,8 @@ Then give the convenor the compare link, from which he opens and merges the pull
 | `teachers/wkNN/teacher_note.html` | Teacher note | no |
 | `solutions/wkNN/class_solutions.html` | Class sheet with solutions | yes; it exists only from its release, the week after the class |
 
+In the deck with speaker notes, the first line of every slide's note is a progress bar, added by `strip_notes.lua` when the notes are kept (20 October 2026): the share of the deck's estimated minutes done before that slide, for example `[#########-----------] 44%  34 of 78 min`. A slide with no note gets one holding only the bar. The estimate is the spine's timing scale: 2 minutes a content slide, 1 a dark (`.inverse`) slide or a level-1 divider (`# Part ...`), and 3 a derivation or a slide with a substantial pause for the room, marked on its heading as `## Title {minutes="3"}`. Any other estimate is written the same way (`{minutes="0"}` for a slide that is not presented). The bar is computed at render time, so it follows the deck as slides change; the public deck is unchanged apart from a `data-minutes` attribute on the marked slides.
+
 `teachers/` holds everything students do not need, and nothing in it is ever linked from a public page. The pages under `teachers/` and `solutions/` are not in `search.json` or `sitemap.xml`: they are rendered one file at a time and copied in after the site render. `_solutions/` is in the repository and not on the site: Quarto does not copy it, and `check` fails if it turns up under `docs/`.
 
 ### Three class sheets from one source

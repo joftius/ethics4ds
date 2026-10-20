@@ -73,7 +73,7 @@ registration at clinicaltrials.gov became required: 2 of 25 (8%).
 Kaplan and Irvin (2015), *PLoS ONE* 10(8): e0132382, Figure 1, CC0.
 :::
 
-## Write it down
+## Write it down {minutes="3"}
 
 Every study is honest. Results are written up only if significant.
 
@@ -88,7 +88,7 @@ Medline abstracts, 1976--2019. "The under-representation of $z$-values between
 $-2$ and $2$ is striking." van Zwet and Cator (2020), [arXiv:2009.09440](https://arxiv.org/abs/2009.09440), Figure 1.
 :::
 
-## Rejection rate and power
+## Rejection rate and power {minutes="3"}
 
 $$Z = \frac{\hat\mu}{\mathrm{se}} \sim N(\theta, 1),\qquad \theta = \frac{\mu}{\mathrm{se}} = \frac{\mu\sqrt n}{\sigma}$$
 
@@ -150,7 +150,7 @@ Nine studies in ten are written up only if $|z| > 1.96$. Every test honest.
 Among published studies whose null was true and which had to pass the
 filter: the average of $|z|$?
 
-## The significance filter
+## The significance filter {minutes="3"}
 
 $Z \sim N(\theta, 1)$, seen only when $Z > c$:
 
@@ -188,7 +188,7 @@ Exaggeration: a bias in what gets published.
 
 The file-drawer effect turns variance into bias.
 
-## In pairs
+## In pairs {minutes="3"}
 
 How much of the replication crisis does selection alone explain, without
 anyone behaving badly?
@@ -227,7 +227,7 @@ Corrected (Daly and colleagues, bioRxiv 2017): 1 of the 38 remains.
 > versus unplanned statistical practices. Discloses when multiple
 > comparisons are conducted and any relevant adjustments."
 
-## A/B testing
+## A/B testing {minutes="3"}
 
 A company runs 200 A/B tests a year. It ships a variant only if the
 measured lift is significant at 5%. Six months later it re-measures the
@@ -303,9 +303,9 @@ used.
 groups. Write down the comparison that was reported, and one that could have
 been reported instead.
 
-# Backup
+# Backup {minutes="0"}
 
-## Power of the $z$-test
+## Power of the $z$-test {minutes="0"}
 
 $Z \sim N(\theta,1)$, reject if $|Z| > c$.
 
@@ -319,7 +319,7 @@ $$
 
 At $\theta = 0$: $2(1-\Phi(c)) = \alpha$.
 
-## The truncated normal mean
+## The truncated normal mean {minutes="0"}
 
 $$E[Z\mid Z>c] = \frac{\int_c^\infty z\,\phi(z-\theta)\,dz}{1-\Phi(c-\theta)}$$
 
@@ -331,7 +331,7 @@ Since $\phi'(u) = -u\,\phi(u)$: $\;\int_{c-\theta}^\infty u\,\phi(u)\,du = \phi(
 
 $$\Rightarrow\quad E[Z\mid Z>c] = \theta + \frac{\phi(c-\theta)}{1-\Phi(c-\theta)}$$
 
-## The false discovery proportion
+## The false discovery proportion {minutes="0"}
 
 Share $p$ of tested hypotheses true; level $\alpha$; power $1-\beta$.
 
