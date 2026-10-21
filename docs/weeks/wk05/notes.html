@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joshua Loftus">
+
+<title>Who counts as a case – ethics 4 data science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-bb5ce4f09c3d713477d34b1921f208f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><i class="fa-solid fa-chart-simple fa-large" aria-label="chart-simple"></i> ethics 4 data science</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-references" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">references</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-references">    
+        <li>
+    <a class="dropdown-item" href="https://www.bitbybitbook.com/en/1st-ed/ethics/">
+ <span class="dropdown-text">Bit by Bit</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fairmlbook.org/">
+ <span class="dropdown-text">Fairness and Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://data-feminism.mitpress.mit.edu/">
+ <span class="dropdown-text">Data Feminism</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://rss.org.uk/RSS/media/News-and-publications/Publications/Reports%20and%20guides/A-Guide-for-Ethical-Data-Science-Final-Oct-2019.pdf">
+ <span class="dropdown-text">RSS Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice">
+ <span class="dropdown-text">ASA Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.acm.org/code-of-ethics">
+ <span class="dropdown-text">ACM Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text"><i class="fa-solid fa-house fa-large" aria-label="house"></i> content</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text"><i class="fa-solid fa-user fa-large" aria-label="user"></i> about</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#what-you-brought" id="toc-what-you-brought" class="nav-link" data-scroll-target="#what-you-brought">What you brought</a></li>
+  <li><a href="#selection-on-a-common-effect" id="toc-selection-on-a-common-effect" class="nav-link" data-scroll-target="#selection-on-a-common-effect">Selection on a common effect</a>
+  <ul class="collapse">
+  <li><a href="#people-offered-a-place" id="toc-people-offered-a-place" class="nav-link" data-scroll-target="#people-offered-a-place">People offered a place</a></li>
+  <li><a href="#the-birth-weight-paradox" id="toc-the-birth-weight-paradox" class="nav-link" data-scroll-target="#the-birth-weight-paradox">The birth weight paradox</a></li>
+  <li><a href="#colliders" id="toc-colliders" class="nav-link" data-scroll-target="#colliders">Colliders</a></li>
+  <li><a href="#why-conditioning-creates-an-association" id="toc-why-conditioning-creates-an-association" class="nav-link" data-scroll-target="#why-conditioning-creates-an-association">Why conditioning creates an association</a></li>
+  </ul></li>
+  <li><a href="#leaving-the-attribute-out" id="toc-leaving-the-attribute-out" class="nav-link" data-scroll-target="#leaving-the-attribute-out">Leaving the attribute out</a>
+  <ul class="collapse">
+  <li><a href="#an-unaware-model" id="toc-an-unaware-model" class="nav-link" data-scroll-target="#an-unaware-model">An unaware model</a></li>
+  <li><a href="#the-same-numbers-by-hand" id="toc-the-same-numbers-by-hand" class="nav-link" data-scroll-target="#the-same-numbers-by-hand">The same numbers by hand</a></li>
+  <li><a href="#what-was-leaving-it-out-for" id="toc-what-was-leaving-it-out-for" class="nav-link" data-scroll-target="#what-was-leaving-it-out-for">What was leaving it out for?</a></li>
+  <li><a href="#adjusting-for-a-collider" id="toc-adjusting-for-a-collider" class="nav-link" data-scroll-target="#adjusting-for-a-collider">Adjusting for a collider</a></li>
+  </ul></li>
+  <li><a href="#who-is-missing" id="toc-who-is-missing" class="nav-link" data-scroll-target="#who-is-missing">Who is missing</a>
+  <ul class="collapse">
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data">Missing data</a></li>
+  <li><a href="#complete-case-analysis" id="toc-complete-case-analysis" class="nav-link" data-scroll-target="#complete-case-analysis">Complete-case analysis</a></li>
+  <li><a href="#when-the-complete-cases-are-enough" id="toc-when-the-complete-cases-are-enough" class="nav-link" data-scroll-target="#when-the-complete-cases-are-enough">When the complete cases are enough</a></li>
+  <li><a href="#reweighting-the-people-who-answered" id="toc-reweighting-the-people-who-answered" class="nav-link" data-scroll-target="#reweighting-the-people-who-answered">Reweighting the people who answered</a></li>
+  <li><a href="#missing-by-construction" id="toc-missing-by-construction" class="nav-link" data-scroll-target="#missing-by-construction">Missing by construction</a></li>
+  </ul></li>
+  <li><a href="#filling-in" id="toc-filling-in" class="nav-link" data-scroll-target="#filling-in">Filling in</a></li>
+  <li><a href="#lenses" id="toc-lenses" class="nav-link" data-scroll-target="#lenses">Lenses</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a>
+  <ul class="collapse">
+  <li><a href="#required" id="toc-required" class="nav-link" data-scroll-target="#required">Required</a></li>
+  <li><a href="#optional" id="toc-optional" class="nav-link" data-scroll-target="#optional">Optional</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Who counts as a case</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joshua Loftus </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Important note:</strong> part of this week is about whether a model should use a sensitive attribute such as sex or ethnicity. The arithmetic below is not contested. Which causal graph describes a real case, and what the law or fairness requires, are contested, and my view is one view. A well-argued position I think is wrong can still get full marks.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Every dataset has a rule for who gets into it: who was born small, who was hired, who answered the survey, who was released on bail. When that rule depends on two things at once, looking only at the people it let in creates an association between those two things that is not there in the population. When it depends on the outcome, the people you have are a biased sample of the people you wanted. The first is conditioning on a <em>collider</em>; the second is data <em>missing not at random</em>. A model that leaves out a sensitive attribute in order to be fair can become less accurate for everyone and more unequal between groups, because the score it uses is a collider. The usual fixes for missing data each make an assumption about the people nobody observed. Writing that assumption down does not make it true, but it gives it an owner.</p>
+</section>
+<section id="what-you-brought" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-brought">What you brought</h2>
+<p>The task was one dataset or study where some people who should be in it are not, with who is missing and the direction. Two questions for each example.</p>
+<ol type="1">
+<li>What decided whether someone was in the data? Write it as a variable and draw arrows into it from whatever causes it.</li>
+<li>Does that variable depend on the outcome, on something that causes the outcome, or on neither?</li>
+</ol>
+</section>
+<section id="selection-on-a-common-effect" class="level2">
+<h2 class="anchored" data-anchor-id="selection-on-a-common-effect">Selection on a common effect</h2>
+<section id="people-offered-a-place" class="level3">
+<h3 class="anchored" data-anchor-id="people-offered-a-place">People offered a place</h3>
+<p>In the health-care problem, a person’s cost was need plus resources plus care-seeking plus noise, <span class="math inline">\(Y^\star + W + C + \varepsilon\)</span>, four independent parts, and everyone in the top 3% by cost was offered a place. Among the people offered a place, need and resources are negatively related. To clear the threshold with less need, a person needed more of something else. Need and resources are unrelated in the population; the selection related them.</p>
+</section>
+<section id="the-birth-weight-paradox" class="level3">
+<h3 class="anchored" data-anchor-id="the-birth-weight-paradox">The birth weight paradox</h3>
+<p>In US births in 1991, babies born to mothers who smoked were more likely than other babies to be born with low birth weight, and more likely to die in their first year. Among low-birth-weight babies only, the comparison reversed: the babies of smokers had lower mortality, with a relative rate of 0.79 (Hernández-Díaz, Schisterman and Hernán, 2006, abstract). One explanation offered was that smoking somehow protects babies who are born small.</p>
+<p>Before reading on, try to draw a causal graph in which smoking does nothing good for anybody and the reversal still appears.</p>
+<p>Here is one. Low birth weight has several causes. Smoking is one of them. Others, such as serious birth defects, are much more dangerous in their own right. Call those <span class="math inline">\(U\)</span>, for unobserved.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/dag_birthweight-1.png" class="img-fluid figure-img" alt="A causal graph in boxes: smoking and U (birth defects and other causes) both point into low birth weight, which is shaded gray; smoking, low birth weight and U all point into infant death; a dashed gold line joins smoking and U." width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Restricting attention to low-birth-weight babies, the gray box, is conditioning on low birth weight. Among babies who were born small, a smoker’s baby is more likely to be small because of the smoking, and therefore less likely to be small because of something worse. Smoking and <span class="math inline">\(U\)</span> are unrelated among all babies and negatively related among the babies in the box, the dashed line. Since <span class="math inline">\(U\)</span> kills, the smokers’ low-birth-weight babies die less often, in a world where smoking only ever harms. The abstract of Hernández-Díaz and colleagues makes this argument with causal diagrams, and concludes that adjusting for birth weight is not warranted when the question is the overall effect of something that happens before birth.</p>
+</section>
+<section id="colliders" class="level3">
+<h3 class="anchored" data-anchor-id="colliders">Colliders</h3>
+<p>On a path between two variables, a <em>collider</em> is a variable that both arrows point into, as in <span class="math inline">\(A \to C \leftarrow Y\)</span>. A path through a collider is blocked: if <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are independent and both cause <span class="math inline">\(C\)</span>, nothing passes from <span class="math inline">\(A\)</span> to <span class="math inline">\(Y\)</span> along it. <em>Conditioning</em> on the collider opens the path, whether by stratifying on it, by putting it in a regression, or by restricting the sample to one value of it. So does conditioning on something the collider causes. The reading’s example is Berkson’s: two independent diseases, either of which can put someone in hospital, are negatively related among hospital patients (Barocas, Hardt and Narayanan, pages 112 and 113).</p>
+<p>Compare a confounder. A variable that causes both <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> creates an association between them, and adjusting for it removes the part of the association it created. A variable caused by both creates no association until you adjust for it, and adjusting for it creates one. “Adjust for more variables, to be safe” is not safe.</p>
+<p>Being in the data is often a collider. A hospital admits on two conditions; a firm hires on interview or referral; a university admits on grades or school; a program offers places on a cost that has four causes. Whoever analyzes the people let in has conditioned on the rule, whether or not they meant to.</p>
+</section>
+<section id="why-conditioning-creates-an-association" class="level3">
+<h3 class="anchored" data-anchor-id="why-conditioning-creates-an-association">Why conditioning creates an association</h3>
+<p>Take <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> independent, and first the case with no noise: <span class="math inline">\(C = Y + A\)</span>. Among people with the same <span class="math inline">\(C\)</span>, <span class="math inline">\(A = C - Y\)</span>, so <span class="math display">\[
+\operatorname{Cov}(Y, A \mid C) = \operatorname{Cov}(Y,\, C - Y \mid C) = -\operatorname{Var}(Y \mid C).
+\]</span> Once the total is fixed, a high value of one cause means a low value of the other. No distribution was assumed.</p>
+<p>Now add noise and let the arrows have any strength: <span class="math display">\[
+C = \alpha Y + bA + \varepsilon ,
+\]</span> with <span class="math inline">\(\varepsilon\)</span> independent of <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>. Take out of <span class="math inline">\(Y\)</span> and out of <span class="math inline">\(A\)</span> the part that is linearly predictable from <span class="math inline">\(C\)</span>, using the simple regression slopes <span class="math inline">\(\beta_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span> and <span class="math inline">\(\beta_A = \operatorname{Cov}(A, C)/\operatorname{Var}(C)\)</span>, and ask how what is left covaries. By bilinearity, <span class="math display">\[
+\begin{aligned}
+\operatorname{Cov}(Y - \beta_Y C,\; A - \beta_A C)
+&amp;= \operatorname{Cov}(Y, A) - \beta_A \operatorname{Cov}(Y, C) - \beta_Y \operatorname{Cov}(C, A) + \beta_Y \beta_A \operatorname{Var}(C) \\
+&amp;= \operatorname{Cov}(Y, A) - \frac{\operatorname{Cov}(Y, C)\,\operatorname{Cov}(A, C)}{\operatorname{Var}(C)} .
+\end{aligned}
+\]</span> Here <span class="math inline">\(\operatorname{Cov}(Y, A) = 0\)</span>, <span class="math inline">\(\operatorname{Cov}(Y, C) = \alpha \operatorname{Var}(Y)\)</span> and <span class="math inline">\(\operatorname{Cov}(A, C) = b \operatorname{Var}(A)\)</span>, so <span class="math display">\[
+\boxed{\;\operatorname{Cov}(Y - \beta_Y C,\; A - \beta_A C) = -\,\frac{\alpha\, b\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}\;}
+\qquad
+\operatorname{Var}(C) = \alpha^2 \operatorname{Var}(Y) + b^2 \operatorname{Var}(A) + \operatorname{Var}(\varepsilon).
+\]</span> In this model the association has the sign opposite to <span class="math inline">\(\alpha b\)</span>: if both causes push the collider the same way, then holding the collider fixed makes them look like substitutes. It shrinks as the noise grows, because a noisy collider says less about its causes. When the variables are jointly normal, the left side is also <span class="math inline">\(\operatorname{Cov}(Y, A \mid C)\)</span>.</p>
+<p>What this leaves out: outside the linear model, the size and even the sign of the association depend on how the causes combine, and cannot be read off the graph. Elwert and Winship (2014, page 2.7 of their copy) say that the sign and magnitude “cannot generally be predicted without additional assumptions.” The graph says an association appears; the model says which way.</p>
+</section>
+</section>
+<section id="leaving-the-attribute-out" class="level2">
+<h2 class="anchored" data-anchor-id="leaving-the-attribute-out">Leaving the attribute out</h2>
+<section id="an-unaware-model" class="level3">
+<h3 class="anchored" data-anchor-id="an-unaware-model">An unaware model</h3>
+<p>Here is a process in which a sensitive attribute <span class="math inline">\(A\)</span> has no effect on the outcome <span class="math inline">\(Y\)</span>, but does affect a predictor <span class="math inline">\(X\)</span>.</p>
+<ul>
+<li><span class="math inline">\(Y\)</span> is how well someone would do a job, standardized, <span class="math inline">\(Y \sim N(0, 1)\)</span>. Larger is better.</li>
+<li><span class="math inline">\(A \in \{0, 1\}\)</span> marks a group, half the population each, independent of <span class="math inline">\(Y\)</span>.</li>
+<li><span class="math inline">\(X\)</span> is a test score, <span class="math inline">\(X = Y + 2A + \varepsilon\)</span> with <span class="math inline">\(\varepsilon \sim N(0, 1)\)</span>. Membership of group 1 adds two points to the score and nothing to the job, as paid coaching might.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/dag_coursework-1.png" class="img-fluid figure-img" alt="A causal graph: A and Y both point into X." width="336"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(X\)</span> is a collider between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>. Fit two models for <span class="math inline">\(Y\)</span>: one that uses <span class="math inline">\(X\)</span> only, as someone might because using <span class="math inline">\(A\)</span> feels like discrimination (sometimes called an <em>unaware</em> model), and one that uses <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>. The setting is a coursework problem from this course in 2024, with the numbers of its worked solution.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>generate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">500</span>, <span class="at">betaY =</span> <span class="dv">1</span>, <span class="at">betaA =</span> <span class="dv">2</span>) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> betaY <span class="sc">*</span> Y <span class="sc">+</span> betaA <span class="sc">*</span> A <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">A =</span> <span class="fu">factor</span>(A))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="fl">1e5</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="fl">1e5</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>unaware <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> train)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> A, <span class="at">data =</span> train)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(unaware), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)           X 
+      -0.33        0.33 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(full), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)           X          A1 
+       0.01        0.50       -1.00 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>test <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_unaware =</span> <span class="fu">predict</span>(unaware, <span class="at">newdata =</span> test),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">pred_full =</span> <span class="fu">predict</span>(full, <span class="at">newdata =</span> test)) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(A) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_Y =</span> <span class="fu">mean</span>(Y),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_pred_unaware =</span> <span class="fu">mean</span>(pred_unaware),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_pred_full =</span> <span class="fu">mean</span>(pred_full),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">mse_unaware =</span> <span class="fu">mean</span>((Y <span class="sc">-</span> pred_unaware)<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">mse_full =</span> <span class="fu">mean</span>((Y <span class="sc">-</span> pred_full)<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="sc">-</span>A, \(v) <span class="fu">round</span>(v, <span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 x 6
+  A     mean_Y mean_pred_unaware mean_pred_full mse_unaware mse_full
+  &lt;fct&gt;  &lt;dbl&gt;             &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+1 0       0                -0.33           0.01        0.66      0.5
+2 1       0.01              0.34           0           0.67      0.5</code></pre>
+</div>
+</div>
+<p>The two groups have the same distribution of <span class="math inline">\(Y\)</span>. The model on <span class="math inline">\(X\)</span> alone predicts a gap of about two thirds of a standard deviation between them and is less accurate in both groups. The model on <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span> predicts no gap and is more accurate in both.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/coursework_plot-1.png" class="img-fluid figure-img" alt="Scatter plot of Y against X for 1,500 people, group 0 in navy and group 1 in gold, the gold cloud shifted right; a navy and a gold line of slope one half, one per group, and a dashed black line of slope one third through both." width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>At any given score, the people in group 1 have lower <span class="math inline">\(Y\)</span>: two points of their score came from <span class="math inline">\(A\)</span>. The model that uses <span class="math inline">\(A\)</span> subtracts them. The model on <span class="math inline">\(X\)</span> alone fits one line through both clouds, flatter than either group’s, so it reads the coaching as ability: it predicts too high for group 1 and too low for group 0.</p>
+</section>
+<section id="the-same-numbers-by-hand" class="level3">
+<h3 class="anchored" data-anchor-id="the-same-numbers-by-hand">The same numbers by hand</h3>
+<p>Everything here follows from simple regression. <span class="math inline">\(\operatorname{Var}(A) = 1/4\)</span>, so <span class="math inline">\(\operatorname{Var}(X) = 1 + 4 \cdot \tfrac14 + 1 = 3\)</span> and <span class="math inline">\(E[X] = 1\)</span>. Since <span class="math inline">\(A\)</span> and <span class="math inline">\(\varepsilon\)</span> are independent of <span class="math inline">\(Y\)</span>, <span class="math inline">\(\operatorname{Cov}(X, Y) = \operatorname{Var}(Y) = 1\)</span>.</p>
+<p><em><span class="math inline">\(X\)</span> only.</em> The slope is <span class="math inline">\(\operatorname{Cov}(X, Y)/\operatorname{Var}(X) = 1/3\)</span>, and the line passes through the means, so <span class="math inline">\(\hat Y = (X - 1)/3\)</span>. In group <span class="math inline">\(a\)</span>, <span class="math inline">\(E[X \mid A = a] = 2a\)</span>, so the mean prediction is <span class="math inline">\(-1/3\)</span> for group 0 and <span class="math inline">\(+1/3\)</span> for group 1. The mean squared error is <span class="math inline">\(\operatorname{Var}(Y) - \operatorname{Cov}(X, Y)^2/\operatorname{Var}(X) = 2/3\)</span>. It is <span class="math inline">\(2/3\)</span> in each group: in group 0, <span class="math inline">\(Y - \hat Y = \tfrac13(2Y - \varepsilon + 1)\)</span>, with variance <span class="math inline">\(5/9\)</span> and mean <span class="math inline">\(1/3\)</span>.</p>
+<p><em><span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>.</em> Within group <span class="math inline">\(a\)</span>, <span class="math inline">\(X - 2a = Y + \varepsilon\)</span>, so the model is two simple regressions with the same slope, <span class="math inline">\(\operatorname{Var}(Y)/(\operatorname{Var}(Y) + \operatorname{Var}(\varepsilon)) = 1/2\)</span>: <span class="math display">\[
+\hat Y = \tfrac12 (X - 2A) = \tfrac12 X - A .
+\]</span> The mean prediction is <span class="math inline">\(0\)</span> in each group, and the mean squared error is <span class="math inline">\(1 - 1/2 = 1/2\)</span> in each group.</p>
+<p>The coefficient on <span class="math inline">\(A\)</span> is <span class="math inline">\(-1\)</span>. That is the collider. In the formula of the previous section, with <span class="math inline">\(\alpha = 1\)</span>, <span class="math inline">\(b = 2\)</span>, <span class="math inline">\(\operatorname{Var}(Y) = 1\)</span>, <span class="math inline">\(\operatorname{Var}(A) = 1/4\)</span> and <span class="math inline">\(\operatorname{Var}(X) = 3\)</span>, the covariance of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span> left over after removing what <span class="math inline">\(X\)</span> predicts is <span class="math inline">\(-(2 \cdot \tfrac14)/3 = -1/6\)</span>: once you know someone’s score, being in group 1 is evidence of lower <span class="math inline">\(Y\)</span>.</p>
+<p>With a coaching effect <span class="math inline">\(b\)</span> in place of 2, the same steps give <span class="math inline">\(\operatorname{Var}(X) = 2 + b^2/4\)</span>, a gap of <span class="math inline">\(b/(2 + b^2/4)\)</span> between the groups’ mean predictions from <span class="math inline">\(X\)</span> alone, and a mean squared error of <span class="math inline">\(1 - 1/(2 + b^2/4)\)</span> against <span class="math inline">\(1/2\)</span>.</p>
+</section>
+<section id="what-was-leaving-it-out-for" class="level3">
+<h3 class="anchored" data-anchor-id="what-was-leaving-it-out-for">What was leaving it out for?</h3>
+<p>Leaving <span class="math inline">\(A\)</span> out of a model is a common response to the worry that a model will discriminate, and it has an obvious appeal: a model that does not look at the attribute cannot treat anyone differently because of it, it seems. In this example, leaving <span class="math inline">\(A\)</span> out made the model less accurate for everyone and produced a gap between the groups that is not in the outcome.</p>
+<p>UK law separates two things here. Direct discrimination (Equality Act 2010, section 13) is treating someone less favorably <em>because of</em> a protected characteristic. The model that uses <span class="math inline">\(A\)</span> does use it: at the same score it gives a member of group 1 a lower prediction than a member of group 0. Indirect discrimination (section 19) is a provision, criterion or practice applied to everyone that puts people who share a characteristic at a particular disadvantage. The model on <span class="math inline">\(X\)</span> alone applies one rule to everyone and puts group 0 at a disadvantage. Which of these, if either, would be unlawful in a given setting depends on facts and justifications that I am not going to adjudicate, and the arithmetic does not answer it. What the arithmetic does answer is whether “the model does not use <span class="math inline">\(A\)</span>” and “the model does not treat the groups differently” are the same claim. They are not.</p>
+<p>Nor does it follow that using <span class="math inline">\(A\)</span> is better. Change the graph so that <span class="math inline">\(A\)</span> affects the recorded outcome itself, for instance because past decisions about group 1 lowered its measured performance, and a model that uses <span class="math inline">\(A\)</span> will learn that and repeat it. Which graph you are in is not settled by the data. It is a claim you make, and including or excluding <span class="math inline">\(A\)</span> follows from it. You have to choose.</p>
+</section>
+<section id="adjusting-for-a-collider" class="level3">
+<h3 class="anchored" data-anchor-id="adjusting-for-a-collider">Adjusting for a collider</h3>
+<p>Change the question. Instead of predicting <span class="math inline">\(Y\)</span>, ask whether <span class="math inline">\(A\)</span> affects <span class="math inline">\(Y\)</span>. The difference in mean <span class="math inline">\(Y\)</span> between the groups is <span class="math inline">\(0\)</span>, which is right. The model that uses <span class="math inline">\(X\)</span> has a coefficient of <span class="math inline">\(-1\)</span> on <span class="math inline">\(A\)</span>: among people with the same score, those in group 1 do worse. As a statement about prediction at a fixed score, that is true. As a statement about what would happen to someone’s <span class="math inline">\(Y\)</span> if their <span class="math inline">\(A\)</span> were changed, it is false. Adjusting for <span class="math inline">\(X\)</span> made the estimate of the effect worse, because <span class="math inline">\(X\)</span> is a collider. Adjusting for a confounder removes bias; adjusting for a collider adds it.</p>
+<p>So the same graph gives opposite advice for two questions. To predict <span class="math inline">\(Y\)</span> well, condition on <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>. To estimate the effect of <span class="math inline">\(A\)</span> on <span class="math inline">\(Y\)</span>, do not condition on <span class="math inline">\(X\)</span>.</p>
+</section>
+</section>
+<section id="who-is-missing" class="level2">
+<h2 class="anchored" data-anchor-id="who-is-missing">Who is missing</h2>
+<section id="missing-data" class="level3">
+<h3 class="anchored" data-anchor-id="missing-data">Missing data</h3>
+<p>Now the cases themselves. Suppose <span class="math inline">\(Y\)</span> is sometimes missing and <span class="math inline">\(X\)</span> is always recorded. Write <span class="math inline">\(O = 1\)</span> if <span class="math inline">\(Y\)</span> is observed and <span class="math inline">\(O = 0\)</span> if it is missing. (Van Buuren writes <span class="math inline">\(R\)</span> for this indicator. In this course <span class="math inline">\(R\)</span> is a risk score, so here it is <span class="math inline">\(O\)</span>, for observed.) Following Rubin (1976), there are three cases.</p>
+<ul>
+<li><strong>Missing completely at random (MCAR):</strong> <span class="math inline">\(O\)</span> is independent of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> together. Whether a value is missing has nothing to do with the data. A box of paper forms lost in a flood.</li>
+<li><strong>Missing at random (MAR):</strong> <span class="math inline">\(O\)</span> is independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>. The chance of being missing may depend on what was recorded, but among people with the same <span class="math inline">\(X\)</span> it does not depend on <span class="math inline">\(Y\)</span>. Older respondents skip the income question more often, and age is recorded.</li>
+<li><strong>Missing not at random (MNAR):</strong> neither. Among people with the same <span class="math inline">\(X\)</span>, whether <span class="math inline">\(Y\)</span> is missing still depends on <span class="math inline">\(Y\)</span>. People with high incomes skip the income question more often, at every age.</li>
+</ul>
+<p>These are the definitions for one incomplete variable with the rest recorded; van Buuren’s section 2.2 gives the general version. “Missing at random” does not mean random in the everyday sense. It means random once you account for what was recorded.</p>
+<p>As a graph, <span class="math inline">\(O\)</span> is a variable like any other. MCAR: nothing points into <span class="math inline">\(O\)</span> from <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span>. MAR: <span class="math inline">\(X \to O\)</span>, and no path from <span class="math inline">\(Y\)</span> to <span class="math inline">\(O\)</span> that avoids <span class="math inline">\(X\)</span>. MNAR: <span class="math inline">\(Y \to O\)</span>, or an unrecorded cause of <span class="math inline">\(Y\)</span> points into <span class="math inline">\(O\)</span>. Analyzing the complete cases is conditioning on <span class="math inline">\(O = 1\)</span>.</p>
+<p>You can check whether missingness depends on <span class="math inline">\(X\)</span>, because <span class="math inline">\(X\)</span> is seen for everyone. You cannot check whether it depends on <span class="math inline">\(Y\)</span> once <span class="math inline">\(X\)</span> is accounted for, because the values of <span class="math inline">\(Y\)</span> the check would need are the missing ones. Van Buuren (section 2.2.4): it is not possible to test MAR against MNAR “since the information that is needed for such a test is missing.”</p>
+</section>
+<section id="complete-case-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="complete-case-analysis">Complete-case analysis</h3>
+<p>The default in R, and in most software, is to drop every row with a missing value: <code>na.omit()</code>, <code>na.rm = TRUE</code>, and what <code>lm()</code> does without asking. What does that do to the mean of <span class="math inline">\(Y\)</span>?</p>
+<p>The mean among the complete cases is <span class="math inline">\(E[Y \mid O = 1] = E[YO]/P(O = 1)\)</span>, because <span class="math inline">\(YO\)</span> is <span class="math inline">\(Y\)</span> when observed and <span class="math inline">\(0\)</span> otherwise. And <span class="math inline">\(\operatorname{Cov}(Y, O) = E[YO] - E[Y]\,P(O = 1)\)</span>. Together: <span class="math display">\[
+\boxed{\;E[Y \mid O = 1] - E[Y] = \frac{\operatorname{Cov}(Y, O)}{P(O = 1)}\;}
+\]</span> The complete-case mean is biased by the covariance between the outcome and being observed, scaled up by how few are observed. Equivalently, since <span class="math inline">\(E[Y]\)</span> is the average of the observed and the missing means weighted by their shares, the bias is the share missing times the gap between the two means: <span class="math inline">\(E[Y \mid O = 1] - E[Y] = P(O = 0)\,\big(E[Y \mid O = 1] - E[Y \mid O = 0]\big)\)</span>.</p>
+<ul>
+<li><strong>MCAR.</strong> <span class="math inline">\(O\)</span> is independent of <span class="math inline">\(Y\)</span>, so the covariance is zero and the complete-case mean is unbiased. It is computed from fewer people, so it varies more. MCAR costs variance, not bias.</li>
+<li><strong>MAR.</strong> Split the covariance into a part between values of <span class="math inline">\(X\)</span> and a part within them, as a covariance across areas splits into between and within: <span class="math display">\[
+\operatorname{Cov}(Y, O) = E\big[\operatorname{Cov}(Y, O \mid X)\big] + \operatorname{Cov}\big(E[Y \mid X],\; E[O \mid X]\big).
+\]</span> Under MAR the first term is zero, so <span class="math inline">\(\operatorname{Cov}(Y, O) = \operatorname{Cov}\big(E[Y \mid X],\; P(O = 1 \mid X)\big)\)</span>. The complete-case mean is biased whenever the kinds of people who answer less have a different mean. That is bias.</li>
+<li><strong>MNAR.</strong> The covariance involves the missing values, so it cannot be computed from the data. Its sign can often be argued: if high earners skip the income question, <span class="math inline">\(\operatorname{Cov}(Y, O) &lt; 0\)</span> and the complete-case mean is too low.</li>
+</ul>
+<p><strong>An example (MAR).</strong> Two age groups, equally common. Mean income is 40 in the younger group and 60 in the older (thousands). The younger answer the income question with probability 0.8, the older with probability 0.4, and within each group answering is unrelated to income. The true mean is 50. The share answering is <span class="math inline">\(P(O = 1) = \tfrac12(0.8) + \tfrac12(0.4) = 0.6\)</span>, and the mean among those who answered is <span class="math display">\[
+\frac{\tfrac12(0.8)(40) + \tfrac12(0.4)(60)}{0.6} = \frac{16 + 12}{0.6} = 46.7 ,
+\]</span> too low by <span class="math inline">\(3.3\)</span>. With the formula: <span class="math inline">\(E[YO] = 28\)</span>, so <span class="math inline">\(\operatorname{Cov}(Y, O) = 28 - 50 \times 0.6 = -2\)</span>, and <span class="math inline">\(-2/0.6 = -3.3\)</span>.</p>
+</section>
+<section id="when-the-complete-cases-are-enough" class="level3">
+<h3 class="anchored" data-anchor-id="when-the-complete-cases-are-enough">When the complete cases are enough</h3>
+<p>For a regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> the story is different. Under MAR, <span class="math inline">\(O\)</span> is independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>, so <span class="math display">\[
+E[Y \mid X = x, O = 1] = E[Y \mid X = x] .
+\]</span> Among the complete cases the average of <span class="math inline">\(Y\)</span> at each <span class="math inline">\(x\)</span> is what it is in the population. The complete cases have a different mix of <span class="math inline">\(x\)</span> values, but if the regression line is right at every <span class="math inline">\(x\)</span>, a different mix of <span class="math inline">\(x\)</span> values does not move it. So complete-case regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> is unbiased when missingness depends on <span class="math inline">\(X\)</span> only, even though the complete-case mean of <span class="math inline">\(Y\)</span> is biased. Van Buuren’s section 2.7 states the general version: when the probability of being missing does not depend on <span class="math inline">\(Y\)</span>, and the model for <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is correct, the complete-case regression coefficients are “free of bias.” Two warnings. If the line is only an approximation, changing the mix of <span class="math inline">\(x\)</span> changes which line fits best. And if missingness depends on <span class="math inline">\(Y\)</span> itself, removing points changes the average of <span class="math inline">\(Y\)</span> at each <span class="math inline">\(x\)</span>, and the line moves.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/cc_regression-1.png" class="img-fluid figure-img" alt="Two panels of simulated points with a dotted line of slope one, the line they were drawn from. Left, missing more often at high X: the gold line fitted to the recorded points lies on the dotted line. Right, missing more often at high Y: the fitted line is flatter." width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="reweighting-the-people-who-answered" class="level3">
+<h3 class="anchored" data-anchor-id="reweighting-the-people-who-answered">Reweighting the people who answered</h3>
+<p>Under MAR there is a way to recover the mean of <span class="math inline">\(Y\)</span> without filling anything in. Let <span class="math inline">\(e(X) = P(O = 1 \mid X)\)</span>, the chance of answering given <span class="math inline">\(X\)</span>, and suppose it is never zero. Give each person who answered the weight <span class="math inline">\(1/e(X)\)</span>: a respondent from a group where 40% answer stands for <span class="math inline">\(1/0.4 = 2.5\)</span> people like them. Then <span class="math display">\[
+E\left[\frac{O\,Y}{e(X)}\right]
+= E\left[\frac{E[O \mid X]\;E[Y \mid X]}{e(X)}\right]
+= E\big[E[Y \mid X]\big]
+= E[Y].
+\]</span> The first step conditions on <span class="math inline">\(X\)</span> and uses MAR to split <span class="math inline">\(E[OY \mid X]\)</span> into <span class="math inline">\(E[O \mid X]\,E[Y \mid X]\)</span>; the second uses <span class="math inline">\(E[O \mid X] = e(X)\)</span>; the third is iterated expectation. In the income example the weighted mean is <span class="math inline">\(\tfrac12(0.8)(40)/0.8 + \tfrac12(0.4)(60)/0.4 = 50\)</span>. This is the Horvitz–Thompson estimator of survey sampling (Horvitz and Thompson, 1952), with the probability of being sampled replaced by the probability of answering.</p>
+<p>Weighting removes the bias and pays for it in variance: a person with a small <span class="math inline">\(e(X)\)</span> gets a large weight, and a few large weights make the estimate noisy. If whether someone answers depends on <span class="math inline">\(Y\)</span> among people with the same <span class="math inline">\(X\)</span>, no weight built from <span class="math inline">\(X\)</span> can undo it.</p>
+</section>
+<section id="missing-by-construction" class="level3">
+<h3 class="anchored" data-anchor-id="missing-by-construction">Missing by construction</h3>
+<p>Some data are missing because of the decision the data are meant to evaluate. In a bail hearing, a judge decides whether to release a defendant. Whether a released defendant fails to appear or is rearrested is recorded. For a defendant who is detained there is no outcome at all. Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan (2017) call this the <em>selective labels</em> problem: “the observed outcomes are themselves a consequence of the existing choices of the human decision-makers.” Suppose you want to check whether an algorithm would make better release decisions than the judges. The labels exist only where judges released people, and judges decided using information the algorithm does not have, such as what they saw in the courtroom. Among defendants with the same recorded features, the ones a judge detained are the ones the judge expected to do worst. That is MNAR, by construction: the rule that decides who has a label is a prediction of the label. Their paper proposes a way to compare an algorithm with the judges anyway, using the fact that some judges release more defendants than others.</p>
+<p>The file drawer was MNAR in the same way: whether a study was published depended on its own <span class="math inline">\(z\)</span>-value, so the missing studies were missing in a known direction. So was the top of a feed: whether a post reached you depended on how extreme it was.</p>
+</section>
+</section>
+<section id="filling-in" class="level2">
+<h2 class="anchored" data-anchor-id="filling-in">Filling in</h2>
+<p>The alternative to dropping incomplete rows is to fill them in.</p>
+<ul>
+<li><em>Mean imputation</em> replaces each missing <span class="math inline">\(Y\)</span> with the mean of the observed ones. It leaves the complete-case mean where it was, so it fixes no bias, and it shrinks the spread of <span class="math inline">\(Y\)</span>.</li>
+<li><em>Regression imputation</em> replaces each missing <span class="math inline">\(Y\)</span> with its predicted value from a regression on <span class="math inline">\(X\)</span> fitted to the complete cases. Under MAR this puts the mean in the right place. But every filled-in value lies on the line, so the completed data look more certain and more strongly related than they are.</li>
+</ul>
+<p>Both fill in one value per gap, and both make the same error about variance: the analysis that follows treats the filled-in values as if they had been observed. Standard errors come out too small and confidence intervals too narrow. A single fill-in hides variance.</p>
+<p><em>Multiple imputation</em> puts it back. Draw <span class="math inline">\(m\)</span> plausible completions of the data from a model for the missing values given the observed ones, with the randomness a real observation would have. Run the analysis on each completed dataset and average the <span class="math inline">\(m\)</span> estimates. For its variance, add two parts: <span class="math display">\[
+\text{total variance} = \text{average of the } m \text{ variances within each completion} + \left(1 + \frac1m\right) \times \text{variance of the } m \text{ estimates}.
+\]</span> This is Rubin’s rule for combining them (van Buuren, section 2.3.2). The second part is the variance a single fill-in threw away: how much the answer changes depending on which plausible values were filled in. The class runs this with the R package <code>mice</code>.</p>
+<p>What multiple imputation does not do is escape the choice. The model the completions are drawn from is an assumption about people nobody observed, usually MAR given the variables put into it. It cannot be checked against the missing values, because they are missing. Writing the model down is better than letting <code>na.omit()</code> make an unstated assumption, because a written assumption can be argued with. But it is still an assumption. Imputing is not observing.</p>
+</section>
+<section id="lenses" class="level2">
+<h2 class="anchored" data-anchor-id="lenses">Lenses</h2>
+<p>Who is in the data? The babies who were born small. The people offered a place. The complete cases. The defendants a judge released. The studies that were published and the posts that reached a feed. In each, the rule that let people in depended on something connected to the outcome, and restricting to the people it let in changed what the numbers mean.</p>
+<p>You have to choose, so choose, and defend it. Whether to include the sensitive attribute depends on which causal graph you believe, and the data do not settle it. Whether the missing are like the observed once you account for what was recorded, MAR or MNAR, is not settled by the data either. Every analysis of incomplete data makes one of these assumptions; what varies is whether it is made on purpose.</p>
+<p>What can be changed, and how? What things are considered “controlled for” or “held fixed,” and is that realistic? The coefficient on <span class="math inline">\(A\)</span> holds the score fixed while the group changes, which is not something that happens to anyone. A comparison among low-birth-weight babies holds birth weight fixed while asking about smoking, which is one of the things that set it.</p>
+<p>And why? Dropping incomplete rows is the default because it is what the software does without asking, and a default nobody chose is one nobody has to defend.</p>
+</section>
+<section id="readings" class="level2">
+<h2 class="anchored" data-anchor-id="readings">Readings</h2>
+<section id="required" class="level3">
+<h3 class="anchored" data-anchor-id="required">Required</h3>
+<ul>
+<li>van Buuren, <em>Flexible Imputation of Missing Data</em>, second edition (Chapman and Hall/CRC, 2018, <a href="https://doi.org/10.1201/9780429492259" class="uri">https://doi.org/10.1201/9780429492259</a>), <a href="https://stefvanbuuren.name/fimd/ch-introduction.html">sections 1.1 to 1.3</a>, free to read online.</li>
+<li>Re-read Barocas, Hardt and Narayanan, <em>Fairness and Machine Learning: Limitations and Opportunities</em> (MIT Press, 2023), <a href="https://fairmlbook.org/pdf/fairmlbook.pdf">chapter 5, Causality</a>: the subsection “Colliders” (pages 112 and 113) and the list of what controlling for each kind of variable does (page 115).</li>
+</ul>
+</section>
+<section id="optional" class="level3">
+<h3 class="anchored" data-anchor-id="optional">Optional</h3>
+<ul>
+<li>Elwert and Winship, <a href="https://users.ssc.wisc.edu/~elwert/causality/wp-content/uploads/2014/07/Elwert-Winship-2014.pdf">Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable</a> (<em>Annual Review of Sociology</em> 40, 2014, 31–53, <a href="https://doi.org/10.1146/annurev-soc-071913-043455" class="uri">https://doi.org/10.1146/annurev-soc-071913-043455</a>): section 4, and the examples of truncation, nonresponse and attrition in section 5. The link is the authors’ copy, numbered 2.1 to 2.23.</li>
+<li>Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan, <a href="https://cs.stanford.edu/~jure/pubs/contraction-kdd17.pdf">The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables</a> (<em>Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 2017, 275–284, <a href="https://doi.org/10.1145/3097983.3098066" class="uri">https://doi.org/10.1145/3097983.3098066</a>), section 1.</li>
+<li>van Buuren, <a href="https://stefvanbuuren.name/fimd/sec-when.html">section 2.7, When not to use multiple imputation</a>.</li>
+<li>Hernández-Díaz, Schisterman and Hernán, <a href="https://doi.org/10.1093/aje/kwj275">The birth weight “paradox” uncovered?</a> (<em>American Journal of Epidemiology</em> 164(11), 2006, 1115–1120).</li>
+</ul>
+<p>Cited in the text and not assigned: Rubin, “Inference and missing data” (<em>Biometrika</em> 63(3), 1976, 581–592, <a href="https://doi.org/10.1093/biomet/63.3.581" class="uri">https://doi.org/10.1093/biomet/63.3.581</a>); Horvitz and Thompson, “A Generalization of Sampling Without Replacement from a Finite Universe” (<em>Journal of the American Statistical Association</em> 47(260), 1952, 663–685, <a href="https://doi.org/10.1080/01621459.1952.10483446" class="uri">https://doi.org/10.1080/01621459.1952.10483446</a>); the Equality Act 2010, c.&nbsp;15, sections 13 and 19 (<a href="https://www.legislation.gov.uk/ukpga/2010/15" class="uri">https://www.legislation.gov.uk/ukpga/2010/15</a>); ST313 coursework 2 (2024) and its worked solution.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ethics4ds\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -7,3 +7,5 @@ Every dataset has a rule for who gets into it: who was born small, who was hired
 **Optional:** [Elwert and Winship, Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable](https://users.ssc.wisc.edu/~elwert/causality/wp-content/uploads/2014/07/Elwert-Winship-2014.pdf) (*Annual Review of Sociology*, 2014; section 4, and the examples of truncation, nonresponse and attrition in section 5) · [Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan, The Selective Labels Problem](https://cs.stanford.edu/~jure/pubs/contraction-kdd17.pdf) (KDD 2017; section 1) · [van Buuren, section 2.7: When not to use multiple imputation](https://stefvanbuuren.name/fimd/sec-when.html) · [Hernández-Díaz, Schisterman and Hernán, The birth weight "paradox" uncovered?](https://doi.org/10.1093/aje/kwj275) (*American Journal of Epidemiology*, 2006)
 
 **Bring to the class:** one dataset or study where some people who should be in it are not, with who is missing and in which direction their absence pushes the result.
+
+**Lecture:** [notes](weeks/wk05/notes.html) · [slides](weeks/wk05/slides.html)
