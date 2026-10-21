@@ -165,7 +165,7 @@ Joshua Loftus
 </section>
 <section id="people-offered-a-place" class="slide level2">
 <h2>People offered a place</h2>
-<p>Cost <span class="math inline">\(= Y^\star + W + C + \varepsilon\)</span>: need, resources, care-seeking, noise, all independent. A place for everyone in the top 3% by cost.</p>
+<p>Cost = need + resources + care-seeking + noise, the four independent. A place for everyone in the top 3% by cost.</p>
 <div class="retrieval">
 <p>Among the people offered a place, are need and resources related? Which way, and why?</p>
 </div>
@@ -203,7 +203,7 @@ Joshua Loftus
 </section>
 <section id="colliders" class="slide level2">
 <h2>Colliders</h2>
-<p>On a path, a <strong>collider</strong> is a variable both arrows point into: <span class="math inline">\(A \to C \leftarrow Y\)</span>. The path is blocked until you condition on <span class="math inline">\(C\)</span>, or on something <span class="math inline">\(C\)</span> causes.</p>
+<p>On a path, a <em>collider</em> is a variable both arrows point into: <span class="math inline">\(A \to C \leftarrow Y\)</span>. The path is blocked until you condition on <span class="math inline">\(C\)</span>, or on something <span class="math inline">\(C\)</span> causes.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -221,16 +221,16 @@ Joshua Loftus
 <tr class="even">
 <td style="text-align: left;">adjusted for</td>
 <td style="text-align: left;">removed</td>
-<td style="text-align: left;"><strong>created</strong></td>
+<td style="text-align: left;">created</td>
 </tr>
 </tbody>
 </table>
 <p>Restricting a sample to one value of <span class="math inline">\(C\)</span> (born small, hired, admitted, offered a place) is conditioning on <span class="math inline">\(C\)</span>.</p>
 <div class="source">
-<p>Barocas, Hardt and Narayanan (2023), <em>Fairness and Machine Learning: Limitations and Opportunities</em>, MIT Press, chapter 5, “Colliders,” pages 112–113, and page 115; fairmlbook.org.</p>
+<p>Barocas, Hardt and Narayanan (2023), <em>Fairness and Machine Learning: Limitations and Opportunities</em>, chapter 5, “Colliders,” pages 112–113, and page 115 of the fairmlbook.org PDF.</p>
 </div>
 </section>
-<section id="holding-the-collider-fixed" class="slide level2" data-minutes="3">
+<section id="holding-the-collider-fixed" class="slide level2" data-minutes="2">
 <h2>Holding the collider fixed</h2>
 <p><span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> independent, and <span class="math inline">\(C = Y + A\)</span>.</p>
 <p>Among people with the same <span class="math inline">\(C\)</span>: <span class="math inline">\(\; A = C - Y\)</span>.</p>
@@ -238,20 +238,20 @@ Joshua Loftus
 <p><span class="math inline">\(\operatorname{Cov}(Y, A \mid C) = \;?\)</span></p>
 </div>
 </section>
-<section id="with-noise" class="slide level2" data-minutes="3">
+<section id="with-noise" class="slide level2" data-minutes="5">
 <h2>With noise</h2>
-<p><span class="math inline">\(A \perp Y\)</span>, <span class="math inline">\(\; C = \alpha Y + bA + \varepsilon\)</span>. Take out of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span> what <span class="math inline">\(C\)</span> predicts, with slopes <span class="math inline">\(\beta_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span> and <span class="math inline">\(\beta_A = \operatorname{Cov}(A, C)/\operatorname{Var}(C)\)</span>:</p>
+<p><span class="math inline">\(A \perp Y\)</span>, <span class="math inline">\(\; C = \alpha Y + bA + \varepsilon\)</span>. Take out of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span> what <span class="math inline">\(C\)</span> predicts, with slopes <span class="math inline">\(\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span> and <span class="math inline">\(\gamma_A = \operatorname{Cov}(A, C)/\operatorname{Var}(C)\)</span>:</p>
 <p><span class="math display">\[
 \begin{aligned}
-\operatorname{Cov}(Y - \beta_Y C,\; A - \beta_A C) &amp;= \operatorname{Cov}(Y, A) - \frac{\operatorname{Cov}(Y, C)\,\operatorname{Cov}(A, C)}{\operatorname{Var}(C)} \\
+\operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) &amp;= \operatorname{Cov}(Y, A) - \frac{\operatorname{Cov}(Y, C)\,\operatorname{Cov}(A, C)}{\operatorname{Var}(C)} \\
 &amp;= -\,\frac{\alpha\, b\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}
 \end{aligned}
 \]</span></p>
 <div class="leave">
-<p>Holding a common effect fixed relates its causes, with the sign opposite to <span class="math inline">\(\alpha b\)</span> in this model. Outside the linear model, the sign and size depend on details the graph does not show.</p>
+<p>Holding a common effect fixed relates its causes, with the sign opposite to <span class="math inline">\(\alpha b\)</span> in this model. Outside the linear model, the sign and size depend on details the graph does not show (Elwert and Winship).</p>
 </div>
 <div class="source">
-<p>Elwert and Winship (2014), “Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable,” <em>Annual Review of Sociology</em> 40, 31–53, doi:10.1146/annurev-soc-071913-043455.</p>
+<p>On the last sentence: Elwert and Winship (2014), “Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable,” <em>Annual Review of Sociology</em> 40, 31–53, doi:10.1146/annurev-soc-071913-043455.</p>
 </div>
 </section></section>
 <section>
@@ -282,17 +282,17 @@ Joshua Loftus
 <div class="cell-output-display">
 <table class="caption-top">
 <colgroup>
-<col style="width: 8%">
-<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 23%">
 <col style="width: 24%">
-<col style="width: 25%">
+<col style="width: 15%">
 <col style="width: 16%">
-<col style="width: 17%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">group</th>
-<th style="text-align: right;">mean Y</th>
+<th style="text-align: right;">mean of Y</th>
 <th style="text-align: right;">predicted, X only</th>
 <th style="text-align: right;">predicted, X and A</th>
 <th style="text-align: right;">MSE, X only</th>
@@ -306,7 +306,7 @@ Joshua Loftus
 <td style="text-align: right;">-0.33</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.66</td>
-<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.50</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">1</td>
@@ -314,7 +314,7 @@ Joshua Loftus
 <td style="text-align: right;">0.34</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: right;">0.67</td>
-<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.50</td>
 </tr>
 </tbody>
 </table>
@@ -322,7 +322,7 @@ Joshua Loftus
 </div>
 <p>Leaving <span class="math inline">\(A\)</span> out: less accurate in both groups, and a gap between groups whose <span class="math inline">\(Y\)</span> has the same distribution.</p>
 <div class="source">
-<p>ST313 coursework 2 (2024) and its worked solution: <span class="math inline">\(A \to X \leftarrow Y\)</span>, <code>betaY = 1</code>, <code>betaA = 2</code>.</p>
+<p>ST313 coursework 2 (2024) and its worked solution: <span class="math inline">\(A \to X \leftarrow Y\)</span>, <code>betaY = 1</code>, <code>betaA = 2</code> (in the formula before, <span class="math inline">\(\alpha = 1\)</span> and <span class="math inline">\(b = 2\)</span>).</p>
 </div>
 </section>
 <section id="the-picture" class="slide level2">
@@ -337,7 +337,7 @@ Joshua Loftus
 </div>
 </div>
 </section>
-<section id="by-hand" class="slide level2" data-minutes="3">
+<section id="by-hand" class="slide level2" data-minutes="5">
 <h2>By hand</h2>
 <p><span class="math inline">\(\operatorname{Var}(A) = \tfrac14\)</span>, so <span class="math inline">\(\operatorname{Var}(X) = 1 + 4 \cdot \tfrac14 + 1 = 3\)</span>, <span class="math inline">\(\; E[X] = 1\)</span>, <span class="math inline">\(\; \operatorname{Cov}(X, Y) = 1\)</span>.</p>
 <table class="caption-top">
@@ -378,10 +378,10 @@ Joshua Loftus
 <div class="ask">
 <p>If leaving out the sensitive attribute makes the model both less accurate and more unequal between groups, what was leaving it out for?</p>
 </div>
-<p>Equality Act 2010: direct discrimination (section 13) is less favorable treatment <em>because of</em> a protected characteristic; indirect discrimination (section 19) is a rule applied to everyone that puts people sharing a characteristic at a particular disadvantage.</p>
+<p>Equality Act 2010: direct discrimination (section 13) is less favorable treatment <em>because of</em> a protected characteristic; indirect discrimination (section 19) is a rule applied to everyone that puts people sharing a characteristic at a particular disadvantage, unless it can be shown to be a proportionate means of achieving a legitimate aim.</p>
 <p>If <span class="math inline">\(A\)</span> shaped the recorded outcome itself, a model using <span class="math inline">\(A\)</span> would learn that.</p>
 <div class="source">
-<p>Equality Act 2010 (c.&nbsp;15), sections 13(1) and 19(1)–(2), legislation.gov.uk/ukpga/2010/15.</p>
+<p>Equality Act 2010 (c.&nbsp;15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.</p>
 </div>
 </section>
 <section id="adjusting-for-a-collider" class="slide level2">
@@ -405,7 +405,7 @@ Joshua Loftus
 <h2>Missing data</h2>
 <p><span class="math inline">\(O = 1\)</span> if <span class="math inline">\(Y\)</span> is observed. <span class="math inline">\(X\)</span> is always recorded.</p>
 <ul>
-<li>missing completely at random (MCAR): <span class="math inline">\(O\)</span> independent of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>;</li>
+<li>missing completely at random (MCAR): <span class="math inline">\(O\)</span> independent of <span class="math inline">\((X, Y)\)</span>;</li>
 <li>missing at random (MAR): <span class="math inline">\(O\)</span> independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>;</li>
 <li>missing not at random (MNAR): neither.</li>
 </ul>
@@ -418,14 +418,14 @@ Joshua Loftus
 <h2>Classify, with a direction</h2>
 <ol type="1">
 <li>A box of paper questionnaires is lost in a flood.</li>
-<li>Older respondents skip the income question more often. Age is recorded.</li>
+<li>Older respondents skip the income question more often. Age is recorded, and income rises with age.</li>
 <li>High earners skip the income question more often, at every age.</li>
 </ol>
 <div class="ask">
 <p>MCAR, MAR or MNAR? Is the mean of the recorded incomes too high, too low, or neither?</p>
 </div>
 </section>
-<section id="complete-case-bias" class="slide level2" data-minutes="3">
+<section id="complete-case-bias" class="slide level2" data-minutes="4">
 <h2>Complete-case bias</h2>
 <p><span class="math display">\[
 \begin{aligned}
@@ -436,11 +436,11 @@ E[Y \mid O = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, O)}{P(O = 1)}
 \]</span></p>
 <ul>
 <li>MCAR: <span class="math inline">\(0\)</span>. Fewer cases, so more variance; no bias.</li>
-<li>MAR: <span class="math inline">\(\operatorname{Cov}(Y, O) = \operatorname{Cov}\big(E[Y \mid X],\; P(O = 1 \mid X)\big)\)</span>, which is bias.</li>
+<li>MAR: <span class="math inline">\(\operatorname{Cov}(Y, O) = \operatorname{Cov}\big(E[Y \mid X],\; P(O = 1 \mid X)\big)\)</span>: a bias, unless the two are uncorrelated.</li>
 <li>MNAR: not computable from the data. Argue its sign.</li>
 </ul>
 </section>
-<section id="compute" class="slide level2" data-minutes="3">
+<section id="compute" class="slide level2" data-minutes="2">
 <h2>Compute</h2>
 <p>Two age groups, equally common. Mean income 40 in the younger, 60 in the older (thousands).</p>
 <p>The younger answer the income question with probability 0.8, the older with probability 0.4. Within each group, answering is unrelated to income.</p>
@@ -478,7 +478,7 @@ E\left[\frac{O\,Y}{e(X)}\right] = E\left[\frac{E[O \mid X]\;E[Y \mid X]}{e(X)}\r
 <blockquote>
 <p>“the observed outcomes are themselves a consequence of the existing choices of the human decision-makers”</p>
 </blockquote>
-<p>A study in the file drawer, a post that did not reach your feed: missing because of its own value.</p>
+<p>A study in the file drawer, missing because of its own <span class="math inline">\(z\)</span>-value; a post that did not reach your feed, because it was not extreme enough.</p>
 <div class="source">
 <p>Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan (2017), “The Selective Labels Problem,” <em>Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 275–284, doi:10.1145/3097983.3098066; the quotation is from the abstract, page 275.</p>
 </div>
@@ -492,12 +492,8 @@ E\left[\frac{O\,Y}{e(X)}\right] = E\left[\frac{E[O \mid X]\;E[Y \mid X]}{e(X)}\r
 <h2>Filling in</h2>
 <ul>
 <li>One fill-in (the mean, or a regression prediction), then analyzed as if observed: standard errors too small.</li>
-<li>Multiple imputation: <span class="math inline">\(m\)</span> plausible fill-ins, the analysis on each, the <span class="math inline">\(m\)</span> estimates averaged. Its variance adds back what one fill-in hides:</li>
+<li>Multiple imputation: <span class="math inline">\(m\)</span> plausible fill-ins, the analysis on each, the <span class="math inline">\(m\)</span> estimates averaged. Its variance adds back what one fill-in hides: <span class="math inline">\(\;\text{total} = \text{within} + \left(1 + \tfrac1m\right) \times \text{between}\)</span>, with within the average of the <span class="math inline">\(m\)</span> variances and between the variance of the <span class="math inline">\(m\)</span> estimates.</li>
 </ul>
-<p><span class="math display">\[
-\text{total} = \text{within} + \left(1 + \tfrac1m\right) \times \text{between}
-\]</span></p>
-<p>within: the average of the <span class="math inline">\(m\)</span> variances; between: the variance of the <span class="math inline">\(m\)</span> estimates.</p>
 <div class="leave">
 <p>An imputation model is an assumption about the people you did not observe, written down where it can be argued with.</p>
 </div>
