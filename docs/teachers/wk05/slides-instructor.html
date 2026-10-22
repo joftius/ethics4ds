@@ -1510,7 +1510,7 @@ display:block!important;
 <h2>Missing data</h2>
 <aside class="notes">
 <p><code>[#############-------]</code> 63%  44 of 70 min</p>
-<p>Van Buuren writes R for the indicator; here R is a risk score, so O, for observed. MAR is “random given what was recorded”, not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.</p>
+<p>C is the letter from Part 1 on purpose: the complete cases are C = 1, and when two things both cause whether someone is in the data, C is a collider. Hernán and Robins, chapter 8, code it the other way round (C = 1 censored, analysis on C = 0); van Buuren writes R, which here is a risk score. MAR is “random given what was recorded”, not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1522,13 +1522,13 @@ width: 1px!important;
 overflow: hidden!important;
 display:block!important;
 }</style></aside>
-<p><span class="math inline">\(O = 1\)</span> if <span class="math inline">\(Y\)</span> is observed. <span class="math inline">\(X\)</span> is always recorded.</p>
+<p><span class="math inline">\(C = 1\)</span> if <span class="math inline">\(Y\)</span> is observed: the complete cases. <span class="math inline">\(X\)</span> is always recorded.</p>
 <ul>
-<li>missing completely at random (MCAR): <span class="math inline">\(O\)</span> independent of <span class="math inline">\((X, Y)\)</span>;</li>
-<li>missing at random (MAR): <span class="math inline">\(O\)</span> independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>;</li>
+<li>missing completely at random (MCAR): <span class="math inline">\(C\)</span> independent of <span class="math inline">\((X, Y)\)</span>;</li>
+<li>missing at random (MAR): <span class="math inline">\(C\)</span> independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>;</li>
 <li>missing not at random (MNAR): neither.</li>
 </ul>
-<p>You can check whether <span class="math inline">\(O\)</span> depends on <span class="math inline">\(X\)</span>. You cannot check, from these data, whether it depends on <span class="math inline">\(Y\)</span> once <span class="math inline">\(X\)</span> is accounted for.</p>
+<p>You can check whether <span class="math inline">\(C\)</span> depends on <span class="math inline">\(X\)</span>. You cannot check, from these data, whether it depends on <span class="math inline">\(Y\)</span> once <span class="math inline">\(X\)</span> is accounted for.</p>
 <div class="source">
 <p>Rubin (1976), “Inference and missing data,” <em>Biometrika</em> 63(3), 581–592, doi:10.1093/biomet/63.3.581; van Buuren (2018), <em>Flexible Imputation of Missing Data</em>, 2nd edition, Chapman and Hall/CRC, doi:10.1201/9780429492259, sections 1.2 and 2.2.</p>
 </div>
@@ -1562,7 +1562,7 @@ display:block!important;
 <h2>Complete-case bias</h2>
 <aside class="notes">
 <p><code>[##############------]</code> 70%  49 of 70 min</p>
-<p>YO is Y when observed and 0 otherwise. Read the result: the covariance between the outcome and being seen, scaled up by how few are seen. Under MAR, split the covariance into a part between values of X and a part within them, the split used for areas; within, O is independent of Y, so only the between part is left.</p>
+<p>YC is Y when observed and 0 otherwise. Read the result: the covariance between the outcome and being seen, scaled up by how few are seen. Under MAR, split the covariance into a part between values of X and a part within them, the split used for areas; within, C is independent of Y, so only the between part is left.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1576,14 +1576,14 @@ display:block!important;
 }</style></aside>
 <p><span class="math display">\[
 \begin{aligned}
-E[Y \mid O = 1] &amp;= \frac{E[YO]}{P(O = 1)} \\
-\operatorname{Cov}(Y, O) &amp;= E[YO] - E[Y]\,P(O = 1) \\
-E[Y \mid O = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, O)}{P(O = 1)}
+E[Y \mid C = 1] &amp;= \frac{E[YC]}{P(C = 1)} \\
+\operatorname{Cov}(Y, C) &amp;= E[YC] - E[Y]\,P(C = 1) \\
+E[Y \mid C = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, C)}{P(C = 1)}
 \end{aligned}
 \]</span></p>
 <ul>
 <li>MCAR: <span class="math inline">\(0\)</span>. Fewer cases, so more variance; no bias.</li>
-<li>MAR: <span class="math inline">\(\operatorname{Cov}(Y, O) = \operatorname{Cov}\big(E[Y \mid X],\; P(O = 1 \mid X)\big)\)</span>: a bias, unless the two are uncorrelated.</li>
+<li>MAR: <span class="math inline">\(\operatorname{Cov}(Y, C) = \operatorname{Cov}\big(E[Y \mid X],\; P(C = 1 \mid X)\big)\)</span>: a bias, unless the two are uncorrelated.</li>
 <li>MNAR: not computable from the data. Argue its sign.</li>
 </ul>
 </section>
@@ -1591,7 +1591,7 @@ E[Y \mid O = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, O)}{P(O = 1)}
 <h2>Compute</h2>
 <aside class="notes">
 <p><code>[###############-----]</code> 76%  53 of 70 min</p>
-<p>Two minutes. True mean 50. P(O = 1) = 0.6. E[YO] = 0.5(0.8)(40) + 0.5(0.4)(60) = 28; the complete-case mean is 28/0.6 = 46.7; Cov(Y, O) = 28 - 30 = -2, and -2/0.6 = -3.3.</p>
+<p>Two minutes. True mean 50. P(C = 1) = 0.6. E[YC] = 0.5(0.8)(40) + 0.5(0.4)(60) = 28; the complete-case mean is 28/0.6 = 46.7; Cov(Y, C) = 28 - 30 = -2, and -2/0.6 = -3.3.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1634,13 +1634,13 @@ display:block!important;
 </div>
 </div>
 </div>
-<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, O = 1] = E[Y \mid X]\)</span>, so a correct line survives. Missing on <span class="math inline">\(Y\)</span>: it flattens.</p>
+<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, C = 1] = E[Y \mid X]\)</span>, so a correct line survives. Missing on <span class="math inline">\(Y\)</span>: it flattens.</p>
 </section>
 <section id="reweighting-the-people-who-answered" class="slide level2 inverse">
 <h2>Reweighting the people who answered</h2>
 <aside class="notes">
 <p><code>[################----]</code> 80%  56 of 70 min</p>
-<p>Compress: weight each person who answered by one over the chance that someone like them answers. A younger respondent stands for 1/0.8 people, an older one for 1/0.4. The three steps: condition on X; use MAR to split E[OY | X]; iterated expectation. It removes the bias and pays in variance: small e(X), large weights. If the missingness depends on Y given X, no weight built from X can undo it.</p>
+<p>Compress: weight each person who answered by one over the chance that someone like them answers. A younger respondent stands for 1/0.8 people, an older one for 1/0.4. The three steps: condition on X; use MAR to split E[CY | X]; iterated expectation. It removes the bias and pays in variance: small e(X), large weights. If the missingness depends on Y given X, no weight built from X can undo it.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1652,13 +1652,13 @@ width: 1px!important;
 overflow: hidden!important;
 display:block!important;
 }</style></aside>
-<p><span class="math inline">\(e(X) = P(O = 1 \mid X) &gt; 0\)</span>. Under MAR:</p>
+<p><span class="math inline">\(e(X) = P(C = 1 \mid X) &gt; 0\)</span>. Under MAR:</p>
 <p><span class="math display">\[
-E\left[\frac{O\,Y}{e(X)}\right] = E\left[\frac{E[O \mid X]\;E[Y \mid X]}{e(X)}\right] = E\big[E[Y \mid X]\big] = E[Y]
+E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\right] = E\big[E[Y \mid X]\big] = E[Y]
 \]</span></p>
 <p>Income example: <span class="math inline">\(\tfrac12 (0.8)(40)/0.8 + \tfrac12 (0.4)(60)/0.4 = 50\)</span>.</p>
 <div class="source" style="color: #BCAF6F">
-<p>Horvitz and Thompson (1952), “A Generalization of Sampling Without Replacement from a Finite Universe,” <em>Journal of the American Statistical Association</em> 47(260), 663–685, doi:10.1080/01621459.1952.10483446.</p>
+<p>Horvitz and Thompson (1952), “A Generalization of Sampling Without Replacement from a Finite Universe,” <em>Journal of the American Statistical Association</em> 47(260), 663–685, doi:10.1080/01621459.1952.10483446. The same weights for people lost to follow-up: Hernán and Robins, <em>Causal Inference: What If</em>, section 8.5.</p>
 </div>
 </section>
 <section id="missing-by-construction" class="slide level2">

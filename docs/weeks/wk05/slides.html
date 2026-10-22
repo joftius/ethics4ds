@@ -403,13 +403,13 @@ Joshua Loftus
 </section>
 <section id="missing-data" class="slide level2">
 <h2>Missing data</h2>
-<p><span class="math inline">\(O = 1\)</span> if <span class="math inline">\(Y\)</span> is observed. <span class="math inline">\(X\)</span> is always recorded.</p>
+<p><span class="math inline">\(C = 1\)</span> if <span class="math inline">\(Y\)</span> is observed: the complete cases. <span class="math inline">\(X\)</span> is always recorded.</p>
 <ul>
-<li>missing completely at random (MCAR): <span class="math inline">\(O\)</span> independent of <span class="math inline">\((X, Y)\)</span>;</li>
-<li>missing at random (MAR): <span class="math inline">\(O\)</span> independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>;</li>
+<li>missing completely at random (MCAR): <span class="math inline">\(C\)</span> independent of <span class="math inline">\((X, Y)\)</span>;</li>
+<li>missing at random (MAR): <span class="math inline">\(C\)</span> independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>;</li>
 <li>missing not at random (MNAR): neither.</li>
 </ul>
-<p>You can check whether <span class="math inline">\(O\)</span> depends on <span class="math inline">\(X\)</span>. You cannot check, from these data, whether it depends on <span class="math inline">\(Y\)</span> once <span class="math inline">\(X\)</span> is accounted for.</p>
+<p>You can check whether <span class="math inline">\(C\)</span> depends on <span class="math inline">\(X\)</span>. You cannot check, from these data, whether it depends on <span class="math inline">\(Y\)</span> once <span class="math inline">\(X\)</span> is accounted for.</p>
 <div class="source">
 <p>Rubin (1976), “Inference and missing data,” <em>Biometrika</em> 63(3), 581–592, doi:10.1093/biomet/63.3.581; van Buuren (2018), <em>Flexible Imputation of Missing Data</em>, 2nd edition, Chapman and Hall/CRC, doi:10.1201/9780429492259, sections 1.2 and 2.2.</p>
 </div>
@@ -429,14 +429,14 @@ Joshua Loftus
 <h2>Complete-case bias</h2>
 <p><span class="math display">\[
 \begin{aligned}
-E[Y \mid O = 1] &amp;= \frac{E[YO]}{P(O = 1)} \\
-\operatorname{Cov}(Y, O) &amp;= E[YO] - E[Y]\,P(O = 1) \\
-E[Y \mid O = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, O)}{P(O = 1)}
+E[Y \mid C = 1] &amp;= \frac{E[YC]}{P(C = 1)} \\
+\operatorname{Cov}(Y, C) &amp;= E[YC] - E[Y]\,P(C = 1) \\
+E[Y \mid C = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, C)}{P(C = 1)}
 \end{aligned}
 \]</span></p>
 <ul>
 <li>MCAR: <span class="math inline">\(0\)</span>. Fewer cases, so more variance; no bias.</li>
-<li>MAR: <span class="math inline">\(\operatorname{Cov}(Y, O) = \operatorname{Cov}\big(E[Y \mid X],\; P(O = 1 \mid X)\big)\)</span>: a bias, unless the two are uncorrelated.</li>
+<li>MAR: <span class="math inline">\(\operatorname{Cov}(Y, C) = \operatorname{Cov}\big(E[Y \mid X],\; P(C = 1 \mid X)\big)\)</span>: a bias, unless the two are uncorrelated.</li>
 <li>MNAR: not computable from the data. Argue its sign.</li>
 </ul>
 </section>
@@ -459,17 +459,17 @@ E[Y \mid O = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, O)}{P(O = 1)}
 </div>
 </div>
 </div>
-<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, O = 1] = E[Y \mid X]\)</span>, so a correct line survives. Missing on <span class="math inline">\(Y\)</span>: it flattens.</p>
+<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, C = 1] = E[Y \mid X]\)</span>, so a correct line survives. Missing on <span class="math inline">\(Y\)</span>: it flattens.</p>
 </section>
 <section id="reweighting-the-people-who-answered" class="slide level2 inverse">
 <h2>Reweighting the people who answered</h2>
-<p><span class="math inline">\(e(X) = P(O = 1 \mid X) &gt; 0\)</span>. Under MAR:</p>
+<p><span class="math inline">\(e(X) = P(C = 1 \mid X) &gt; 0\)</span>. Under MAR:</p>
 <p><span class="math display">\[
-E\left[\frac{O\,Y}{e(X)}\right] = E\left[\frac{E[O \mid X]\;E[Y \mid X]}{e(X)}\right] = E\big[E[Y \mid X]\big] = E[Y]
+E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\right] = E\big[E[Y \mid X]\big] = E[Y]
 \]</span></p>
 <p>Income example: <span class="math inline">\(\tfrac12 (0.8)(40)/0.8 + \tfrac12 (0.4)(60)/0.4 = 50\)</span>.</p>
 <div class="source" style="color: #BCAF6F">
-<p>Horvitz and Thompson (1952), “A Generalization of Sampling Without Replacement from a Finite Universe,” <em>Journal of the American Statistical Association</em> 47(260), 663–685, doi:10.1080/01621459.1952.10483446.</p>
+<p>Horvitz and Thompson (1952), “A Generalization of Sampling Without Replacement from a Finite Universe,” <em>Journal of the American Statistical Association</em> 47(260), 663–685, doi:10.1080/01621459.1952.10483446. The same weights for people lost to follow-up: Hernán and Robins, <em>Causal Inference: What If</em>, section 8.5.</p>
 </div>
 </section>
 <section id="missing-by-construction" class="slide level2">

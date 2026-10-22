@@ -40,12 +40,12 @@ st313:
     - {label: "pairs: what was leaving it out for? Equality Act ss. 13 and 19; a graph that reverses the advice", minutes: 4, mode: production}
     - {label: "adjusting for a collider: prediction against effect (the complication of adjusting for confounders)", minutes: 3, mode: exposition, retrieves: [S1]}
     # part 3, who is missing: 19
-    - {label: "MCAR, MAR, MNAR with O; which can be checked", minutes: 4, mode: exposition, introduces: [CC-16], core: CC-16, results: [R32]}
+    - {label: "MCAR, MAR, MNAR with C; which can be checked", minutes: 4, mode: exposition, introduces: [CC-16], core: CC-16, results: [R32]}
     - {label: "classify three, with a direction", minutes: 3, mode: production, results: [R32]}
-    - {label: "complete-case bias Cov(Y, O)/P(O = 1); under MAR, the between part of the covariance split", minutes: 4, mode: exposition, introduces: [CC-17], core: CC-17, results: [R33]}
+    - {label: "complete-case bias Cov(Y, C)/P(C = 1); under MAR, the between part of the covariance split", minutes: 4, mode: exposition, introduces: [CC-17], core: CC-17, results: [R33]}
     - {label: "students compute the income example: 46.7 against 50", minutes: 2, mode: production, results: [R33]}
     - {label: "dark: when the complete cases are enough (picture; stretch)", minutes: 2, mode: exposition, results: [R34]}
-    - {label: "dark: reweighting the people who answered, E[OY/e(X)] = E[Y] (stretch)", minutes: 2, mode: exposition, results: [R35]}
+    - {label: "dark: reweighting the people who answered, E[CY/e(X)] = E[Y] (stretch)", minutes: 2, mode: exposition, results: [R35]}
     - {label: "missing by construction: bail (Lakkaraju et al. 2017); the file drawer and the feed", minutes: 2, mode: exposition, retrieves: [S3]}
     # part 4, filling in: 4
     - {label: "single imputation hides variance; multiple imputation named; the imputation model as an assumption", minutes: 4, mode: exposition, introduces: [CC-18]}
@@ -61,7 +61,7 @@ st313:
   retrieves: [S1, S3, S6]
   introduces: [CC-15, CC-16, CC-17, CC-18]
   lenses: [B, E, F]
-  readings: [fimd-ch1-1.1-1.3]
+  readings: [whatif-ch8-8.1-8.5]
   results: [R30, R31, R32, R33, R34, R35]
   assumes: [ST102]
   figures: []
@@ -440,16 +440,16 @@ To predict $Y$: condition on $X$ and $A$. To estimate the effect of $A$ on $Y$: 
 ## Missing data
 
 ::: {.notes}
-Van Buuren writes R for the indicator; here R is a risk score, so O, for observed. MAR is "random given what was recorded", not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.
+C is the letter from Part 1 on purpose: the complete cases are C = 1, and when two things both cause whether someone is in the data, C is a collider. Hernán and Robins, chapter 8, code it the other way round (C = 1 censored, analysis on C = 0); van Buuren writes R, which here is a risk score. MAR is "random given what was recorded", not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.
 :::
 
-$O = 1$ if $Y$ is observed. $X$ is always recorded.
+$C = 1$ if $Y$ is observed: the complete cases. $X$ is always recorded.
 
-- missing completely at random (MCAR): $O$ independent of $(X, Y)$;
-- missing at random (MAR): $O$ independent of $Y$ given $X$;
+- missing completely at random (MCAR): $C$ independent of $(X, Y)$;
+- missing at random (MAR): $C$ independent of $Y$ given $X$;
 - missing not at random (MNAR): neither.
 
-You can check whether $O$ depends on $X$. You cannot check, from these data, whether it depends on $Y$ once $X$ is accounted for.
+You can check whether $C$ depends on $X$. You cannot check, from these data, whether it depends on $Y$ once $X$ is accounted for.
 
 ::: {.source}
 Rubin (1976), "Inference and missing data," *Biometrika* 63(3), 581--592, doi:10.1093/biomet/63.3.581; van Buuren (2018), *Flexible Imputation of Missing Data*, 2nd edition, Chapman and Hall/CRC, doi:10.1201/9780429492259, sections 1.2 and 2.2.
@@ -472,25 +472,25 @@ MCAR, MAR or MNAR? Is the mean of the recorded incomes too high, too low, or nei
 ## Complete-case bias {minutes="4"}
 
 ::: {.notes}
-YO is Y when observed and 0 otherwise. Read the result: the covariance between the outcome and being seen, scaled up by how few are seen. Under MAR, split the covariance into a part between values of X and a part within them, the split used for areas; within, O is independent of Y, so only the between part is left.
+YC is Y when observed and 0 otherwise. Read the result: the covariance between the outcome and being seen, scaled up by how few are seen. Under MAR, split the covariance into a part between values of X and a part within them, the split used for areas; within, C is independent of Y, so only the between part is left.
 :::
 
 $$
 \begin{aligned}
-E[Y \mid O = 1] &= \frac{E[YO]}{P(O = 1)} \\
-\operatorname{Cov}(Y, O) &= E[YO] - E[Y]\,P(O = 1) \\
-E[Y \mid O = 1] - E[Y] &= \frac{\operatorname{Cov}(Y, O)}{P(O = 1)}
+E[Y \mid C = 1] &= \frac{E[YC]}{P(C = 1)} \\
+\operatorname{Cov}(Y, C) &= E[YC] - E[Y]\,P(C = 1) \\
+E[Y \mid C = 1] - E[Y] &= \frac{\operatorname{Cov}(Y, C)}{P(C = 1)}
 \end{aligned}
 $$
 
 - MCAR: $0$. Fewer cases, so more variance; no bias.
-- MAR: $\operatorname{Cov}(Y, O) = \operatorname{Cov}\big(E[Y \mid X],\; P(O = 1 \mid X)\big)$: a bias, unless the two are uncorrelated.
+- MAR: $\operatorname{Cov}(Y, C) = \operatorname{Cov}\big(E[Y \mid X],\; P(C = 1 \mid X)\big)$: a bias, unless the two are uncorrelated.
 - MNAR: not computable from the data. Argue its sign.
 
 ## Compute {minutes="2"}
 
 ::: {.notes}
-Two minutes. True mean 50. P(O = 1) = 0.6. E[YO] = 0.5(0.8)(40) + 0.5(0.4)(60) = 28; the complete-case mean is 28/0.6 = 46.7; Cov(Y, O) = 28 - 30 = -2, and -2/0.6 = -3.3.
+Two minutes. True mean 50. P(C = 1) = 0.6. E[YC] = 0.5(0.8)(40) + 0.5(0.4)(60) = 28; the complete-case mean is 28/0.6 = 46.7; Cov(Y, C) = 28 - 30 = -2, and -2/0.6 = -3.3.
 :::
 
 Two age groups, equally common. Mean income 40 in the younger, 60 in the older (thousands).
@@ -528,24 +528,24 @@ ggplot(cc, aes(X, Y)) +
   theme(legend.position = "none", plot.caption = element_text(size = 13)) + dark
 ```
 
-Missing on $X$ only: $E[Y \mid X, O = 1] = E[Y \mid X]$, so a correct line survives. Missing on $Y$: it flattens.
+Missing on $X$ only: $E[Y \mid X, C = 1] = E[Y \mid X]$, so a correct line survives. Missing on $Y$: it flattens.
 
 ## Reweighting the people who answered {.inverse}
 
 ::: {.notes}
-Compress: weight each person who answered by one over the chance that someone like them answers. A younger respondent stands for 1/0.8 people, an older one for 1/0.4. The three steps: condition on X; use MAR to split E[OY | X]; iterated expectation. It removes the bias and pays in variance: small e(X), large weights. If the missingness depends on Y given X, no weight built from X can undo it.
+Compress: weight each person who answered by one over the chance that someone like them answers. A younger respondent stands for 1/0.8 people, an older one for 1/0.4. The three steps: condition on X; use MAR to split E[CY | X]; iterated expectation. It removes the bias and pays in variance: small e(X), large weights. If the missingness depends on Y given X, no weight built from X can undo it.
 :::
 
-$e(X) = P(O = 1 \mid X) > 0$. Under MAR:
+$e(X) = P(C = 1 \mid X) > 0$. Under MAR:
 
 $$
-E\left[\frac{O\,Y}{e(X)}\right] = E\left[\frac{E[O \mid X]\;E[Y \mid X]}{e(X)}\right] = E\big[E[Y \mid X]\big] = E[Y]
+E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\right] = E\big[E[Y \mid X]\big] = E[Y]
 $$
 
 Income example: $\tfrac12 (0.8)(40)/0.8 + \tfrac12 (0.4)(60)/0.4 = 50$.
 
 ::: {.source style="color: #BCAF6F"}
-Horvitz and Thompson (1952), "A Generalization of Sampling Without Replacement from a Finite Universe," *Journal of the American Statistical Association* 47(260), 663--685, doi:10.1080/01621459.1952.10483446.
+Horvitz and Thompson (1952), "A Generalization of Sampling Without Replacement from a Finite Universe," *Journal of the American Statistical Association* 47(260), 663--685, doi:10.1080/01621459.1952.10483446. The same weights for people lost to follow-up: Hernán and Robins, *Causal Inference: What If*, section 8.5.
 :::
 
 ## Missing by construction
