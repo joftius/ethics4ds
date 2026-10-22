@@ -61,7 +61,7 @@ st313:
   retrieves: [S1, S3, S6]
   introduces: [CC-15, CC-16, CC-17, CC-18]
   lenses: [B, E, F]
-  readings: [whatif-ch8-8.1-8.5]
+  readings: [whatif-ch8-8.1-8.5, fairmlbook-ch5-colliders]
   results: [R30, R31, R32, R33, R34, R35]
   assumes: [ST102]
   figures: []
