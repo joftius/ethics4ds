@@ -240,7 +240,7 @@ Joshua Loftus
 </section>
 <section id="with-noise" class="slide level2" data-minutes="5">
 <h2>With noise</h2>
-<p><span class="math inline">\(A \perp Y\)</span>, <span class="math inline">\(\; C = \alpha Y + bA + \varepsilon\)</span>. Take out of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span> what <span class="math inline">\(C\)</span> predicts, with slopes <span class="math inline">\(\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span> and <span class="math inline">\(\gamma_A = \operatorname{Cov}(A, C)/\operatorname{Var}(C)\)</span>:</p>
+<p><span class="math inline">\(A \perp Y\)</span>, <span class="math inline">\(\; C = \alpha Y + bA + \varepsilon\)</span>, <span class="math inline">\(\; \varepsilon\)</span> independent of <span class="math inline">\((Y, A)\)</span>. Take out what <span class="math inline">\(C\)</span> predicts, with slopes <span class="math inline">\(\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span>, <span class="math inline">\(\gamma_A\)</span> likewise:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) &amp;= \operatorname{Cov}(Y, A) - \frac{\operatorname{Cov}(Y, C)\,\operatorname{Cov}(A, C)}{\operatorname{Var}(C)} \\
@@ -248,7 +248,7 @@ Joshua Loftus
 \end{aligned}
 \]</span></p>
 <div class="leave">
-<p>Holding a common effect fixed relates its causes, with the sign opposite to <span class="math inline">\(\alpha b\)</span> in this model. Outside the linear model, the sign and size depend on details the graph does not show (Elwert and Winship).</p>
+<p>Adjusting linearly for a common effect relates its causes, sign opposite to <span class="math inline">\(\alpha b\)</span> here (for jointly normal variables, the covariance given <span class="math inline">\(C\)</span>). Outside the linear model, sign and size depend on details the graph does not show (Elwert and Winship).</p>
 </div>
 <div class="source">
 <p>On the last sentence: Elwert and Winship (2014), “Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable,” <em>Annual Review of Sociology</em> 40, 31–53, doi:10.1146/annurev-soc-071913-043455.</p>
@@ -262,7 +262,7 @@ Joshua Loftus
 <section id="predict" class="slide level2">
 <h2>Predict</h2>
 <p><span class="math inline">\(Y\)</span>: how well someone would do a job, <span class="math inline">\(Y \sim N(0, 1)\)</span>, larger is better. <span class="math inline">\(\; A \in \{0, 1\}\)</span>: a group, half the population each, independent of <span class="math inline">\(Y\)</span>.</p>
-<p><span class="math inline">\(X = Y + 2A + \varepsilon\)</span>: a test score. Membership of group 1 adds two points, from coaching, and nothing to the job.</p>
+<p><span class="math inline">\(X = Y + 2A + \varepsilon\)</span>, with <span class="math inline">\(\varepsilon \sim N(0, 1)\)</span> independent of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span>: a test score. Membership of group 1 adds two points, from coaching, and nothing to the job.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -373,12 +373,15 @@ Joshua Loftus
 </table>
 <p>The truth: mean <span class="math inline">\(Y\)</span> is <span class="math inline">\(0\)</span> in both groups. The coefficient on <span class="math inline">\(A\)</span> is <span class="math inline">\(-1\)</span>.</p>
 </section>
-<section id="what-was-leaving-it-out-for" class="slide level2" data-minutes="4">
+<section id="what-was-leaving-it-out-for" class="slide level2" data-minutes="5">
 <h2>What was leaving it out for?</h2>
 <div class="ask">
 <p>If leaving out the sensitive attribute makes the model both less accurate and more unequal between groups, what was leaving it out for?</p>
 </div>
-<p>Equality Act 2010: direct discrimination (section 13) is less favorable treatment <em>because of</em> a protected characteristic; indirect discrimination (section 19) is a rule applied to everyone that puts people sharing a characteristic at a particular disadvantage, unless it can be shown to be a proportionate means of achieving a legitimate aim.</p>
+<ul>
+<li>Equality Act 2010, section 13, direct discrimination: less favorable treatment <em>because of</em> a protected characteristic.</li>
+<li>Section 19, indirect discrimination: a provision, criterion or practice applied whatever the characteristic that puts those who share it, this person included, at a particular disadvantage, unless shown to be a proportionate means of achieving a legitimate aim.</li>
+</ul>
 <p>If <span class="math inline">\(A\)</span> shaped the recorded outcome itself, a model using <span class="math inline">\(A\)</span> would learn that.</p>
 <div class="source">
 <p>Equality Act 2010 (c.&nbsp;15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.</p>
@@ -417,9 +420,9 @@ Joshua Loftus
 <section id="classify-with-a-direction" class="slide level2" data-minutes="3">
 <h2>Classify, with a direction</h2>
 <ol type="1">
-<li>A box of paper questionnaires is lost in a flood.</li>
-<li>Older respondents skip the income question more often. Age is recorded, and income rises with age.</li>
-<li>High earners skip the income question more often, at every age.</li>
+<li>A box of paper questionnaires is lost in a flood. Which forms were in the box had nothing to do with their answers.</li>
+<li>Older respondents skip the income question more often, and nothing else decides who skips. Age is recorded, and income rises with age.</li>
+<li>High earners skip the income question more often, at every age and overall.</li>
 </ol>
 <div class="ask">
 <p>MCAR, MAR or MNAR? Is the mean of the recorded incomes too high, too low, or neither?</p>
@@ -459,7 +462,7 @@ E[Y \mid C = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, C)}{P(C = 1)}
 </div>
 </div>
 </div>
-<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, C = 1] = E[Y \mid X]\)</span>, so a correct line survives. Missing on <span class="math inline">\(Y\)</span>: it flattens.</p>
+<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, C = 1] = E[Y \mid X]\)</span>, a correct line survives. Missing on <span class="math inline">\(Y\)</span>: the line is wrong; here it flattens.</p>
 </section>
 <section id="reweighting-the-people-who-answered" class="slide level2 inverse">
 <h2>Reweighting the people who answered</h2>
@@ -474,7 +477,7 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 </section>
 <section id="missing-by-construction" class="slide level2">
 <h2>Missing by construction</h2>
-<p>Bail: whether a defendant fails to appear is recorded only if the judge released them. The judge decided using things the record does not have.</p>
+<p>Bail: whether a defendant fails to appear is recorded only if the judge released them. If the judge used things the record does not have, and they predict the outcome, the detained are those expected to do worst given the record.</p>
 <blockquote>
 <p>“the observed outcomes are themselves a consequence of the existing choices of the human decision-makers”</p>
 </blockquote>
@@ -492,10 +495,10 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 <h2>Filling in</h2>
 <ul>
 <li>One fill-in (the mean, or a regression prediction), then analyzed as if observed: standard errors too small.</li>
-<li>Multiple imputation: <span class="math inline">\(m\)</span> plausible fill-ins, the analysis on each, the <span class="math inline">\(m\)</span> estimates averaged. Its variance adds back what one fill-in hides: <span class="math inline">\(\;\text{total} = \text{within} + \left(1 + \tfrac1m\right) \times \text{between}\)</span>, with within the average of the <span class="math inline">\(m\)</span> variances and between the variance of the <span class="math inline">\(m\)</span> estimates.</li>
+<li>Multiple imputation: <span class="math inline">\(m\)</span> plausible fill-ins, each drawn from a model fitted to the observed rows, the model’s own uncertainty included; the analysis on each; the <span class="math inline">\(m\)</span> estimates averaged. Its variance adds back what one fill-in hides: <span class="math inline">\(\;\text{total} = \text{within} + \left(1 + \tfrac1m\right) \times \text{between}\)</span>, with within the average of the <span class="math inline">\(m\)</span> squared standard errors and between the variance of the <span class="math inline">\(m\)</span> estimates.</li>
 </ul>
 <div class="leave">
-<p>An imputation model is an assumption about the people you did not observe, written down where it can be argued with.</p>
+<p>An imputation model is an assumption about the values you did not observe, written down where it can be argued with.</p>
 </div>
 <div class="source">
 <p>van Buuren (2018), <em>Flexible Imputation of Missing Data</em>, 2nd edition, sections 1.3 and 2.3.2.</p>
@@ -503,7 +506,7 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 </section>
 <section id="admitted-students" class="slide level2" data-minutes="4">
 <h2>Admitted students</h2>
-<p>A university’s records cover admitted students only. Admission depends on exam grades and on whether the applicant attended a feeder school. Among applicants, the two are unrelated.</p>
+<p>A university’s records cover admitted students only. Admission is by exam grades, with a lower pass mark for applicants from a feeder school. Among applicants, grades and feeder school are unrelated.</p>
 <div class="ask">
 <p>Draw the graph and mark what the records condition on. Among admitted students, what association between feeder school and grades do you expect, and why? An analyst concludes that feeder schools produce weaker students. What is wrong?</p>
 </div>
@@ -517,7 +520,7 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 </ul>
 <p>…and why?</p>
 </section>
-<section id="section-1" class="slide level2">
+<section id="section-1" class="slide level2" data-minutes="3">
 <h2></h2>
 <div class="ask">
 <p>In the test-score example, would you leave the group out of the model, or use it? What graph does your answer assume?</p>

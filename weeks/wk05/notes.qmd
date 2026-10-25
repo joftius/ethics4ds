@@ -37,9 +37,9 @@ there in the population. When it depends on the outcome, the people
 you have are a biased sample of the people you wanted. The first is
 conditioning on a *collider*; the second is data *missing not at
 random*. A model that leaves out a sensitive attribute in order to be
-fair can become less accurate for everyone and more unequal between
-groups, because the score it uses is a collider. The usual fixes for
-missing data each make an assumption about the people nobody observed.
+fair can become less accurate in both groups and more unequal between
+them, because the score it uses is a collider. The usual fixes for
+missing data each make an assumption about the values nobody observed.
 Writing that assumption down does not make it true, but it gives it an
 owner.
 
@@ -384,7 +384,7 @@ Leaving $A$ out of a model is a common response to the worry that a
 model will discriminate, and it has an obvious appeal: a model that
 does not look at the attribute cannot treat anyone differently because
 of it, it seems. In this example, leaving $A$ out made the model less
-accurate for everyone and produced a gap between the groups that is not
+accurate in both groups and produced a gap between the groups that is not
 in the outcome.
 
 UK law separates two things here. Direct discrimination (Equality Act
@@ -392,10 +392,11 @@ UK law separates two things here. Direct discrimination (Equality Act
 protected characteristic. The model that uses $A$ does use it: at the
 same score it gives a member of group 1 a lower prediction than a
 member of group 0. Indirect discrimination (section 19) is a provision,
-criterion or practice applied to everyone that puts people who share a
-characteristic at a particular disadvantage, unless it can be shown to
-be a proportionate means of achieving a legitimate aim. The model on $X$ alone
-applies one rule to everyone and puts group 0 at a disadvantage. Which
+criterion or practice applied whatever the characteristic, which puts
+people who share that characteristic, the person complaining among
+them, at a particular disadvantage, unless it can be shown to be a
+proportionate means of achieving a legitimate aim. The model on $X$ alone
+applies one rule whatever the group and puts group 0 at a disadvantage. Which
 of these, if either, would be unlawful in a given setting depends on
 facts, and for indirect discrimination on whether the rule is a
 proportionate means to a legitimate aim, which I am not going to
@@ -444,11 +445,13 @@ writes $R$, which in this course is a risk score. Following Rubin
 
 - **Missing completely at random (MCAR):** $C$ is independent of $X$
   and $Y$ together. Whether a value is missing has nothing to do with
-  the data. A box of paper forms lost in a flood.
+  the data. A box of paper forms lost in a flood, when which forms were
+  in the box had nothing to do with their answers.
 - **Missing at random (MAR):** $C$ is independent of $Y$ given $X$. The
   chance of being missing may depend on what was recorded, but among
   people with the same $X$ it does not depend on $Y$. Older respondents
-  skip the income question more often, and age is recorded.
+  skip the income question more often, age is recorded, and at a given
+  age skipping has nothing to do with income.
 - **Missing not at random (MNAR):** neither. Among people with the same
   $X$, whether $Y$ is missing still depends on $Y$. People with high
   incomes skip the income question more often, at every age.
@@ -458,7 +461,7 @@ recorded; van Buuren's section 2.2 gives the general version. "Missing
 at random" does not mean random in the everyday sense. It means random
 once you account for what was recorded.
 
-As a graph, $C$ is a node like any other. MCAR: no path at all
+As a graph, $C$ is a node like any other. MCAR: no open path
 between $C$ and $(X, Y)$. MAR: every path between $Y$ and $C$ is
 blocked once you condition on $X$ (remember that conditioning on a
 collider opens a path). MNAR: some path between $Y$ and $C$ stays open,
@@ -599,20 +602,25 @@ among people with the same $X$, no weight built from $X$ can undo it.
 Some data are missing because of the decision the data are meant to
 evaluate. In a bail hearing, a judge decides whether to release a
 defendant. Whether a released defendant returns for their court appearance
-without committing a crime is recorded. For a defendant who is detained there is no
-outcome at all. Lakkaraju, Kleinberg, Leskovec, Ludwig and
+without committing a crime is recorded. For a defendant who is
+detained, what would have happened on release is not observed. Lakkaraju, Kleinberg, Leskovec, Ludwig and
 Mullainathan (2017) call this the *selective labels* problem: "the
 observed outcomes are themselves a consequence of the existing choices
 of the human decision-makers." Suppose you want to check whether an
 algorithm would make better release decisions than the judges. The
-labels exist only where judges released people, and judges decided
+labels exist only where judges released people. Suppose judges decided
 using information the algorithm does not have, such as what they saw
-in the courtroom. Among defendants with the same recorded features, the
-ones a judge detained are the ones the judge expected to do worst. That
-is MNAR, by construction: the rule that decides who has a label is a
-prediction of the label. Their paper proposes a way to compare an
-algorithm with the judges anyway, using the fact that some judges
-release more defendants than others.
+in the courtroom, and that information predicts the outcome. Then among
+defendants with the same recorded features, the ones a judge detained
+are the ones the judge expected to do worst. That is MNAR, by
+construction: the rule that decides who has a label is a prediction of
+the label. (A judge who used only the recorded features would give MAR,
+with no labels at all for the features nobody is released on.)
+Lakkaraju and colleagues make the first supposition explicit, and
+their paper proposes a way to compare an algorithm with the judges
+anyway: some judges release more defendants than others, and when
+cases are assigned to judges at random, the strictest judge's released
+pool is a subset of what a lenient judge would have released.
 
 The file drawer was MNAR in the same way: whether a study was
 published depended on its own $z$-value, so the missing studies were
@@ -640,19 +648,25 @@ confidence intervals too narrow. A single fill-in hides variance.
 
 *Multiple imputation* puts it back. Draw $m$ plausible completions of
 the data from a model for the missing values given the observed ones,
-with the randomness a real observation would have. Run the analysis on
-each completed dataset and average the $m$ estimates. For its variance,
-add two parts:
+with two kinds of randomness: the noise a real observation would have
+around the model's prediction, and the uncertainty in the model itself,
+whose parameters are drawn afresh for each completion rather than
+fixed at their estimates (van Buuren, section 3.1.3, "predict + noise +
+parameter uncertainty"). Run the analysis on each completed dataset and
+average the $m$ estimates. For its variance, add two parts:
 $$
-\text{total variance} = \text{average of the } m \text{ variances within each completion} + \left(1 + \frac1m\right) \times \text{variance of the } m \text{ estimates}.
+\text{total variance} = \text{within} + \left(1 + \frac1m\right) \times \text{between},
 $$
-This is Rubin's rule for combining them (van Buuren, section 2.3.2).
-The second part is the variance a single fill-in threw away: how much
-the answer changes depending on which plausible values were filled in.
+where *within* is the average over the $m$ completions of the
+estimate's squared standard error, and *between* is the variance of the
+$m$ estimates across completions. This is Rubin's rule for combining
+them (van Buuren, section 2.3.2). The second part is the variance a
+single fill-in threw away: how much the answer changes depending on
+which plausible values were filled in.
 The class runs this with the R package `mice`.
 
 What multiple imputation does not do is escape the choice. The model
-the completions are drawn from is an assumption about people nobody
+the completions are drawn from is an assumption about values nobody
 observed, usually MAR given the variables put into it. It cannot be
 checked against the missing values, because they are missing. Writing
 the model down is better than letting `na.omit()` make an unstated
@@ -692,8 +706,8 @@ has to defend.
 
 - Hernán and Robins, *Causal Inference: What If* (Chapman and Hall/CRC,
   2020), [chapter 8, Selection bias](https://miguelhernan.org/whatifbook),
-  sections 8.1 to 8.5 (pages 109 to 121 of the free online version of
-  21 November 2025; the page numbers change between online versions).
+  sections 8.1 to 8.5 (pages 109 to 120 of the free online version of
+  19 August 2026; the page numbers change between online versions).
   The chapter writes $A$ for a treatment, $L$ for measured covariates
   and $C = 1$ for not selected or censored.
 - Re-read Barocas, Hardt and Narayanan, *Fairness and Machine Learning:
