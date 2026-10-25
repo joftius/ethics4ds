@@ -148,7 +148,7 @@ Joshua Loftus
 <h2></h2>
 <h3 id="week-5">Week 5</h3>
 <p>Part 1: Selection on a common effect</p>
-<p>Part 2: Leaving the attribute out</p>
+<p>Part 2: Leaving a column out</p>
 <p>Part 3: Who is missing</p>
 <p>Part 4: Filling in</p>
 </section>
@@ -255,14 +255,28 @@ Joshua Loftus
 </div>
 </section></section>
 <section>
-<section id="part-2-leaving-the-attribute-out" class="title-slide slide level1 center">
-<h1>Part 2: Leaving the attribute out</h1>
+<section id="part-2-leaving-a-column-out" class="title-slide slide level1 center">
+<h1>Part 2: Leaving a column out</h1>
 
+</section>
+<section id="rows-and-columns" class="slide level2">
+<h2>Rows and columns</h2>
+<p>A dataset is a rule for who is a row and a rule for what is a column. A column is absent because the law forbids it, because nobody collected it, or because it was half empty and got dropped. A column with holes forces one of three choices: this part, Part 3, Part 4.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/rows_columns-1.png" style="width:100.0%" alt="Four small grids of three columns, X, A and Y, and six rows. The first has two holes in column A. The second has column A grayed out: drop the column. The third has the two rows with holes grayed out: drop the rows. The fourth has the two holes filled in gold with question marks: fill the holes."></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="predict" class="slide level2">
 <h2>Predict</h2>
 <p><span class="math inline">\(Y\)</span>: how well someone would do a job, <span class="math inline">\(Y \sim N(0, 1)\)</span>, larger is better. <span class="math inline">\(\; A \in \{0, 1\}\)</span>: a group, half the population each, independent of <span class="math inline">\(Y\)</span>.</p>
-<p><span class="math inline">\(X = Y + 2A + \varepsilon\)</span>, with <span class="math inline">\(\varepsilon \sim N(0, 1)\)</span> independent of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span>: a test score. Membership of group 1 adds two points, from coaching, and nothing to the job.</p>
+<p><span class="math inline">\(X = Y + 2A + \varepsilon\)</span>, <span class="math inline">\(\; \varepsilon \sim N(0, 1)\)</span> independent of <span class="math inline">\((Y, A)\)</span>: a test score. Group 1 gets two points from coaching, and nothing on the job.</p>
+<p>Suppose the model may not have <span class="math inline">\(A\)</span>: the law forbids it, or the column was half empty and got dropped.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -376,13 +390,14 @@ Joshua Loftus
 <section id="what-was-leaving-it-out-for" class="slide level2" data-minutes="5">
 <h2>What was leaving it out for?</h2>
 <div class="ask">
-<p>If leaving out the sensitive attribute makes the model both less accurate and more unequal between groups, what was leaving it out for?</p>
+<p>Less accurate, more unequal: what was leaving the column out for?</p>
 </div>
 <ul>
-<li>Equality Act 2010, section 13, direct discrimination: less favorable treatment <em>because of</em> a protected characteristic.</li>
-<li>Section 19, indirect discrimination: a provision, criterion or practice applied whatever the characteristic that puts those who share it, this person included, at a particular disadvantage, unless shown to be a proportionate means of achieving a legitimate aim.</li>
+<li>Direct discrimination (s. 13): less favorable treatment <em>because of</em> a protected characteristic.</li>
+<li>Indirect discrimination (s. 19): a provision, criterion or practice applied whatever the characteristic that puts those who share it, this person included, at a particular disadvantage, unless shown to be a proportionate means to a legitimate aim.</li>
+<li>A half-empty column dropped in cleaning: no reason stated. The model cannot tell the two apart.</li>
 </ul>
-<p>If <span class="math inline">\(A\)</span> shaped the recorded outcome itself, a model using <span class="math inline">\(A\)</span> would learn that.</p>
+<p>If <span class="math inline">\(A\)</span> shaped the recorded outcome itself, a model using <span class="math inline">\(A\)</span> learns that.</p>
 <div class="source">
 <p>Equality Act 2010 (c.&nbsp;15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.</p>
 </div>
@@ -504,6 +519,58 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 <p>van Buuren (2018), <em>Flexible Imputation of Missing Data</em>, 2nd edition, sections 1.3 and 2.3.2.</p>
 </div>
 </section>
+<section id="three-choices-one-table" class="slide level2" data-minutes="3">
+<h2>Three choices, one table</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 19%">
+<col style="width: 20%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">MSE, A recorded</th>
+<th style="text-align: left;">MSE, A missing</th>
+<th style="text-align: left;">gap, A recorded</th>
+<th style="text-align: left;">gap, A missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">drop the column</td>
+<td style="text-align: left;">0.67</td>
+<td style="text-align: left;">0.66</td>
+<td style="text-align: left;">0.66</td>
+<td style="text-align: left;">0.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">drop the rows</td>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">no prediction</td>
+<td style="text-align: left;">-0.01</td>
+<td style="text-align: left;">no prediction</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fill in</td>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">0.66</td>
+<td style="text-align: left;">-0.01</td>
+<td style="text-align: left;">0.65</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="math inline">\(A\)</span> recorded for half the rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is <span class="math inline">\(0\)</span>.</p>
+<div class="leave">
+<p>Filling in recovers the fit, not the missing information. Where <span class="math inline">\(A\)</span> is recorded, a model that uses it has no gap; where it is missing, every method predicts from <span class="math inline">\(X\)</span> alone and the gap is back.</p>
+</div>
+</section>
 <section id="admitted-students" class="slide level2" data-minutes="4">
 <h2>Admitted students</h2>
 <p>A university’s records cover admitted students only. Admission is by exam grades, with a lower pass mark for applicants from a feeder school. Among applicants, grades and feeder school are unrelated.</p>
@@ -514,8 +581,8 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 <section id="lenses-this-week" class="slide level2">
 <h2>Lenses this week</h2>
 <ul>
-<li><strong>Who is in the data?</strong> Babies born small; the complete cases; defendants a judge released; people offered a place.</li>
-<li><strong>You have to choose, so choose, and defend it.</strong> Use the attribute or leave it out: it depends on a graph the data do not settle. MAR or MNAR: the data do not settle that either.</li>
+<li><strong>Who is in the data?</strong> Babies born small; the complete cases; defendants a judge released; people offered a place. And what is recorded about them: the column that was dropped.</li>
+<li><strong>You have to choose, so choose, and defend it.</strong> Drop the column, drop the rows, or fill in: each depends on something the data do not settle, the graph <span class="math inline">\(A\)</span> is in, MAR or MNAR. A default makes the choice too, with nobody to defend it.</li>
 <li><strong>What can be changed, and how?</strong> What things are considered “controlled for” or “held fixed,” and is that realistic? A score held fixed while the group changes. Birth weight held fixed while asking about smoking.</li>
 </ul>
 <p>…and why?</p>

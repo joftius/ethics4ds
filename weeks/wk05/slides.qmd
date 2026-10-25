@@ -23,7 +23,7 @@ st313:
   week: 05
   session: lecture
   register: 1
-  segments:                        # sums to 80: 73 of material and 7 of slack; production 31 (39%)
+  segments:                        # sums to 80: 76 of material and 4 of slack; production 31 (39%)
     # opener: 5
     - {label: "what you brought: the 4 -> 5 task on the shared document; what decided who got in, and does it depend on the outcome", minutes: 5, mode: production, retrieves: [S3]}
     # part 1, selection on a common effect: 17
@@ -33,9 +33,10 @@ st313:
     - {label: "one such graph; colliders against forks; selecting a sample is conditioning; lens F", minutes: 3, mode: exposition, introduces: [CC-15]}
     - {label: "production: Cov(Y, A | C) when C = Y + A", minutes: 2, mode: production, core: CC-15, results: [R30]}
     - {label: "with noise: the collider covariance in the linear model, simple-regression slopes only", minutes: 5, mode: exposition, core: CC-15, results: [R30]}
-    # part 2, leaving the attribute out: 19
+    # part 2, leaving a column out: 20
+    - {label: "rows and columns: why a column is absent; a column with holes forces one of three choices (the map of parts 2 to 4)", minutes: 2, mode: exposition}
     - {label: "prediction: unaware or full, which is more accurate, which more disparate", minutes: 2, mode: production}
-    - {label: "the 2024 coursework collider simulated: table and picture", minutes: 4, mode: exposition, results: [R31]}
+    - {label: "the 2024 coursework collider simulated: table and picture", minutes: 3, mode: exposition, results: [R31]}
     - {label: "by hand: (X - 1)/3, -1/3 and 1/3, MSE 2/3 against 1/2, coefficient -1", minutes: 5, mode: exposition, core: CC-15, results: [R31]}
     - {label: "pairs: what was leaving it out for? Equality Act ss. 13 and 19; a graph that reverses the advice", minutes: 5, mode: production}
     - {label: "adjusting for a collider: prediction against effect (the complication of adjusting for confounders)", minutes: 3, mode: exposition, retrieves: [S1]}
@@ -47,14 +48,15 @@ st313:
     - {label: "dark: when the complete cases are enough (picture; stretch)", minutes: 2, mode: exposition, results: [R34]}
     - {label: "dark: reweighting the people who answered, E[CY/e(X)] = E[Y] (stretch)", minutes: 2, mode: exposition, results: [R35]}
     - {label: "missing by construction: bail (Lakkaraju et al. 2017); the file drawer and the feed", minutes: 2, mode: exposition, retrieves: [S3]}
-    # part 4, filling in: 4
+    # part 4, filling in: 7
     - {label: "single imputation hides variance; multiple imputation named; the imputation model as an assumption", minutes: 4, mode: exposition, introduces: [CC-18]}
-    # close: 9
+    - {label: "three choices, one table: the coursework data with A half missing; drop the column, drop the rows, fill in; filling in recovers the fit, not the information", minutes: 3, mode: exposition, results: [R31, R34]}
+    # close: 8
     - {label: "admitted students, answered individually", minutes: 4, mode: production, item: W05-I1}
-    - {label: "lenses B, E, F", minutes: 2, mode: exposition}
+    - {label: "lenses B, E, F", minutes: 1, mode: exposition}
     - {label: "the question that splits the room: hands on including A; the task for next time", minutes: 3, mode: production, retrieves: [S6]}
-    # slack: 7
-    - {label: "slack: questions and overrun", minutes: 7, mode: exposition}
+    # slack: 4
+    - {label: "slack: questions and overrun", minutes: 4, mode: exposition}
   history: []
   complications:
     - {of: CC-09, introduced_week: 3, minutes_after_introduction: 2_weeks}
@@ -174,18 +176,18 @@ generate_data <- function(n = 500, betaY = 1, betaA = 2) {
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 70 in the 80: opener 5, selection on a common effect 17, leaving the attribute out 18, who is missing 19, filling in 4, close 7; then 10 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 76 in the 80: opener 5, selection on a common effect 17, leaving a column out 20, who is missing 19, filling in and the three choices 7, close 8; then 4 of slack. Dark = rush or skip.
 
-Cut order: (1) when the complete cases are enough; (2) compress filling in to its last sentence; (3) rush the reweighting slide, keeping its formula. Do not cut the graph the room draws, the prediction before the coursework table, the pairs question, the income computation or the admitted-students item.
+Cut order: (1) when the complete cases are enough; (2) rush the reweighting slide, keeping its formula; (3) compress filling in to its last sentence. Do not cut the rows-and-columns map, the graph the room draws, the prediction before the coursework table, the pairs question, the income computation, the three-choices table or the admitted-students item.
 
-Pace: 0:05 Part 1; 0:22 Part 2; 0:40 Part 3; 0:59 Part 4; 1:03 admitted students; 1:10 end.
+Pace: 0:05 Part 1; 0:22 Part 2; 0:42 Part 3; 1:01 Part 4; 1:05 three choices; 1:08 admitted students; 1:16 end.
 :::
 
 ### Week 5
 
 Part 1: Selection on a common effect
 
-Part 2: Leaving the attribute out
+Part 2: Leaving a column out
 
 Part 3: Who is missing
 
@@ -315,19 +317,50 @@ Adjusting linearly for a common effect relates its causes, sign opposite to $\al
 On the last sentence: Elwert and Winship (2014), "Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable," *Annual Review of Sociology* 40, 31--53, doi:10.1146/annurev-soc-071913-043455.
 :::
 
-# Part 2: Leaving the attribute out
+# Part 2: Leaving a column out
+
+## Rows and columns
+
+::: {.notes}
+The map for the rest of the lecture. Part 1 was about rows. A column is absent for reasons from the defensible to the accidental, and the model does not know which. The three panels on the right are Parts 2, 3 and 4; before the admitted-students item, one table puts the three side by side on the coursework data.
+:::
+
+A dataset is a rule for who is a row and a rule for what is a column. A column is absent because the law forbids it, because nobody collected it, or because it was half empty and got dropped. A column with holes forces one of three choices: this part, Part 3, Part 4.
+
+```{r rows_columns, fig.height=3.0, fig.alt="Four small grids of three columns, X, A and Y, and six rows. The first has two holes in column A. The second has column A grayed out: drop the column. The third has the two rows with holes grayed out: drop the rows. The fourth has the two holes filled in gold with question marks: fill the holes."}
+grid <- expand.grid(row = 1:6, col = c("X", "A", "Y"), stringsAsFactors = FALSE)
+grid$status <- ifelse(grid$col == "A" & grid$row %in% c(2, 5), "missing", "recorded")
+panels <- bind_rows(
+  grid |> mutate(panel = "with holes"),
+  grid |> mutate(panel = "drop the column", status = ifelse(col == "A", "dropped", status)),
+  grid |> mutate(panel = "drop the rows", status = ifelse(row %in% c(2, 5), "dropped", status)),
+  grid |> mutate(panel = "fill the holes", status = ifelse(status == "missing", "filled in", status)))
+panels$col <- factor(panels$col, levels = c("X", "A", "Y"))
+panels$panel <- factor(panels$panel, levels = unique(panels$panel))
+panels$status <- factor(panels$status, levels = c("recorded", "missing", "dropped", "filled in"))
+ggplot(panels, aes(col, -row)) +
+  geom_tile(aes(fill = status), color = "white", linewidth = 1.2, width = 0.92, height = 0.92) +
+  geom_text(data = subset(panels, status == "filled in"), label = "?", size = 6, color = navy) +
+  facet_wrap(~ panel, nrow = 1) +
+  scale_fill_manual(values = c(recorded = slate, missing = "grey93", dropped = "grey80", `filled in` = gold),
+                    name = NULL, drop = FALSE) +
+  theme(axis.title = element_blank(), axis.text.y = element_blank(), panel.grid = element_blank(),
+        legend.position = "bottom", strip.text = element_text(size = 16))
+```
 
 ## Predict
 
 ::: {.notes}
-Hands for each answer, before the table. Most will say the model that leaves A out is fairer and a little less accurate.
+Hands for each answer, before the table. Most will say the model that leaves A out is fairer and a little less accurate. The reason A is absent does not enter the arithmetic that follows; hold on to that.
 :::
 
 $Y$: how well someone would do a job, $Y \sim N(0, 1)$, larger is better. $\; A \in \{0, 1\}$: a group, half the population each, independent of $Y$.
 
-$X = Y + 2A + \varepsilon$, with $\varepsilon \sim N(0, 1)$ independent of $Y$ and $A$: a test score. Membership of group 1 adds two points, from coaching, and nothing to the job.
+$X = Y + 2A + \varepsilon$, $\; \varepsilon \sim N(0, 1)$ independent of $(Y, A)$: a test score. Group 1 gets two points from coaching, and nothing on the job.
 
-```{r dag_coursework, fig.height=1.6, fig.alt="A causal graph: A and Y both point into X."}
+Suppose the model may not have $A$: the law forbids it, or the column was half empty and got dropped.
+
+```{r dag_coursework, fig.height=1.05, fig.alt="A causal graph: A and Y both point into X."}
 cw <- data.frame(name = c("A", "Y", "X"), x = c(0, 2, 1), y = c(1, 1, 0))
 draw_dag(cw, data.frame(from = c("A", "Y"), to = c("X", "X")), xlim = c(-0.4, 2.4), ylim = c(-0.3, 1.3))
 ```
@@ -403,17 +436,18 @@ The truth: mean $Y$ is $0$ in both groups. The coefficient on $A$ is $-1$.
 ## What was leaving it out for? {minutes="5"}
 
 ::: {.notes}
-Three minutes in pairs, then two minutes for one answer that defends leaving A out and one that attacks it. No house answer. If nobody says it: the model with A gives a group-1 member a lower prediction than a group-0 member with the same score, which is what "because of" looks like; the model without A gives group 0 lower predictions on average with no difference in Y. And a different graph reverses the advice.
+Three minutes in pairs, then two minutes for one answer that defends leaving A out and one that attacks it. No house answer. Two reasons for the same absence: the law, which can be argued for, and a cleaning default, which never was; the gap is the same either way. If nobody says it: the model with A gives a group-1 member a lower prediction than a group-0 member with the same score, which is what "because of" looks like; the model without A gives group 0 lower predictions on average with no difference in Y. And a different graph reverses the advice.
 :::
 
 ::: {.ask}
-If leaving out the sensitive attribute makes the model both less accurate and more unequal between groups, what was leaving it out for?
+Less accurate, more unequal: what was leaving the column out for?
 :::
 
-- Equality Act 2010, section 13, direct discrimination: less favorable treatment *because of* a protected characteristic.
-- Section 19, indirect discrimination: a provision, criterion or practice applied whatever the characteristic that puts those who share it, this person included, at a particular disadvantage, unless shown to be a proportionate means of achieving a legitimate aim.
+- Direct discrimination (s. 13): less favorable treatment *because of* a protected characteristic.
+- Indirect discrimination (s. 19): a provision, criterion or practice applied whatever the characteristic that puts those who share it, this person included, at a particular disadvantage, unless shown to be a proportionate means to a legitimate aim.
+- A half-empty column dropped in cleaning: no reason stated. The model cannot tell the two apart.
 
-If $A$ shaped the recorded outcome itself, a model using $A$ would learn that.
+If $A$ shaped the recorded outcome itself, a model using $A$ learns that.
 
 ::: {.source}
 Equality Act 2010 (c. 15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.
@@ -441,7 +475,7 @@ To predict $Y$: condition on $X$ and $A$. To estimate the effect of $A$ on $Y$: 
 ## Missing data
 
 ::: {.notes}
-C is the letter from Part 1 on purpose: the complete cases are C = 1, and when two things both cause whether someone is in the data, C is a collider. Hernán and Robins, chapter 8, code it the other way round (C = 1 censored, analysis on C = 0); van Buuren writes R, which here is a risk score. MAR is "random given what was recorded", not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.
+The second choice on the map: drop the rows. C is the letter from Part 1 on purpose: the complete cases are C = 1, and when two things both cause whether someone is in the data, C is a collider. Hernán and Robins, chapter 8, code it the other way round (C = 1 censored, analysis on C = 0); van Buuren writes R, which here is a risk score. MAR is "random given what was recorded", not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.
 :::
 
 $C = 1$ if $Y$ is observed: the complete cases. $X$ is always recorded.
@@ -570,7 +604,7 @@ Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan (2017), "The Selective L
 ## Filling in
 
 ::: {.notes}
-Mean and regression imputation: one fill-in, analyzed as if observed; standard errors too small. Multiple imputation draws several plausible fill-ins and adds the between-fill-in variance back. The class runs it with mice. Then the sentence to leave with: the model the fill-ins come from is an assumption about values nobody observed, usually MAR given what you put in it.
+The third choice on the map. Mean and regression imputation: one fill-in, analyzed as if observed; standard errors too small. Multiple imputation draws several plausible fill-ins and adds the between-fill-in variance back. The class runs it with mice. Then the sentence to leave with: the model the fill-ins come from is an assumption about values nobody observed, usually MAR given what you put in it.
 :::
 
 - One fill-in (the mean, or a regression prediction), then analyzed as if observed: standard errors too small.
@@ -582,6 +616,44 @@ An imputation model is an assumption about the values you did not observe, writt
 
 ::: {.source}
 van Buuren (2018), *Flexible Imputation of Missing Data*, 2nd edition, sections 1.3 and 2.3.2.
+:::
+
+## Three choices, one table {minutes="3"}
+
+::: {.notes}
+The coursework data again, A recorded for half the rows at random. Drop the column: the unaware model, for everyone. Drop the rows: the full model where A is recorded, nothing where it is not. Fill in: a logistic regression of A on X and Y fitted to the rows that have A, 20 draws, the fits averaged (mice does this with more care); for a row without A the prediction averages the full model over P(A | X). Read the table by column: where A is recorded, the two methods that use it have no gap; where it is missing, nothing does better than X alone, and the gap is back. For a row without A the best prediction from X is X/2 - P(A = 1 | X), with P(A = 1 | X = x) = 1/(1 + exp(1 - x)); its MSE is 1/2 + E[p(1 - p)] = 0.66, and the linear unaware model's 2/3 is barely worse (notes). Filling A in from X in order to use it is using a proxy for A: week 8.
+:::
+
+```{r three_choices}
+sim <- function(n) { d <- generate_data(n); d$A <- as.integer(as.character(d$A)); d$Arec <- ifelse(rbinom(n, 1, 1/2) == 1, d$A, NA); d }
+tr <- sim(1e5); te <- sim(1e5); known <- !is.na(te$Arec)
+drop_col <- predict(lm(Y ~ X, data = tr), te)
+drop_rows <- predict(lm(Y ~ X + Arec, data = tr), te)                 # NA where A is missing
+cc <- subset(tr, !is.na(Arec))
+imp <- glm(Arec ~ X + Y, family = binomial, data = cc)                 # the imputation model
+b <- rowMeans(replicate(20, {
+  d <- tr; miss <- is.na(d$Arec)
+  d$Arec[miss] <- rbinom(sum(miss), 1, predict(imp, d[miss, ], type = "response"))
+  coef(lm(Y ~ X + Arec, data = d))
+}))
+f <- function(x, a) b[1] + b[2] * x + b[3] * a
+pA <- predict(glm(Arec ~ X, family = binomial, data = cc), te, type = "response")
+fill_in <- ifelse(known, f(te$X, te$Arec), pA * f(te$X, 1) + (1 - pA) * f(te$X, 0))
+row_of <- function(p) {
+  mse <- function(idx) sprintf("%.2f", mean((te$Y[idx] - p[idx])^2))
+  gap <- function(idx) { m <- tapply(p[idx], te$A[idx], mean); sprintf("%.2f", m[2] - m[1]) }
+  none <- all(is.na(p[!known]))
+  c(mse(known), if (none) "no prediction" else mse(!known), gap(known), if (none) "no prediction" else gap(!known))
+}
+tab <- rbind(`drop the column` = row_of(drop_col), `drop the rows` = row_of(drop_rows), `fill in` = row_of(fill_in))
+colnames(tab) <- c("MSE, A recorded", "MSE, A missing", "gap, A recorded", "gap, A missing")
+knitr::kable(tab)
+```
+
+$A$ recorded for half the rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is $0$.
+
+::: {.leave}
+Filling in recovers the fit, not the missing information. Where $A$ is recorded, a model that uses it has no gap; where it is missing, every method predicts from $X$ alone and the gap is back.
 :::
 
 ## Admitted students {minutes="4"}
@@ -602,8 +674,8 @@ Draw the graph and mark what the records condition on. Among admitted students, 
 Each lens, what it referred to this week. Then the question on the last slide.
 :::
 
-- **Who is in the data?** Babies born small; the complete cases; defendants a judge released; people offered a place.
-- **You have to choose, so choose, and defend it.** Use the attribute or leave it out: it depends on a graph the data do not settle. MAR or MNAR: the data do not settle that either.
+- **Who is in the data?** Babies born small; the complete cases; defendants a judge released; people offered a place. And what is recorded about them: the column that was dropped.
+- **You have to choose, so choose, and defend it.** Drop the column, drop the rows, or fill in: each depends on something the data do not settle, the graph $A$ is in, MAR or MNAR. A default makes the choice too, with nobody to defend it.
 - **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? A score held fixed while the group changes. Birth weight held fixed while asking about smoking.
 
 ...and why?
