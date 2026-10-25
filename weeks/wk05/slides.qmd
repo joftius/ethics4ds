@@ -23,9 +23,9 @@ st313:
   week: 05
   session: lecture
   register: 1
-  segments:                        # sums to 80: 76 of material and 4 of slack; production 31 (39%)
-    # opener: 5
-    - {label: "what you brought: the 4 -> 5 task on the shared document; what decided who got in, and does it depend on the outcome", minutes: 5, mode: production, retrieves: [S3]}
+  segments:                        # sums to 80: 74 of material and 6 of slack; production 30 (38%)
+    # opener: 4
+    - {label: "what you brought: the 4 -> 5 task on the shared document; what decided who got in, and does it depend on the outcome", minutes: 4, mode: production, retrieves: [S3]}
     # part 1, selection on a common effect: 17
     - {label: "retrieval: among people offered a place on cost, need and resources became negatively related", minutes: 2, mode: production, retrieves: [S1]}
     - {label: "the birth weight paradox (Hernandez-Diaz et al. 2006, abstract): RR 0.79 among low-birth-weight infants", minutes: 2, mode: exposition}
@@ -33,13 +33,13 @@ st313:
     - {label: "one such graph; colliders against forks; selecting a sample is conditioning; lens F", minutes: 3, mode: exposition, introduces: [CC-15]}
     - {label: "production: Cov(Y, A | C) when C = Y + A", minutes: 2, mode: production, core: CC-15, results: [R30]}
     - {label: "with noise: the collider covariance in the linear model, simple-regression slopes only", minutes: 5, mode: exposition, core: CC-15, results: [R30]}
-    # part 2, leaving a column out: 20
+    # part 2, leaving a column out: 19
     - {label: "rows and columns: why a column is absent; a column with holes forces one of three choices (the map of parts 2 to 4)", minutes: 2, mode: exposition}
     - {label: "prediction: unaware or full, which is more accurate, which more disparate", minutes: 2, mode: production}
     - {label: "the 2024 coursework collider simulated: table and picture", minutes: 3, mode: exposition, results: [R31]}
     - {label: "by hand: (X - 1)/3, -1/3 and 1/3, MSE 2/3 against 1/2, coefficient -1", minutes: 5, mode: exposition, core: CC-15, results: [R31]}
     - {label: "pairs: what was leaving it out for? Equality Act ss. 13 and 19; a graph that reverses the advice", minutes: 5, mode: production}
-    - {label: "adjusting for a collider: prediction against effect (the complication of adjusting for confounders)", minutes: 3, mode: exposition, retrieves: [S1]}
+    - {label: "adjusting for a collider: prediction against effect (the complication of adjusting for confounders)", minutes: 2, mode: exposition, retrieves: [S1]}
     # part 3, who is missing: 19
     - {label: "MCAR, MAR, MNAR with C; which can be checked", minutes: 4, mode: exposition, introduces: [CC-16], core: CC-16, results: [R32]}
     - {label: "classify three, with a direction", minutes: 3, mode: production, results: [R32]}
@@ -55,8 +55,8 @@ st313:
     - {label: "admitted students, answered individually", minutes: 4, mode: production, item: W05-I1}
     - {label: "lenses B, E, F", minutes: 1, mode: exposition}
     - {label: "the question that splits the room: hands on including A; the task for next time", minutes: 3, mode: production, retrieves: [S6]}
-    # slack: 4
-    - {label: "slack: questions and overrun", minutes: 4, mode: exposition}
+    # slack: 6
+    - {label: "slack: questions and overrun", minutes: 6, mode: exposition}
   history: []
   complications:
     - {of: CC-09, introduced_week: 3, minutes_after_introduction: 2_weeks}
@@ -176,11 +176,11 @@ generate_data <- function(n = 500, betaY = 1, betaA = 2) {
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 76 in the 80: opener 5, selection on a common effect 17, leaving a column out 20, who is missing 19, filling in and the three choices 7, close 8; then 4 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 74 in the 80: opener 4, selection on a common effect 17, leaving a column out 19, who is missing 19, filling in and the three choices 7, close 8; then 6 of slack, and the two dark slides are 4 more if needed. Dark = rush or skip.
 
 Cut order: (1) when the complete cases are enough; (2) rush the reweighting slide, keeping its formula; (3) compress filling in to its last sentence. Do not cut the rows-and-columns map, the graph the room draws, the prediction before the coursework table, the pairs question, the income computation, the three-choices table or the admitted-students item.
 
-Pace: 0:05 Part 1; 0:22 Part 2; 0:42 Part 3; 1:01 Part 4; 1:05 three choices; 1:08 admitted students; 1:16 end.
+Pace: 0:04 Part 1; 0:21 Part 2; 0:40 Part 3; 0:59 Part 4; 1:03 three choices; 1:06 admitted students; 1:14 end.
 :::
 
 ### Week 5
@@ -193,10 +193,10 @@ Part 3: Who is missing
 
 Part 4: Filling in
 
-## What you brought {minutes="5"}
+## What you brought {minutes="4"}
 
 ::: {.notes}
-Everyone's example on the shared document: who is missing, which way. Read out two. Keep one that selects on something two things cause (hiring, admission, a hospital) for part 1, and one where people go missing because of their own outcome (an income question, dropout) for part 3.
+Everyone's example on the shared document: who is missing, which way. Read out two, briefly. Keep one that selects on something two things cause (hiring, admission, a hospital) for part 1, and one where people go missing because of their own outcome (an income question, dropout) for part 3.
 :::
 
 ::: {.ask}
@@ -237,7 +237,7 @@ Hernández-Díaz, Schisterman and Hernán (2006), "The birth weight 'paradox' un
 ## Draw it {minutes="3"}
 
 ::: {.notes}
-Three minutes, written, alone. The question is whether anyone puts a second cause of low birth weight on the page. Take one graph from the room before the next slide.
+Two minutes, written, alone, then one minute for one graph from the room; the next slide shows one. The question is whether anyone puts a second cause of low birth weight on the page.
 :::
 
 ::: {.ask}
@@ -358,9 +358,9 @@ $Y$: how well someone would do a job, $Y \sim N(0, 1)$, larger is better. $\; A 
 
 $X = Y + 2A + \varepsilon$, $\; \varepsilon \sim N(0, 1)$ independent of $(Y, A)$: a test score. Group 1 gets two points from coaching, and nothing on the job.
 
-Suppose the model may not have $A$: the law forbids it, or the column was half empty and got dropped.
+Suppose the model may not have $A$: the law forbids it, or the half-empty column was dropped.
 
-```{r dag_coursework, fig.height=1.05, fig.alt="A causal graph: A and Y both point into X."}
+```{r dag_coursework, fig.height=1.35, fig.alt="A causal graph: A and Y both point into X."}
 cw <- data.frame(name = c("A", "Y", "X"), x = c(0, 2, 1), y = c(1, 1, 0))
 draw_dag(cw, data.frame(from = c("A", "Y"), to = c("X", "X")), xlim = c(-0.4, 2.4), ylim = c(-0.3, 1.3))
 ```
@@ -453,7 +453,7 @@ If $A$ shaped the recorded outcome itself, a model using $A$ learns that.
 Equality Act 2010 (c. 15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.
 :::
 
-## Adjusting for a collider
+## Adjusting for a collider {minutes="2"}
 
 ::: {.notes}
 The other question: does A affect Y? Compare the groups' mean Y: zero, right. The coefficient on A in the model with X: minus one, wrong as an effect. Adjusting for confounders removes bias; adjusting for a collider adds it. Lens F: holding the score fixed while changing A is not something that happens to anyone.
@@ -539,7 +539,7 @@ The true mean? The mean among those who answered? Check with the formula.
 ## When the complete cases are enough {.inverse}
 
 ::: {.notes}
-Skip if behind. Under MAR on X, at each x the recorded Y are a random sample of the Y at that x, so a correct regression line is the same among the complete cases; only the mix of x changes. When the missingness depends on Y, the complete-case line is wrong; in this simulation the high Y go missing at each x and it flattens. Other dependence on Y does other things: dropping the middle of Y steepens it.
+Skip if behind. Under MAR on X, at each x the recorded Y are a random sample of the Y at that x, so a correct regression line is the same among the complete cases; only the mix of x changes. When the missingness depends on Y given X, the complete-case line need not survive; in this simulation the high Y go missing at each x and it flattens. Other dependence on Y does other things: dropping the middle of Y steepens it, and dropping symmetrically in the residual leaves it alone.
 :::
 
 ```{r cc_regression, fig.height=4.0, fig.alt="Two panels of simulated points with a dotted line of slope one, the line they were drawn from. Left, missing more often at high X: the solid line fitted to the recorded points lies on the dotted line. Right, missing more often at high Y: the fitted line is flatter."}
@@ -563,7 +563,7 @@ ggplot(cc, aes(X, Y)) +
   theme(legend.position = "none", plot.caption = element_text(size = 13)) + dark
 ```
 
-Missing on $X$ only: $E[Y \mid X, C = 1] = E[Y \mid X]$, a correct line survives. Missing on $Y$: the line is wrong; here it flattens.
+Missing on $X$ only: $E[Y \mid X, C = 1] = E[Y \mid X]$, a correct line survives. Missing on $Y$ given $X$: it need not; here it flattens.
 
 ## Reweighting the people who answered {.inverse}
 
@@ -621,7 +621,7 @@ van Buuren (2018), *Flexible Imputation of Missing Data*, 2nd edition, sections 
 ## Three choices, one table {minutes="3"}
 
 ::: {.notes}
-The coursework data again, A recorded for half the rows at random. Drop the column: the unaware model, for everyone. Drop the rows: the full model where A is recorded, nothing where it is not. Fill in: a logistic regression of A on X and Y fitted to the rows that have A, 20 draws, the fits averaged (mice does this with more care); for a row without A the prediction averages the full model over P(A | X). Read the table by column: where A is recorded, the two methods that use it have no gap; where it is missing, nothing does better than X alone, and the gap is back. For a row without A the best prediction from X is X/2 - P(A = 1 | X), with P(A = 1 | X = x) = 1/(1 + exp(1 - x)); its MSE is 1/2 + E[p(1 - p)] = 0.66, and the linear unaware model's 2/3 is barely worse (notes). Filling A in from X in order to use it is using a proxy for A: week 8.
+The coursework data again, A recorded for half the rows at random. Drop the column: the unaware model, for everyone. Drop the rows: the full model where A is recorded, nothing where it is not. Fill in: 20 completions, each from a logistic regression of A on X and Y refitted to a bootstrap sample of the rows that have A, so the model's parameters vary too (van Buuren 3.1.3, the bootstrap route), the 20 fits averaged; mice does the same with more care. For a row without A the prediction averages the full model over P(A | X). Give the complete-case fit that same prediction-time step and its row matches the fill-in row: with holes at random the two fits agree, and the difference is what you do at prediction time. Read the table by column: where A is recorded, the two methods that use it have no gap; where it is missing, nothing does better than X alone, and the gap is back. For a row without A the best prediction from X is X/2 - P(A = 1 | X), with P(A = 1 | X = x) = 1/(1 + exp(1 - x)); its MSE is 1/2 + E[p(1 - p)] = 0.66, and the linear unaware model's 2/3 is barely worse (notes). Filling A in from X in order to use it is using a proxy for A: week 8.
 :::
 
 ```{r three_choices}
@@ -630,8 +630,8 @@ tr <- sim(1e5); te <- sim(1e5); known <- !is.na(te$Arec)
 drop_col <- predict(lm(Y ~ X, data = tr), te)
 drop_rows <- predict(lm(Y ~ X + Arec, data = tr), te)                 # NA where A is missing
 cc <- subset(tr, !is.na(Arec))
-imp <- glm(Arec ~ X + Y, family = binomial, data = cc)                 # the imputation model
-b <- rowMeans(replicate(20, {
+b <- rowMeans(replicate(20, {                                          # 20 completions
+  imp <- glm(Arec ~ X + Y, family = binomial, data = cc[sample(nrow(cc), replace = TRUE), ])  # the imputation model, refitted on a bootstrap sample
   d <- tr; miss <- is.na(d$Arec)
   d$Arec[miss] <- rbinom(sum(miss), 1, predict(imp, d[miss, ], type = "response"))
   coef(lm(Y ~ X + Arec, data = d))
@@ -650,10 +650,10 @@ colnames(tab) <- c("MSE, A recorded", "MSE, A missing", "gap, A recorded", "gap,
 knitr::kable(tab)
 ```
 
-$A$ recorded for half the rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is $0$.
+$A$ recorded for half the rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is $0$. Drop the rows: fit on the complete rows, predict only where $A$ is recorded. Fill in: fit on the completed rows; where $A$ is missing, average over $P(A \mid X)$.
 
 ::: {.leave}
-Filling in recovers the fit, not the missing information. Where $A$ is recorded, a model that uses it has no gap; where it is missing, every method predicts from $X$ alone and the gap is back.
+Filling in recovers the fit, not the missing information. Where $A$ is recorded, a model that uses it has no gap; where it is missing, nothing predicts better than $X$ alone, and the gap is back.
 :::
 
 ## Admitted students {minutes="4"}

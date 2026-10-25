@@ -33,8 +33,9 @@ Every dataset has a rule for who gets into it: who was born small, who
 was hired, who answered the survey, who was released on bail. When
 that rule depends on two things at once, looking only at the people it
 let in creates an association between those two things that is not
-there in the population. When it depends on the outcome, the people
-you have are a biased sample of the people you wanted. The first is
+there in the population. When it depends on the outcome itself, even
+after accounting for what was recorded, the people you have are a
+biased sample of the people you wanted. The first is
 conditioning on a *collider*; the second is data *missing not at
 random*. Every analysis also has a rule for which columns it uses, and
 a column is absent for reasons that run from the law to a cleaning
@@ -277,14 +278,35 @@ collected one. Or a column was recorded for some people and not for
 others, and whoever cleaned the data dropped it, because half of it
 was empty and the software would otherwise have dropped the rows.
 
-A column with holes, then, forces one of three choices, and the rest
-of these notes takes them in turn: drop the column (this part), drop
+A column with holes, then, forces one of three choices, drawn below,
+and the rest of these notes takes them in turn: drop the column (this part), drop
 the rows that have holes (the complete-case analysis of the next
 part), or fill the holes in (the part after). The model that results
 from dropping a column is the same model whatever the reason the
 column went, so the arithmetic below applies to a column left out on
 principle and to one left out by default alike. What differs between
 the two is only whether anyone can say why.
+
+```{r rows_columns, echo=FALSE, fig.height=2.6, fig.width=7, fig.alt="Four small grids of three columns, X, A and Y, and six rows. The first has two holes in column A. The second has column A grayed out: drop the column. The third has the two rows with holes grayed out: drop the rows. The fourth has the two holes filled in gold with question marks: fill the holes."}
+grid <- expand.grid(row = 1:6, col = c("X", "A", "Y"), stringsAsFactors = FALSE)
+grid$status <- ifelse(grid$col == "A" & grid$row %in% c(2, 5), "missing", "recorded")
+panels <- bind_rows(
+  grid |> mutate(panel = "with holes"),
+  grid |> mutate(panel = "drop the column", status = ifelse(col == "A", "dropped", status)),
+  grid |> mutate(panel = "drop the rows", status = ifelse(row %in% c(2, 5), "dropped", status)),
+  grid |> mutate(panel = "fill the holes", status = ifelse(status == "missing", "filled in", status)))
+panels$col <- factor(panels$col, levels = c("X", "A", "Y"))
+panels$panel <- factor(panels$panel, levels = unique(panels$panel))
+panels$status <- factor(panels$status, levels = c("recorded", "missing", "dropped", "filled in"))
+ggplot(panels, aes(col, -row)) +
+  geom_tile(aes(fill = status), color = "white", linewidth = 1, width = 0.92, height = 0.92) +
+  geom_text(data = subset(panels, status == "filled in"), label = "?", size = 4, color = navy) +
+  facet_wrap(~ panel, nrow = 1) +
+  scale_fill_manual(values = c(recorded = slate, missing = "grey93", dropped = "grey80", `filled in` = gold),
+                    name = NULL, drop = FALSE) +
+  theme(axis.title = element_blank(), axis.text.y = element_blank(), panel.grid = element_blank(),
+        legend.position = "bottom")
+```
 
 ### An unaware model
 
@@ -581,8 +603,11 @@ general version: when the probability of being missing does not depend
 on $Y$, and the model for $Y$ given $X$ is correct, the complete-case
 regression coefficients are "free of bias." Two warnings. If the line is
 only an approximation, changing the mix of $x$ changes which line fits
-best. And if missingness depends on $Y$ itself, removing points changes
-the average of $Y$ at each $x$, and the line moves.
+best. And if missingness depends on $Y$ given $X$, removing points can
+change the average of $Y$ at each $x$, and then the line moves. It
+need not: dropping points symmetrically in the residual, far above and
+far below the line alike, leaves the average at each $x$ where it was.
+In the simulation below the high $Y$ go missing, and the line flattens.
 
 ```{r cc_regression, echo=FALSE, fig.height=3.2, fig.width=6.5, fig.alt="Two panels of simulated points with a dotted line of slope one, the line they were drawn from. Left, missing more often at high X: the gold line fitted to the recorded points lies on the dotted line. Right, missing more often at high Y: the fitted line is flatter."}
 n <- 600
@@ -656,9 +681,14 @@ the label. (A judge who used only the recorded features would give MAR,
 with no labels at all for the features nobody is released on.)
 Lakkaraju and colleagues make the first supposition explicit, and
 their paper proposes a way to compare an algorithm with the judges
-anyway: some judges release more defendants than others, and when
-cases are assigned to judges at random, the strictest judge's released
-pool is a subset of what a lenient judge would have released.
+anyway. Some judges release more defendants than others, and cases are
+assigned to judges as if at random. Take the most lenient judge's
+released defendants, whose outcomes are all recorded; let the
+algorithm detain the ones it ranks worst until the release rate matches
+a stricter judge's; and compare the failure rate of that contracted
+pool with the stricter judge's own. Both pools come from comparable
+cases at the same release rate, so the comparison needs no label for
+anyone the lenient judge detained.
 
 The file drawer was MNAR in the same way: whether a study was
 published depended on its own $z$-value, so the missing studies were
@@ -729,10 +759,13 @@ $0$.
   the fit is right: slope $1/2$, coefficient $-1$ on $A$. The model
   predicts well, and with no gap, wherever $A$ is recorded, and not at
   all where it is not.
-- *Fill in.* Impute $A$ from $X$ and $Y$ on the training rows (a
-  logistic regression fitted to the rows that have $A$, 20 draws, the
-  fits averaged; `mice` does the same with more care) and fit $Y$ on
-  $X$ and $A$ to the completed data. The fit is again right, now using
+- *Fill in.* Impute $A$ from $X$ and $Y$ on the training rows: 20
+  completions, each drawn from a logistic regression of $A$ on $X$ and
+  $Y$ refitted to a bootstrap sample of the rows that have $A$, so that
+  the imputation model's parameters vary from one completion to the
+  next as well as the draws (the bootstrap route of van Buuren's
+  section 3.1.3; `mice` does the same with more care), and fit $Y$ on
+  $X$ and $A$ to each completed dataset, averaging the fits. The fit is again right, now using
   every row. For a new row with $A$ recorded, the prediction is the
   full model's. For a new row without $A$, the model has to average its
   prediction over what $A$ could be given $X$.
@@ -743,8 +776,8 @@ tr <- sim(1e5); te <- sim(1e5); known <- !is.na(te$Arec)
 drop_col <- predict(lm(Y ~ X, data = tr), te)
 drop_rows <- predict(lm(Y ~ X + Arec, data = tr), te)
 cc <- subset(tr, !is.na(Arec))
-imp <- glm(Arec ~ X + Y, family = binomial, data = cc)
-b <- rowMeans(replicate(20, {
+b <- rowMeans(replicate(20, {                                          # 20 completions
+  imp <- glm(Arec ~ X + Y, family = binomial, data = cc[sample(nrow(cc), replace = TRUE), ])  # the imputation model, refitted on a bootstrap sample
   d <- tr; miss <- is.na(d$Arec)
   d$Arec[miss] <- rbinom(sum(miss), 1, predict(imp, d[miss, ], type = "response"))
   coef(lm(Y ~ X + Arec, data = d))
@@ -771,6 +804,14 @@ than $X$ alone, and the gap is back at $0.65$. Filling in recovered
 the fit, not the missing information: for a row whose $A$ was never
 recorded, an imputed $A$ is a function of that row's $X$, and the
 prediction is a prediction from $X$.
+
+The "no prediction" entries are a choice of pipeline, not a law. The
+complete-case fit could be given the same prediction-time step as
+filling in, averaging its prediction over $P(A \mid X)$ for a row
+without $A$, and its row would then match the fill-in row. With the
+holes at random the two fits are the same fit; what separates the
+second and third rows is what each does at prediction time, and
+neither can do better than $X$ alone where $A$ was never recorded.
 
 The last column has a closed form. For a row without $A$, the best
 prediction from $X$ alone is $E[Y \mid X] = E[E[Y \mid X, A] \mid X]

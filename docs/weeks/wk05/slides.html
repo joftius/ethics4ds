@@ -152,7 +152,7 @@ Joshua Loftus
 <p>Part 3: Who is missing</p>
 <p>Part 4: Filling in</p>
 </section>
-<section id="what-you-brought" class="slide level2" data-minutes="5">
+<section id="what-you-brought" class="slide level2" data-minutes="4">
 <h2>What you brought</h2>
 <div class="ask">
 <p>For the dataset you brought: what decided whether someone was in it? Does that depend on the outcome, on something that causes the outcome, or on neither?</p>
@@ -276,7 +276,7 @@ Joshua Loftus
 <h2>Predict</h2>
 <p><span class="math inline">\(Y\)</span>: how well someone would do a job, <span class="math inline">\(Y \sim N(0, 1)\)</span>, larger is better. <span class="math inline">\(\; A \in \{0, 1\}\)</span>: a group, half the population each, independent of <span class="math inline">\(Y\)</span>.</p>
 <p><span class="math inline">\(X = Y + 2A + \varepsilon\)</span>, <span class="math inline">\(\; \varepsilon \sim N(0, 1)\)</span> independent of <span class="math inline">\((Y, A)\)</span>: a test score. Group 1 gets two points from coaching, and nothing on the job.</p>
-<p>Suppose the model may not have <span class="math inline">\(A\)</span>: the law forbids it, or the column was half empty and got dropped.</p>
+<p>Suppose the model may not have <span class="math inline">\(A\)</span>: the law forbids it, or the half-empty column was dropped.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -402,7 +402,7 @@ Joshua Loftus
 <p>Equality Act 2010 (c.&nbsp;15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.</p>
 </div>
 </section>
-<section id="adjusting-for-a-collider" class="slide level2">
+<section id="adjusting-for-a-collider" class="slide level2" data-minutes="2">
 <h2>Adjusting for a collider</h2>
 <p>Does <span class="math inline">\(A\)</span> affect <span class="math inline">\(Y\)</span>?</p>
 <ul>
@@ -477,7 +477,7 @@ E[Y \mid C = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, C)}{P(C = 1)}
 </div>
 </div>
 </div>
-<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, C = 1] = E[Y \mid X]\)</span>, a correct line survives. Missing on <span class="math inline">\(Y\)</span>: the line is wrong; here it flattens.</p>
+<p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, C = 1] = E[Y \mid X]\)</span>, a correct line survives. Missing on <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>: it need not; here it flattens.</p>
 </section>
 <section id="reweighting-the-people-who-answered" class="slide level2 inverse">
 <h2>Reweighting the people who answered</h2>
@@ -566,9 +566,9 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 </table>
 </div>
 </div>
-<p><span class="math inline">\(A\)</span> recorded for half the rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is <span class="math inline">\(0\)</span>.</p>
+<p><span class="math inline">\(A\)</span> recorded for half the rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is <span class="math inline">\(0\)</span>. Drop the rows: fit on the complete rows, predict only where <span class="math inline">\(A\)</span> is recorded. Fill in: fit on the completed rows; where <span class="math inline">\(A\)</span> is missing, average over <span class="math inline">\(P(A \mid X)\)</span>.</p>
 <div class="leave">
-<p>Filling in recovers the fit, not the missing information. Where <span class="math inline">\(A\)</span> is recorded, a model that uses it has no gap; where it is missing, every method predicts from <span class="math inline">\(X\)</span> alone and the gap is back.</p>
+<p>Filling in recovers the fit, not the missing information. Where <span class="math inline">\(A\)</span> is recorded, a model that uses it has no gap; where it is missing, nothing predicts better than <span class="math inline">\(X\)</span> alone, and the gap is back.</p>
 </div>
 </section>
 <section id="admitted-students" class="slide level2" data-minutes="4">
