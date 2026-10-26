@@ -270,9 +270,9 @@ appears; the model says which way.
 
 ### Rows and columns
 
-Part 1 was about rows: which people a dataset contains. A dataset is
-also a rule for what is recorded about them, and columns go missing
-for reasons as different as the rows do. The law may forbid using one
+Part 1 was about rows: which people a dataset contains. Datasets also
+follow rules for what is recorded about those people, and columns go
+missing for reasons as different as the rows do. The law may forbid using one
 (a protected characteristic in a hiring model). Nobody may have
 collected one. Or a column was recorded for some people and not for
 others, and whoever cleaned the data dropped it, because half of it
@@ -342,8 +342,8 @@ generate_data <- function(n = 500, betaY = 1, betaA = 2) {
   X <- betaY * Y + betaA * A + rnorm(n)
   data.frame(Y = Y, X = X, A = factor(A))
 }
-train <- generate_data(1e5)
-test <- generate_data(1e5)
+train <- generate_data(5000)
+test <- generate_data(5000)
 unaware <- lm(Y ~ X, data = train)
 full <- lm(Y ~ X + A, data = train)
 round(coef(unaware), 2)
@@ -772,7 +772,7 @@ $0$.
 
 ```{r three_choices, echo=FALSE}
 sim <- function(n) { d <- generate_data(n); d$A <- as.integer(as.character(d$A)); d$Arec <- ifelse(rbinom(n, 1, 1/2) == 1, d$A, NA); d }
-tr <- sim(1e5); te <- sim(1e5); known <- !is.na(te$Arec)
+tr <- sim(5000); te <- sim(5000); known <- !is.na(te$Arec)
 drop_col <- predict(lm(Y ~ X, data = tr), te)
 drop_rows <- predict(lm(Y ~ X + Arec, data = tr), te)
 cc <- subset(tr, !is.na(Arec))
@@ -793,7 +793,7 @@ row_of <- function(p) {
 }
 tab <- rbind(`drop the column` = row_of(drop_col), `drop the rows` = row_of(drop_rows), `fill in` = row_of(fill_in))
 colnames(tab) <- c("MSE, A recorded", "MSE, A missing", "gap, A recorded", "gap, A missing")
-knitr::kable(tab, caption = "100,000 training and 100,000 test rows; A recorded for half of each, at random.")
+knitr::kable(tab, caption = "5,000 training and 5,000 test rows; A recorded for half of each, at random.")
 ```
 
 Read the table by column. Where $A$ is recorded, the two methods that

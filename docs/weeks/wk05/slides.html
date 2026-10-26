@@ -261,7 +261,7 @@ Joshua Loftus
 </section>
 <section id="rows-and-columns" class="slide level2">
 <h2>Rows and columns</h2>
-<p>A dataset is a rule for who is a row and a rule for what is a column. A column is absent because the law forbids it, because nobody collected it, or because it was half empty and got dropped. A column with holes forces one of three choices: this part, Part 3, Part 4.</p>
+<p>Datasets follow rules for who is a row and for what is a column. A column is absent because the law forbids it, because nobody collected it, or because it was half empty and got dropped. A column with holes forces one of three choices: this part, Part 3, Part 4.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -274,9 +274,9 @@ Joshua Loftus
 </section>
 <section id="predict" class="slide level2">
 <h2>Predict</h2>
-<p><span class="math inline">\(Y\)</span>: how well someone would do a job, <span class="math inline">\(Y \sim N(0, 1)\)</span>, larger is better. <span class="math inline">\(\; A \in \{0, 1\}\)</span>: a group, half the population each, independent of <span class="math inline">\(Y\)</span>.</p>
-<p><span class="math inline">\(X = Y + 2A + \varepsilon\)</span>, <span class="math inline">\(\; \varepsilon \sim N(0, 1)\)</span> independent of <span class="math inline">\((Y, A)\)</span>: a test score. Group 1 gets two points from coaching, and nothing on the job.</p>
-<p>Suppose the model may not have <span class="math inline">\(A\)</span>: the law forbids it, or the half-empty column was dropped.</p>
+<p><span class="math inline">\(Y\)</span>: job performance, <span class="math inline">\(N(0, 1)\)</span>. <span class="math inline">\(\; A \in \{0, 1\}\)</span>: a group, half each, independent of <span class="math inline">\(Y\)</span>.</p>
+<p><span class="math inline">\(X = Y + 2A + \varepsilon\)</span>: a test score, <span class="math inline">\(\varepsilon \sim N(0, 1)\)</span> independent. Group 1 gets two points from coaching.</p>
+<p>The model may not have <span class="math inline">\(A\)</span>: the law, or a dropped column.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -290,7 +290,7 @@ Joshua Loftus
 <p>Predict <span class="math inline">\(Y\)</span> from <span class="math inline">\(X\)</span> alone, or from <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>. Which model is more accurate? Which predicts a bigger gap between the groups?</p>
 </div>
 </section>
-<section id="two-models" class="slide level2">
+<section id="two-models" class="slide level2 inverse">
 <h2>Two models</h2>
 <div class="cell">
 <div class="cell-output-display">
@@ -317,25 +317,25 @@ Joshua Loftus
 <tr class="odd">
 <td style="text-align: left;">0</td>
 <td style="text-align: right;">0.00</td>
-<td style="text-align: right;">-0.33</td>
-<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">0.00</td>
 <td style="text-align: right;">0.66</td>
-<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.48</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">1</td>
-<td style="text-align: right;">0.01</td>
-<td style="text-align: right;">0.34</td>
 <td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.67</td>
-<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.49</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <p>Leaving <span class="math inline">\(A\)</span> out: less accurate in both groups, and a gap between groups whose <span class="math inline">\(Y\)</span> has the same distribution.</p>
-<div class="source">
+<div class="source" style="color: #BCAF6F">
 <p>ST313 coursework 2 (2024) and its worked solution: <span class="math inline">\(A \to X \leftarrow Y\)</span>, <code>betaY = 1</code>, <code>betaA = 2</code> (in the formula before, <span class="math inline">\(\alpha = 1\)</span> and <span class="math inline">\(b = 2\)</span>).</p>
 </div>
 </section>
@@ -351,8 +351,8 @@ Joshua Loftus
 </div>
 </div>
 </section>
-<section id="by-hand" class="slide level2" data-minutes="5">
-<h2>By hand</h2>
+<section id="truepopulation-values" class="slide level2" data-minutes="5">
+<h2>True/population values</h2>
 <p><span class="math inline">\(\operatorname{Var}(A) = \tfrac14\)</span>, so <span class="math inline">\(\operatorname{Var}(X) = 1 + 4 \cdot \tfrac14 + 1 = 3\)</span>, <span class="math inline">\(\; E[X] = 1\)</span>, <span class="math inline">\(\; \operatorname{Cov}(X, Y) = 1\)</span>.</p>
 <table class="caption-top">
 <colgroup>
@@ -387,10 +387,10 @@ Joshua Loftus
 </table>
 <p>The truth: mean <span class="math inline">\(Y\)</span> is <span class="math inline">\(0\)</span> in both groups. The coefficient on <span class="math inline">\(A\)</span> is <span class="math inline">\(-1\)</span>.</p>
 </section>
-<section id="what-was-leaving-it-out-for" class="slide level2" data-minutes="5">
-<h2>What was leaving it out for?</h2>
+<section id="why-leave-out-a" class="slide level2 inverse" data-minutes="5">
+<h2>Why leave out <span class="math inline">\(A\)</span>?</h2>
 <div class="ask">
-<p>Less accurate, more unequal: what was leaving the column out for?</p>
+<p>Less accurate, more unequal: so why leave out <span class="math inline">\(A\)</span>?</p>
 </div>
 <ul>
 <li>Direct discrimination (s. 13): less favorable treatment <em>because of</em> a protected characteristic.</li>
@@ -398,7 +398,7 @@ Joshua Loftus
 <li>A half-empty column dropped in cleaning: no reason stated. The model cannot tell the two apart.</li>
 </ul>
 <p>If <span class="math inline">\(A\)</span> shaped the recorded outcome itself, a model using <span class="math inline">\(A\)</span> learns that.</p>
-<div class="source">
+<div class="source" style="color: #BCAF6F">
 <p>Equality Act 2010 (c.&nbsp;15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.</p>
 </div>
 </section>
@@ -479,14 +479,15 @@ E[Y \mid C = 1] - E[Y] &amp;= \frac{\operatorname{Cov}(Y, C)}{P(C = 1)}
 </div>
 <p>Missing on <span class="math inline">\(X\)</span> only: <span class="math inline">\(E[Y \mid X, C = 1] = E[Y \mid X]\)</span>, a correct line survives. Missing on <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>: it need not; here it flattens.</p>
 </section>
-<section id="reweighting-the-people-who-answered" class="slide level2 inverse">
-<h2>Reweighting the people who answered</h2>
+<section id="inverse-probability-weighting" class="slide level2">
+<h2>Inverse probability weighting</h2>
 <p><span class="math inline">\(e(X) = P(C = 1 \mid X) &gt; 0\)</span>. Under MAR:</p>
 <p><span class="math display">\[
 E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\right] = E\big[E[Y \mid X]\big] = E[Y]
 \]</span></p>
 <p>Income example: <span class="math inline">\(\tfrac12 (0.8)(40)/0.8 + \tfrac12 (0.4)(60)/0.4 = 50\)</span>.</p>
-<div class="source" style="color: #BCAF6F">
+<p>Each respondent stands for <span class="math inline">\(1/e(X)\)</span> people like them. Horvitz and Thompson’s estimator, with the chance of answering in place of the chance of being sampled; the same weights as inverse propensity weighting for a treatment, with “answered” in place of “treated”.</p>
+<div class="source">
 <p>Horvitz and Thompson (1952), “A Generalization of Sampling Without Replacement from a Finite Universe,” <em>Journal of the American Statistical Association</em> 47(260), 663–685, doi:10.1080/01621459.1952.10483446. The same weights for people lost to follow-up: Hernán and Robins, <em>Causal Inference: What If</em>, section 8.5.</p>
 </div>
 </section>
@@ -508,15 +509,19 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 </section>
 <section id="filling-in" class="slide level2">
 <h2>Filling in</h2>
+<p>Ways to fill a hole, worked through in the class:</p>
 <ul>
-<li>One fill-in (the mean, or a regression prediction), then analyzed as if observed: standard errors too small.</li>
-<li>Multiple imputation: <span class="math inline">\(m\)</span> plausible fill-ins, each drawn from a model fitted to the observed rows, the model’s own uncertainty included; the analysis on each; the <span class="math inline">\(m\)</span> estimates averaged. Its variance adds back what one fill-in hides: <span class="math inline">\(\;\text{total} = \text{within} + \left(1 + \tfrac1m\right) \times \text{between}\)</span>, with within the average of the <span class="math inline">\(m\)</span> squared standard errors and between the variance of the <span class="math inline">\(m\)</span> estimates.</li>
+<li>the mean of the recorded values: <em>mean imputation</em>;</li>
+<li>a regression prediction from the recorded columns: <em>regression imputation</em>;</li>
+<li>the person’s last recorded value: <em>last observation carried forward</em>;</li>
+<li>several plausible values, each analyzed, the results pooled: <em>multiple imputation</em> (<code>mice</code>);</li>
+<li>a column flagging the hole: the <em>indicator method</em>.</li>
 </ul>
 <div class="leave">
 <p>An imputation model is an assumption about the values you did not observe, written down where it can be argued with.</p>
 </div>
 <div class="source">
-<p>van Buuren (2018), <em>Flexible Imputation of Missing Data</em>, 2nd edition, sections 1.3 and 2.3.2.</p>
+<p>van Buuren (2018), <em>Flexible Imputation of Missing Data</em>, 2nd edition, sections 1.3 (ad hoc solutions) and 1.4 (multiple imputation in a nutshell).</p>
 </div>
 </section>
 <section id="three-choices-one-table" class="slide level2" data-minutes="3">
@@ -543,8 +548,8 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">drop the column</td>
-<td style="text-align: left;">0.67</td>
-<td style="text-align: left;">0.66</td>
+<td style="text-align: left;">0.65</td>
+<td style="text-align: left;">0.68</td>
 <td style="text-align: left;">0.66</td>
 <td style="text-align: left;">0.66</td>
 </tr>
@@ -552,21 +557,21 @@ E\left[\frac{C\,Y}{e(X)}\right] = E\left[\frac{E[C \mid X]\;E[Y \mid X]}{e(X)}\r
 <td style="text-align: left;">drop the rows</td>
 <td style="text-align: left;">0.50</td>
 <td style="text-align: left;">no prediction</td>
-<td style="text-align: left;">-0.01</td>
+<td style="text-align: left;">0.02</td>
 <td style="text-align: left;">no prediction</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">fill in</td>
 <td style="text-align: left;">0.50</td>
-<td style="text-align: left;">0.66</td>
-<td style="text-align: left;">-0.01</td>
+<td style="text-align: left;">0.68</td>
+<td style="text-align: left;">0.03</td>
 <td style="text-align: left;">0.65</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p><span class="math inline">\(A\)</span> recorded for half the rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is <span class="math inline">\(0\)</span>. Drop the rows: fit on the complete rows, predict only where <span class="math inline">\(A\)</span> is recorded. Fill in: fit on the completed rows; where <span class="math inline">\(A\)</span> is missing, average over <span class="math inline">\(P(A \mid X)\)</span>.</p>
+<p><span class="math inline">\(A\)</span> recorded for half of 5,000 rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is <span class="math inline">\(0\)</span>. Drop the rows: fit on the complete rows, predict only where <span class="math inline">\(A\)</span> is recorded. Fill in: fit on the completed rows; where <span class="math inline">\(A\)</span> is missing, average over <span class="math inline">\(P(A \mid X)\)</span>.</p>
 <div class="leave">
 <p>Filling in recovers the fit, not the missing information. Where <span class="math inline">\(A\)</span> is recorded, a model that uses it has no gap; where it is missing, nothing predicts better than <span class="math inline">\(X\)</span> alone, and the gap is back.</p>
 </div>
