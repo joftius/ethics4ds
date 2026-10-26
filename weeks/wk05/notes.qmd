@@ -170,21 +170,33 @@ Here is one. Low birth weight has several causes. Smoking is one of
 them. Others, such as serious birth defects, are much more dangerous in
 their own right. Call those $U$, for unobserved.
 
-```{r dag_birthweight, echo=FALSE, fig.height=2.6, fig.width=6, fig.alt="A causal graph in boxes: smoking and U (birth defects and other causes) both point into low birth weight, which is shaded gray; smoking, low birth weight and U all point into infant death; a dashed gold line joins smoking and U."}
+```{r dag_birthweight, echo=FALSE, fig.height=2.6, fig.width=8, fig.alt="Two causal graphs in boxes. Left, all babies: smoking and U (birth defects and other causes) both point into low birth weight, shaded gray; smoking, low birth weight and U all point into infant death. Right, babies born small: low birth weight is gone, smoking and U point into infant death, and a dashed gold line joins smoking and U."}
 bw <- data.frame(name = c("smoking", "low birth weight", "U: birth defects, ...", "infant death"),
-                 x = c(0, 1.5, 3, 1.5), y = c(1, 0.45, 1, -0.5))
+                 x = c(0, 1.4, 2.8, 1.4), y = c(1, 0.45, 1, -0.5))
 bw_edges <- data.frame(from = c("smoking", "U: birth defects, ...", "low birth weight", "U: birth defects, ...", "smoking"),
                        to = c("low birth weight", "low birth weight", "infant death", "infant death", "infant death"))
-p <- draw_dag(bw, bw_edges, boxes = TRUE, xlim = c(-0.7, 3.7), ylim = c(-0.75, 1.25))
-condition_on(p, bw, "low birth weight", induced = c("smoking", "U: birth defects, ..."))
+lev <- c("all babies", "babies born small")
+small <- bw$name != "low birth weight"
+nodes2 <- rbind(transform(bw, panel = lev[1]), transform(bw[small, ], panel = lev[2]))
+edges2 <- rbind(transform(bw_edges, panel = lev[1]),
+                transform(bw_edges[bw_edges$from != "low birth weight" & bw_edges$to != "low birth weight", ], panel = lev[2]))
+nodes2$panel <- factor(nodes2$panel, levels = lev); edges2$panel <- factor(edges2$panel, levels = lev)
+p <- draw_dag(nodes2, edges2, boxes = TRUE, text_size = 4, xlim = c(-0.75, 3.95), ylim = c(-0.75, 1.25))
+ends <- subset(nodes2, panel == lev[2] & name %in% c("smoking", "U: birth defects, ..."))
+dashed <- data.frame(x = ends$x[1], y = ends$y[1], xend = ends$x[2], yend = ends$y[2], panel = factor(lev[2], levels = lev))
+p$layers <- c(list(geom_segment(data = dashed, aes(x, y, xend = xend, yend = yend), linetype = "dashed", color = gold, linewidth = 1)), p$layers)
+p + geom_label(data = subset(nodes2, panel == lev[1] & name == "low birth weight"), aes(x, y, label = name),
+               size = 4, label.size = 0.5, label.padding = unit(0.35, "lines"), fill = "grey85")
 ```
 
-Restricting attention to low-birth-weight babies, the gray box, is
-conditioning on low birth weight. Among babies who were born small, a
+Restricting attention to low-birth-weight babies, the gray box on the
+left, is conditioning on low birth weight. On the right, every baby in
+the picture was born small, so birth weight is no longer a variable
+and drops out of the graph. Among babies who were born small, a
 smoker's baby is more likely to be small because of the smoking, and
 therefore less likely to be small because of something worse. Smoking
 and $U$ are unrelated among all babies and negatively related among the
-babies in the box, the dashed line. Since $U$ kills, the smokers'
+babies born small, the dashed line. Since $U$ kills, the smokers'
 low-birth-weight babies die less often, in a world where smoking only
 ever harms. The abstract of Hernández-Díaz and colleagues makes this
 argument with causal diagrams, and concludes that adjusting for birth
@@ -228,7 +240,7 @@ the other. No distribution was assumed.
 
 Now add noise and let the arrows have any strength:
 $$
-C = \alpha Y + bA + \varepsilon ,
+C = \beta_Y Y + \beta_A A + \varepsilon ,
 $$
 with $\varepsilon$ independent of $A$ and $Y$. Take out of $Y$ and out
 of $A$ the part that is linearly predictable from $C$, using the
@@ -244,14 +256,14 @@ $$
 \end{aligned}
 $$
 Here $\operatorname{Cov}(Y, A) = 0$,
-$\operatorname{Cov}(Y, C) = \alpha \operatorname{Var}(Y)$ and
-$\operatorname{Cov}(A, C) = b \operatorname{Var}(A)$, so
+$\operatorname{Cov}(Y, C) = \beta_Y \operatorname{Var}(Y)$ and
+$\operatorname{Cov}(A, C) = \beta_A \operatorname{Var}(A)$, so
 $$
-\boxed{\;\operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) = -\,\frac{\alpha\, b\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}\;}
+\boxed{\;\operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) = -\,\frac{\beta_Y\, \beta_A\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}\;}
 \qquad
-\operatorname{Var}(C) = \alpha^2 \operatorname{Var}(Y) + b^2 \operatorname{Var}(A) + \operatorname{Var}(\varepsilon).
+\operatorname{Var}(C) = \beta_Y^2 \operatorname{Var}(Y) + \beta_A^2 \operatorname{Var}(A) + \operatorname{Var}(\varepsilon).
 $$
-In this model the association has the sign opposite to $\alpha b$: if
+In this model the association has the sign opposite to $\beta_Y \beta_A$: if
 both causes push the collider the same way, then holding the collider
 fixed makes them look like substitutes. It shrinks as the noise grows,
 because a noisy collider says less about its causes. When the
@@ -409,7 +421,7 @@ The mean prediction is $0$ in each group, and the mean squared error is
 $1 - 1/2 = 1/2$ in each group.
 
 The coefficient on $A$ is $-1$. That is the collider. In the formula
-of the previous section, with $\alpha = 1$, $b = 2$,
+of the previous section, with $\beta_Y = 1$, $\beta_A = 2$,
 $\operatorname{Var}(Y) = 1$, $\operatorname{Var}(A) = 1/4$ and
 $\operatorname{Var}(X) = 3$, the covariance of $Y$ and $A$ left over
 after removing what $X$ predicts is $-(2 \cdot \tfrac14)/3 = -1/6$:
@@ -420,10 +432,11 @@ on $A$ in a regression on $X$ and $A$ is the ratio of the two,
 $(-\tfrac16)/\tfrac16 = -1$ (stated here, not proved; it is the usual
 way a second variable's coefficient in a regression is computed).
 
-With a coaching effect $b$ in place of 2, the same steps give
-$\operatorname{Var}(X) = 2 + b^2/4$, a gap of $b/(2 + b^2/4)$ between
-the groups' mean predictions from $X$ alone, and a mean squared error
-of $1 - 1/(2 + b^2/4)$ against $1/2$.
+With a coaching effect $\beta_A$ in place of 2, the same steps give
+$\operatorname{Var}(X) = 2 + \beta_A^2/4$, a gap of
+$\beta_A/(2 + \beta_A^2/4)$ between the groups' mean predictions from
+$X$ alone, and a mean squared error of $1 - 1/(2 + \beta_A^2/4)$
+against $1/2$.
 
 ### What was leaving it out for?
 

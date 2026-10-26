@@ -278,7 +278,7 @@ Joshua Loftus
 </section>
 <section id="a-model-an-offset-for-one-group" class="slide level2">
 <h2>A model: an offset for one group</h2>
-<p><span class="math inline">\(Y^\star\)</span> need, assumed here to be the same in both groups; <span class="math inline">\(A = 1\)</span> for one group, <span class="math inline">\(0\)</span> for the other; selected if <span class="math inline">\(Y &gt; t\)</span>, where <span class="math inline">\(Y = Y^\star + bA\)</span>.</p>
+<p><span class="math inline">\(Y^\star\)</span> need, assumed here to be the same in both groups; <span class="math inline">\(A = 1\)</span> for one group, <span class="math inline">\(0\)</span> for the other; selected if <span class="math inline">\(Y &gt; t\)</span>, where <span class="math inline">\(Y = Y^\star + \beta_A A\)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -288,9 +288,9 @@ Joshua Loftus
 </div>
 </div>
 </div>
-<p>For group <span class="math inline">\(1\)</span>, <span class="math inline">\(Y &gt; t\)</span> is <span class="math inline">\(Y^\star &gt; t - b\)</span>: a threshold moved for that group.</p>
+<p>For group <span class="math inline">\(1\)</span>, <span class="math inline">\(Y &gt; t\)</span> is <span class="math inline">\(Y^\star &gt; t - \beta_A\)</span>: a threshold moved for that group.</p>
 <div class="ask">
-<p>With <span class="math inline">\(b = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often?</p>
+<p>With <span class="math inline">\(\beta_A = -0.5\)</span>: is group <span class="math inline">\(1\)</span> selected more or less often?</p>
 </div>
 </section>
 <section id="who-is-selected-and-how-ill" class="slide level2" data-minutes="3">
@@ -307,7 +307,7 @@ Joshua Loftus
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">offset <span class="math inline">\(b\)</span></th>
+<th style="text-align: left;">offset <span class="math inline">\(\beta_A\)</span></th>
 <th style="text-align: left;">selected, group 0</th>
 <th style="text-align: left;">selected, group 1</th>
 <th style="text-align: left;">ratio</th>
@@ -343,7 +343,7 @@ Joshua Loftus
 </tbody>
 </table>
 <div class="leave">
-<p>With <span class="math inline">\(b &lt; 0\)</span>, group <span class="math inline">\(1\)</span> is selected with probability <span class="math inline">\(P(Y^\star &gt; t - b) &lt; P(Y^\star &gt; t)\)</span>, and its selected members have higher mean need than group <span class="math inline">\(0\)</span>’s.</p>
+<p>With <span class="math inline">\(\beta_A &lt; 0\)</span>, group <span class="math inline">\(1\)</span> is selected with probability <span class="math inline">\(P(Y^\star &gt; t - \beta_A) &lt; P(Y^\star &gt; t)\)</span>, and its selected members have higher mean need than group <span class="math inline">\(0\)</span>’s.</p>
 </div>
 <div class="retrieval">
 <p>The mean of a standard normal above <span class="math inline">\(z\)</span> is <span class="math inline">\(\phi(z)/(1 - \Phi(z))\)</span>. Where did that appear before?</p>
@@ -413,7 +413,7 @@ Joshua Loftus
 </tr>
 </tbody>
 </table>
-<p>A threshold <span class="math inline">\(t\)</span> trades the two errors. An offset <span class="math inline">\(b\)</span> in the measure moves the second error, being left out though ill, onto the group with the offset.</p>
+<p>A threshold <span class="math inline">\(t\)</span> trades the two errors. An offset <span class="math inline">\(\beta_A\)</span> in the measure moves the second error, being left out though ill, onto the group with the offset.</p>
 <div class="ask">
 <p>Who benefited from that choice being invisible? And would a more competent analyst have chosen differently?</p>
 </div>

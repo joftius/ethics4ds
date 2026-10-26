@@ -33,10 +33,10 @@ st313:
     # part 2, cost as a proxy for need: 21
     - {label: "the case: a commercial risk score, cost as the label, enrollment at the 97th percentile", minutes: 2, mode: exposition}
     - {label: "commitment: sketch conditions against risk percentile for two groups if cost tracked need equally; then the paper's numbers", minutes: 3, mode: production}
-    - {label: "Y = Y* + bA: an offset for one group is a threshold moved for that group; predict, for b = -0.5, who is selected and how ill", minutes: 2, mode: production, introduces: [CC-11], core: CC-11, results: [R20]}
-    - {label: "the selection table: shares, ratio, mean need of the selected; the same-score gap is exactly -b", minutes: 3, mode: exposition, results: [R20, R24]}
+    - {label: "Y = Y* + beta_A A: an offset for one group is a threshold moved for that group; predict, for beta_A = -0.5, who is selected and how ill", minutes: 2, mode: production, introduces: [CC-11], core: CC-11, results: [R20]}
+    - {label: "the selection table: shares, ratio, mean need of the selected; the same-score gap is exactly -beta_A", minutes: 3, mode: exposition, results: [R20, R24]}
     - {label: "relabeling: 17.7% to 46.5%; the three labels of Table 2; hands: which label, and who loses under it", minutes: 2, mode: production, results: [R20]}
-    - {label: "why b is not zero: lower spending at the same number of conditions; access; the choice of label", minutes: 2, mode: exposition, retrieves: [S2]}
+    - {label: "why beta_A is not zero: lower spending at the same number of conditions; access; the choice of label", minutes: 2, mode: exposition, retrieves: [S2]}
     - {label: "lens D: the threshold prices two errors, and who bears each; the standing question", minutes: 3, mode: production, spine_first_encounter: [S5]}
     - {label: "attenuation: the best guess of need from a noisy measure is the measure shrunk by lambda; derived in the class", minutes: 2, mode: exposition, introduces: [CC-12], core: CC-12, results: [R21, R23]}
     - {label: "noise and an omitted variable: the slope on a noisy measure is lambda(beta + gamma delta); care and health, visits reported with error and illness left out; pairs: can the slope be negative, can noise make it so; then the figure: too large, too small, wrong sign; lens F", minutes: 2, mode: production, retrieves: [S2], results: [R21, R27]}
@@ -190,7 +190,7 @@ if (requireNamespace("systemfonts", quietly = TRUE) &&
 }
 
 # The stylized version of the health-care case: need Y* standard normal in both groups,
-# Y = Y* + bA, selection above t, the 97th percentile when b = 0.
+# Y = Y* + beta_A A, selection above t, the 97th percentile when beta_A = 0.
 t97 <- qnorm(0.97)
 sel <- function(b) {                       # for group A = 1 with offset b, against A = 0
   z0 <- t97; z1 <- t97 - b
@@ -358,10 +358,10 @@ Obermeyer and colleagues (2019), Figure 1A and text: 4.8 against 3.8 conditions 
 ## A model: an offset for one group
 
 ::: {.notes}
-Need is the same in both groups; cost is need plus an offset b for group 1, negative here. Selecting above t on Y is selecting above t minus b on need, for that group only. An offset in the measure is a threshold moved for one group. Then everyone predicts, from the moved threshold, before the table: hands for "less often", and one reason.
+Need is the same in both groups; cost is need plus an offset beta_A for group 1, negative here. Selecting above t on Y is selecting above t minus beta_A on need, for that group only. An offset in the measure is a threshold moved for one group. Then everyone predicts, from the moved threshold, before the table: hands for "less often", and one reason.
 :::
 
-$Y^\star$ need, assumed here to be the same in both groups; $A = 1$ for one group, $0$ for the other; selected if $Y > t$, where $Y = Y^\star + bA$.
+$Y^\star$ need, assumed here to be the same in both groups; $A = 1$ for one group, $0$ for the other; selected if $Y > t$, where $Y = Y^\star + \beta_A A$.
 
 ```{r offset_densities, fig.height=1.9, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
 grid <- seq(-3.5, 3.5, length.out = 400)
@@ -373,16 +373,16 @@ ggplot(dens, aes(y, d, color = group)) +
   geom_vline(xintercept = t97, linetype = "dashed", color = cgray) +
   annotate("text", x = t97 + 0.1, y = 0.37, label = "t", hjust = 0, size = 7, fontface = "italic") +
   scale_color_manual(values = two, name = NULL) + scale_fill_manual(values = two, name = NULL) +
-  labs(x = "the measure Y, with b = -0.5 standard deviations", y = NULL) +
+  labs(x = expression(paste("the measure ", italic(Y), ", with ", beta[A], " = -0.5 standard deviations")), y = NULL) +
   theme(axis.text.y = element_blank(), panel.grid = element_blank(),
         legend.position = c(0.12, 0.85), legend.text = element_text(size = 15),
         axis.title.x = element_text(size = 15))
 ```
 
-For group $1$, $Y > t$ is $Y^\star > t - b$: a threshold moved for that group.
+For group $1$, $Y > t$ is $Y^\star > t - \beta_A$: a threshold moved for that group.
 
 ::: {.ask}
-With $b = -0.5$: is group $1$ selected more or less often?
+With $\beta_A = -0.5$: is group $1$ selected more or less often?
 :::
 
 ## Who is selected, and how ill {minutes="3"}
@@ -395,13 +395,13 @@ $Y^\star \sim N(0, 1)$ in both groups; $t$ is the 97th percentile.
 
 ```{r sel_table, results="asis"}
 tab <- bind_rows(sel(0), sel(-0.5), sel(-1))
-cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of selected in group 0 | mean need of selected in group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
+cat("| offset $\\beta_A$ | selected, group 0 | selected, group 1 | ratio | mean need of selected in group 0 | mean need of selected in group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
 for (i in seq_len(nrow(tab))) with(tab[i, ], cat(sprintf("| %s | %.1f%% | %.1f%% | %.2f | %.2f | %.2f |\n",
   format(b, nsmall = 1), 100 * share0, 100 * share1, ratio, need0, need1)))
 ```
 
 ::: {.leave}
-With $b < 0$, group $1$ is selected with probability $P(Y^\star > t - b) < P(Y^\star > t)$, and its selected members have higher mean need than group $0$'s.
+With $\beta_A < 0$, group $1$ is selected with probability $P(Y^\star > t - \beta_A) < P(Y^\star > t)$, and its selected members have higher mean need than group $0$'s.
 :::
 
 ::: {.retrieval}
@@ -457,7 +457,7 @@ The threshold makes two errors: selected though not ill enough to need it, and l
 | **ill enough to need the program** | right | left out |
 | **not** | a place used | right |
 
-A threshold $t$ trades the two errors. An offset $b$ in the measure moves the second error, being left out though ill, onto the group with the offset.
+A threshold $t$ trades the two errors. An offset $\beta_A$ in the measure moves the second error, being left out though ill, onto the group with the offset.
 
 ::: {.ask}
 Who benefited from that choice being invisible? And would a more competent analyst have chosen differently?

@@ -194,12 +194,12 @@ Joshua Loftus
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="slides_files/figure-revealjs/dag_birthweight-1.png" style="width:100.0%" alt="A causal graph in boxes: smoking and U (birth defects and other causes) both point into low birth weight, which is shaded gray; smoking, low birth weight and U all point into infant death; a dashed gold line joins smoking and U."></p>
+<p><img data-src="slides_files/figure-revealjs/dag_birthweight-1.png" style="width:100.0%" alt="Two causal graphs in boxes. Left, all babies: smoking and U (birth defects and other causes) both point into low birth weight, shaded gray; smoking, low birth weight and U all point into infant death. Right, babies born small: low birth weight is gone, smoking and U point into infant death, and a dashed gold line joins smoking and U."></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Among babies born small, smoking and <span class="math inline">\(U\)</span> are related, although they are not related among all babies.</p>
+<p>Among babies born small, birth weight is a constant, and smoking and <span class="math inline">\(U\)</span> are related; among all babies they are not.</p>
 </section>
 <section id="colliders" class="slide level2">
 <h2>Colliders</h2>
@@ -240,15 +240,15 @@ Joshua Loftus
 </section>
 <section id="with-noise" class="slide level2" data-minutes="5">
 <h2>With noise</h2>
-<p><span class="math inline">\(A \perp Y\)</span>, <span class="math inline">\(\; C = \alpha Y + bA + \varepsilon\)</span>, <span class="math inline">\(\; \varepsilon\)</span> independent of <span class="math inline">\((Y, A)\)</span>. Take out what <span class="math inline">\(C\)</span> predicts, with slopes <span class="math inline">\(\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span>, <span class="math inline">\(\gamma_A\)</span> likewise:</p>
+<p><span class="math inline">\(A \perp Y\)</span>, <span class="math inline">\(\; C = \beta_Y Y + \beta_A A + \varepsilon\)</span>, <span class="math inline">\(\; \varepsilon\)</span> independent of <span class="math inline">\((Y, A)\)</span>. Take out what <span class="math inline">\(C\)</span> predicts, with slopes <span class="math inline">\(\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span>, <span class="math inline">\(\gamma_A\)</span> likewise:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) &amp;= \operatorname{Cov}(Y, A) - \frac{\operatorname{Cov}(Y, C)\,\operatorname{Cov}(A, C)}{\operatorname{Var}(C)} \\
-&amp;= -\,\frac{\alpha\, b\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}
+&amp;= -\,\frac{\beta_Y\, \beta_A\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}
 \end{aligned}
 \]</span></p>
 <div class="leave">
-<p>Adjusting linearly for a common effect relates its causes, sign opposite to <span class="math inline">\(\alpha b\)</span> here (for jointly normal variables, the covariance given <span class="math inline">\(C\)</span>). Outside the linear model, sign and size depend on details the graph does not show (Elwert and Winship).</p>
+<p>Adjusting linearly for a common effect relates its causes, sign opposite to <span class="math inline">\(\beta_Y \beta_A\)</span> here (for jointly normal variables, the covariance given <span class="math inline">\(C\)</span>). Outside the linear model, sign and size depend on details the graph does not show (Elwert and Winship).</p>
 </div>
 <div class="source">
 <p>On the last sentence: Elwert and Winship (2014), “Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable,” <em>Annual Review of Sociology</em> 40, 31–53, doi:10.1146/annurev-soc-071913-043455.</p>
@@ -336,7 +336,7 @@ Joshua Loftus
 </div>
 <p>Leaving <span class="math inline">\(A\)</span> out: less accurate in both groups, and a gap between groups whose <span class="math inline">\(Y\)</span> has the same distribution.</p>
 <div class="source" style="color: #BCAF6F">
-<p>ST313 coursework 2 (2024) and its worked solution: <span class="math inline">\(A \to X \leftarrow Y\)</span>, <code>betaY = 1</code>, <code>betaA = 2</code> (in the formula before, <span class="math inline">\(\alpha = 1\)</span> and <span class="math inline">\(b = 2\)</span>).</p>
+<p>ST313 coursework 2 (2024) and its worked solution: <span class="math inline">\(A \to X \leftarrow Y\)</span>, <code>betaY = 1</code>, <code>betaA = 2</code>: <span class="math inline">\(\beta_Y = 1\)</span> and <span class="math inline">\(\beta_A = 2\)</span> in the formula before.</p>
 </div>
 </section>
 <section id="the-picture" class="slide level2">

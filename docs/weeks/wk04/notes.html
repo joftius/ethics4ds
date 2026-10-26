@@ -248,7 +248,7 @@ window.Quarto = {
 <p><strong>Important note:</strong> this week’s examples include a commercial product and two platforms. Where I say what a company did, the source is the paper or the company’s own statement, linked. Where I say what it should have done, the view is mine, and a well-argued position I think is wrong can still get full marks.</p>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>A score is a number computed about a person and used to decide something about them. The number measures one thing, <span class="math inline">\(Y\)</span>, and is taken to stand for another, <span class="math inline">\(Y^\star\)</span>. The two come apart in three ways: noise, an offset that differs between groups, and a response by the people being measured. A health system’s risk score measured next year’s medical cost and was taken to stand for how ill a patient was; at the same cost, Black patients were sicker, so the score flagged fewer of them for extra care, and the ones it did flag were sicker than the White patients it flagged. In a model with an offset <span class="math inline">\(b\)</span> for one group, selecting above a threshold <span class="math inline">\(t\)</span> on the measure is selecting above <span class="math inline">\(t - b\)</span> on the thing measured, for that group only.</p>
+<p>A score is a number computed about a person and used to decide something about them. The number measures one thing, <span class="math inline">\(Y\)</span>, and is taken to stand for another, <span class="math inline">\(Y^\star\)</span>. The two come apart in three ways: noise, an offset that differs between groups, and a response by the people being measured. A health system’s risk score measured next year’s medical cost and was taken to stand for how ill a patient was; at the same cost, Black patients were sicker, so the score flagged fewer of them for extra care, and the ones it did flag were sicker than the White patients it flagged. In a model with an offset <span class="math inline">\(\beta_A\)</span> for one group, selecting above a threshold <span class="math inline">\(t\)</span> on the measure is selecting above <span class="math inline">\(t - \beta_A\)</span> on the thing measured, for that group only.</p>
 <p>Once a score is rewarded, the people and systems it is applied to act on the score. That changes the equation for <span class="math inline">\(Y\)</span>, an intervention, and what <span class="math inline">\(Y\)</span> says about <span class="math inline">\(Y^\star\)</span> afterward is not what it said before. Strategic classification and performative prediction are two formal versions of this. Reinforcement learning says the same thing in other letters: an agent is given a reward <span class="math inline">\(R\)</span>, and the good we care about is a utility <span class="math inline">\(U\)</span>.</p>
 </section>
 <section id="scores" class="level2">
@@ -310,7 +310,7 @@ window.Quarto = {
 <p>The two differ by three routes, and the rest of these notes take them in turn.</p>
 <ol type="1">
 <li><strong>Noise.</strong> <span class="math inline">\(Y = Y^\star + \varepsilon\)</span>, with <span class="math inline">\(\varepsilon\)</span> unrelated to anything else. A noisy measure is still right on average, but a slope on it is flattened toward zero.</li>
-<li><strong>An offset that differs between groups.</strong> <span class="math inline">\(Y = Y^\star + bA\)</span>, with <span class="math inline">\(A\)</span> a group and <span class="math inline">\(b \ne 0\)</span>. The measure is right on average for one group and off by <span class="math inline">\(b\)</span> for the other, and selecting on it selects the groups differently.</li>
+<li><strong>An offset that differs between groups.</strong> <span class="math inline">\(Y = Y^\star + \beta_A A\)</span>, with <span class="math inline">\(A\)</span> a group and <span class="math inline">\(\beta_A \ne 0\)</span>. The measure is right on average for one group and off by <span class="math inline">\(\beta_A\)</span> for the other, and selecting on it selects the groups differently.</li>
 <li><strong>A response to being measured.</strong> Once <span class="math inline">\(Y\)</span> is rewarded, the people and systems it is applied to act on <span class="math inline">\(Y\)</span> itself. The equation for <span class="math inline">\(Y\)</span> changes.</li>
 </ol>
 <p>The first lens asks about every row of the table: what are we optimizing or predicting? The answer “cost” or “views” is correct and incomplete. The next question is what the number was taken to stand for, and who decided that it could.</p>
@@ -339,8 +339,8 @@ window.Quarto = {
 <section id="a-model-an-offset-for-one-group" class="level3">
 <h3 class="anchored" data-anchor-id="a-model-an-offset-for-one-group">A model: an offset for one group</h3>
 <p>Take need <span class="math inline">\(Y^\star\)</span> to have the same distribution in both groups (an assumption, not a finding: see below), and let <span class="math inline">\(A = 1\)</span> for one group and <span class="math inline">\(0\)</span> for the other. The measure is <span class="math display">\[
-Y = Y^\star + bA ,
-\]</span> and the program selects everyone with <span class="math inline">\(Y &gt; t\)</span>. For group <span class="math inline">\(0\)</span> that is <span class="math inline">\(Y^\star &gt; t\)</span>. For group <span class="math inline">\(1\)</span> it is <span class="math inline">\(Y^\star + b &gt; t\)</span>, or <span class="math inline">\(Y^\star &gt; t - b\)</span>. <strong>An offset of <span class="math inline">\(b\)</span> in the measure is a threshold moved by <span class="math inline">\(-b\)</span> for that group.</strong> With <span class="math inline">\(b &lt; 0\)</span>, as in the paper, group <span class="math inline">\(1\)</span> has to be iller to be selected.</p>
+Y = Y^\star + \beta_A A ,
+\]</span> and the program selects everyone with <span class="math inline">\(Y &gt; t\)</span>. For group <span class="math inline">\(0\)</span> that is <span class="math inline">\(Y^\star &gt; t\)</span>. For group <span class="math inline">\(1\)</span> it is <span class="math inline">\(Y^\star + \beta_A &gt; t\)</span>, or <span class="math inline">\(Y^\star &gt; t - \beta_A\)</span>. <strong>An offset of <span class="math inline">\(\beta_A\)</span> in the measure is a threshold moved by <span class="math inline">\(-\beta_A\)</span> for that group.</strong> With <span class="math inline">\(\beta_A &lt; 0\)</span>, as in the paper, group <span class="math inline">\(1\)</span> has to be iller to be selected.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -351,7 +351,7 @@ Y = Y^\star + bA ,
 </div>
 </div>
 <p>Two things follow, and both are in the paper’s data.</p>
-<p><strong>Who is selected.</strong> Group <span class="math inline">\(1\)</span> is selected with probability <span class="math inline">\(P(Y^\star &gt; t - b)\)</span> and group <span class="math inline">\(0\)</span> with probability <span class="math inline">\(P(Y^\star &gt; t)\)</span>. With <span class="math inline">\(Y^\star \sim N(0, 1)\)</span> and <span class="math inline">\(t\)</span> the 97th percentile, <span class="math inline">\(t = 1.88\)</span>:</p>
+<p><strong>Who is selected.</strong> Group <span class="math inline">\(1\)</span> is selected with probability <span class="math inline">\(P(Y^\star &gt; t - \beta_A)\)</span> and group <span class="math inline">\(0\)</span> with probability <span class="math inline">\(P(Y^\star &gt; t)\)</span>. With <span class="math inline">\(Y^\star \sim N(0, 1)\)</span> and <span class="math inline">\(t\)</span> the 97th percentile, <span class="math inline">\(t = 1.88\)</span>:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 16%">
@@ -363,7 +363,7 @@ Y = Y^\star + bA ,
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">offset <span class="math inline">\(b\)</span></th>
+<th style="text-align: left;">offset <span class="math inline">\(\beta_A\)</span></th>
 <th style="text-align: left;">selected, group 0</th>
 <th style="text-align: left;">selected, group 1</th>
 <th style="text-align: left;">ratio</th>
@@ -401,8 +401,8 @@ Y = Y^\star + bA ,
 <p>An offset of half a standard deviation cuts group <span class="math inline">\(1\)</span>’s chance of selection to less than a third of group <span class="math inline">\(0\)</span>’s. In percentage points the gap is small, 3.0 against 0.9; at the median the same offset would move the shares from 50% to 31%, a gap of 19 points but a ratio of only 0.62. A threshold in the tail turns a small offset into a large proportional disparity, because the normal density falls quickly there.</p>
 <p><strong>How ill the selected are.</strong> The mean of a standard normal variable given that it exceeds <span class="math inline">\(z\)</span> is <span class="math display">\[
 E[Y^\star \mid Y^\star &gt; z] = \frac{\phi(z)}{1 - \Phi(z)} ,
-\]</span> the inverse Mills ratio from week 1, where it gave the expected size of an estimate that survived the significance filter. Here it gives the mean need of the selected in each group: <span class="math inline">\(z = t\)</span> for group <span class="math inline">\(0\)</span> and <span class="math inline">\(z = t - b\)</span> for group <span class="math inline">\(1\)</span>. Since the ratio increases in <span class="math inline">\(z\)</span>, the selected members of group <span class="math inline">\(1\)</span> are iller on average than the selected members of group <span class="math inline">\(0\)</span>, by about half a standard deviation in the second row of the table.</p>
-<p>The paper’s Figure 1A compares a different quantity: need at a given score, not above a threshold. In this model that comparison is simpler. Two patients with the same measure <span class="math inline">\(Y = y\)</span> have needs <span class="math inline">\(y\)</span> and <span class="math inline">\(y - b\)</span>, so at every score group <span class="math inline">\(1\)</span> is iller by <span class="math inline">\(-b\)</span>, and the gap does not depend on where the threshold is. The table’s comparison, among the selected, adds the tail effect on top: group <span class="math inline">\(1\)</span>’s selected members are drawn from further out in the need distribution.</p>
+\]</span> the inverse Mills ratio from week 1, where it gave the expected size of an estimate that survived the significance filter. Here it gives the mean need of the selected in each group: <span class="math inline">\(z = t\)</span> for group <span class="math inline">\(0\)</span> and <span class="math inline">\(z = t - \beta_A\)</span> for group <span class="math inline">\(1\)</span>. Since the ratio increases in <span class="math inline">\(z\)</span>, the selected members of group <span class="math inline">\(1\)</span> are iller on average than the selected members of group <span class="math inline">\(0\)</span>, by about half a standard deviation in the second row of the table.</p>
+<p>The paper’s Figure 1A compares a different quantity: need at a given score, not above a threshold. In this model that comparison is simpler. Two patients with the same measure <span class="math inline">\(Y = y\)</span> have needs <span class="math inline">\(y\)</span> and <span class="math inline">\(y - \beta_A\)</span>, so at every score group <span class="math inline">\(1\)</span> is iller by <span class="math inline">\(-\beta_A\)</span>, and the gap does not depend on where the threshold is. The table’s comparison, among the selected, adds the tail effect on top: group <span class="math inline">\(1\)</span>’s selected members are drawn from further out in the need distribution.</p>
 <p>This is a bias, and more data does not touch it. A larger sample estimates the offset more precisely and selects the same people.</p>
 <p>The model assumes need has the same distribution in both groups. In the paper’s sample it does not (Black patients were on average sicker), which is why the paper’s shares are what they are rather than the table’s; the direction of both effects is the same. The model also assumes the offset is the same for everyone in group <span class="math inline">\(1\)</span>, when in the paper it comes from barriers that vary from person to person. Read the table as a mechanism, not as the hospital’s numbers.</p>
 </section>
@@ -511,11 +511,6 @@ E[Y^\star \mid Y &gt; t] = E\big[E[Y^\star \mid Y] \,\big|\, Y &gt; t\big]
 </div>
 <p>Amodei and colleagues (2016) use a cleaning robot as a running example. In these letters, the state is what the robot’s camera shows, the actions are where to move and whether to clean, and the utility is a clean room. If the reward is for not seeing any mess, the robot can earn it by closing its eyes, or by covering the mess with something it cannot see through.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in geom_rect(data = room, aes(xmin = 0, xmax = 10, ymin = 0, ymax = 8), : All aesthetics have length 1, but the data has 3 rows.
-i Please consider using `annotate()` or provide this layer with data containing
-  a single row.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -587,10 +582,6 @@ Y = Y^\star + \varepsilon ,
 Y = Y^\star + \varepsilon + g .
 \]</span></p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The `label.size` argument of `geom_label()` is deprecated as of ggplot2 3.5.0.
-i Please use the `linewidth` argument instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

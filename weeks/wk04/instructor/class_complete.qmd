@@ -107,8 +107,8 @@ minutes, and open them in order.
 
 The lecture's model: need $Y^\star \sim N(0, 1)$ in both groups,
 $A = 1$ for one group and $A = 0$ for the other, the measure
-$Y = Y^\star + bA$, and a person is selected if $Y > t$. Now $t$ is
-group 0's 90th percentile, $t = 1.28$, and $b = -0.5$. Use
+$Y = Y^\star + \beta_A A$, and a person is selected if $Y > t$. Now $t$ is
+group 0's 90th percentile, $t = 1.28$, and $\beta_A = -0.5$. Use
 $\Phi(1.28) = 0.900$, $\Phi(1.78) = 0.9625$, $\phi(1.28) = 0.1758$ and
 $\phi(1.78) = 0.0818$, where $\Phi$ is the standard normal distribution
 function and $\phi$ its density.
@@ -124,7 +124,7 @@ more need does the person from group 1 have?
 (d) Which group's selected members are sicker? Say why in one sentence.
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-For group 1, $Y > t$ is the same event as $Y^\star > t - b$.
+For group 1, $Y > t$ is the same event as $Y^\star > t - \beta_A$.
 :::
 
 ::: {.callout-tip collapse="true" title="Hint 2"}
@@ -139,13 +139,13 @@ group 1's chance of selection to under two fifths of group 0's.
 
 (b) Group 0: $0.1758/0.10 = 1.76$. Group 1: $0.0818/0.0375 = 2.18$.
 
-(c) $Y^\star = Y - bA$, so the person from group 0 has need $y$ and the
+(c) $Y^\star = Y - \beta_A A$, so the person from group 0 has need $y$ and the
 person from group 1 has need $y + 0.5$: half a standard deviation more,
 whatever $y$ is. This is the comparison of the paper's Figure 1A, where
 at the same score Black patients had more active chronic conditions
 (Obermeyer and colleagues 2019).
 
-(d) Group 1's: its threshold on need is $t - b = 1.78$, not $1.28$, so
+(d) Group 1's: its threshold on need is $t - \beta_A = 1.78$, not $1.28$, so
 only its sicker members clear it.
 :::
 
@@ -245,8 +245,8 @@ The share of all patients selected is the average of the two groups' shares.
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
-(a) $\tfrac{1}{2}\,[1 - \Phi(t)] + \tfrac{1}{2}\,[1 - \Phi(t - b)] = 0.10$
-with $b = -0.5$. At $t = 1.28$ only
+(a) $\tfrac{1}{2}\,[1 - \Phi(t)] + \tfrac{1}{2}\,[1 - \Phi(t - \beta_A)] = 0.10$
+with $\beta_A = -0.5$. At $t = 1.28$ only
 $\tfrac{1}{2}(0.10 + 0.0375) = 0.069$ of patients are selected, so to
 fill the places the threshold must fall below 1.28.
 
