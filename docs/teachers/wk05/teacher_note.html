@@ -2373,19 +2373,19 @@ window.Quarto = {
 <td>Coding: the mean of <span class="math inline">\(Y\)</span> four ways under three mechanisms, with feedback</td>
 <td style="text-align: right;">22</td>
 <td>Keep</td>
-<td>Steps 1 to 3; show step 4’s <code>pool()</code> output from the complete sheet</td>
+<td>Steps 1 to 3; show step 4’s <code>pool()</code> output from the complete sheet; ask step 5 to the room in one minute</td>
 </tr>
 <tr class="odd">
 <td>Problem 2: selection on a collider with numbers, with feedback</td>
 <td style="text-align: right;">12</td>
 <td>Keep</td>
-<td>(a) and (c); say (e): a higher bar for the feeder school flips the sign, so the graph gives the association and the rule gives its direction</td>
+<td>(a) and (c); say (d): a higher bar for the feeder school flips the sign, so the graph gives the association and the rule gives its direction</td>
 </tr>
 <tr class="even">
 <td>Discussion 3: the bank’s new credit model, evaluated on the approved</td>
 <td style="text-align: right;">6</td>
 <td>Rush; cut second</td>
-<td>Question 1 with hands, then question 2</td>
+<td>Question 1 with hands, then question 3</td>
 </tr>
 <tr class="odd">
 <td>The task for next time</td>
@@ -2405,18 +2405,20 @@ window.Quarto = {
 <li>Discussion 2 is the break between problem 1 and the coding. The coding needs one laptop with R per pair and the <code>mice</code> package; the starter code runs in about two seconds, the <code>mice()</code> calls included. If <code>mice</code> will not install for a pair, they do steps 1 to 3 without the last row of the table and read the row from a neighbor.</li>
 <li>Notation as in the lecture: <span class="math inline">\(C = 1\)</span> means the row is observed (the lecture explains why the collider’s letter is reused), <span class="math inline">\(e(X) =
 P(C = 1 \mid X)\)</span>, and the collider’s coefficients are <span class="math inline">\(\beta_Y\)</span> and <span class="math inline">\(\beta_A\)</span>.</li>
+<li>Every item ends with a question about who the mistake falls on, who gains from it going unnoticed, or who the choice could be justified to. Those questions are the point of the week, not a coda. A group that has the number and skips the question has not finished; ask it. The answers in the sheet are directions, and the room may have better ones.</li>
 </ul>
 <p>What the class adds to the lecture</p>
 <ul>
 <li>The lecture named five ways to fill a hole and explained none. The coding is where multiple imputation is taught: what a completion is (a draw, not a prediction), why a single fill-in’s standard error is too small, Rubin’s rule as <code>ubar</code>, <code>b</code> and <code>t</code> from <code>pool()</code>, and the limitation, that under MNAR every method in the table is wrong, multiple imputation included, because all of them use the recorded <span class="math inline">\(X\)</span> to say what the missing <span class="math inline">\(Y\)</span> are like. Mean imputation is in the table as the thing people do; regression imputation is there to show that getting the mean right is not the same as getting its uncertainty right.</li>
-<li>Problem 2 adds the point the lecture’s notes make after the noisy collider: the graph says an association appears among the admitted, and the admission rule says which way. Part (e) asks for a rule that flips it.</li>
-<li>Discussion 3 is the lecture’s selective-labels slide on a case without judges: a bank with one policy has no lenient decision-maker to compare with, and the honest fix, approving some rejected applicants at random, costs money.</li>
+<li>Problem 2 adds the point the lecture’s notes make after the noisy collider: the graph says an association appears among the admitted, and the admission rule says which way. Part (d) asks for a rule that flips it.</li>
+<li>Discussion 3 is the lecture’s selective-labels slide on a case without judges: a bank with one policy has no lenient decision-maker to compare with, and the honest fix, approving some rejected applicants at random, costs money. Question 3 asks who pays for it and whether it is justified; the point to land is that the two costs are not symmetric, one visible and on the bank, one invisible and on the people wrongly rejected.</li>
+<li>The coding’s step 5 (who should choose the imputation model when the survey sets benefit levels) is the lecture’s closing line, that an imputation model is an assumption about the unseen, asked about people who will feel the answer.</li>
 </ul>
 <p>What students should see</p>
 <ul>
 <li>Problem 1(b): true mean 50, respondents’ mean 40, <span class="math inline">\(\operatorname{Cov}(Y, C) = -6\)</span>, <span class="math inline">\(P(C = 1) = 0.6\)</span>. (c): 45 juniors at weight <span class="math inline">\(1/0.9\)</span> and 15 seniors at <span class="math inline">\(1/0.3\)</span>, weighted mean 50.</li>
 <li>Coding: with <span class="math inline">\(n = 2000\)</span>, about half recorded under each mechanism. Under MCAR all four estimates within about <span class="math inline">\(0.05\)</span> of this sample’s full mean; mean and regression imputation report standard errors near <span class="math inline">\(0.02\)</span> against <span class="math inline">\(0.04\)</span> for complete cases and multiple imputation. Under MAR, complete cases and mean imputation near <span class="math inline">\(0.45\)</span> (the truth is <span class="math inline">\(1\)</span>); regression imputation and multiple imputation near <span class="math inline">\(0.9\)</span> to <span class="math inline">\(1\)</span>, the first with a standard error near <span class="math inline">\(0.026\)</span>, the second near <span class="math inline">\(0.04\)</span>. Under MNAR, complete cases and mean imputation near <span class="math inline">\(0.1\)</span>, regression and multiple imputation near <span class="math inline">\(0.4\)</span>. In step 4, <code>t</code> equals <code>ubar + 1.05 b</code> to rounding.</li>
-<li>Problem 2(a): <span class="math inline">\(7.5\)</span> and <span class="math inline">\(8.5\)</span>. (d): <span class="math inline">\(5.5\)</span> and <span class="math inline">\(8.5\)</span>. (e): any rule with the higher bar for the feeder school, for instance <span class="math inline">\(9\)</span> against <span class="math inline">\(7\)</span>, giving <span class="math inline">\(9.5\)</span> against <span class="math inline">\(8.5\)</span>.</li>
+<li>Problem 2(a): <span class="math inline">\(7.5\)</span> and <span class="math inline">\(8.5\)</span>; among applicants, <span class="math inline">\(5.5\)</span> in both groups. (d): any rule with the higher bar for the feeder school, for instance <span class="math inline">\(9\)</span> against <span class="math inline">\(7\)</span>, giving <span class="math inline">\(9.5\)</span> against <span class="math inline">\(8.5\)</span>.</li>
 </ul>
 <p>Where they get stuck</p>
 <ul>
@@ -2427,6 +2429,7 @@ P(C = 1 \mid X)\)</span>, and the collider’s coefficients are <span class="mat
 <li>Coding step 3: concluding that multiple imputation handles MNAR because its estimate moved toward <span class="math inline">\(1\)</span> (it moved from <span class="math inline">\(0.1\)</span> to <span class="math inline">\(0.4\)</span>). It moved because <span class="math inline">\(X\)</span> carries some information about <span class="math inline">\(Y\)</span>; it is still wrong by <span class="math inline">\(0.6\)</span>.</li>
 <li>Problem 2(c): saying “selection bias” and stopping. Ask them to state what the means are among applicants (<span class="math inline">\(5.5\)</span> in both groups) and what the rule did.</li>
 <li>Discussion 3: treating “evaluate on the data you have” as neutral. Ask whose outcomes the data have.</li>
+<li>The “who pays” questions: answering “society” or “everyone.” Ask for people who could be named: the next feeder-school applicant, the staff in the region that answered less, the applicant the old model rejected who would have repaid.</li>
 </ul>
 </section>
 <section id="references" class="level2">

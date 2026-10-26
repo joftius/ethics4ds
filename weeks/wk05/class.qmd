@@ -30,6 +30,15 @@ Discussions are in groups of three or four, then with the room. Each
 problem, and the coding, is gone through as soon as the room has tried
 it.
 
+Every item is about one decision: who is in the data, what is recorded
+about them, and what to do about the people and the columns that are
+not there. Someone made that decision, usually not the people left
+out, and every way of handling what is missing is an assumption about
+people nobody asked. So each item ends by asking who the mistake falls
+on, who gains from it going unnoticed, or who the choice could be
+justified to. The arithmetic is how you earn an answer to that
+question; it is not the answer.
+
 Notation as in the lecture: $C = 1$ if a person's $Y$ is recorded and
 $C = 0$ if it is missing; $e(X) = P(C = 1 \mid X)$; $A$ is a group.
 
@@ -56,8 +65,9 @@ well at the interview? What fraction of those without a referral?
 Which node do the company's records condition on?
 
 (c) The company notices that referred hires did worse at interview than
-other hires, and concludes that referrals attract weaker candidates.
-What is wrong with the conclusion?
+other hires, concludes that referrals attract weaker candidates, and
+raises the interview bar for referred applicants. What is wrong with
+the conclusion, and who pays for it?
 
 (d) Redo (a) when a fraction $q$ of applicants do well at the interview,
 whatever $q$ is. Does the gap between the two fractions depend on $q$?
@@ -71,6 +81,10 @@ Among the applicants with a referral, the hiring rule kept everyone.
 :::
 
 ### Exercise 2. The unaware model, with a smaller coaching effect
+
+Leaving a protected characteristic out of a model is often done in the
+name of fairness. This exercise computes what it buys, in the lecture's
+model with a smaller coaching effect.
 
 Job performance $Y \sim N(0, 1)$, larger is better. A group $A \in
 \{0, 1\}$, half the population each, independent of $Y$. A test score
@@ -91,13 +105,9 @@ coefficient on $A$, and the average prediction in each group.
 accurate, and which predicts a bigger gap between the groups?
 
 (d) Someone reads the coefficient on $A$ in (b) as the effect of group
-membership on job performance. What is wrong with that reading?
-
-(e) (harder) Replace the coaching effect by $\beta_A > 0$, so
-$X = Y + \beta_A A + \varepsilon$. Show that the gap between the unaware
-model's average predictions for the two groups is
-$\beta_A/(2 + \beta_A^2/4)$. For which $\beta_A$ is it largest, and why
-does it shrink again for large $\beta_A$?
+membership on job performance. What is wrong with that reading? Which
+group does each of the two mistakes, the unaware model's gap and this
+reading, fall on?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 The slope of a simple regression is covariance over variance, and the
@@ -127,6 +137,12 @@ weighted mean and compare it with the mean of the recorded incomes,
 estimate it from the data, and what the estimate uses that the
 complete-case mean throws away.
 
+(d) The weighted mean assumes that the old people who did not answer
+earn what the old people who did answer earn. The complete-case mean
+assumes something too: say what. Which assumption would you rather
+defend to the people who did not answer, and what would it take to
+check either?
+
 ::: {.callout-tip collapse="true" title="Hint 1"}
 Condition on $X$ first: $E[CY/e(X)] = E\big[E[CY \mid X]/e(X)\big]$.
 :::
@@ -134,80 +150,6 @@ Condition on $X$ first: $E[CY/e(X)] = E\big[E[CY \mid X]/e(X)\big]$.
 ::: {.callout-tip collapse="true" title="Hint 2"}
 Under MAR, $C$ and $Y$ are independent given $X$, so
 $E[CY \mid X] = E[C \mid X]\,E[Y \mid X]$.
-:::
-
-### Exercise 4. When the complete cases are enough (harder)
-
-$Y = 1 + 2X + \varepsilon$ with $E[\varepsilon \mid X] = 0$, and $X$ is
-always recorded.
-
-(a) Suppose $Y$ is missing with a probability that depends on $X$ only.
-Show that $E[Y \mid X = x, C = 1] = 1 + 2x$. What does that imply for
-the complete-case regression of $Y$ on $X$? What does it imply for the
-complete-case mean of $Y$?
-
-(b) Now suppose $Y$ is recorded only when $Y \le 3$. Explain, without
-computing anything, why the complete-case regression line is flatter
-than $1 + 2x$.
-
-(c) Now suppose $Y$ is recorded only when $|\varepsilon| \le 1$:
-the points far above and far below the line are the ones that go
-missing. Is this MAR or MNAR? Does the complete-case line survive?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For (a): given $X = x$, does knowing $C = 1$ change the distribution of
-$Y$?
-:::
-
-::: {.callout-tip collapse="true" title="Hint 2"}
-For (c): what is $E[\varepsilon \mid X = x, |\varepsilon| \le 1]$ when
-the distribution of $\varepsilon$ given $X$ is symmetric about $0$?
-:::
-
-### Exercise 5. The file drawer as missing data (harder)
-
-A study's $z$-value is $Z \sim N(\theta, 1)$, and it is published
-($C = 1$) only if $Z > c$. Use
-$E[Z \mid C = 1] - E[Z] = \operatorname{Cov}(Z, C)/P(C = 1)$, with
-$\int_a^\infty u\,\phi(u)\,du = \phi(a)$, to show that
-$$
-E[Z \mid Z > c] = \theta + \frac{\phi(c - \theta)}{1 - \Phi(c - \theta)} ,
-$$
-the significance filter of week 1. Which of MCAR, MAR and MNAR is the
-file drawer?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-$\operatorname{Cov}(Z, C) = E[(Z - \theta)\,C]$, since $E[C]\,E[Z - \theta] = 0$.
-:::
-
-### Exercise 6. A row without $A$ (harder)
-
-The lecture's model: $Y \sim N(0, 1)$, $A \in \{0, 1\}$ with
-probability $1/2$ each, independent of $Y$, and $X = Y + 2A +
-\varepsilon$ with $\varepsilon \sim N(0, 1)$ independent of both. For
-some people $A$ was never recorded, and you have to predict their $Y$
-from $X$ alone.
-
-(a) Show that given $A = a$, $X \sim N(2a, 2)$.
-
-(b) Show that $p(x) = P(A = 1 \mid X = x) = 1/(1 + e^{1 - x})$.
-
-(c) Show that $E[Y \mid X] = X/2 - p(X)$, and that no prediction from
-$X$ alone has a smaller mean squared error.
-
-(d) The lecture's table had a gap of about $0.65$ between the groups'
-mean predictions for rows without $A$, whatever was done with the rows
-that had it. Say in two sentences why no method that fills $A$ in from
-$X$ can remove that gap.
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For (b), Bayes' rule with two normal densities: the log odds are
-$\log \phi\big((x - 2)/\sqrt2\big) - \log \phi\big(x/\sqrt2\big)$.
-:::
-
-::: {.callout-tip collapse="true" title="Hint 2"}
-For (c), $E[Y \mid X, A] = (X - 2A)/2$ from the lecture's full model,
-then average over $A$ given $X$.
 :::
 
 ## In class
@@ -221,35 +163,31 @@ university's record of its graduates' salaries; the crimes recorded by
 the police; a dating app's record of which matches led to a date.
 
 1. Who is missing, and which way does their absence push the result?
+   Who is better off for that?
 2. Relative to what the dataset records about people, is the
    missingness closer to completely at random, at random, or not at
    random? What would the dataset have to record to make it "at
    random"?
-3. Mimi Onuoha's *Library of Missing Datasets* (2016) is a filing
-   cabinet of folders for datasets that one would expect to exist and
-   that nobody has collected: "People excluded from public housing
-   because of criminal records," "Total number of local and state
-   police departments using stingray phone trackers." Every folder is
-   empty. Name one dataset that should exist and does not. Who would
-   have had to collect it, and why have they not?
-
-Every group's examples go on the screen.
+3. Name one dataset that should exist and does not. Who would have had
+   to collect it, and why have they not?
 
 ### Problem 1. Why is it missing, and which way?
 
 (a) For each setting, say whether the missing values are MCAR, MAR or
 MNAR, and whether the mean of the recorded values is too high, too
 low, or neither, compared with the mean for everyone. Say which clause
-of the setting your answer depends on.
+of the setting your answer depends on, and who is worse off if the
+recorded mean is taken at face value.
 
   - A fitness watch records resting heart rate only on nights it is
     worn. People take it off on nights they feel unwell, and nothing
     else about them is recorded.
   - Exam marks are missing for students whose exam scripts were lost
     in the post; the post lost one sack at random.
-  - A survey asks about weekly hours worked. Response is lower in one
-    region than another, the region is recorded, and within each region
-    whether someone responds is unrelated to their hours.
+  - A survey asks about weekly hours worked, and the overall mean will
+    set one staffing standard for both regions. Response is lower in
+    one region than another, the region is recorded, and within each
+    region whether someone responds is unrelated to their hours.
 
 (b) A company surveys its staff about pay. Half are junior, with mean
 salary 30 (thousands), and half are senior, with mean salary 70.
@@ -266,7 +204,7 @@ each get?)
 
 (d) Now suppose that within each grade the better-paid staff respond
 less often. Is the weighted mean from (c) still right? Which way is it
-wrong, and what would fix it?
+wrong, and what would fix it? Who would have to agree to the fix?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 For (b): $E[YC]$ is the average over everyone of salary times the
@@ -348,21 +286,19 @@ estimate <- function(C) {
    estimates) and `t` (the total). Check that
    $t = \bar u + (1 + 1/m)\,b$. Which of the three is what a single
    fill-in throws away?
-5. At home: coverage. Repeat the MAR simulation 100 times with
-   $n = 200$, and for each compute a 95% interval for the mean of $Y$
-   by complete cases, by regression imputation treated as observed,
-   and by multiple imputation (`summary(pool(...), conf.int = TRUE)`).
-   How often does each interval contain $1$?
+5. Every row of the MNAR column is wrong, multiple imputation included,
+   because every method assumed that the missing $Y$ are like the
+   recorded $Y$ with the same $X$. An imputation model is an assumption
+   about people who are not in the data. A statistics office imputes
+   missing incomes in a survey that is used to set benefit levels. Who
+   should choose the model, what should be published about it, and who
+   would read it?
 6. At home: real data. R's `airquality` (New York, May to September
    1973) has 37 missing ozone readings out of 153. Tabulate the share
    missing by month. Estimate the mean ozone level by complete cases,
    mean imputation, and multiple imputation using `Temp`, `Wind` and
    `Month`. What does the multiple imputation assume about the days
    with missing ozone that no check on the data can confirm?
-7. At home: the lecture's three choices. Simulate the test-score data
-   with `A` recorded for half the rows, and compare dropping the
-   column, dropping the rows and filling `A` in with `mice` (method
-   `"logreg"` for `A`), on rows with `A` and rows without.
 
 ### Problem 2. Selection on a collider, with numbers
 
@@ -379,14 +315,13 @@ feeder school, and of those not from one?
 and mark what the records condition on.
 
 (c) An analyst concludes from the records that feeder schools produce
-weaker students. What is wrong?
+weaker students, and the university considers withdrawing the lower
+pass mark. What is wrong, and who would pay for the mistake?
 
-(d) Suppose the rule were instead: a pass mark of 7 for everyone, and
-every feeder-school applicant admitted whatever their grade. Redo (a).
-
-(e) Write down an admission rule under which, among the admitted,
+(d) Write down an admission rule under which, among the admitted,
 feeder-school students have the *higher* mean grade. What does this
-say about what the graph alone tells you?
+say about what the graph alone tells you, and about what the records
+are a record of?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 Among the admitted, which grades can a feeder-school student have, and
@@ -394,7 +329,7 @@ which can a student from elsewhere have?
 :::
 
 ::: {.callout-tip collapse="true" title="Hint 2"}
-For (e), make the feeder school's bar the higher one.
+For (d), make the feeder school's bar the higher one.
 :::
 
 ### Discussion 3: a label that exists only where a decision allowed it
@@ -407,37 +342,18 @@ if it approved them.
 1. Who is missing from the evaluation, and by what mechanism? Which
    way are the new model's measured error rates likely to be wrong?
 2. Who benefits from the problem going unnoticed?
-3. The same questions, briefly, for one of: a hiring algorithm
-   evaluated on past hires; a treatment rule evaluated on the patients
-   a doctor chose to treat; start-up investors judged on the firms they
-   funded.
-
-## If there is time
-
-- A statistics office imputes missing incomes in a survey that is used
-  to set benefit levels. Who should choose the imputation model? What
-  should be published about it, and who would read it?
-- "Correlation is not causation" is true and important. Can it be
-  misused? The birth weight paradox is one place to start: which
-  comparison there is a correlation, and which causal claim was being
-  made from it?
+3. The honest fix is to approve some applicants the current model
+   rejects, chosen at random, and record what happens. Who pays for
+   that, and is it justified?
 
 ## For next time
 
 Bring one rule or score that sorts people into two groups: admit or
 reject, flag or clear, treat or not. Write down the two ways it can be
-wrong, and who pays for each. One sentence each. Every group's examples
-will go on the screen.
+wrong, and who pays for each. One sentence each.
 
 ## References
 
-- D'Ignazio, Catherine and Lauren F. Klein, *Data Feminism* (MIT Press,
-  2020), chapter 1, on Mimi Onuoha's *The Library of Missing Datasets*
-  (2016), <https://data-feminism.mitpress.mit.edu/pub/vi8obxh7>.
-- Hernández-Díaz, Sonia, Enrique F. Schisterman and Miguel A. Hernán,
-  "The birth weight 'paradox' uncovered?" (*American Journal of
-  Epidemiology* 164(11), 2006, 1115--1120),
-  <https://doi.org/10.1093/aje/kwj275>.
 - Lakkaraju, Himabindu, Jon Kleinberg, Jure Leskovec, Jens Ludwig and
   Sendhil Mullainathan, "The Selective Labels Problem: Evaluating
   Algorithmic Predictions in the Presence of Unobservables"

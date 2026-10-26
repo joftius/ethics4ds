@@ -14,16 +14,16 @@ st313:
   week: 05
   session: class
   register: 1
-  segments:                        # sums to 80: 75 of material and 5 of slack; production 68 (85%); discussion 26. Exercises (rederiving or applying the lecture) are for students' own time and sit outside the segments; the class works the problems (convenor, 19 October). Discussion 2 is the break before the coding (STYLE.md section 4). The coding carries the week's method, multiple imputation, which the lecture only named (convenor, 26 October)
-    - {label: "discussion 1: the dataset each student brought (the 4 -> 5 task); who is missing, which way, and by which mechanism; a dataset that should exist and does not (Onuoha)", minutes: 10, mode: production, retrieves: [S3]}
-    - {label: "problem 1: why is it missing, and which way; three settings classified with the clause each needs; the salary survey: true mean 50, respondents' mean 40 by the covariance formula, the weighted mean 50; within-grade MNAR breaks the weights", minutes: 12, mode: production, core: CC-16, results: [R32, R33, R35]}
+  segments:                        # sums to 80: 75 of material and 5 of slack; production 68 (85%); discussion 26. Exercises (rederiving or applying the lecture) are for students' own time and sit outside the segments; the class works the problems (convenor, 19 October). Discussion 2 is the break before the coding (STYLE.md section 4). The coding carries the week's method, multiple imputation, which the lecture only named (convenor, 26 October). Every item ends with the question who the mistake falls on, who gains from it, or who the choice could be justified to (convenor, 26 October: keep the ethics visible)
+    - {label: "discussion 1: the dataset each student brought (the 4 -> 5 task); who is missing, which way, who is better off for it, and by which mechanism; a dataset that should exist and does not", minutes: 10, mode: production, retrieves: [S3]}
+    - {label: "problem 1: why is it missing, and which way; three settings classified with the clause each needs and who is worse off if the recorded mean is believed; the salary survey: true mean 50, respondents' mean 40 by the covariance formula, the weighted mean 50; within-grade MNAR breaks the weights", minutes: 12, mode: production, core: CC-16, results: [R32, R33, R35]}
     - {label: "feedback on problem 1", minutes: 2, mode: exposition}
     - {label: "discussion 2, the break before the coding: why leave out A; the strongest argument each way and the graph each assumes; the same column half empty: drop it, drop the rows, or fill in, and to whom you could justify it", minutes: 10, mode: production, retrieves: [S6]}
-    - {label: "coding, starter code supplied: Y missing three ways (MCAR, MAR, MNAR); the mean of Y by complete cases, mean imputation, regression imputation and multiple imputation with mice, estimates and standard errors in one table; inside mice: the m draws for one row and Rubin's rule from pool(); what still fails under MNAR", minutes: 20, mode: production, core: CC-17, results: [R33, R34]}
+    - {label: "coding, starter code supplied: Y missing three ways (MCAR, MAR, MNAR); the mean of Y by complete cases, mean imputation, regression imputation and multiple imputation with mice, estimates and standard errors in one table; inside mice: the m draws for one row and Rubin's rule from pool(); what still fails under MNAR; who should choose the imputation model when the survey sets benefit levels", minutes: 20, mode: production, core: CC-17, results: [R33]}
     - {label: "feedback on the coding", minutes: 2, mode: exposition}
-    - {label: "problem 2: selection on a collider by hand; admission by grades with a lower pass mark for feeder-school applicants; mean grade by school among the admitted; the analyst's conclusion; a rule that makes the association positive", minutes: 10, mode: production, core: CC-15, results: [R30]}
+    - {label: "problem 2: selection on a collider by hand; admission by grades with a lower pass mark for feeder-school applicants; mean grade by school among the admitted; the analyst's conclusion and who pays for it; a rule that makes the association positive", minutes: 10, mode: production, core: CC-15, results: [R30]}
     - {label: "feedback on problem 2", minutes: 2, mode: exposition}
-    - {label: "discussion 3: a bank evaluates a new credit model on the applicants it approved (selective labels); who is missing, which way the measured error rates are wrong, who benefits from it going unnoticed", minutes: 6, mode: production, retrieves: [S3]}
+    - {label: "discussion 3: a bank evaluates a new credit model on the applicants it approved (selective labels); who is missing, which way the measured error rates are wrong, who benefits from it going unnoticed; the honest fix and who pays for it", minutes: 6, mode: production, retrieves: [S3, S6]}
     - {label: "prep task for next class (the 5 -> 7 task)", minutes: 1, mode: exposition}
     - {label: "slack: overrun", minutes: 5, mode: exposition}
   history: []
@@ -32,7 +32,7 @@ st313:
   retrieves: [S1, S3, S6]
   lenses: [B, E, F]
   readings: [whatif-ch8-8.1-8.5, fairmlbook-ch5-colliders, fimd-ch1-1.1-1.3]
-  results: [R30, R31, R32, R33, R34, R35, R36]   # R30, R31, R34, R35, R36 in the exercises; R30, R32, R33 in the problems; R33, R34 in the coding
+  results: [R30, R31, R32, R33, R35]   # R30, R31, R35 in the exercises; R30, R32, R33, R35 in the problems; R33 in the coding
   assumes: [ST102]
   solutions: complete             # this file carries answers; the student file is generated
 # ---------------------------------------------------------------------------------
@@ -62,6 +62,15 @@ Discussions are in groups of three or four, then with the room. Each
 problem, and the coding, is gone through as soon as the room has tried
 it.
 
+Every item is about one decision: who is in the data, what is recorded
+about them, and what to do about the people and the columns that are
+not there. Someone made that decision, usually not the people left
+out, and every way of handling what is missing is an assumption about
+people nobody asked. So each item ends by asking who the mistake falls
+on, who gains from it going unnoticed, or who the choice could be
+justified to. The arithmetic is how you earn an answer to that
+question; it is not the answer.
+
 Notation as in the lecture: $C = 1$ if a person's $Y$ is recorded and
 $C = 0$ if it is missing; $e(X) = P(C = 1 \mid X)$; $A$ is a group.
 
@@ -88,8 +97,9 @@ well at the interview? What fraction of those without a referral?
 Which node do the company's records condition on?
 
 (c) The company notices that referred hires did worse at interview than
-other hires, and concludes that referrals attract weaker candidates.
-What is wrong with the conclusion?
+other hires, concludes that referrals attract weaker candidates, and
+raises the interview bar for referred applicants. What is wrong with
+the conclusion, and who pays for it?
 
 (d) Redo (a) when a fraction $q$ of applicants do well at the interview,
 whatever $q$ is. Does the gap between the two fractions depend on $q$?
@@ -114,13 +124,20 @@ on hired $= 1$, a collider.
 (c) In the applicant pool the two are unrelated. The negative
 association among hires was created by the hiring rule: a referred hire
 did not need a good interview to get in, and an unreferred hire did.
-Nothing about referrals and the quality of candidates follows.
+Nothing about referrals and the quality of candidates follows. The
+people who pay are the next referred applicants, held to a higher bar
+because of a pattern the company's own rule produced. The records
+describe the rule, not the candidates.
 
 (d) With a referral: $q$. Without: $1$. The gap is $1 - q$, so it depends
 on $q$, and it is zero only if everyone does well at the interview.
 :::
 
 ### Exercise 2. The unaware model, with a smaller coaching effect
+
+Leaving a protected characteristic out of a model is often done in the
+name of fairness. This exercise computes what it buys, in the lecture's
+model with a smaller coaching effect.
 
 Job performance $Y \sim N(0, 1)$, larger is better. A group $A \in
 \{0, 1\}$, half the population each, independent of $Y$. A test score
@@ -141,13 +158,9 @@ coefficient on $A$, and the average prediction in each group.
 accurate, and which predicts a bigger gap between the groups?
 
 (d) Someone reads the coefficient on $A$ in (b) as the effect of group
-membership on job performance. What is wrong with that reading?
-
-(e) (harder) Replace the coaching effect by $\beta_A > 0$, so
-$X = Y + \beta_A A + \varepsilon$. Show that the gap between the unaware
-model's average predictions for the two groups is
-$\beta_A/(2 + \beta_A^2/4)$. For which $\beta_A$ is it largest, and why
-does it shrink again for large $\beta_A$?
+membership on job performance. What is wrong with that reading? Which
+group does each of the two mistakes, the unaware model's gap and this
+reading, fall on?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 The slope of a simple regression is covariance over variance, and the
@@ -183,17 +196,12 @@ its score came from coaching. Changing someone's group would not change
 their $Y$ at all. $X$ is a collider between $A$ and $Y$, and
 conditioning on it created the association. The comparison of group
 means, which does not condition on $X$, gives the right answer, $0$.
-
-(e) $\operatorname{Var}(X) = 2 + \beta_A^2/4$ and
-$\operatorname{Cov}(X, Y) = 1$, so the slope is $1/(2 + \beta_A^2/4)$.
-The groups' average scores differ by $\beta_A$, so their average
-predictions differ by $\beta_A/(2 + \beta_A^2/4)$. Setting the
-derivative to zero, $2 + \beta_A^2/4 = \beta_A^2/2$, so
-$\beta_A = 2\sqrt2$, where the gap is $\sqrt2/2 \approx 0.71$. For large
-$\beta_A$ the score is mostly group membership, the unaware model's
-slope goes to zero, and it predicts almost the same for everyone: a
-small gap, and almost no accuracy. With $\beta_A = 2$, the lecture's
-numbers, the gap is $2/3$.
+The two mistakes fall on different groups. The unaware model's gap
+favors the coached group and costs the uncoached one, by $4/9$ of a
+standard deviation in the average prediction. The causal
+reading of the coefficient says the coached group is worse at the job,
+which is false. Neither is a fact about the people; both are facts
+about what was done with the data.
 :::
 
 ### Exercise 3. Inverse probability weighting
@@ -213,6 +221,12 @@ weighted mean and compare it with the mean of the recorded incomes,
 (c) In practice $e(X)$ is not known. Say in one sentence how you would
 estimate it from the data, and what the estimate uses that the
 complete-case mean throws away.
+
+(d) The weighted mean assumes that the old people who did not answer
+earn what the old people who did answer earn. The complete-case mean
+assumes something too: say what. Which assumption would you rather
+defend to the people who did not answer, and what would it take to
+check either?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 Condition on $X$ first: $E[CY/e(X)] = E\big[E[CY \mid X]/e(X)\big]$.
@@ -239,141 +253,18 @@ earn less, answer more often.
 share answering at each value of $X$), and use the fitted probabilities
 as $e(X)$. The estimate uses the rows where $Y$ is missing: their $X$
 is recorded, and it is what tells you who did not answer.
-:::
 
-### Exercise 4. When the complete cases are enough (harder)
-
-$Y = 1 + 2X + \varepsilon$ with $E[\varepsilon \mid X] = 0$, and $X$ is
-always recorded.
-
-(a) Suppose $Y$ is missing with a probability that depends on $X$ only.
-Show that $E[Y \mid X = x, C = 1] = 1 + 2x$. What does that imply for
-the complete-case regression of $Y$ on $X$? What does it imply for the
-complete-case mean of $Y$?
-
-(b) Now suppose $Y$ is recorded only when $Y \le 3$. Explain, without
-computing anything, why the complete-case regression line is flatter
-than $1 + 2x$.
-
-(c) Now suppose $Y$ is recorded only when $|\varepsilon| \le 1$:
-the points far above and far below the line are the ones that go
-missing. Is this MAR or MNAR? Does the complete-case line survive?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For (a): given $X = x$, does knowing $C = 1$ change the distribution of
-$Y$?
-:::
-
-::: {.callout-tip collapse="true" title="Hint 2"}
-For (c): what is $E[\varepsilon \mid X = x, |\varepsilon| \le 1]$ when
-the distribution of $\varepsilon$ given $X$ is symmetric about $0$?
-:::
-
-::: {.callout-note .answer title="Solution" collapse="true"}
-(a) Under MAR, $C$ is independent of $Y$ given $X$, so conditioning on
-$C = 1$ as well as $X = x$ does not change the distribution of $Y$:
-$E[Y \mid X = x, C = 1] = E[Y \mid X = x] = 1 + 2x$. The complete-case
-regression estimates the same line; the complete cases have a different
-mix of $x$ values, which does not move a line that is correct at every
-$x$. The complete-case mean of $Y$ is still biased if the probability of
-being missing varies with $X$, because $E[Y]$ depends on the mix of $x$.
-
-(b) At large $x$ most values of $Y$ are above 3 and are removed, and the
-ones that survive are the low ones. At small $x$ almost nothing is
-removed. So the average of the recorded $Y$ is pulled down most where
-$x$ is large, and the fitted line is flatter. Missingness now depends on
-$Y$ given $X$: MNAR.
-
-(c) MNAR: given $X$, whether $Y$ is recorded depends on $Y$ (through
-$\varepsilon$). But if $\varepsilon$ is symmetric about $0$ given $X$,
-then $E[\varepsilon \mid X = x, |\varepsilon| \le 1] = 0$: the points
-removed above the line are matched by the points removed below it, so
-$E[Y \mid X = x, C = 1] = 1 + 2x$ and the line survives. MNAR does not
-guarantee that the line moves; it removes the guarantee that it does
-not. The lecture's simulation, where the high $Y$ went missing, is the
-usual case, not the only one.
-:::
-
-### Exercise 5. The file drawer as missing data (harder)
-
-A study's $z$-value is $Z \sim N(\theta, 1)$, and it is published
-($C = 1$) only if $Z > c$. Use
-$E[Z \mid C = 1] - E[Z] = \operatorname{Cov}(Z, C)/P(C = 1)$, with
-$\int_a^\infty u\,\phi(u)\,du = \phi(a)$, to show that
-$$
-E[Z \mid Z > c] = \theta + \frac{\phi(c - \theta)}{1 - \Phi(c - \theta)} ,
-$$
-the significance filter of week 1. Which of MCAR, MAR and MNAR is the
-file drawer?
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-$\operatorname{Cov}(Z, C) = E[(Z - \theta)\,C]$, since $E[C]\,E[Z - \theta] = 0$.
-:::
-
-::: {.callout-note .answer title="Solution" collapse="true"}
-$P(C = 1) = 1 - \Phi(c - \theta)$. $\operatorname{Cov}(Z, C) = E[(Z - \theta)C]$,
-and with $u = z - \theta$ this is
-$\int_{c - \theta}^\infty u\,\phi(u)\,du = \phi(c - \theta)$. So
-$E[Z \mid C = 1] = \theta + \phi(c - \theta)/(1 - \Phi(c - \theta))$.
-Whether a study is observed depends on its own value, and nothing else
-recorded explains it away: MNAR. The file-drawer bias is complete-case
-bias.
-:::
-
-### Exercise 6. A row without $A$ (harder)
-
-The lecture's model: $Y \sim N(0, 1)$, $A \in \{0, 1\}$ with
-probability $1/2$ each, independent of $Y$, and $X = Y + 2A +
-\varepsilon$ with $\varepsilon \sim N(0, 1)$ independent of both. For
-some people $A$ was never recorded, and you have to predict their $Y$
-from $X$ alone.
-
-(a) Show that given $A = a$, $X \sim N(2a, 2)$.
-
-(b) Show that $p(x) = P(A = 1 \mid X = x) = 1/(1 + e^{1 - x})$.
-
-(c) Show that $E[Y \mid X] = X/2 - p(X)$, and that no prediction from
-$X$ alone has a smaller mean squared error.
-
-(d) The lecture's table had a gap of about $0.65$ between the groups'
-mean predictions for rows without $A$, whatever was done with the rows
-that had it. Say in two sentences why no method that fills $A$ in from
-$X$ can remove that gap.
-
-::: {.callout-tip collapse="true" title="Hint 1"}
-For (b), Bayes' rule with two normal densities: the log odds are
-$\log \phi\big((x - 2)/\sqrt2\big) - \log \phi\big(x/\sqrt2\big)$.
-:::
-
-::: {.callout-tip collapse="true" title="Hint 2"}
-For (c), $E[Y \mid X, A] = (X - 2A)/2$ from the lecture's full model,
-then average over $A$ given $X$.
-:::
-
-::: {.callout-note .answer title="Solution" collapse="true"}
-(a) Given $A = a$, $X = Y + 2a + \varepsilon$ is the sum of a constant
-and two independent $N(0, 1)$ variables: $N(2a, 2)$.
-
-(b) The two groups are equally likely, so the log odds of $A = 1$ given
-$X = x$ are the log ratio of the two densities,
-$\big[-(x - 2)^2 + x^2\big]/4 = (4x - 4)/4 = x - 1$. So
-$p(x) = 1/(1 + e^{-(x - 1)}) = 1/(1 + e^{1 - x})$.
-
-(c) $E[Y \mid X, A] = (X - 2A)/2$ (given $A$, $X - 2A = Y + \varepsilon$,
-and $Y$ is half of that on average). Averaging over $A$ given $X$:
-$E[Y \mid X] = X/2 - E[A \mid X] = X/2 - p(X)$. The conditional mean
-minimizes mean squared error among all functions of $X$, so nothing
-built from $X$ alone does better. Its error is
-$E[\operatorname{Var}(Y \mid X)] = \tfrac12 + E[p(X)(1 - p(X))] \approx 0.66$,
-against the straight line's $2/3$.
-
-(d) For a row whose $A$ was never recorded, any filled-in $A$ is a
-function of that row's $X$, so the prediction is a function of $X$ and
-cannot beat (c). The mean of $X/2 - p(X)$ differs between the groups
-because $X$ differs between them, by $2$ on average, and $p(X)$ only
-partly undoes that: $X$ holds some but not all of the information
-about $A$. Filling in recovers the fit on the rows that have $A$, not
-the information missing from the rows that do not.
+(d) The complete-case mean assumes that the people who did not answer
+earn what the people who did answer earn, whatever their age: MCAR. The
+recorded data already contradict it, since response differs by age.
+The weights assume MAR given age, which the recorded data can neither
+confirm nor refute: within an age group, nothing recorded says whether
+the silent earn more or less than the rest. Checking either would mean
+asking some of the people who did not answer, that is, collecting what
+was not collected. The weights do not escape the assumption; they
+write it down. The complete-case mean rests on an assumption too, and
+nobody wrote it down. A written assumption can be challenged by the
+people it is about, and an unwritten one cannot.
 :::
 
 ## In class
@@ -387,34 +278,32 @@ university's record of its graduates' salaries; the crimes recorded by
 the police; a dating app's record of which matches led to a date.
 
 1. Who is missing, and which way does their absence push the result?
+   Who is better off for that?
 2. Relative to what the dataset records about people, is the
    missingness closer to completely at random, at random, or not at
    random? What would the dataset have to record to make it "at
    random"?
-3. Mimi Onuoha's *Library of Missing Datasets* (2016) is a filing
-   cabinet of folders for datasets that one would expect to exist and
-   that nobody has collected: "People excluded from public housing
-   because of criminal records," "Total number of local and state
-   police departments using stingray phone trackers." Every folder is
-   empty. Name one dataset that should exist and does not. Who would
-   have had to collect it, and why have they not?
-
-Every group's examples go on the screen.
+3. Name one dataset that should exist and does not. Who would have had
+   to collect it, and why have they not?
 
 ::: {.callout-note .answer title="Some examples" collapse="true"}
 - A satisfaction survey: the people who left are not there to be
   asked, and the furious and the delighted answer more than the
   middle. Which direction depends on the mix; the spread is too wide
-  and the mean is pulled toward whichever end answers more. Nothing
-  recorded about the people who left makes it MAR; a record of who was
-  invited, with what they had bought, would help.
+  and the mean is pulled toward whichever end answers more. The firm
+  that reports the score is better off whenever the people who left
+  were the unhappy ones. Nothing recorded about the people who left
+  makes it MAR; a record of who was invited, with what they had bought,
+  would help.
 - Graduates' salaries: people who did not find work, or did not want
-  to say, do not answer, so the mean is too high. MNAR, since the
+  to say, do not answer, so the mean is too high, and the university
+  that prints it in its prospectus is better off. MNAR, since the
   salary itself drives the answer. Recording employment status for
   everyone, from a separate source, would move it toward MAR.
 - Recorded crime: crimes nobody reported and places nobody patrolled.
   The direction depends on the crime; the record is too high where the
-  police look.
+  police look, and the people who live there pay for it in the next
+  round of patrols.
 - A dataset that should exist: the lecture's own case, how often
   detained defendants would have returned to court; or deaths in
   custody, counted by the institution that held the person; or the
@@ -427,16 +316,18 @@ Every group's examples go on the screen.
 (a) For each setting, say whether the missing values are MCAR, MAR or
 MNAR, and whether the mean of the recorded values is too high, too
 low, or neither, compared with the mean for everyone. Say which clause
-of the setting your answer depends on.
+of the setting your answer depends on, and who is worse off if the
+recorded mean is taken at face value.
 
   - A fitness watch records resting heart rate only on nights it is
     worn. People take it off on nights they feel unwell, and nothing
     else about them is recorded.
   - Exam marks are missing for students whose exam scripts were lost
     in the post; the post lost one sack at random.
-  - A survey asks about weekly hours worked. Response is lower in one
-    region than another, the region is recorded, and within each region
-    whether someone responds is unrelated to their hours.
+  - A survey asks about weekly hours worked, and the overall mean will
+    set one staffing standard for both regions. Response is lower in
+    one region than another, the region is recorded, and within each
+    region whether someone responds is unrelated to their hours.
 
 (b) A company surveys its staff about pay. Half are junior, with mean
 salary 30 (thousands), and half are senior, with mean salary 70.
@@ -453,7 +344,7 @@ each get?)
 
 (d) Now suppose that within each grade the better-paid staff respond
 less often. Is the weighted mean from (c) still right? Which way is it
-wrong, and what would fix it?
+wrong, and what would fix it? Who would have to agree to the fix?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 For (b): $E[YC]$ is the average over everyone of salary times the
@@ -470,12 +361,17 @@ For (c): of 100 staff, 50 are junior and 45 of them respond.
 unwell, which is related to heart rate and is not recorded; the clause
 "nothing else about them is recorded" is what rules out MAR. Recorded
 nights are healthier nights, so the mean resting heart rate is too
-low. Lost scripts: MCAR, because the sack was lost at random; without
-that clause (if the post lost the sack from one school) it need not be.
-The mean is unbiased, just based on fewer students. Hours by region:
-MAR given region, and the clause "within each region ... unrelated to
-their hours" is doing the work. The overall mean is biased toward the
-region that responds more, in the direction of that region's mean.
+low, and the wearer is worse off: the nights a doctor would want to
+see are the ones not there. Lost scripts: MCAR, because the sack was
+lost at random; without that clause (if the post lost the sack from
+one school) it need not be. The mean is unbiased, just based on fewer
+students; nobody is misled by it, though the students whose scripts
+were lost have a different problem. Hours by region: MAR given region,
+and the clause "within each region ... unrelated to their hours" is
+doing the work. The overall mean is biased toward the region that
+responds more, in the direction of that region's mean, so the standard
+is set closer to the hours of the region that answered more, and the
+other region works to a number that is mostly not its own.
 
 (b) True mean $\tfrac12(30) + \tfrac12(70) = 50$.
 $P(C = 1) = \tfrac12(0.9) + \tfrac12(0.3) = 0.6$.
@@ -496,7 +392,10 @@ weighted mean is still too low. Nothing computed from the recorded
 salaries fixes it; what would is a recorded variable that explains who
 answers within a grade (a pay band from the payroll, say), or an
 assumption about the non-respondents that someone is prepared to
-defend.
+defend. The payroll fix uses data the staff gave for another purpose,
+so the staff, or whoever speaks for them, would have to agree to it.
+The assumption fix needs no one's agreement, which is why it has to be
+written down and defended rather than made in private.
 :::
 
 ### Discussion 2: why leave out $A$?
@@ -594,21 +493,19 @@ estimate <- function(C) {
    estimates) and `t` (the total). Check that
    $t = \bar u + (1 + 1/m)\,b$. Which of the three is what a single
    fill-in throws away?
-5. At home: coverage. Repeat the MAR simulation 100 times with
-   $n = 200$, and for each compute a 95% interval for the mean of $Y$
-   by complete cases, by regression imputation treated as observed,
-   and by multiple imputation (`summary(pool(...), conf.int = TRUE)`).
-   How often does each interval contain $1$?
+5. Every row of the MNAR column is wrong, multiple imputation included,
+   because every method assumed that the missing $Y$ are like the
+   recorded $Y$ with the same $X$. An imputation model is an assumption
+   about people who are not in the data. A statistics office imputes
+   missing incomes in a survey that is used to set benefit levels. Who
+   should choose the model, what should be published about it, and who
+   would read it?
 6. At home: real data. R's `airquality` (New York, May to September
    1973) has 37 missing ozone readings out of 153. Tabulate the share
    missing by month. Estimate the mean ozone level by complete cases,
    mean imputation, and multiple imputation using `Temp`, `Wind` and
    `Month`. What does the multiple imputation assume about the days
    with missing ozone that no check on the data can confirm?
-7. At home: the lecture's three choices. Simulate the test-score data
-   with `A` recorded for half the rows, and compare dropping the
-   column, dropping the rows and filling `A` in with `mice` (method
-   `"logreg"` for `A`), on rows with `A` and rows without.
 
 ::: {.callout-tip .answer collapse="true" title="Hint 1"}
 For step 2: `reg_imp <- ifelse(C, Y, predict(lm(Y ~ X, data = d), newdata = d))`.
@@ -677,10 +574,17 @@ pool(with(imp, lm(Y ~ 1)))$pooled[, c("estimate", "ubar", "b", "t", "m")]
    a prediction. `b` is the variance of the 20 estimates across
    completions, and it is what a single fill-in throws away;
    `t = ubar + (1 + 1/20) b`.
-5. Complete cases: almost never, because the interval is centered in
-   the wrong place. Regression imputation: centered well but too
-   narrow, so well below 95%. Multiple imputation: close to 95%,
-   within what 100 repetitions can tell apart.
+5. Directions, not an answer. The model decides what the people who
+   did not answer are taken to earn, and the benefit level follows, so
+   the choice is about them and is made without them. Whoever chooses
+   should be able to say which recorded variables the imputation uses,
+   which way the estimate would move if the silent earn less than the
+   model says (the MNAR column), and how much. That is what should be
+   published, in a form the people whose benefits depend on it, and
+   those who speak for them, can read; the usual answer, a line in a
+   technical appendix nobody opens, is a choice made in private about
+   people who were not asked. Note what the table showed: none of the
+   four methods can tell you from the data which column you are in.
 6. In June 70% of ozone readings are missing, in September 3%, so the
    data are not MCAR. Mean imputation's standard error is the smallest
    and is wrong, for the reason in step 3. The multiple imputation
@@ -688,9 +592,6 @@ pool(with(imp, lm(Y ~ 1)))$pooled[, c("estimate", "ubar", "b", "t", "m")]
    ozone is like the recorded days' ozone: MAR given those variables.
    If the instrument failed on days of unusual ozone, that is false,
    and no check on the recorded data can show it.
-7. The lecture's table: where $A$ is recorded, dropping the rows and
-   filling in predict equally well with no gap; where it is missing,
-   filling in predicts from $X$ alone and the gap is back near $0.65$.
 :::
 
 ### Problem 2. Selection on a collider, with numbers
@@ -708,14 +609,13 @@ feeder school, and of those not from one?
 and mark what the records condition on.
 
 (c) An analyst concludes from the records that feeder schools produce
-weaker students. What is wrong?
+weaker students, and the university considers withdrawing the lower
+pass mark. What is wrong, and who would pay for the mistake?
 
-(d) Suppose the rule were instead: a pass mark of 7 for everyone, and
-every feeder-school applicant admitted whatever their grade. Redo (a).
-
-(e) Write down an admission rule under which, among the admitted,
+(d) Write down an admission rule under which, among the admitted,
 feeder-school students have the *higher* mean grade. What does this
-say about what the graph alone tells you?
+say about what the graph alone tells you, and about what the records
+are a record of?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
 Among the admitted, which grades can a feeder-school student have, and
@@ -723,7 +623,7 @@ which can a student from elsewhere have?
 :::
 
 ::: {.callout-tip collapse="true" title="Hint 2"}
-For (e), make the feeder school's bar the higher one.
+For (d), make the feeder school's bar the higher one.
 :::
 
 ::: {.callout-note .answer title="Solution" collapse="true"}
@@ -738,17 +638,18 @@ condition on admitted $= 1$, a collider.
 $5.5$ in both groups. The difference among the admitted was created by
 the rule, which let feeder-school applicants in on lower grades.
 Nothing about what feeder schools do to their students follows.
-"Produce" is a causal claim, and the records cannot support it.
+"Produce" is a causal claim, and the records cannot support it. The
+mistake would fall on the next feeder-school applicants, who would
+lose the lower pass mark on the strength of a pattern that the lower
+pass mark itself produced.
 
-(d) Not from a feeder school: grades 7 to 10, mean $8.5$. From a
-feeder school: all admitted, grades 1 to 10, mean $5.5$. The gap is
-larger, $3$ instead of $1$.
-
-(e) A pass mark of 9 for feeder-school applicants and 7 for everyone
+(d) A pass mark of 9 for feeder-school applicants and 7 for everyone
 else: means $9.5$ and $8.5$, the feeder-school students higher. The
 graph says that conditioning on the collider creates an association;
 the rule says which way. Without the rule, "depends on both" does not
-fix the sign (the lecture's notes, after the noisy collider).
+fix the sign (the lecture's notes, after the noisy collider). The
+association among the admitted is a record of the university's rule,
+a decision someone made and could change, and not of the students.
 :::
 
 ### Discussion 3: a label that exists only where a decision allowed it
@@ -761,10 +662,9 @@ if it approved them.
 1. Who is missing from the evaluation, and by what mechanism? Which
    way are the new model's measured error rates likely to be wrong?
 2. Who benefits from the problem going unnoticed?
-3. The same questions, briefly, for one of: a hiring algorithm
-   evaluated on past hires; a treatment rule evaluated on the patients
-   a doctor chose to treat; start-up investors judged on the firms they
-   funded.
+3. The honest fix is to approve some applicants the current model
+   rejects, chosen at random, and record what happens. Who pays for
+   that, and is it justified?
 
 ::: {.callout-note .answer title="Some directions" collapse="true"}
 1. The applicants the old model rejected: their repayment is not
@@ -783,43 +683,29 @@ if it approved them.
    counted. Lakkaraju and colleagues' remedy, for judges, used the fact
    that decision-makers differ in leniency and cases are assigned to
    them at random; a bank with one policy has no lenient judge to
-   compare with, unless it approves some rejected applicants at random,
-   which costs money and is the honest fix.
-3. Past hires: performance exists only for the hired, so the
-   algorithm is scored on the people the old process let through.
-   Treated patients: outcomes under treatment exist only where a doctor
-   chose to treat, which is the same structure with the doctor's
-   judgment as the unrecorded cause. Investors: the firms they funded
-   are the only ones whose returns they see, and the ones they passed
-   on are missing in whichever direction the investors' judgment ran.
+   compare with, which is why question 3's fix is the one that does
+   not rest on an assumption about the people rejected.
+3. The bank pays, in the defaults among the randomly approved, and so
+   do the randomly approved who default, since a loan one cannot repay
+   is not a gift. The people who gain are the rejected applicants who
+   would have repaid, who are exactly the people the current records
+   cannot see, and every future applicant scored by a model whose
+   errors were measured on everyone. Whether that is justified is a
+   choice, and the two sides are not symmetric: the cost of the fix is
+   visible and falls on the bank, the cost of not fixing it is
+   invisible and falls on the people wrongly rejected. "We evaluate on
+   the data we have" sounds neutral and is a decision in favor of the
+   visible cost.
 :::
-
-## If there is time
-
-- A statistics office imputes missing incomes in a survey that is used
-  to set benefit levels. Who should choose the imputation model? What
-  should be published about it, and who would read it?
-- "Correlation is not causation" is true and important. Can it be
-  misused? The birth weight paradox is one place to start: which
-  comparison there is a correlation, and which causal claim was being
-  made from it?
 
 ## For next time
 
 Bring one rule or score that sorts people into two groups: admit or
 reject, flag or clear, treat or not. Write down the two ways it can be
-wrong, and who pays for each. One sentence each. Every group's examples
-will go on the screen.
+wrong, and who pays for each. One sentence each.
 
 ## References
 
-- D'Ignazio, Catherine and Lauren F. Klein, *Data Feminism* (MIT Press,
-  2020), chapter 1, on Mimi Onuoha's *The Library of Missing Datasets*
-  (2016), <https://data-feminism.mitpress.mit.edu/pub/vi8obxh7>.
-- Hernández-Díaz, Sonia, Enrique F. Schisterman and Miguel A. Hernán,
-  "The birth weight 'paradox' uncovered?" (*American Journal of
-  Epidemiology* 164(11), 2006, 1115--1120),
-  <https://doi.org/10.1093/aje/kwj275>.
 - Lakkaraju, Himabindu, Jon Kleinberg, Jure Leskovec, Jens Ludwig and
   Sendhil Mullainathan, "The Selective Labels Problem: Evaluating
   Algorithmic Predictions in the Presence of Unobservables"

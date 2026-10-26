@@ -16,9 +16,9 @@ In class order. Planned total 75 of the 80 minutes.
 | Discussion 1: the dataset each student brought; who is missing, which way, by which mechanism; a dataset that should exist | 10 | Rush; cut first | Questions 1 and 2 from three groups; drop question 3 |
 | Problem 1: why is it missing, and which way; the salary survey, with feedback | 14 | Keep | (a) and (b); say (c): weight each respondent by one over their grade's response rate, and the mean is 50 again |
 | Discussion 2: why leave out $A$; the same column half empty | 10 | Rush | Question 1 in pairs, then question 2 with hands: drop the column, drop the rows, or fill in |
-| Coding: the mean of $Y$ four ways under three mechanisms, with feedback | 22 | Keep | Steps 1 to 3; show step 4's `pool()` output from the complete sheet |
-| Problem 2: selection on a collider with numbers, with feedback | 12 | Keep | (a) and (c); say (e): a higher bar for the feeder school flips the sign, so the graph gives the association and the rule gives its direction |
-| Discussion 3: the bank's new credit model, evaluated on the approved | 6 | Rush; cut second | Question 1 with hands, then question 2 |
+| Coding: the mean of $Y$ four ways under three mechanisms, with feedback | 22 | Keep | Steps 1 to 3; show step 4's `pool()` output from the complete sheet; ask step 5 to the room in one minute |
+| Problem 2: selection on a collider with numbers, with feedback | 12 | Keep | (a) and (c); say (d): a higher bar for the feeder school flips the sign, so the graph gives the association and the rule gives its direction |
+| Discussion 3: the bank's new credit model, evaluated on the approved | 6 | Rush; cut second | Question 1 with hands, then question 3 |
 | The task for next time | 1 | Keep | Read the task aloud |
 
 : {tbl-colwidths="[32,6,16,46]"}
@@ -49,6 +49,12 @@ How it runs
   lecture explains why the collider's letter is reused), $e(X) =
   P(C = 1 \mid X)$, and the collider's coefficients are $\beta_Y$ and
   $\beta_A$.
+- Every item ends with a question about who the mistake falls on, who
+  gains from it going unnoticed, or who the choice could be justified
+  to. Those questions are the point of the week, not a coda. A group
+  that has the number and skips the question has not finished; ask it.
+  The answers in the sheet are directions, and the room may have
+  better ones.
 
 What the class adds to the lecture
 
@@ -64,12 +70,19 @@ What the class adds to the lecture
   uncertainty right.
 - Problem 2 adds the point the lecture's notes make after the noisy
   collider: the graph says an association appears among the admitted,
-  and the admission rule says which way. Part (e) asks for a rule that
+  and the admission rule says which way. Part (d) asks for a rule that
   flips it.
 - Discussion 3 is the lecture's selective-labels slide on a case
   without judges: a bank with one policy has no lenient decision-maker
   to compare with, and the honest fix, approving some rejected
-  applicants at random, costs money.
+  applicants at random, costs money. Question 3 asks who pays for it
+  and whether it is justified; the point to land is that the two costs
+  are not symmetric, one visible and on the bank, one invisible and on
+  the people wrongly rejected.
+- The coding's step 5 (who should choose the imputation model when the
+  survey sets benefit levels) is the lecture's closing line, that an
+  imputation model is an assumption about the unseen, asked about
+  people who will feel the answer.
 
 What students should see
 
@@ -86,9 +99,9 @@ What students should see
   $0.026$, the second near $0.04$. Under MNAR, complete cases and mean
   imputation near $0.1$, regression and multiple imputation near
   $0.4$. In step 4, `t` equals `ubar + 1.05 b` to rounding.
-- Problem 2(a): $7.5$ and $8.5$. (d): $5.5$ and $8.5$. (e): any rule
-  with the higher bar for the feeder school, for instance $9$ against
-  $7$, giving $9.5$ against $8.5$.
+- Problem 2(a): $7.5$ and $8.5$; among applicants, $5.5$ in both
+  groups. (d): any rule with the higher bar for the feeder school, for
+  instance $9$ against $7$, giving $9.5$ against $8.5$.
 
 Where they get stuck
 
@@ -112,6 +125,10 @@ Where they get stuck
   what the rule did.
 - Discussion 3: treating "evaluate on the data you have" as neutral.
   Ask whose outcomes the data have.
+- The "who pays" questions: answering "society" or "everyone." Ask for
+  people who could be named: the next feeder-school applicant, the
+  staff in the region that answered less, the applicant the old model
+  rejected who would have repaid.
 
 ## References
 
