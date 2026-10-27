@@ -1,0 +1,143 @@
+---
+title: "Teacher note: week 5 class"
+subtitle: "For class teachers"
+format:
+  html:
+    toc: false
+    embed-resources: true
+---
+
+## Keep or rush
+
+In class order. Planned total 75 of the 80 minutes.
+
+| Item | Min | | If short |
+|---|---:|---|---|
+| Discussion 1: the dataset each student brought; who is missing, which way, by which mechanism; a dataset that should exist | 10 | Rush; cut first | Questions 1 and 2 from three groups; drop question 3 |
+| Problem 1: why is it missing, and which way; the salary survey, with feedback | 14 | Keep | (a) and (b); say (c): weight each respondent by one over their grade's response rate, and the mean is 50 again |
+| Discussion 2: why leave out $A$; the same column half empty | 10 | Rush | Question 1 in pairs, then question 2 with hands: drop the column, drop the rows, or fill in |
+| Coding: the mean of $Y$ four ways under three mechanisms, with feedback | 22 | Keep | Steps 1 to 3; show step 4's `pool()` output from the complete sheet; ask step 5 to the room in one minute |
+| Problem 2: selection on a collider with numbers, with feedback | 12 | Keep | (a) and (c); say (d): a higher bar for the feeder school flips the sign, so the graph gives the association and the rule gives its direction |
+| Discussion 3: the bank's new credit model, evaluated on the approved | 6 | Rush; cut second | Question 1 with hands, then question 3 |
+| The task for next time | 1 | Keep | Read the task aloud |
+
+: {tbl-colwidths="[32,6,16,46]"}
+
+Minimum class, about 50 minutes: problems 1 and 2, the coding's steps
+1 to 3, discussion 2's question 2 with hands, and the task for next
+time. With more time, add discussion 3 back first, then discussion 1.
+
+## If you read on
+
+How it runs
+
+- The exercises at the top of the sheet rederive or apply the lecture's
+  results; students do them on their own time and the class does not
+  work them. Open the
+  [complete class sheet](https://ethics4ds.com/teachers/wk05/class_complete.html)
+  on screen: green boxes are hints, opened in order after a few minutes;
+  blue boxes are answers and example answers. Students were asked at
+  the end of week 4's class, and on the course page, to bring a dataset
+  where some people who should be in it are not; discussion 1 gives a
+  list for anyone who did not.
+- Discussion 2 is the break between problem 1 and the coding. The
+  coding needs one laptop with R per pair and the `mice` package; the
+  starter code runs in about two seconds, the `mice()` calls included.
+  If `mice` will not install for a pair, they do steps 1 to 3 without
+  the last row of the table and read the row from a neighbor.
+- Notation as in the lecture: $C = 1$ means the row is observed (the
+  lecture explains why the collider's letter is reused), $e(X) =
+  P(C = 1 \mid X)$, and the collider's coefficients are $\beta_Y$ and
+  $\beta_A$.
+- Every item ends with a question about who the mistake falls on, who
+  gains from it going unnoticed, or who the choice could be justified
+  to. Those questions are the point of the week, not a coda. A group
+  that has the number and skips the question has not finished; ask it.
+  The answers in the sheet are directions, and the room may have
+  better ones.
+
+What the class adds to the lecture
+
+- The lecture named five ways to fill a hole and explained none. The
+  coding is where multiple imputation is taught: what a completion is
+  (a draw, not a prediction), why a single fill-in's standard error is
+  too small, Rubin's rule as `ubar`, `b` and `t` from `pool()`, and
+  the limitation, that under MNAR every method in the table is wrong,
+  multiple imputation included, because all of them use the recorded
+  $X$ to say what the missing $Y$ are like. Mean imputation is in the
+  table as the thing people do; regression imputation is there to show
+  that getting the mean right is not the same as getting its
+  uncertainty right.
+- Problem 2 adds the point the lecture's notes make after the noisy
+  collider: the graph says an association appears among the admitted,
+  and the admission rule says which way. Part (d) asks for a rule that
+  flips it.
+- Discussion 3 is the lecture's selective-labels slide on a case
+  without judges: a bank with one policy has no lenient decision-maker
+  to compare with, and the honest fix, approving some rejected
+  applicants at random, costs money. Question 3 asks who pays for it
+  and whether it is justified; the point to land is that the two costs
+  are not symmetric, one visible and on the bank, one invisible and on
+  the people wrongly rejected.
+- The coding's step 5 (who should choose the imputation model when the
+  survey sets benefit levels) is the lecture's closing line, that an
+  imputation model is an assumption about the unseen, asked about
+  people who will feel the answer.
+
+What students should see
+
+- Problem 1(b): true mean 50, respondents' mean 40,
+  $\operatorname{Cov}(Y, C) = -6$, $P(C = 1) = 0.6$. (c): 45 juniors
+  at weight $1/0.9$ and 15 seniors at $1/0.3$, weighted mean 50.
+- Coding: with $n = 2000$, about half recorded under each mechanism.
+  Under MCAR all four estimates within about $0.05$ of this sample's
+  full mean; mean and regression imputation report standard errors
+  near $0.02$ against $0.04$ for complete cases and multiple
+  imputation. Under MAR, complete cases and mean imputation near
+  $0.45$ (the truth is $1$); regression imputation and multiple
+  imputation near $0.9$ to $1$, the first with a standard error near
+  $0.026$, the second near $0.04$. Under MNAR, complete cases and mean
+  imputation near $0.1$, regression and multiple imputation near
+  $0.4$. In step 4, `t` equals `ubar + 1.05 b` to rounding.
+- Problem 2(a): $7.5$ and $8.5$; among applicants, $5.5$ in both
+  groups. (d): any rule with the higher bar for the feeder school, for
+  instance $9$ against $7$, giving $9.5$ against $8.5$.
+
+Where they get stuck
+
+- Problem 1(a): calling the lost scripts MAR because "the post is
+  unrelated to marks." That is MCAR; MAR is when missingness depends
+  on something recorded.
+- Problem 1(b): averaging the two response rates and the two means
+  separately instead of weighting the means by the rates
+  ($E[YC]$ is a sum of salary times response probability).
+- Coding step 2: fitting the regression on the filled-in data instead
+  of the recorded rows; `lm()` on `d` does the right thing because the
+  missing $Y$ are `NA`.
+- Coding step 3: concluding that regression imputation is "fine under
+  MAR" from its estimate alone. Its standard error is the point.
+- Coding step 3: concluding that multiple imputation handles MNAR
+  because its estimate moved toward $1$ (it moved from $0.1$ to $0.4$).
+  It moved because $X$ carries some information about $Y$; it is still
+  wrong by $0.6$.
+- Problem 2(c): saying "selection bias" and stopping. Ask them to
+  state what the means are among applicants ($5.5$ in both groups) and
+  what the rule did.
+- Discussion 3: treating "evaluate on the data you have" as neutral.
+  Ask whose outcomes the data have.
+- The "who pays" questions: answering "society" or "everyone." Ask for
+  people who could be named: the next feeder-school applicant, the
+  staff in the region that answered less, the applicant the old model
+  rejected who would have repaid.
+
+## References
+
+- Lakkaraju, Himabindu, Jon Kleinberg, Jure Leskovec, Jens Ludwig and
+  Sendhil Mullainathan, "The Selective Labels Problem: Evaluating
+  Algorithmic Predictions in the Presence of Unobservables"
+  (*Proceedings of the 23rd ACM SIGKDD International Conference on
+  Knowledge Discovery and Data Mining*, 2017, 275--284),
+  <https://doi.org/10.1145/3097983.3098066>.
+- van Buuren, Stef, *Flexible Imputation of Missing Data*, second
+  edition (Chapman and Hall/CRC, 2018), sections 1.3, 1.4, 2.3 and 3.1,
+  <https://stefvanbuuren.name/fimd/>.

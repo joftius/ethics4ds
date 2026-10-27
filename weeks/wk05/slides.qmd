@@ -23,9 +23,9 @@ st313:
   week: 05
   session: lecture
   register: 1
-  segments:                        # sums to 80: 73 of material and 7 of slack; production 31 (39%)
-    # opener: 5
-    - {label: "what you brought: the 4 -> 5 task on the shared document; what decided who got in, and does it depend on the outcome", minutes: 5, mode: production, retrieves: [S3]}
+  segments:                        # sums to 80: 74 of material and 6 of slack; production 30 (38%)
+    # opener: 4
+    - {label: "what you brought: the 4 -> 5 task on the shared document; what decided who got in, and does it depend on the outcome", minutes: 4, mode: production, retrieves: [S3]}
     # part 1, selection on a common effect: 17
     - {label: "retrieval: among people offered a place on cost, need and resources became negatively related", minutes: 2, mode: production, retrieves: [S1]}
     - {label: "the birth weight paradox (Hernandez-Diaz et al. 2006, abstract): RR 0.79 among low-birth-weight infants", minutes: 2, mode: exposition}
@@ -33,28 +33,30 @@ st313:
     - {label: "one such graph; colliders against forks; selecting a sample is conditioning; lens F", minutes: 3, mode: exposition, introduces: [CC-15]}
     - {label: "production: Cov(Y, A | C) when C = Y + A", minutes: 2, mode: production, core: CC-15, results: [R30]}
     - {label: "with noise: the collider covariance in the linear model, simple-regression slopes only", minutes: 5, mode: exposition, core: CC-15, results: [R30]}
-    # part 2, leaving the attribute out: 19
+    # part 2, leaving a column out: 19
+    - {label: "rows and columns: why a column is absent; a column with holes forces one of three choices (the map of parts 2 to 4)", minutes: 2, mode: exposition}
     - {label: "prediction: unaware or full, which is more accurate, which more disparate", minutes: 2, mode: production}
-    - {label: "the 2024 coursework collider simulated: table and picture", minutes: 4, mode: exposition, results: [R31]}
-    - {label: "by hand: (X - 1)/3, -1/3 and 1/3, MSE 2/3 against 1/2, coefficient -1", minutes: 5, mode: exposition, core: CC-15, results: [R31]}
-    - {label: "pairs: what was leaving it out for? Equality Act ss. 13 and 19; a graph that reverses the advice", minutes: 5, mode: production}
-    - {label: "adjusting for a collider: prediction against effect (the complication of adjusting for confounders)", minutes: 3, mode: exposition, retrieves: [S1]}
+    - {label: "the 2024 coursework collider simulated (5,000 rows): table, dark, and picture", minutes: 3, mode: exposition, results: [R31]}
+    - {label: "true/population values: (X - 1)/3, -1/3 and 1/3, MSE 2/3 against 1/2, coefficient -1", minutes: 5, mode: exposition, core: CC-15, results: [R31]}
+    - {label: "pairs: why leave out A? Equality Act ss. 13 and 19; a graph that reverses the advice", minutes: 5, mode: production}
+    - {label: "adjusting for a collider: prediction against effect (the complication of adjusting for confounders)", minutes: 2, mode: exposition, retrieves: [S1]}
     # part 3, who is missing: 19
     - {label: "MCAR, MAR, MNAR with C; which can be checked", minutes: 4, mode: exposition, introduces: [CC-16], core: CC-16, results: [R32]}
     - {label: "classify three, with a direction", minutes: 3, mode: production, results: [R32]}
     - {label: "complete-case bias Cov(Y, C)/P(C = 1); under MAR, the between part of the covariance split", minutes: 4, mode: exposition, introduces: [CC-17], core: CC-17, results: [R33]}
     - {label: "students compute the income example: 46.7 against 50", minutes: 2, mode: production, results: [R33]}
     - {label: "dark: when the complete cases are enough (picture; stretch)", minutes: 2, mode: exposition, results: [R34]}
-    - {label: "dark: reweighting the people who answered, E[CY/e(X)] = E[Y] (stretch)", minutes: 2, mode: exposition, results: [R35]}
+    - {label: "inverse probability weighting, named: E[CY/e(X)] = E[Y] (stretch)", minutes: 2, mode: exposition, results: [R35]}
     - {label: "missing by construction: bail (Lakkaraju et al. 2017); the file drawer and the feed", minutes: 2, mode: exposition, retrieves: [S3]}
-    # part 4, filling in: 4
-    - {label: "single imputation hides variance; multiple imputation named; the imputation model as an assumption", minutes: 4, mode: exposition, introduces: [CC-18]}
-    # close: 9
+    # part 4, filling in: 7
+    - {label: "ways to fill a hole, named for the class: mean, regression, LOCF, multiple imputation (mice), the indicator method; the imputation model as an assumption", minutes: 4, mode: exposition, introduces: [CC-18]}
+    - {label: "three choices, one table: the coursework data with A half missing; drop the column, drop the rows, fill in; filling in recovers the fit, not the information", minutes: 3, mode: exposition, results: [R31, R34]}
+    # close: 8
     - {label: "admitted students, answered individually", minutes: 4, mode: production, item: W05-I1}
-    - {label: "lenses B, E, F", minutes: 2, mode: exposition}
+    - {label: "lenses B, E, F", minutes: 1, mode: exposition}
     - {label: "the question that splits the room: hands on including A; the task for next time", minutes: 3, mode: production, retrieves: [S6]}
-    # slack: 7
-    - {label: "slack: questions and overrun", minutes: 7, mode: exposition}
+    # slack: 6
+    - {label: "slack: questions and overrun", minutes: 6, mode: exposition}
   history: []
   complications:
     - {of: CC-09, introduced_week: 3, minutes_after_introduction: 2_weeks}
@@ -174,27 +176,27 @@ generate_data <- function(n = 500, betaY = 1, betaA = 2) {
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 70 in the 80: opener 5, selection on a common effect 17, leaving the attribute out 18, who is missing 19, filling in 4, close 7; then 10 of slack. Dark = rush or skip.
+Compress: the four parts. Plan 74 in the 80: opener 4, selection on a common effect 17, leaving a column out 19, who is missing 19, filling in and the three choices 7, close 8; then 6 of slack, and the dark complete-cases slide is 2 more if needed. Dark = rush or skip, except the two dark slides the room talks over: the coursework table (go quickly, the population values follow) and the pairs question.
 
-Cut order: (1) when the complete cases are enough; (2) compress filling in to its last sentence; (3) rush the reweighting slide, keeping its formula. Do not cut the graph the room draws, the prediction before the coursework table, the pairs question, the income computation or the admitted-students item.
+Cut order: (1) when the complete cases are enough; (2) filling in to its names and last sentence; (3) the weighting derivation to its formula. Do not cut the rows-and-columns map, the graph the room draws, the prediction before the coursework table, the pairs question, the income computation, the three-choices table or the admitted-students item.
 
-Pace: 0:05 Part 1; 0:22 Part 2; 0:40 Part 3; 0:59 Part 4; 1:03 admitted students; 1:10 end.
+Pace: 0:04 Part 1; 0:21 Part 2; 0:40 Part 3; 0:59 Part 4; 1:03 three choices; 1:06 admitted students; 1:14 end.
 :::
 
 ### Week 5
 
 Part 1: Selection on a common effect
 
-Part 2: Leaving the attribute out
+Part 2: Leaving a column out
 
 Part 3: Who is missing
 
 Part 4: Filling in
 
-## What you brought {minutes="5"}
+## What you brought {minutes="4"}
 
 ::: {.notes}
-Everyone's example on the shared document: who is missing, which way. Read out two. Keep one that selects on something two things cause (hiring, admission, a hospital) for part 1, and one where people go missing because of their own outcome (an income question, dropout) for part 3.
+Everyone's example on the shared document: who is missing, which way. Read out two, briefly. Keep one that selects on something two things cause (hiring, admission, a hospital) for part 1, and one where people go missing because of their own outcome (an income question, dropout) for part 3.
 :::
 
 ::: {.ask}
@@ -235,7 +237,7 @@ Hernández-Díaz, Schisterman and Hernán (2006), "The birth weight 'paradox' un
 ## Draw it {minutes="3"}
 
 ::: {.notes}
-Three minutes, written, alone. The question is whether anyone puts a second cause of low birth weight on the page. Take one graph from the room before the next slide.
+Two minutes, written, alone, then one minute for one graph from the room; the next slide shows one. The question is whether anyone puts a second cause of low birth weight on the page.
 :::
 
 ::: {.ask}
@@ -245,19 +247,29 @@ Draw a causal graph in which smoking helps nobody, and the reversal among low-bi
 ## One such graph
 
 ::: {.notes}
-Low birth weight has several causes. Smoking is one; others, such as serious birth defects, are far more dangerous. Among babies born small, a smoker's baby is more likely to be small because of the smoking, so less likely to be small because of something worse. The dashed line is the association that restricting to the gray box creates. The authors' conclusion: adjusting for birth weight is not warranted for the overall effect of something that happens before birth.
+Low birth weight has several causes. Smoking is one; others, such as serious birth defects, are far more dangerous. Among babies born small, a smoker's baby is more likely to be small because of the smoking, so less likely to be small because of something worse. Left, the gray box is what the comparison restricts to. Right, every baby in the picture was born small, so birth weight is no longer a variable, and the dashed line is the association that the restriction creates between smoking and U. The authors' conclusion: adjusting for birth weight is not warranted for the overall effect of something that happens before birth.
 :::
 
-```{r dag_birthweight, fig.height=3.6, fig.alt="A causal graph in boxes: smoking and U (birth defects and other causes) both point into low birth weight, which is shaded gray; smoking, low birth weight and U all point into infant death; a dashed gold line joins smoking and U."}
+```{r dag_birthweight, fig.height=3.4, fig.width=8.5, fig.alt="Two causal graphs in boxes. Left, all babies: smoking and U (birth defects and other causes) both point into low birth weight, shaded gray; smoking, low birth weight and U all point into infant death. Right, babies born small: low birth weight is gone, smoking and U point into infant death, and a dashed gold line joins smoking and U."}
 bw <- data.frame(name = c("smoking", "low birth weight", "U: birth defects, ...", "infant death"),
-                 x = c(0, 1.5, 3, 1.5), y = c(1, 0.45, 1, -0.5))
+                 x = c(0, 1.4, 2.8, 1.4), y = c(1, 0.45, 1, -0.5))
 bw_edges <- data.frame(from = c("smoking", "U: birth defects, ...", "low birth weight", "U: birth defects, ...", "smoking"),
                        to = c("low birth weight", "low birth weight", "infant death", "infant death", "infant death"))
-p <- draw_dag(bw, bw_edges, boxes = TRUE, text_size = 6, xlim = c(-0.7, 3.7), ylim = c(-0.75, 1.25))
-condition_on(p, bw, "low birth weight", induced = c("smoking", "U: birth defects, ..."), text_size = 6)
+lev <- c("all babies", "babies born small")
+small <- bw$name != "low birth weight"
+nodes2 <- rbind(transform(bw, panel = lev[1]), transform(bw[small, ], panel = lev[2]))
+edges2 <- rbind(transform(bw_edges, panel = lev[1]),
+                transform(bw_edges[bw_edges$from != "low birth weight" & bw_edges$to != "low birth weight", ], panel = lev[2]))
+nodes2$panel <- factor(nodes2$panel, levels = lev); edges2$panel <- factor(edges2$panel, levels = lev)
+p <- draw_dag(nodes2, edges2, boxes = TRUE, text_size = 5, xlim = c(-0.75, 3.95), ylim = c(-0.75, 1.25))
+ends <- subset(nodes2, panel == lev[2] & name %in% c("smoking", "U: birth defects, ..."))
+dashed <- data.frame(x = ends$x[1], y = ends$y[1], xend = ends$x[2], yend = ends$y[2], panel = factor(lev[2], levels = lev))
+p$layers <- c(list(geom_segment(data = dashed, aes(x, y, xend = xend, yend = yend), linetype = "dashed", color = gold, linewidth = 1.3)), p$layers)
+p + geom_label(data = subset(nodes2, panel == lev[1] & name == "low birth weight"), aes(x, y, label = name),
+               size = 5, label.size = 0.5, label.padding = unit(0.35, "lines"), fill = "grey85")
 ```
 
-Among babies born small, smoking and $U$ are related, although they are not related among all babies.
+Among babies born small, birth weight is a constant, and smoking and $U$ are related; among all babies they are not.
 
 ## Colliders
 
@@ -295,37 +307,68 @@ $\operatorname{Cov}(Y, A \mid C) = \;?$
 ## With noise {minutes="5"}
 
 ::: {.notes}
-Retrieve the simple regression slope from the room before writing gamma: covariance over variance. Then bilinearity. Sign opposite to alpha b; more noise, bigger Var(C), weaker association. For jointly normal variables the left side is the conditional covariance. Outside the linear model the sign can go either way: the graph says an association appears, the model says which way.
+Retrieve the simple regression slope from the room before writing gamma: covariance over variance. Then bilinearity. Sign opposite to beta_Y beta_A; more noise, bigger Var(C), weaker association. For jointly normal variables the left side is the conditional covariance. Outside the linear model the sign can go either way: the graph says an association appears, the model says which way.
 :::
 
-$A \perp Y$, $\; C = \alpha Y + bA + \varepsilon$, $\; \varepsilon$ independent of $(Y, A)$. Take out what $C$ predicts, with slopes $\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)$, $\gamma_A$ likewise:
+$A \perp Y$, $\; C = \beta_Y Y + \beta_A A + \varepsilon$, $\; \varepsilon$ independent of $(Y, A)$. Take out what $C$ predicts, with slopes $\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)$, $\gamma_A$ likewise:
 
 $$
 \begin{aligned}
 \operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) &= \operatorname{Cov}(Y, A) - \frac{\operatorname{Cov}(Y, C)\,\operatorname{Cov}(A, C)}{\operatorname{Var}(C)} \\
-&= -\,\frac{\alpha\, b\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}
+&= -\,\frac{\beta_Y\, \beta_A\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}
 \end{aligned}
 $$
 
 ::: {.leave}
-Adjusting linearly for a common effect relates its causes, sign opposite to $\alpha b$ here (for jointly normal variables, the covariance given $C$). Outside the linear model, sign and size depend on details the graph does not show (Elwert and Winship).
+Adjusting linearly for a common effect relates its causes, sign opposite to $\beta_Y \beta_A$ here (for jointly normal variables, the covariance given $C$). Outside the linear model, sign and size depend on details the graph does not show (Elwert and Winship).
 :::
 
 ::: {.source}
 On the last sentence: Elwert and Winship (2014), "Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable," *Annual Review of Sociology* 40, 31--53, doi:10.1146/annurev-soc-071913-043455.
 :::
 
-# Part 2: Leaving the attribute out
+# Part 2: Leaving a column out
+
+## Rows and columns
+
+::: {.notes}
+The map for the rest of the lecture. Part 1 was about rows. A column is absent for reasons from the defensible to the accidental, and the model does not know which. The three panels on the right are Parts 2, 3 and 4; before the admitted-students item, one table puts the three side by side on the coursework data.
+:::
+
+Datasets follow rules for who is a row and for what is a column. A column is absent because the law forbids it, because nobody collected it, or because it was half empty and got dropped. A column with holes forces one of three choices: this part, Part 3, Part 4.
+
+```{r rows_columns, fig.height=3.0, fig.alt="Four small grids of three columns, X, A and Y, and six rows. The first has two holes in column A. The second has column A grayed out: drop the column. The third has the two rows with holes grayed out: drop the rows. The fourth has the two holes filled in gold with question marks: fill the holes."}
+grid <- expand.grid(row = 1:6, col = c("X", "A", "Y"), stringsAsFactors = FALSE)
+grid$status <- ifelse(grid$col == "A" & grid$row %in% c(2, 5), "missing", "recorded")
+panels <- bind_rows(
+  grid |> mutate(panel = "with holes"),
+  grid |> mutate(panel = "drop the column", status = ifelse(col == "A", "dropped", status)),
+  grid |> mutate(panel = "drop the rows", status = ifelse(row %in% c(2, 5), "dropped", status)),
+  grid |> mutate(panel = "fill the holes", status = ifelse(status == "missing", "filled in", status)))
+panels$col <- factor(panels$col, levels = c("X", "A", "Y"))
+panels$panel <- factor(panels$panel, levels = unique(panels$panel))
+panels$status <- factor(panels$status, levels = c("recorded", "missing", "dropped", "filled in"))
+ggplot(panels, aes(col, -row)) +
+  geom_tile(aes(fill = status), color = "white", linewidth = 1.2, width = 0.92, height = 0.92) +
+  geom_text(data = subset(panels, status == "filled in"), label = "?", size = 6, color = navy) +
+  facet_wrap(~ panel, nrow = 1) +
+  scale_fill_manual(values = c(recorded = slate, missing = "grey93", dropped = "grey80", `filled in` = gold),
+                    name = NULL, drop = FALSE) +
+  theme(axis.title = element_blank(), axis.text.y = element_blank(), panel.grid = element_blank(),
+        legend.position = "bottom", strip.text = element_text(size = 16))
+```
 
 ## Predict
 
 ::: {.notes}
-Hands for each answer, before the table. Most will say the model that leaves A out is fairer and a little less accurate.
+Hands for each answer, before the table. Most will say the model that leaves A out is fairer and a little less accurate. The reason A is absent does not enter the arithmetic that follows; hold on to that.
 :::
 
-$Y$: how well someone would do a job, $Y \sim N(0, 1)$, larger is better. $\; A \in \{0, 1\}$: a group, half the population each, independent of $Y$.
+$Y$: job performance, $N(0, 1)$. $\; A \in \{0, 1\}$: a group, half each, independent of $Y$.
 
-$X = Y + 2A + \varepsilon$, with $\varepsilon \sim N(0, 1)$ independent of $Y$ and $A$: a test score. Membership of group 1 adds two points, from coaching, and nothing to the job.
+$X = Y + 2A + \varepsilon$: a test score, $\varepsilon \sim N(0, 1)$ independent. Group 1 gets two points from coaching.
+
+The model may not have $A$: the law, or a dropped column.
 
 ```{r dag_coursework, fig.height=1.6, fig.alt="A causal graph: A and Y both point into X."}
 cw <- data.frame(name = c("A", "Y", "X"), x = c(0, 2, 1), y = c(1, 1, 0))
@@ -336,15 +379,15 @@ draw_dag(cw, data.frame(from = c("A", "Y"), to = c("X", "X")), xlim = c(-0.4, 2.
 Predict $Y$ from $X$ alone, or from $X$ and $A$. Which model is more accurate? Which predicts a bigger gap between the groups?
 :::
 
-## Two models
+## Two models {.inverse}
 
 ::: {.notes}
-The setting of a coursework problem from this course in 2024, with its worked solution's numbers (betaY = 1, betaA = 2), at 100,000 for training and for testing. The groups have the same distribution of Y. The model that leaves A out predicts a gap of two thirds of a standard deviation and is less accurate in both groups.
+The setting of a coursework problem from this course in 2024, with its worked solution's numbers (betaY = 1, betaA = 2), at 5,000 rows for training and 5,000 for testing, so the numbers wobble in the second decimal; the population values are two slides on. The groups have the same distribution of Y. The model that leaves A out predicts a gap of two thirds of a standard deviation and is less accurate in both groups.
 :::
 
 ```{r coursework_sim}
-train <- generate_data(1e5)
-test <- generate_data(1e5)
+train <- generate_data(5000)
+test <- generate_data(5000)
 unaware <- lm(Y ~ X, data = train)
 full <- lm(Y ~ X + A, data = train)
 tab <- test |>
@@ -362,8 +405,8 @@ knitr::kable(tab, digits = 2, format.args = list(nsmall = 2))
 
 Leaving $A$ out: less accurate in both groups, and a gap between groups whose $Y$ has the same distribution.
 
-::: {.source}
-ST313 coursework 2 (2024) and its worked solution: $A \to X \leftarrow Y$, `betaY = 1`, `betaA = 2` (in the formula before, $\alpha = 1$ and $b = 2$).
+::: {.source style="color: #BCAF6F"}
+ST313 coursework 2 (2024) and its worked solution: $A \to X \leftarrow Y$, `betaY = 1`, `betaA = 2`: $\beta_Y = 1$ and $\beta_A = 2$ in the formula before.
 :::
 
 ## The picture
@@ -384,7 +427,7 @@ ggplot(show, aes(X, Y, color = A)) +
   theme(plot.caption = element_text(size = 14, color = cgray))
 ```
 
-## By hand {minutes="5"}
+## True/population values {minutes="5"}
 
 ::: {.notes}
 Slope is covariance over variance: 1/3, through the means (1, 0). Within group a, X - 2a = Y + noise, so the model with A is two simple regressions of slope 1/2. The coefficient -1 on A is the collider: the residual covariance -1/6 over what is left of Var(A) after removing X, 1/4 - (1/2)^2/3 = 1/6. State the ratio; do not prove it.
@@ -400,26 +443,27 @@ $\operatorname{Var}(A) = \tfrac14$, so $\operatorname{Var}(X) = 1 + 4 \cdot \tfr
 
 The truth: mean $Y$ is $0$ in both groups. The coefficient on $A$ is $-1$.
 
-## What was leaving it out for? {minutes="5"}
+## Why leave out $A$? {.inverse minutes="5"}
 
 ::: {.notes}
-Three minutes in pairs, then two minutes for one answer that defends leaving A out and one that attacks it. No house answer. If nobody says it: the model with A gives a group-1 member a lower prediction than a group-0 member with the same score, which is what "because of" looks like; the model without A gives group 0 lower predictions on average with no difference in Y. And a different graph reverses the advice.
+Three minutes in pairs, then two minutes for one answer that defends leaving A out and one that attacks it. No house answer. Two reasons for the same absence: the law, which can be argued for, and a cleaning default, which never was; the gap is the same either way. If nobody says it: the model with A gives a group-1 member a lower prediction than a group-0 member with the same score, which is what "because of" looks like; the model without A gives group 0 lower predictions on average with no difference in Y. And a different graph reverses the advice.
 :::
 
 ::: {.ask}
-If leaving out the sensitive attribute makes the model both less accurate and more unequal between groups, what was leaving it out for?
+Less accurate, more unequal: so why leave out $A$?
 :::
 
-- Equality Act 2010, section 13, direct discrimination: less favorable treatment *because of* a protected characteristic.
-- Section 19, indirect discrimination: a provision, criterion or practice applied whatever the characteristic that puts those who share it, this person included, at a particular disadvantage, unless shown to be a proportionate means of achieving a legitimate aim.
+- Direct discrimination (s. 13): less favorable treatment *because of* a protected characteristic.
+- Indirect discrimination (s. 19): a provision, criterion or practice applied whatever the characteristic that puts those who share it, this person included, at a particular disadvantage, unless shown to be a proportionate means to a legitimate aim.
+- A half-empty column dropped in cleaning: no reason stated. The model cannot tell the two apart.
 
-If $A$ shaped the recorded outcome itself, a model using $A$ would learn that.
+If $A$ shaped the recorded outcome itself, a model using $A$ learns that.
 
-::: {.source}
+::: {.source style="color: #BCAF6F"}
 Equality Act 2010 (c. 15), sections 13(1) and 19, legislation.gov.uk/ukpga/2010/15.
 :::
 
-## Adjusting for a collider
+## Adjusting for a collider {minutes="2"}
 
 ::: {.notes}
 The other question: does A affect Y? Compare the groups' mean Y: zero, right. The coefficient on A in the model with X: minus one, wrong as an effect. Adjusting for confounders removes bias; adjusting for a collider adds it. Lens F: holding the score fixed while changing A is not something that happens to anyone.
@@ -441,7 +485,7 @@ To predict $Y$: condition on $X$ and $A$. To estimate the effect of $A$ on $Y$: 
 ## Missing data
 
 ::: {.notes}
-C is the letter from Part 1 on purpose: the complete cases are C = 1, and when two things both cause whether someone is in the data, C is a collider. Hernán and Robins, chapter 8, code it the other way round (C = 1 censored, analysis on C = 0); van Buuren writes R, which here is a risk score. MAR is "random given what was recorded", not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.
+The second choice on the map: drop the rows. C is the letter from Part 1 on purpose: the complete cases are C = 1, and when two things both cause whether someone is in the data, C is a collider. Hernán and Robins, chapter 8, code it the other way round (C = 1 censored, analysis on C = 0); van Buuren writes R, which here is a risk score. MAR is "random given what was recorded", not random in the everyday sense. You can see whether missingness depends on X. You cannot see whether it depends on Y given X: the values you would need are the missing ones.
 :::
 
 $C = 1$ if $Y$ is observed: the complete cases. $X$ is always recorded.
@@ -505,7 +549,7 @@ The true mean? The mean among those who answered? Check with the formula.
 ## When the complete cases are enough {.inverse}
 
 ::: {.notes}
-Skip if behind. Under MAR on X, at each x the recorded Y are a random sample of the Y at that x, so a correct regression line is the same among the complete cases; only the mix of x changes. When the missingness depends on Y, the complete-case line is wrong; in this simulation the high Y go missing at each x and it flattens. Other dependence on Y does other things: dropping the middle of Y steepens it.
+Skip if behind. Under MAR on X, at each x the recorded Y are a random sample of the Y at that x, so a correct regression line is the same among the complete cases; only the mix of x changes. When the missingness depends on Y given X, the complete-case line need not survive; in this simulation the high Y go missing at each x and it flattens. Other dependence on Y does other things: dropping the middle of Y steepens it, and dropping symmetrically in the residual leaves it alone.
 :::
 
 ```{r cc_regression, fig.height=4.0, fig.alt="Two panels of simulated points with a dotted line of slope one, the line they were drawn from. Left, missing more often at high X: the solid line fitted to the recorded points lies on the dotted line. Right, missing more often at high Y: the fitted line is flatter."}
@@ -529,12 +573,12 @@ ggplot(cc, aes(X, Y)) +
   theme(legend.position = "none", plot.caption = element_text(size = 13)) + dark
 ```
 
-Missing on $X$ only: $E[Y \mid X, C = 1] = E[Y \mid X]$, a correct line survives. Missing on $Y$: the line is wrong; here it flattens.
+Missing on $X$ only: $E[Y \mid X, C = 1] = E[Y \mid X]$, a correct line survives. Missing on $Y$ given $X$: it need not; here it flattens.
 
-## Reweighting the people who answered {.inverse}
+## Inverse probability weighting
 
 ::: {.notes}
-Compress: weight each person who answered by one over the chance that someone like them answers. A younger respondent stands for 1/0.8 people, an older one for 1/0.4. The three steps: condition on X; use MAR to split E[CY | X]; iterated expectation. It removes the bias and pays in variance: small e(X), large weights. If the missingness depends on Y given X, no weight built from X can undo it.
+Name it: inverse probability weighting, the Horvitz-Thompson estimator with the chance of answering in place of the chance of being sampled, and the same weights as inverse propensity weighting for a treatment with "answered" in place of "treated". Weight each person who answered by one over the chance that someone like them answers. A younger respondent stands for 1/0.8 people, an older one for 1/0.4. The three steps: condition on X; use MAR to split E[CY | X]; iterated expectation. It removes the bias and pays in variance: small e(X), large weights. If the missingness depends on Y given X, no weight built from X can undo it.
 :::
 
 $e(X) = P(C = 1 \mid X) > 0$. Under MAR:
@@ -545,7 +589,9 @@ $$
 
 Income example: $\tfrac12 (0.8)(40)/0.8 + \tfrac12 (0.4)(60)/0.4 = 50$.
 
-::: {.source style="color: #BCAF6F"}
+Each respondent stands for $1/e(X)$ people like them. Horvitz and Thompson's estimator, with the chance of answering in place of the chance of being sampled; the same weights as inverse propensity weighting for a treatment, with "answered" in place of "treated".
+
+::: {.source}
 Horvitz and Thompson (1952), "A Generalization of Sampling Without Replacement from a Finite Universe," *Journal of the American Statistical Association* 47(260), 663--685, doi:10.1080/01621459.1952.10483446. The same weights for people lost to follow-up: Hernán and Robins, *Causal Inference: What If*, section 8.5.
 :::
 
@@ -570,18 +616,61 @@ Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan (2017), "The Selective L
 ## Filling in
 
 ::: {.notes}
-Mean and regression imputation: one fill-in, analyzed as if observed; standard errors too small. Multiple imputation draws several plausible fill-ins and adds the between-fill-in variance back. The class runs it with mice. Then the sentence to leave with: the model the fill-ins come from is an assumption about values nobody observed, usually MAR given what you put in it.
+The third choice on the map. Names only; the class does the work this week: multiple imputation against mean imputation and the other quick fixes, and what still fails under MNAR. One sentence each at most: a single fill-in analyzed as if observed gives standard errors that are too small; multiple imputation draws several and puts the variance back (Rubin's rule, in the notes). Then the sentence to leave with: the model the fill-ins come from is an assumption about values nobody observed, usually MAR given what you put in it.
 :::
 
-- One fill-in (the mean, or a regression prediction), then analyzed as if observed: standard errors too small.
-- Multiple imputation: $m$ plausible fill-ins, each drawn from a model fitted to the observed rows, the model's own uncertainty included; the analysis on each; the $m$ estimates averaged. Its variance adds back what one fill-in hides: $\;\text{total} = \text{within} + \left(1 + \tfrac1m\right) \times \text{between}$, with within the average of the $m$ squared standard errors and between the variance of the $m$ estimates.
+Ways to fill a hole, worked through in the class:
+
+- the mean of the recorded values: *mean imputation*;
+- a regression prediction from the recorded columns: *regression imputation*;
+- the person's last recorded value: *last observation carried forward*;
+- several plausible values, each analyzed, the results pooled: *multiple imputation* (`mice`);
+- a column flagging the hole: the *indicator method*.
 
 ::: {.leave}
 An imputation model is an assumption about the values you did not observe, written down where it can be argued with.
 :::
 
 ::: {.source}
-van Buuren (2018), *Flexible Imputation of Missing Data*, 2nd edition, sections 1.3 and 2.3.2.
+van Buuren (2018), *Flexible Imputation of Missing Data*, 2nd edition, sections 1.3 (ad hoc solutions) and 1.4 (multiple imputation in a nutshell).
+:::
+
+## Three choices, one table {minutes="3"}
+
+::: {.notes}
+The coursework data again, A recorded for half the rows at random. Drop the column: the unaware model, for everyone. Drop the rows: the full model where A is recorded, nothing where it is not. Fill in: 20 completions, each from a logistic regression of A on X and Y refitted to a bootstrap sample of the rows that have A, so the model's parameters vary too (van Buuren 3.1.3, the bootstrap route), the 20 fits averaged; mice does the same with more care. For a row without A the prediction averages the full model over P(A | X). Give the complete-case fit that same prediction-time step and its row matches the fill-in row: with holes at random the two fits agree, and the difference is what you do at prediction time. Read the table by column: where A is recorded, the two methods that use it have no gap; where it is missing, nothing does better than X alone, and the gap is back. For a row without A the best prediction from X is X/2 - P(A = 1 | X), with P(A = 1 | X = x) = 1/(1 + exp(1 - x)); its MSE is 1/2 + E[p(1 - p)] = 0.66, and the linear unaware model's 2/3 is barely worse (notes). Filling A in from X in order to use it is using a proxy for A: week 8.
+:::
+
+```{r three_choices}
+sim <- function(n) { d <- generate_data(n); d$A <- as.integer(as.character(d$A)); d$Arec <- ifelse(rbinom(n, 1, 1/2) == 1, d$A, NA); d }
+tr <- sim(5000); te <- sim(5000); known <- !is.na(te$Arec)
+drop_col <- predict(lm(Y ~ X, data = tr), te)
+drop_rows <- predict(lm(Y ~ X + Arec, data = tr), te)                 # NA where A is missing
+cc <- subset(tr, !is.na(Arec))
+b <- rowMeans(replicate(20, {                                          # 20 completions
+  imp <- glm(Arec ~ X + Y, family = binomial, data = cc[sample(nrow(cc), replace = TRUE), ])  # the imputation model, refitted on a bootstrap sample
+  d <- tr; miss <- is.na(d$Arec)
+  d$Arec[miss] <- rbinom(sum(miss), 1, predict(imp, d[miss, ], type = "response"))
+  coef(lm(Y ~ X + Arec, data = d))
+}))
+f <- function(x, a) b[1] + b[2] * x + b[3] * a
+pA <- predict(glm(Arec ~ X, family = binomial, data = cc), te, type = "response")
+fill_in <- ifelse(known, f(te$X, te$Arec), pA * f(te$X, 1) + (1 - pA) * f(te$X, 0))
+row_of <- function(p) {
+  mse <- function(idx) sprintf("%.2f", mean((te$Y[idx] - p[idx])^2))
+  gap <- function(idx) { m <- tapply(p[idx], te$A[idx], mean); sprintf("%.2f", m[2] - m[1]) }
+  none <- all(is.na(p[!known]))
+  c(mse(known), if (none) "no prediction" else mse(!known), gap(known), if (none) "no prediction" else gap(!known))
+}
+tab <- rbind(`drop the column` = row_of(drop_col), `drop the rows` = row_of(drop_rows), `fill in` = row_of(fill_in))
+colnames(tab) <- c("MSE, A recorded", "MSE, A missing", "gap, A recorded", "gap, A missing")
+knitr::kable(tab)
+```
+
+$A$ recorded for half of 5,000 rows, at random. Gap: mean prediction for group 1 minus group 0; the truth is $0$. Drop the rows: fit on the complete rows, predict only where $A$ is recorded. Fill in: fit on the completed rows; where $A$ is missing, average over $P(A \mid X)$.
+
+::: {.leave}
+Filling in recovers the fit, not the missing information. Where $A$ is recorded, a model that uses it has no gap; where it is missing, nothing predicts better than $X$ alone, and the gap is back.
 :::
 
 ## Admitted students {minutes="4"}
@@ -602,8 +691,8 @@ Draw the graph and mark what the records condition on. Among admitted students, 
 Each lens, what it referred to this week. Then the question on the last slide.
 :::
 
-- **Who is in the data?** Babies born small; the complete cases; defendants a judge released; people offered a place.
-- **You have to choose, so choose, and defend it.** Use the attribute or leave it out: it depends on a graph the data do not settle. MAR or MNAR: the data do not settle that either.
+- **Who is in the data?** Babies born small; the complete cases; defendants a judge released; people offered a place. And what is recorded about them: the column that was dropped.
+- **You have to choose, so choose, and defend it.** Drop the column, drop the rows, or fill in: each depends on something the data do not settle, the graph $A$ is in, MAR or MNAR. A default makes the choice too, with nobody to defend it.
 - **What can be changed, and how?** What things are considered "controlled for" or "held fixed," and is that realistic? A score held fixed while the group changes. Birth weight held fixed while asking about smoking.
 
 ...and why?

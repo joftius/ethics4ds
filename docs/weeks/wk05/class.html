@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joshua Loftus">
+
+<title>Who counts as a case – ethics 4 data science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-bb5ce4f09c3d713477d34b1921f208f7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><i class="fa-solid fa-chart-simple fa-large" aria-label="chart-simple"></i> ethics 4 data science</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-references" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">references</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-references">    
+        <li>
+    <a class="dropdown-item" href="https://www.bitbybitbook.com/en/1st-ed/ethics/">
+ <span class="dropdown-text">Bit by Bit</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://fairmlbook.org/">
+ <span class="dropdown-text">Fairness and Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://data-feminism.mitpress.mit.edu/">
+ <span class="dropdown-text">Data Feminism</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://rss.org.uk/RSS/media/News-and-publications/Publications/Reports%20and%20guides/A-Guide-for-Ethical-Data-Science-Final-Oct-2019.pdf">
+ <span class="dropdown-text">RSS Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice">
+ <span class="dropdown-text">ASA Guidelines</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.acm.org/code-of-ethics">
+ <span class="dropdown-text">ACM Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text"><i class="fa-solid fa-house fa-large" aria-label="house"></i> content</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text"><i class="fa-solid fa-user fa-large" aria-label="user"></i> about</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#how-this-sheet-works" id="toc-how-this-sheet-works" class="nav-link active" data-scroll-target="#how-this-sheet-works">How this sheet works</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1.-selection-on-a-collider-by-hand" id="toc-exercise-1.-selection-on-a-collider-by-hand" class="nav-link" data-scroll-target="#exercise-1.-selection-on-a-collider-by-hand">Exercise 1. Selection on a collider, by hand</a></li>
+  <li><a href="#exercise-2.-the-unaware-model-with-a-smaller-coaching-effect" id="toc-exercise-2.-the-unaware-model-with-a-smaller-coaching-effect" class="nav-link" data-scroll-target="#exercise-2.-the-unaware-model-with-a-smaller-coaching-effect">Exercise 2. The unaware model, with a smaller coaching effect</a></li>
+  <li><a href="#exercise-3.-inverse-probability-weighting" id="toc-exercise-3.-inverse-probability-weighting" class="nav-link" data-scroll-target="#exercise-3.-inverse-probability-weighting">Exercise 3. Inverse probability weighting</a></li>
+  </ul></li>
+  <li><a href="#in-class" id="toc-in-class" class="nav-link" data-scroll-target="#in-class">In class</a>
+  <ul class="collapse">
+  <li><a href="#discussion-1-who-is-missing-from-the-data-you-brought" id="toc-discussion-1-who-is-missing-from-the-data-you-brought" class="nav-link" data-scroll-target="#discussion-1-who-is-missing-from-the-data-you-brought">Discussion 1: who is missing from the data you brought</a></li>
+  <li><a href="#problem-1.-why-is-it-missing-and-which-way" id="toc-problem-1.-why-is-it-missing-and-which-way" class="nav-link" data-scroll-target="#problem-1.-why-is-it-missing-and-which-way">Problem 1. Why is it missing, and which way?</a></li>
+  <li><a href="#discussion-2-why-leave-out-a" id="toc-discussion-2-why-leave-out-a" class="nav-link" data-scroll-target="#discussion-2-why-leave-out-a">Discussion 2: why leave out <span class="math inline">\(A\)</span>?</a></li>
+  <li><a href="#coding-filling-in-four-ways" id="toc-coding-filling-in-four-ways" class="nav-link" data-scroll-target="#coding-filling-in-four-ways">Coding: filling in, four ways</a></li>
+  <li><a href="#problem-2.-selection-on-a-collider-with-numbers" id="toc-problem-2.-selection-on-a-collider-with-numbers" class="nav-link" data-scroll-target="#problem-2.-selection-on-a-collider-with-numbers">Problem 2. Selection on a collider, with numbers</a></li>
+  <li><a href="#discussion-3-a-label-that-exists-only-where-a-decision-allowed-it" id="toc-discussion-3-a-label-that-exists-only-where-a-decision-allowed-it" class="nav-link" data-scroll-target="#discussion-3-a-label-that-exists-only-where-a-decision-allowed-it">Discussion 3: a label that exists only where a decision allowed it</a></li>
+  </ul></li>
+  <li><a href="#for-next-time" id="toc-for-next-time" class="nav-link" data-scroll-target="#for-next-time">For next time</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Who counts as a case</h1>
+<p class="subtitle lead">Class</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joshua Loftus </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is the student version of the class sheet. The exercises are for your own time; the class works through everything under “In class”. Answers are revealed in class.</p>
+</div>
+</div>
+<section id="how-this-sheet-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-this-sheet-works">How this sheet works</h2>
+<p>Exercises rederive or apply the lecture’s results. Do them on your own time; they are not worked in class. The class works the discussions, the problems and the coding under “In class,” in that order. Discussions are in groups of three or four, then with the room. Each problem, and the coding, is gone through as soon as the room has tried it.</p>
+<p>Every item is about one decision: who is in the data, what is recorded about them, and what to do about the people and the columns that are not there. Someone made that decision, usually not the people left out, and every way of handling what is missing is an assumption about people nobody asked. So each item ends by asking who the mistake falls on, who gains from it going unnoticed, or who the choice could be justified to. The arithmetic is how you earn an answer to that question; it is not the answer.</p>
+<p>Notation as in the lecture: <span class="math inline">\(C = 1\)</span> if a person’s <span class="math inline">\(Y\)</span> is recorded and <span class="math inline">\(C = 0\)</span> if it is missing; <span class="math inline">\(e(X) = P(C = 1 \mid X)\)</span>; <span class="math inline">\(A\)</span> is a group.</p>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<p>Attempt each part before you open a hint.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Hints">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Hints
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not open a hint unless you have been stuck for at least a few minutes, and open them in order.</p>
+</div>
+</div>
+<section id="exercise-1.-selection-on-a-collider-by-hand" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1.-selection-on-a-collider-by-hand">Exercise 1. Selection on a collider, by hand</h3>
+<p>A company’s records cover the people it hired. It hired every applicant who either did well at the interview or had a referral from a current employee. Among applicants, half did well at the interview and half had a referral, independently of each other.</p>
+<ol type="a">
+<li><p>Among the people hired, what fraction of those with a referral did well at the interview? What fraction of those without a referral?</p></li>
+<li><p>Draw the causal graph with three nodes: interview, referral, hired. Which node do the company’s records condition on?</p></li>
+<li><p>The company notices that referred hires did worse at interview than other hires, concludes that referrals attract weaker candidates, and raises the interview bar for referred applicants. What is wrong with the conclusion, and who pays for it?</p></li>
+<li><p>Redo (a) when a fraction <span class="math inline">\(q\)</span> of applicants do well at the interview, whatever <span class="math inline">\(q\)</span> is. Does the gap between the two fractions depend on <span class="math inline">\(q\)</span>?</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Start with the hires who have no referral. How did each of them get in?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Among the applicants with a referral, the hiring rule kept everyone.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-2.-the-unaware-model-with-a-smaller-coaching-effect" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2.-the-unaware-model-with-a-smaller-coaching-effect">Exercise 2. The unaware model, with a smaller coaching effect</h3>
+<p>Leaving a protected characteristic out of a model is often done in the name of fairness. This exercise computes what it buys, in the lecture’s model with a smaller coaching effect.</p>
+<p>Job performance <span class="math inline">\(Y \sim N(0, 1)\)</span>, larger is better. A group <span class="math inline">\(A \in
+\{0, 1\}\)</span>, half the population each, independent of <span class="math inline">\(Y\)</span>. A test score <span class="math inline">\(X = Y + A + \varepsilon\)</span> with <span class="math inline">\(\varepsilon \sim N(0, 1)\)</span> independent of both: group 1 gets one point from coaching, and nothing else. (The lecture had two points, <span class="math inline">\(\beta_A = 2\)</span>; here <span class="math inline">\(\beta_A = 1\)</span>.)</p>
+<ol type="a">
+<li><p>Compute <span class="math inline">\(E[X]\)</span>, <span class="math inline">\(\operatorname{Var}(X)\)</span> and <span class="math inline">\(\operatorname{Cov}(X, Y)\)</span>. The <em>unaware</em> model is the regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>: give its prediction <span class="math inline">\(\hat Y\)</span> as a function of <span class="math inline">\(X\)</span>, and the average prediction in each group.</p></li>
+<li><p>The <em>full</em> model uses <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>. Within group <span class="math inline">\(a\)</span>, <span class="math inline">\(X - a = Y + \varepsilon\)</span>. Give the full model’s prediction, the coefficient on <span class="math inline">\(A\)</span>, and the average prediction in each group.</p></li>
+<li><p>Compute the mean squared error of each model. Which is more accurate, and which predicts a bigger gap between the groups?</p></li>
+<li><p>Someone reads the coefficient on <span class="math inline">\(A\)</span> in (b) as the effect of group membership on job performance. What is wrong with that reading? Which group does each of the two mistakes, the unaware model’s gap and this reading, fall on?</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The slope of a simple regression is covariance over variance, and the line passes through the point of means.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For (c), the mean squared error of the regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> is <span class="math inline">\(\operatorname{Var}(Y) - \operatorname{Cov}(X, Y)^2/\operatorname{Var}(X)\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3.-inverse-probability-weighting" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3.-inverse-probability-weighting">Exercise 3. Inverse probability weighting</h3>
+<p><span class="math inline">\(X\)</span> is always recorded and <span class="math inline">\(Y\)</span> is sometimes missing; <span class="math inline">\(C = 1\)</span> when it is recorded, and <span class="math inline">\(e(X) = P(C = 1 \mid X) &gt; 0\)</span> for every value of <span class="math inline">\(X\)</span>.</p>
+<ol type="a">
+<li><p>Show that under MAR, <span class="math inline">\(E\!\left[\dfrac{C\,Y}{e(X)}\right] = E[Y]\)</span>. Say where MAR is used, and where the condition <span class="math inline">\(e(X) &gt; 0\)</span> is used.</p></li>
+<li><p>In the lecture’s income example, <span class="math inline">\(X\)</span> is age (young or old, half each), the young earn 40 on average and answer with probability 0.8, the old earn 60 on average and answer with probability 0.4. Compute the weighted mean and compare it with the mean of the recorded incomes, 46.7.</p></li>
+<li><p>In practice <span class="math inline">\(e(X)\)</span> is not known. Say in one sentence how you would estimate it from the data, and what the estimate uses that the complete-case mean throws away.</p></li>
+<li><p>The weighted mean assumes that the old people who did not answer earn what the old people who did answer earn. The complete-case mean assumes something too: say what. Which assumption would you rather defend to the people who did not answer, and what would it take to check either?</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Condition on <span class="math inline">\(X\)</span> first: <span class="math inline">\(E[CY/e(X)] = E\big[E[CY \mid X]/e(X)\big]\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Under MAR, <span class="math inline">\(C\)</span> and <span class="math inline">\(Y\)</span> are independent given <span class="math inline">\(X\)</span>, so <span class="math inline">\(E[CY \mid X] = E[C \mid X]\,E[Y \mid X]\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="in-class" class="level2">
+<h2 class="anchored" data-anchor-id="in-class">In class</h2>
+<section id="discussion-1-who-is-missing-from-the-data-you-brought" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-1-who-is-missing-from-the-data-you-brought">Discussion 1: who is missing from the data you brought</h3>
+<p>Use the dataset or study you brought, where some people who should be in it are not. If you did not bring one, choose: a customer satisfaction survey; a hospital’s records of patient outcomes; a university’s record of its graduates’ salaries; the crimes recorded by the police; a dating app’s record of which matches led to a date.</p>
+<ol type="1">
+<li>Who is missing, and which way does their absence push the result? Who is better off for that?</li>
+<li>Relative to what the dataset records about people, is the missingness closer to completely at random, at random, or not at random? What would the dataset have to record to make it “at random”?</li>
+<li>Name one dataset that should exist and does not. Who would have had to collect it, and why have they not?</li>
+</ol>
+</section>
+<section id="problem-1.-why-is-it-missing-and-which-way" class="level3">
+<h3 class="anchored" data-anchor-id="problem-1.-why-is-it-missing-and-which-way">Problem 1. Why is it missing, and which way?</h3>
+<ol type="a">
+<li>For each setting, say whether the missing values are MCAR, MAR or MNAR, and whether the mean of the recorded values is too high, too low, or neither, compared with the mean for everyone. Say which clause of the setting your answer depends on, and who is worse off if the recorded mean is taken at face value.</li>
+</ol>
+<ul>
+<li>A fitness watch records resting heart rate only on nights it is worn. People take it off on nights they feel unwell, and nothing else about them is recorded.</li>
+<li>Exam marks are missing for students whose exam scripts were lost in the post; the post lost one sack at random.</li>
+<li>A survey asks about weekly hours worked, and the overall mean will set one staffing standard for both regions. Response is lower in one region than another, the region is recorded, and within each region whether someone responds is unrelated to their hours.</li>
+</ul>
+<ol start="2" type="a">
+<li><p>A company surveys its staff about pay. Half are junior, with mean salary 30 (thousands), and half are senior, with mean salary 70. Juniors respond with probability 0.9 and seniors with probability 0.3. Within each grade, whether someone responds is unrelated to their salary. What is the true mean salary? What is the mean among respondents? Check your answer with <span class="math inline">\(E[Y \mid C = 1] - E[Y] = \operatorname{Cov}(Y, C)/P(C = 1)\)</span>.</p></li>
+<li><p>Weight each respondent by one over their grade’s response probability. Show that the weighted mean recovers the true mean. (For 100 staff: how many respondents are in each grade, and what weight does each get?)</p></li>
+<li><p>Now suppose that within each grade the better-paid staff respond less often. Is the weighted mean from (c) still right? Which way is it wrong, and what would fix it? Who would have to agree to the fix?</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For (b): <span class="math inline">\(E[YC]\)</span> is the average over everyone of salary times the response indicator, so sum salary times response probability over the two grades, each with weight <span class="math inline">\(1/2\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For (c): of 100 staff, 50 are junior and 45 of them respond.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="discussion-2-why-leave-out-a" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-2-why-leave-out-a">Discussion 2: why leave out <span class="math inline">\(A\)</span>?</h3>
+<p>In the lecture’s test-score example, the model that leaves the group <span class="math inline">\(A\)</span> out is less accurate in both groups and predicts a gap between groups whose <span class="math inline">\(Y\)</span> has the same distribution.</p>
+<ol type="1">
+<li>Write the strongest argument for leaving <span class="math inline">\(A\)</span> out, and the strongest argument against. Then say which causal graph each argument assumes.</li>
+<li>Now <span class="math inline">\(A\)</span> is not a protected characteristic but a column that was recorded for half the applicants. Would you drop the column, drop the rows that lack it, or fill it in? Who would you have to justify the choice to, and could you?</li>
+</ol>
+</section>
+<section id="coding-filling-in-four-ways" class="level3">
+<h3 class="anchored" data-anchor-id="coding-filling-in-four-ways">Coding: filling in, four ways</h3>
+<p>One laptop between two. You need <code>ggplot2</code>, <code>dplyr</code> and <code>mice</code> (<code>install.packages("mice")</code> once). <span class="math inline">\(Y\)</span> depends on <span class="math inline">\(X\)</span>, and we remove values of <span class="math inline">\(Y\)</span> in three ways, then estimate the mean of <span class="math inline">\(Y\)</span> four ways.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> X <span class="sc">+</span> <span class="fu">rnorm</span>(n)                       <span class="co"># the truth: E[Y] = 1, slope 1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>logistic <span class="ot">&lt;-</span> <span class="cf">function</span>(v) <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span>v))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>C_mcar <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>) <span class="sc">==</span> <span class="dv">1</span>            <span class="co"># recorded with probability 1/2, whoever you are</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>C_mar  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">logistic</span>(<span class="sc">-</span><span class="fl">1.5</span> <span class="sc">*</span> X)) <span class="sc">==</span> <span class="dv">1</span>        <span class="co"># recorded less often when X is high</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>C_mnar <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">logistic</span>(<span class="sc">-</span><span class="fl">1.5</span> <span class="sc">*</span> (Y <span class="sc">-</span> <span class="dv">1</span>))) <span class="sc">==</span> <span class="dv">1</span>  <span class="co"># recorded less often when Y is high</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">mean</span>(C_mcar), <span class="fu">mean</span>(C_mar), <span class="fu">mean</span>(C_mnar))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>estimate <span class="ot">&lt;-</span> <span class="cf">function</span>(C) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">X =</span> X, <span class="at">Y =</span> <span class="fu">ifelse</span>(C, Y, <span class="cn">NA</span>))            <span class="co"># Y is NA where it is missing</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  cc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(d<span class="sc">$</span>Y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="fu">sd</span>(d<span class="sc">$</span>Y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(C)))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  mean_imp <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(C, Y, <span class="fu">mean</span>(Y[C]))                     <span class="co"># fill the holes with the recorded mean</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  mi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(mean_imp), <span class="fu">sd</span>(mean_imp) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  reg_imp <span class="ot">&lt;-</span> <span class="co"># ...                                         # fill the holes with the prediction from X</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  ri <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(reg_imp), <span class="fu">sd</span>(reg_imp) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(d, <span class="at">m =</span> <span class="dv">20</span>, <span class="at">method =</span> <span class="st">"norm"</span>, <span class="at">printFlag =</span> <span class="cn">FALSE</span>)   <span class="co"># 20 completions</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  pooled <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">pool</span>(<span class="fu">with</span>(imp, <span class="fu">lm</span>(Y <span class="sc">~</span> <span class="dv">1</span>))))                <span class="co"># the mean of Y in each, pooled</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  mult <span class="ot">&lt;-</span> <span class="fu">c</span>(pooled<span class="sc">$</span>estimate, pooled<span class="sc">$</span>std.error)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="st">`</span><span class="at">complete cases</span><span class="st">`</span> <span class="ot">=</span> cc, <span class="st">`</span><span class="at">mean imputation</span><span class="st">`</span> <span class="ot">=</span> mi,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">regression imputation</span><span class="st">`</span> <span class="ot">=</span> ri, <span class="st">`</span><span class="at">multiple imputation</span><span class="st">`</span> <span class="ot">=</span> mult)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(out) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"estimate"</span>, <span class="st">"se"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  out</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol type="1">
+<li>Run the first block. Each indicator keeps about half the rows. Before you estimate anything, write down for each of the three indicators whether you expect the complete-case mean to be too high, too low, or right, and why.</li>
+<li>Complete the regression-imputation line: fit <code>lm(Y ~ X, data = d)</code> on the rows that have <span class="math inline">\(Y\)</span> (which is what <code>lm()</code> does with <code>NA</code>) and fill each hole with its prediction. Then run <code>estimate()</code> on each indicator and put the three tables side by side. The truth is <span class="math inline">\(1\)</span>; the standard error of the mean of all <span class="math inline">\(n\)</span> values of <span class="math inline">\(Y\)</span> would be about <span class="math inline">\(\sqrt{2/n} = 0.032\)</span>, and of half of them about <span class="math inline">\(0.045\)</span>.</li>
+<li>Read the tables by row. Which methods are biased under which mechanism? Which standard errors are too small, and what makes them too small? What does multiple imputation fix that regression imputation does not, and what does it not fix?</li>
+<li>Look inside <code>mice</code>. For the MAR data, <code>imp &lt;- mice(d, m = 20, method = "norm", printFlag = FALSE)</code>; then <code>head(imp$imp$Y[, 1:4])</code> shows the first four completions’ values for the first few missing rows, and <code>pool(with(imp, lm(Y ~ 1)))$pooled</code> shows <code>ubar</code> (the average within-completion variance), <code>b</code> (the variance of the 20 estimates) and <code>t</code> (the total). Check that <span class="math inline">\(t = \bar u + (1 + 1/m)\,b\)</span>. Which of the three is what a single fill-in throws away?</li>
+<li>Every row of the MNAR column is wrong, multiple imputation included, because every method assumed that the missing <span class="math inline">\(Y\)</span> are like the recorded <span class="math inline">\(Y\)</span> with the same <span class="math inline">\(X\)</span>. An imputation model is an assumption about people who are not in the data. A statistics office imputes missing incomes in a survey that is used to set benefit levels. Who should choose the model, what should be published about it, and who would read it?</li>
+<li>At home: real data. R’s <code>airquality</code> (New York, May to September
+<ol start="1973" type="1">
+<li>has 37 missing ozone readings out of 153. Tabulate the share missing by month. Estimate the mean ozone level by complete cases, mean imputation, and multiple imputation using <code>Temp</code>, <code>Wind</code> and <code>Month</code>. What does the multiple imputation assume about the days with missing ozone that no check on the data can confirm?</li>
+</ol></li>
+</ol>
+</section>
+<section id="problem-2.-selection-on-a-collider-with-numbers" class="level3">
+<h3 class="anchored" data-anchor-id="problem-2.-selection-on-a-collider-with-numbers">Problem 2. Selection on a collider, with numbers</h3>
+<p>A university admits by exam grade. Grades run from 1 to 10, each equally likely among applicants. Half the applicants come from a feeder school, independently of their grade. The pass mark is 7, and 5 for applicants from a feeder school. The university’s records cover admitted students only.</p>
+<ol type="a">
+<li><p>Among admitted students, what is the mean grade of those from a feeder school, and of those not from one?</p></li>
+<li><p>Draw the causal graph with nodes grade, feeder school and admitted, and mark what the records condition on.</p></li>
+<li><p>An analyst concludes from the records that feeder schools produce weaker students, and the university considers withdrawing the lower pass mark. What is wrong, and who would pay for the mistake?</p></li>
+<li><p>Write down an admission rule under which, among the admitted, feeder-school students have the <em>higher</em> mean grade. What does this say about what the graph alone tells you, and about what the records are a record of?</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 1">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Among the admitted, which grades can a feeder-school student have, and which can a student from elsewhere have?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Hint 2">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For (d), make the feeder school’s bar the higher one.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="discussion-3-a-label-that-exists-only-where-a-decision-allowed-it" class="level3">
+<h3 class="anchored" data-anchor-id="discussion-3-a-label-that-exists-only-where-a-decision-allowed-it">Discussion 3: a label that exists only where a decision allowed it</h3>
+<p>A bank wants to know whether a new credit-scoring model would make better lending decisions than its current one. It evaluates the new model on its past applicants. It only knows whether an applicant repaid if it approved them.</p>
+<ol type="1">
+<li>Who is missing from the evaluation, and by what mechanism? Which way are the new model’s measured error rates likely to be wrong?</li>
+<li>Who benefits from the problem going unnoticed?</li>
+<li>The honest fix is to approve some applicants the current model rejects, chosen at random, and record what happens. Who pays for that, and is it justified?</li>
+</ol>
+</section>
+</section>
+<section id="for-next-time" class="level2">
+<h2 class="anchored" data-anchor-id="for-next-time">For next time</h2>
+<p>Bring one rule or score that sorts people into two groups: admit or reject, flag or clear, treat or not. Write down the two ways it can be wrong, and who pays for each. One sentence each.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Lakkaraju, Himabindu, Jon Kleinberg, Jure Leskovec, Jens Ludwig and Sendhil Mullainathan, “The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables” (<em>Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 2017, 275–284), <a href="https://doi.org/10.1145/3097983.3098066" class="uri">https://doi.org/10.1145/3097983.3098066</a>.</li>
+<li>van Buuren, Stef, <em>Flexible Imputation of Missing Data</em>, second edition (Chapman and Hall/CRC, 2018), sections 1.3, 1.4, 2.3 and 3.1, <a href="https://stefvanbuuren.name/fimd/" class="uri">https://stefvanbuuren.name/fimd/</a>.</li>
+<li>Equality Act 2010 (c.&nbsp;15), sections 13 and 19, <a href="https://www.legislation.gov.uk/ukpga/2010/15" class="uri">https://www.legislation.gov.uk/ukpga/2010/15</a>.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ethics4ds\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

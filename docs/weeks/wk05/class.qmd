@@ -1,0 +1,367 @@
+---
+title: "Who counts as a case"
+subtitle: "Class"
+author: "Joshua Loftus"
+format:
+  html:
+    toc: true
+execute:
+  message: false
+  warning: false
+---
+
+::: {.callout-note}
+This is the student version of the class sheet. The exercises are for your own time; the class works through everything under "In class". Answers are revealed in class.
+:::
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(mice)
+theme_set(theme_minimal())
+```
+
+## How this sheet works
+
+Exercises rederive or apply the lecture's results. Do them on your own
+time; they are not worked in class. The class works the discussions,
+the problems and the coding under "In class," in that order.
+Discussions are in groups of three or four, then with the room. Each
+problem, and the coding, is gone through as soon as the room has tried
+it.
+
+Every item is about one decision: who is in the data, what is recorded
+about them, and what to do about the people and the columns that are
+not there. Someone made that decision, usually not the people left
+out, and every way of handling what is missing is an assumption about
+people nobody asked. So each item ends by asking who the mistake falls
+on, who gains from it going unnoticed, or who the choice could be
+justified to. The arithmetic is how you earn an answer to that
+question; it is not the answer.
+
+Notation as in the lecture: $C = 1$ if a person's $Y$ is recorded and
+$C = 0$ if it is missing; $e(X) = P(C = 1 \mid X)$; $A$ is a group.
+
+## Exercises
+
+Attempt each part before you open a hint.
+
+::: {.callout-warning title="Hints"}
+Do not open a hint unless you have been stuck for at least a few
+minutes, and open them in order.
+:::
+
+### Exercise 1. Selection on a collider, by hand
+
+A company's records cover the people it hired. It hired every applicant
+who either did well at the interview or had a referral from a current
+employee. Among applicants, half did well at the interview and half had
+a referral, independently of each other.
+
+(a) Among the people hired, what fraction of those with a referral did
+well at the interview? What fraction of those without a referral?
+
+(b) Draw the causal graph with three nodes: interview, referral, hired.
+Which node do the company's records condition on?
+
+(c) The company notices that referred hires did worse at interview than
+other hires, concludes that referrals attract weaker candidates, and
+raises the interview bar for referred applicants. What is wrong with
+the conclusion, and who pays for it?
+
+(d) Redo (a) when a fraction $q$ of applicants do well at the interview,
+whatever $q$ is. Does the gap between the two fractions depend on $q$?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Start with the hires who have no referral. How did each of them get in?
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+Among the applicants with a referral, the hiring rule kept everyone.
+:::
+
+### Exercise 2. The unaware model, with a smaller coaching effect
+
+Leaving a protected characteristic out of a model is often done in the
+name of fairness. This exercise computes what it buys, in the lecture's
+model with a smaller coaching effect.
+
+Job performance $Y \sim N(0, 1)$, larger is better. A group $A \in
+\{0, 1\}$, half the population each, independent of $Y$. A test score
+$X = Y + A + \varepsilon$ with $\varepsilon \sim N(0, 1)$ independent of
+both: group 1 gets one point from coaching, and nothing else. (The
+lecture had two points, $\beta_A = 2$; here $\beta_A = 1$.)
+
+(a) Compute $E[X]$, $\operatorname{Var}(X)$ and
+$\operatorname{Cov}(X, Y)$. The *unaware* model is the regression of $Y$
+on $X$: give its prediction $\hat Y$ as a function of $X$, and the
+average prediction in each group.
+
+(b) The *full* model uses $X$ and $A$. Within group $a$,
+$X - a = Y + \varepsilon$. Give the full model's prediction, the
+coefficient on $A$, and the average prediction in each group.
+
+(c) Compute the mean squared error of each model. Which is more
+accurate, and which predicts a bigger gap between the groups?
+
+(d) Someone reads the coefficient on $A$ in (b) as the effect of group
+membership on job performance. What is wrong with that reading? Which
+group does each of the two mistakes, the unaware model's gap and this
+reading, fall on?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+The slope of a simple regression is covariance over variance, and the
+line passes through the point of means.
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+For (c), the mean squared error of the regression of $Y$ on $X$ is
+$\operatorname{Var}(Y) - \operatorname{Cov}(X, Y)^2/\operatorname{Var}(X)$.
+:::
+
+### Exercise 3. Inverse probability weighting
+
+$X$ is always recorded and $Y$ is sometimes missing; $C = 1$ when it is
+recorded, and $e(X) = P(C = 1 \mid X) > 0$ for every value of $X$.
+
+(a) Show that under MAR, $E\!\left[\dfrac{C\,Y}{e(X)}\right] = E[Y]$.
+Say where MAR is used, and where the condition $e(X) > 0$ is used.
+
+(b) In the lecture's income example, $X$ is age (young or old, half
+each), the young earn 40 on average and answer with probability 0.8,
+the old earn 60 on average and answer with probability 0.4. Compute the
+weighted mean and compare it with the mean of the recorded incomes,
+46.7.
+
+(c) In practice $e(X)$ is not known. Say in one sentence how you would
+estimate it from the data, and what the estimate uses that the
+complete-case mean throws away.
+
+(d) The weighted mean assumes that the old people who did not answer
+earn what the old people who did answer earn. The complete-case mean
+assumes something too: say what. Which assumption would you rather
+defend to the people who did not answer, and what would it take to
+check either?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Condition on $X$ first: $E[CY/e(X)] = E\big[E[CY \mid X]/e(X)\big]$.
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+Under MAR, $C$ and $Y$ are independent given $X$, so
+$E[CY \mid X] = E[C \mid X]\,E[Y \mid X]$.
+:::
+
+## In class
+
+### Discussion 1: who is missing from the data you brought
+
+Use the dataset or study you brought, where some people who should be
+in it are not. If you did not bring one, choose: a customer
+satisfaction survey; a hospital's records of patient outcomes; a
+university's record of its graduates' salaries; the crimes recorded by
+the police; a dating app's record of which matches led to a date.
+
+1. Who is missing, and which way does their absence push the result?
+   Who is better off for that?
+2. Relative to what the dataset records about people, is the
+   missingness closer to completely at random, at random, or not at
+   random? What would the dataset have to record to make it "at
+   random"?
+3. Name one dataset that should exist and does not. Who would have had
+   to collect it, and why have they not?
+
+### Problem 1. Why is it missing, and which way?
+
+(a) For each setting, say whether the missing values are MCAR, MAR or
+MNAR, and whether the mean of the recorded values is too high, too
+low, or neither, compared with the mean for everyone. Say which clause
+of the setting your answer depends on, and who is worse off if the
+recorded mean is taken at face value.
+
+  - A fitness watch records resting heart rate only on nights it is
+    worn. People take it off on nights they feel unwell, and nothing
+    else about them is recorded.
+  - Exam marks are missing for students whose exam scripts were lost
+    in the post; the post lost one sack at random.
+  - A survey asks about weekly hours worked, and the overall mean will
+    set one staffing standard for both regions. Response is lower in
+    one region than another, the region is recorded, and within each
+    region whether someone responds is unrelated to their hours.
+
+(b) A company surveys its staff about pay. Half are junior, with mean
+salary 30 (thousands), and half are senior, with mean salary 70.
+Juniors respond with probability 0.9 and seniors with probability 0.3.
+Within each grade, whether someone responds is unrelated to their
+salary. What is the true mean salary? What is the mean among
+respondents? Check your answer with
+$E[Y \mid C = 1] - E[Y] = \operatorname{Cov}(Y, C)/P(C = 1)$.
+
+(c) Weight each respondent by one over their grade's response
+probability. Show that the weighted mean recovers the true mean. (For
+100 staff: how many respondents are in each grade, and what weight does
+each get?)
+
+(d) Now suppose that within each grade the better-paid staff respond
+less often. Is the weighted mean from (c) still right? Which way is it
+wrong, and what would fix it? Who would have to agree to the fix?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+For (b): $E[YC]$ is the average over everyone of salary times the
+response indicator, so sum salary times response probability over the
+two grades, each with weight $1/2$.
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+For (c): of 100 staff, 50 are junior and 45 of them respond.
+:::
+
+### Discussion 2: why leave out $A$?
+
+In the lecture's test-score example, the model that leaves the group
+$A$ out is less accurate in both groups and predicts a gap between
+groups whose $Y$ has the same distribution.
+
+1. Write the strongest argument for leaving $A$ out, and the strongest
+   argument against. Then say which causal graph each argument
+   assumes.
+2. Now $A$ is not a protected characteristic but a column that was
+   recorded for half the applicants. Would you drop the column, drop
+   the rows that lack it, or fill it in? Who would you have to justify
+   the choice to, and could you?
+
+### Coding: filling in, four ways
+
+One laptop between two. You need `ggplot2`, `dplyr` and `mice`
+(`install.packages("mice")` once). $Y$ depends on $X$, and we remove
+values of $Y$ in three ways, then estimate the mean of $Y$ four ways.
+
+```{r filling_starter, eval=FALSE}
+library(mice)
+n <- 2000
+X <- rnorm(n)
+Y <- 1 + X + rnorm(n)                       # the truth: E[Y] = 1, slope 1
+logistic <- function(v) 1 / (1 + exp(-v))
+C_mcar <- rbinom(n, 1, 0.5) == 1            # recorded with probability 1/2, whoever you are
+C_mar  <- rbinom(n, 1, logistic(-1.5 * X)) == 1        # recorded less often when X is high
+C_mnar <- rbinom(n, 1, logistic(-1.5 * (Y - 1))) == 1  # recorded less often when Y is high
+c(mean(C_mcar), mean(C_mar), mean(C_mnar))
+
+estimate <- function(C) {
+  d <- data.frame(X = X, Y = ifelse(C, Y, NA))            # Y is NA where it is missing
+  cc <- c(mean(d$Y, na.rm = TRUE), sd(d$Y, na.rm = TRUE) / sqrt(sum(C)))
+  mean_imp <- ifelse(C, Y, mean(Y[C]))                     # fill the holes with the recorded mean
+  mi <- c(mean(mean_imp), sd(mean_imp) / sqrt(n))
+  reg_imp <- # ...                                         # fill the holes with the prediction from X
+  ri <- c(mean(reg_imp), sd(reg_imp) / sqrt(n))
+  imp <- mice(d, m = 20, method = "norm", printFlag = FALSE)   # 20 completions
+  pooled <- summary(pool(with(imp, lm(Y ~ 1))))                # the mean of Y in each, pooled
+  mult <- c(pooled$estimate, pooled$std.error)
+  out <- rbind(`complete cases` = cc, `mean imputation` = mi,
+               `regression imputation` = ri, `multiple imputation` = mult)
+  colnames(out) <- c("estimate", "se")
+  out
+}
+```
+
+1. Run the first block. Each indicator keeps about half the rows.
+   Before you estimate anything, write down for each of the three
+   indicators whether you expect the complete-case mean to be too
+   high, too low, or right, and why.
+2. Complete the regression-imputation line: fit `lm(Y ~ X, data = d)`
+   on the rows that have $Y$ (which is what `lm()` does with `NA`) and
+   fill each hole with its prediction. Then run `estimate()` on each
+   indicator and put the three tables side by side. The truth is $1$;
+   the standard error of the mean of all $n$ values of $Y$ would be
+   about $\sqrt{2/n} = 0.032$, and of half of them about $0.045$.
+3. Read the tables by row. Which methods are biased under which
+   mechanism? Which standard errors are too small, and what makes them
+   too small? What does multiple imputation fix that regression
+   imputation does not, and what does it not fix?
+4. Look inside `mice`. For the MAR data, `imp <- mice(d, m = 20,
+   method = "norm", printFlag = FALSE)`; then `head(imp$imp$Y[, 1:4])`
+   shows the first four completions' values for the first few missing
+   rows, and `pool(with(imp, lm(Y ~ 1)))$pooled` shows `ubar` (the
+   average within-completion variance), `b` (the variance of the 20
+   estimates) and `t` (the total). Check that
+   $t = \bar u + (1 + 1/m)\,b$. Which of the three is what a single
+   fill-in throws away?
+5. Every row of the MNAR column is wrong, multiple imputation included,
+   because every method assumed that the missing $Y$ are like the
+   recorded $Y$ with the same $X$. An imputation model is an assumption
+   about people who are not in the data. A statistics office imputes
+   missing incomes in a survey that is used to set benefit levels. Who
+   should choose the model, what should be published about it, and who
+   would read it?
+6. At home: real data. R's `airquality` (New York, May to September
+   1973) has 37 missing ozone readings out of 153. Tabulate the share
+   missing by month. Estimate the mean ozone level by complete cases,
+   mean imputation, and multiple imputation using `Temp`, `Wind` and
+   `Month`. What does the multiple imputation assume about the days
+   with missing ozone that no check on the data can confirm?
+
+### Problem 2. Selection on a collider, with numbers
+
+A university admits by exam grade. Grades run from 1 to 10, each
+equally likely among applicants. Half the applicants come from a feeder
+school, independently of their grade. The pass mark is 7, and 5 for
+applicants from a feeder school. The university's records cover
+admitted students only.
+
+(a) Among admitted students, what is the mean grade of those from a
+feeder school, and of those not from one?
+
+(b) Draw the causal graph with nodes grade, feeder school and admitted,
+and mark what the records condition on.
+
+(c) An analyst concludes from the records that feeder schools produce
+weaker students, and the university considers withdrawing the lower
+pass mark. What is wrong, and who would pay for the mistake?
+
+(d) Write down an admission rule under which, among the admitted,
+feeder-school students have the *higher* mean grade. What does this
+say about what the graph alone tells you, and about what the records
+are a record of?
+
+::: {.callout-tip collapse="true" title="Hint 1"}
+Among the admitted, which grades can a feeder-school student have, and
+which can a student from elsewhere have?
+:::
+
+::: {.callout-tip collapse="true" title="Hint 2"}
+For (d), make the feeder school's bar the higher one.
+:::
+
+### Discussion 3: a label that exists only where a decision allowed it
+
+A bank wants to know whether a new credit-scoring model would make
+better lending decisions than its current one. It evaluates the new
+model on its past applicants. It only knows whether an applicant repaid
+if it approved them.
+
+1. Who is missing from the evaluation, and by what mechanism? Which
+   way are the new model's measured error rates likely to be wrong?
+2. Who benefits from the problem going unnoticed?
+3. The honest fix is to approve some applicants the current model
+   rejects, chosen at random, and record what happens. Who pays for
+   that, and is it justified?
+
+## For next time
+
+Bring one rule or score that sorts people into two groups: admit or
+reject, flag or clear, treat or not. Write down the two ways it can be
+wrong, and who pays for each. One sentence each.
+
+## References
+
+- Lakkaraju, Himabindu, Jon Kleinberg, Jure Leskovec, Jens Ludwig and
+  Sendhil Mullainathan, "The Selective Labels Problem: Evaluating
+  Algorithmic Predictions in the Presence of Unobservables"
+  (*Proceedings of the 23rd ACM SIGKDD International Conference on
+  Knowledge Discovery and Data Mining*, 2017, 275--284),
+  <https://doi.org/10.1145/3097983.3098066>.
+- van Buuren, Stef, *Flexible Imputation of Missing Data*, second
+  edition (Chapman and Hall/CRC, 2018), sections 1.3, 1.4, 2.3 and
+  3.1, <https://stefvanbuuren.name/fimd/>.
+- Equality Act 2010 (c. 15), sections 13 and 19,
+  <https://www.legislation.gov.uk/ukpga/2010/15>.

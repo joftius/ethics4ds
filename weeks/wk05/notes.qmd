@@ -33,15 +33,19 @@ Every dataset has a rule for who gets into it: who was born small, who
 was hired, who answered the survey, who was released on bail. When
 that rule depends on two things at once, looking only at the people it
 let in creates an association between those two things that is not
-there in the population. When it depends on the outcome, the people
-you have are a biased sample of the people you wanted. The first is
+there in the population. When it depends on the outcome itself, even
+after accounting for what was recorded, the people you have are a
+biased sample of the people you wanted. The first is
 conditioning on a *collider*; the second is data *missing not at
-random*. A model that leaves out a sensitive attribute in order to be
-fair can become less accurate in both groups and more unequal between
-them, because the score it uses is a collider. The usual fixes for
-missing data each make an assumption about the values nobody observed.
-Writing that assumption down does not make it true, but it gives it an
-owner.
+random*. Every analysis also has a rule for which columns it uses, and
+a column is absent for reasons that run from the law to a cleaning
+step nobody recorded. A model that leaves a column out can become less
+accurate in both groups and more unequal between them, because the
+score it keeps is a collider, and it is the same model whatever the
+reason the column went. A column with holes forces one of three
+choices, drop the column, drop the rows, or fill the holes, and each
+makes an assumption about the values nobody observed. Writing that
+assumption down does not make it true, but it gives it an owner.
 
 ```{r setup, echo=FALSE, message=FALSE}
 library(ggplot2)
@@ -166,21 +170,33 @@ Here is one. Low birth weight has several causes. Smoking is one of
 them. Others, such as serious birth defects, are much more dangerous in
 their own right. Call those $U$, for unobserved.
 
-```{r dag_birthweight, echo=FALSE, fig.height=2.6, fig.width=6, fig.alt="A causal graph in boxes: smoking and U (birth defects and other causes) both point into low birth weight, which is shaded gray; smoking, low birth weight and U all point into infant death; a dashed gold line joins smoking and U."}
+```{r dag_birthweight, echo=FALSE, fig.height=2.6, fig.width=8, fig.alt="Two causal graphs in boxes. Left, all babies: smoking and U (birth defects and other causes) both point into low birth weight, shaded gray; smoking, low birth weight and U all point into infant death. Right, babies born small: low birth weight is gone, smoking and U point into infant death, and a dashed gold line joins smoking and U."}
 bw <- data.frame(name = c("smoking", "low birth weight", "U: birth defects, ...", "infant death"),
-                 x = c(0, 1.5, 3, 1.5), y = c(1, 0.45, 1, -0.5))
+                 x = c(0, 1.4, 2.8, 1.4), y = c(1, 0.45, 1, -0.5))
 bw_edges <- data.frame(from = c("smoking", "U: birth defects, ...", "low birth weight", "U: birth defects, ...", "smoking"),
                        to = c("low birth weight", "low birth weight", "infant death", "infant death", "infant death"))
-p <- draw_dag(bw, bw_edges, boxes = TRUE, xlim = c(-0.7, 3.7), ylim = c(-0.75, 1.25))
-condition_on(p, bw, "low birth weight", induced = c("smoking", "U: birth defects, ..."))
+lev <- c("all babies", "babies born small")
+small <- bw$name != "low birth weight"
+nodes2 <- rbind(transform(bw, panel = lev[1]), transform(bw[small, ], panel = lev[2]))
+edges2 <- rbind(transform(bw_edges, panel = lev[1]),
+                transform(bw_edges[bw_edges$from != "low birth weight" & bw_edges$to != "low birth weight", ], panel = lev[2]))
+nodes2$panel <- factor(nodes2$panel, levels = lev); edges2$panel <- factor(edges2$panel, levels = lev)
+p <- draw_dag(nodes2, edges2, boxes = TRUE, text_size = 4, xlim = c(-0.75, 3.95), ylim = c(-0.75, 1.25))
+ends <- subset(nodes2, panel == lev[2] & name %in% c("smoking", "U: birth defects, ..."))
+dashed <- data.frame(x = ends$x[1], y = ends$y[1], xend = ends$x[2], yend = ends$y[2], panel = factor(lev[2], levels = lev))
+p$layers <- c(list(geom_segment(data = dashed, aes(x, y, xend = xend, yend = yend), linetype = "dashed", color = gold, linewidth = 1)), p$layers)
+p + geom_label(data = subset(nodes2, panel == lev[1] & name == "low birth weight"), aes(x, y, label = name),
+               size = 4, label.size = 0.5, label.padding = unit(0.35, "lines"), fill = "grey85")
 ```
 
-Restricting attention to low-birth-weight babies, the gray box, is
-conditioning on low birth weight. Among babies who were born small, a
+Restricting attention to low-birth-weight babies, the gray box on the
+left, is conditioning on low birth weight. On the right, every baby in
+the picture was born small, so birth weight is no longer a variable
+and drops out of the graph. Among babies who were born small, a
 smoker's baby is more likely to be small because of the smoking, and
 therefore less likely to be small because of something worse. Smoking
 and $U$ are unrelated among all babies and negatively related among the
-babies in the box, the dashed line. Since $U$ kills, the smokers'
+babies born small, the dashed line. Since $U$ kills, the smokers'
 low-birth-weight babies die less often, in a world where smoking only
 ever harms. The abstract of Hernández-Díaz and colleagues makes this
 argument with causal diagrams, and concludes that adjusting for birth
@@ -224,7 +240,7 @@ the other. No distribution was assumed.
 
 Now add noise and let the arrows have any strength:
 $$
-C = \alpha Y + bA + \varepsilon ,
+C = \beta_Y Y + \beta_A A + \varepsilon ,
 $$
 with $\varepsilon$ independent of $A$ and $Y$. Take out of $Y$ and out
 of $A$ the part that is linearly predictable from $C$, using the
@@ -240,14 +256,14 @@ $$
 \end{aligned}
 $$
 Here $\operatorname{Cov}(Y, A) = 0$,
-$\operatorname{Cov}(Y, C) = \alpha \operatorname{Var}(Y)$ and
-$\operatorname{Cov}(A, C) = b \operatorname{Var}(A)$, so
+$\operatorname{Cov}(Y, C) = \beta_Y \operatorname{Var}(Y)$ and
+$\operatorname{Cov}(A, C) = \beta_A \operatorname{Var}(A)$, so
 $$
-\boxed{\;\operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) = -\,\frac{\alpha\, b\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}\;}
+\boxed{\;\operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) = -\,\frac{\beta_Y\, \beta_A\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}\;}
 \qquad
-\operatorname{Var}(C) = \alpha^2 \operatorname{Var}(Y) + b^2 \operatorname{Var}(A) + \operatorname{Var}(\varepsilon).
+\operatorname{Var}(C) = \beta_Y^2 \operatorname{Var}(Y) + \beta_A^2 \operatorname{Var}(A) + \operatorname{Var}(\varepsilon).
 $$
-In this model the association has the sign opposite to $\alpha b$: if
+In this model the association has the sign opposite to $\beta_Y \beta_A$: if
 both causes push the collider the same way, then holding the collider
 fixed makes them look like substitutes. It shrinks as the noise grows,
 because a noisy collider says less about its causes. When the
@@ -262,12 +278,54 @@ copy) say that the sign and magnitude "cannot generally be predicted
 without additional assumptions." The graph says an association
 appears; the model says which way.
 
-## Leaving the attribute out
+## Leaving a column out
+
+### Rows and columns
+
+Part 1 was about rows: which people a dataset contains. Datasets also
+follow rules for what is recorded about those people, and columns go
+missing for reasons as different as the rows do. The law may forbid using one
+(a protected characteristic in a hiring model). Nobody may have
+collected one. Or a column was recorded for some people and not for
+others, and whoever cleaned the data dropped it, because half of it
+was empty and the software would otherwise have dropped the rows.
+
+A column with holes, then, forces one of three choices, drawn below,
+and the rest of these notes takes them in turn: drop the column (this part), drop
+the rows that have holes (the complete-case analysis of the next
+part), or fill the holes in (the part after). The model that results
+from dropping a column is the same model whatever the reason the
+column went, so the arithmetic below applies to a column left out on
+principle and to one left out by default alike. What differs between
+the two is only whether anyone can say why.
+
+```{r rows_columns, echo=FALSE, fig.height=2.6, fig.width=7, fig.alt="Four small grids of three columns, X, A and Y, and six rows. The first has two holes in column A. The second has column A grayed out: drop the column. The third has the two rows with holes grayed out: drop the rows. The fourth has the two holes filled in gold with question marks: fill the holes."}
+grid <- expand.grid(row = 1:6, col = c("X", "A", "Y"), stringsAsFactors = FALSE)
+grid$status <- ifelse(grid$col == "A" & grid$row %in% c(2, 5), "missing", "recorded")
+panels <- bind_rows(
+  grid |> mutate(panel = "with holes"),
+  grid |> mutate(panel = "drop the column", status = ifelse(col == "A", "dropped", status)),
+  grid |> mutate(panel = "drop the rows", status = ifelse(row %in% c(2, 5), "dropped", status)),
+  grid |> mutate(panel = "fill the holes", status = ifelse(status == "missing", "filled in", status)))
+panels$col <- factor(panels$col, levels = c("X", "A", "Y"))
+panels$panel <- factor(panels$panel, levels = unique(panels$panel))
+panels$status <- factor(panels$status, levels = c("recorded", "missing", "dropped", "filled in"))
+ggplot(panels, aes(col, -row)) +
+  geom_tile(aes(fill = status), color = "white", linewidth = 1, width = 0.92, height = 0.92) +
+  geom_text(data = subset(panels, status == "filled in"), label = "?", size = 4, color = navy) +
+  facet_wrap(~ panel, nrow = 1) +
+  scale_fill_manual(values = c(recorded = slate, missing = "grey93", dropped = "grey80", `filled in` = gold),
+                    name = NULL, drop = FALSE) +
+  theme(axis.title = element_blank(), axis.text.y = element_blank(), panel.grid = element_blank(),
+        legend.position = "bottom")
+```
 
 ### An unaware model
 
-Here is a process in which a sensitive attribute $A$ has no effect on
-the outcome $Y$, but does affect a predictor $X$.
+Here is a process in which an attribute $A$ has no effect on the
+outcome $Y$, but does affect a predictor $X$. Take $A$ to be a
+sensitive attribute first; the other reasons for leaving it out come
+back at the end of this part.
 
 - $Y$ is how well someone would do a job, standardized,
   $Y \sim N(0, 1)$. Larger is better.
@@ -284,8 +342,9 @@ draw_dag(cw, data.frame(from = c("A", "Y"), to = c("X", "X")), xlim = c(-0.4, 2.
 
 $X$ is a collider between $A$ and $Y$. Fit two models for $Y$: one
 that uses $X$ only, as someone might because using $A$ feels like
-discrimination (sometimes called an *unaware* model), and one that uses
-$X$ and $A$. The setting is a coursework problem from this course in
+discrimination, or because $A$ was recorded for some applicants only
+and the column was dropped (the first is sometimes called an *unaware*
+model), and one that uses $X$ and $A$. The setting is a coursework problem from this course in
 2024, with the numbers of its worked solution.
 
 ```{r coursework_sim, message=FALSE}
@@ -295,8 +354,8 @@ generate_data <- function(n = 500, betaY = 1, betaA = 2) {
   X <- betaY * Y + betaA * A + rnorm(n)
   data.frame(Y = Y, X = X, A = factor(A))
 }
-train <- generate_data(1e5)
-test <- generate_data(1e5)
+train <- generate_data(5000)
+test <- generate_data(5000)
 unaware <- lm(Y ~ X, data = train)
 full <- lm(Y ~ X + A, data = train)
 round(coef(unaware), 2)
@@ -362,7 +421,7 @@ The mean prediction is $0$ in each group, and the mean squared error is
 $1 - 1/2 = 1/2$ in each group.
 
 The coefficient on $A$ is $-1$. That is the collider. In the formula
-of the previous section, with $\alpha = 1$, $b = 2$,
+of the previous section, with $\beta_Y = 1$, $\beta_A = 2$,
 $\operatorname{Var}(Y) = 1$, $\operatorname{Var}(A) = 1/4$ and
 $\operatorname{Var}(X) = 3$, the covariance of $Y$ and $A$ left over
 after removing what $X$ predicts is $-(2 \cdot \tfrac14)/3 = -1/6$:
@@ -373,10 +432,11 @@ on $A$ in a regression on $X$ and $A$ is the ratio of the two,
 $(-\tfrac16)/\tfrac16 = -1$ (stated here, not proved; it is the usual
 way a second variable's coefficient in a regression is computed).
 
-With a coaching effect $b$ in place of 2, the same steps give
-$\operatorname{Var}(X) = 2 + b^2/4$, a gap of $b/(2 + b^2/4)$ between
-the groups' mean predictions from $X$ alone, and a mean squared error
-of $1 - 1/(2 + b^2/4)$ against $1/2$.
+With a coaching effect $\beta_A$ in place of 2, the same steps give
+$\operatorname{Var}(X) = 2 + \beta_A^2/4$, a gap of
+$\beta_A/(2 + \beta_A^2/4)$ between the groups' mean predictions from
+$X$ alone, and a mean squared error of $1 - 1/(2 + \beta_A^2/4)$
+against $1/2$.
 
 ### What was leaving it out for?
 
@@ -411,6 +471,19 @@ decisions about group 1 lowered its measured performance, and a model
 that uses $A$ will learn that and repeat it. Which graph you are in is
 not settled by the data. It is a claim you make, and including or
 excluding $A$ follows from it. You have to choose.
+
+Now drop the word "sensitive". Suppose $A$ is a column that was
+recorded for half the applicants, and the person who prepared the data
+dropped it rather than lose the rows. The model is the one on $X$
+alone, with the same error in both groups and the same gap between
+them. Nothing in the table above used the reason $A$ was absent. The
+difference between the two cases is that leaving out a protected
+characteristic is a choice someone made for a reason that can be
+argued with, in court if necessary, and dropping a half-empty column is
+a default that nobody argued for and that the next person to open the
+file will not know was made. The model cannot tell the two apart. The
+analyst can, and that is the point of asking why a column is missing
+before deciding what to do about it.
 
 ### Adjusting for a collider
 
@@ -543,8 +616,11 @@ general version: when the probability of being missing does not depend
 on $Y$, and the model for $Y$ given $X$ is correct, the complete-case
 regression coefficients are "free of bias." Two warnings. If the line is
 only an approximation, changing the mix of $x$ changes which line fits
-best. And if missingness depends on $Y$ itself, removing points changes
-the average of $Y$ at each $x$, and the line moves.
+best. And if missingness depends on $Y$ given $X$, removing points can
+change the average of $Y$ at each $x$, and then the line moves. It
+need not: dropping points symmetrically in the residual, far above and
+far below the line alike, leaves the average at each $x$ where it was.
+In the simulation below the high $Y$ go missing, and the line flattens.
 
 ```{r cc_regression, echo=FALSE, fig.height=3.2, fig.width=6.5, fig.alt="Two panels of simulated points with a dotted line of slope one, the line they were drawn from. Left, missing more often at high X: the gold line fitted to the recorded points lies on the dotted line. Right, missing more often at high Y: the fitted line is flatter."}
 n <- 600
@@ -618,9 +694,14 @@ the label. (A judge who used only the recorded features would give MAR,
 with no labels at all for the features nobody is released on.)
 Lakkaraju and colleagues make the first supposition explicit, and
 their paper proposes a way to compare an algorithm with the judges
-anyway: some judges release more defendants than others, and when
-cases are assigned to judges at random, the strictest judge's released
-pool is a subset of what a lenient judge would have released.
+anyway. Some judges release more defendants than others, and cases are
+assigned to judges as if at random. Take the most lenient judge's
+released defendants, whose outcomes are all recorded; let the
+algorithm detain the ones it ranks worst until the release rate matches
+a stricter judge's; and compare the failure rate of that contracted
+pool with the stricter judge's own. Both pools come from comparable
+cases at the same release rate, so the comparison needs no label for
+anyone the lenient judge detained.
 
 The file drawer was MNAR in the same way: whether a study was
 published depended on its own $z$-value, so the missing studies were
@@ -673,6 +754,96 @@ the model down is better than letting `na.omit()` make an unstated
 assumption, because a written assumption can be argued with. But it is
 still an assumption. Imputing is not observing.
 
+## Three choices, one table
+
+Back to the coursework data, with the column $A$ now recorded for half
+the rows, chosen at random, and missing for the other half. Take the
+three choices in turn and ask, for each, how well it predicts $Y$ on
+rows where $A$ is recorded, how well on rows where it is missing, and
+how big a gap it predicts between the groups. The gap is the mean
+prediction for group 1 minus the mean for group 0, and the truth is
+$0$.
+
+- *Drop the column.* Fit $Y$ on $X$ alone, using every row. This is
+  the unaware model: mean squared error $2/3$ and a gap of $2/3$,
+  for every row.
+- *Drop the rows.* Fit $Y$ on $X$ and $A$ using the rows that have
+  $A$, which is what `lm()` does by itself. The holes are at random, so
+  the fit is right: slope $1/2$, coefficient $-1$ on $A$. The model
+  predicts well, and with no gap, wherever $A$ is recorded, and not at
+  all where it is not.
+- *Fill in.* Impute $A$ from $X$ and $Y$ on the training rows: 20
+  completions, each drawn from a logistic regression of $A$ on $X$ and
+  $Y$ refitted to a bootstrap sample of the rows that have $A$, so that
+  the imputation model's parameters vary from one completion to the
+  next as well as the draws (the bootstrap route of van Buuren's
+  section 3.1.3; `mice` does the same with more care), and fit $Y$ on
+  $X$ and $A$ to each completed dataset, averaging the fits. The fit is again right, now using
+  every row. For a new row with $A$ recorded, the prediction is the
+  full model's. For a new row without $A$, the model has to average its
+  prediction over what $A$ could be given $X$.
+
+```{r three_choices, echo=FALSE}
+sim <- function(n) { d <- generate_data(n); d$A <- as.integer(as.character(d$A)); d$Arec <- ifelse(rbinom(n, 1, 1/2) == 1, d$A, NA); d }
+tr <- sim(5000); te <- sim(5000); known <- !is.na(te$Arec)
+drop_col <- predict(lm(Y ~ X, data = tr), te)
+drop_rows <- predict(lm(Y ~ X + Arec, data = tr), te)
+cc <- subset(tr, !is.na(Arec))
+b <- rowMeans(replicate(20, {                                          # 20 completions
+  imp <- glm(Arec ~ X + Y, family = binomial, data = cc[sample(nrow(cc), replace = TRUE), ])  # the imputation model, refitted on a bootstrap sample
+  d <- tr; miss <- is.na(d$Arec)
+  d$Arec[miss] <- rbinom(sum(miss), 1, predict(imp, d[miss, ], type = "response"))
+  coef(lm(Y ~ X + Arec, data = d))
+}))
+f <- function(x, a) b[1] + b[2] * x + b[3] * a
+pA <- predict(glm(Arec ~ X, family = binomial, data = cc), te, type = "response")
+fill_in <- ifelse(known, f(te$X, te$Arec), pA * f(te$X, 1) + (1 - pA) * f(te$X, 0))
+row_of <- function(p) {
+  mse <- function(idx) sprintf("%.2f", mean((te$Y[idx] - p[idx])^2))
+  gap <- function(idx) { m <- tapply(p[idx], te$A[idx], mean); sprintf("%.2f", m[2] - m[1]) }
+  none <- all(is.na(p[!known]))
+  c(mse(known), if (none) "no prediction" else mse(!known), gap(known), if (none) "no prediction" else gap(!known))
+}
+tab <- rbind(`drop the column` = row_of(drop_col), `drop the rows` = row_of(drop_rows), `fill in` = row_of(fill_in))
+colnames(tab) <- c("MSE, A recorded", "MSE, A missing", "gap, A recorded", "gap, A missing")
+knitr::kable(tab, caption = "5,000 training and 5,000 test rows; A recorded for half of each, at random.")
+```
+
+Read the table by column. Where $A$ is recorded, the two methods that
+use it predict equally well and with no gap; filling in has bought
+nothing there that dropping the rows did not already have, except that
+the fit used all the rows. Where $A$ is missing, nothing does better
+than $X$ alone, and the gap is back at $0.65$. Filling in recovered
+the fit, not the missing information: for a row whose $A$ was never
+recorded, an imputed $A$ is a function of that row's $X$, and the
+prediction is a prediction from $X$.
+
+The "no prediction" entries are a choice of pipeline, not a law. The
+complete-case fit could be given the same prediction-time step as
+filling in, averaging its prediction over $P(A \mid X)$ for a row
+without $A$, and its row would then match the fill-in row. With the
+holes at random the two fits are the same fit; what separates the
+second and third rows is what each does at prediction time, and
+neither can do better than $X$ alone where $A$ was never recorded.
+
+The last column has a closed form. For a row without $A$, the best
+prediction from $X$ alone is $E[Y \mid X] = E[E[Y \mid X, A] \mid X]
+= X/2 - P(A = 1 \mid X)$. Given $A = a$, $X$ is $N(2a, 2)$, so the
+log odds of $A = 1$ given $X = x$ are
+$\big(x^2 - (x - 2)^2\big)/4 = x - 1$, and
+$p(x) = P(A = 1 \mid X = x) = 1/(1 + e^{1 - x})$. The mean squared
+error of this prediction is
+$E[\operatorname{Var}(Y \mid X)] = \tfrac12 + E[p(X)(1 - p(X))]
+\approx 0.66$, against the linear unaware model's $2/3$: the straight
+line was giving away almost nothing. The gap it predicts is
+$1 - \big(E[p(X) \mid A = 1] - E[p(X) \mid A = 0]\big) \approx 0.65$,
+not $0$, because $X$ holds only part of the information about $A$.
+
+One more thing the table says. Filling $A$ in from $X$ so that the
+model can use it is using a proxy for $A$. If the reason $A$ was left
+out was the law, the proxy raises the same question the law asked,
+which is week 8's subject.
+
 ## Lenses
 
 Who is in the data? The babies who were born small. The people offered
@@ -680,14 +851,16 @@ a place. The complete cases. The defendants a judge released. The
 studies that were published and the posts that reached a feed. In each,
 the rule that let people in depended on something connected to the
 outcome, and restricting to the people it let in changed what the
-numbers mean.
+numbers mean. And what is in the data about them: the column that was
+dropped, on principle or by default, changed what the model could see.
 
-You have to choose, so choose, and defend it. Whether to include the
-sensitive attribute depends on which causal graph you believe, and the
-data do not settle it. Whether the missing are like the observed once
-you account for what was recorded, MAR or MNAR, is not settled by the
-data either. Every analysis of incomplete data makes one of these
-assumptions; what varies is whether it is made on purpose.
+You have to choose, so choose, and defend it. A column with holes
+forces a choice between dropping it, dropping the rows and filling in,
+and each depends on something the data do not settle: which causal
+graph $A$ is in, and whether the missing are like the observed once
+you account for what was recorded, MAR or MNAR. Every analysis of
+incomplete data makes one of these assumptions; what varies is whether
+it is made on purpose, and whether anyone can later say why.
 
 What can be changed, and how? What things are considered "controlled
 for" or "held fixed," and is that realistic? The coefficient on $A$

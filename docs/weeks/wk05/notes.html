@@ -226,8 +226,9 @@ window.Quarto = {
   <li><a href="#colliders" id="toc-colliders" class="nav-link" data-scroll-target="#colliders">Colliders</a></li>
   <li><a href="#why-conditioning-creates-an-association" id="toc-why-conditioning-creates-an-association" class="nav-link" data-scroll-target="#why-conditioning-creates-an-association">Why conditioning creates an association</a></li>
   </ul></li>
-  <li><a href="#leaving-the-attribute-out" id="toc-leaving-the-attribute-out" class="nav-link" data-scroll-target="#leaving-the-attribute-out">Leaving the attribute out</a>
+  <li><a href="#leaving-a-column-out" id="toc-leaving-a-column-out" class="nav-link" data-scroll-target="#leaving-a-column-out">Leaving a column out</a>
   <ul class="collapse">
+  <li><a href="#rows-and-columns" id="toc-rows-and-columns" class="nav-link" data-scroll-target="#rows-and-columns">Rows and columns</a></li>
   <li><a href="#an-unaware-model" id="toc-an-unaware-model" class="nav-link" data-scroll-target="#an-unaware-model">An unaware model</a></li>
   <li><a href="#the-same-numbers-by-hand" id="toc-the-same-numbers-by-hand" class="nav-link" data-scroll-target="#the-same-numbers-by-hand">The same numbers by hand</a></li>
   <li><a href="#what-was-leaving-it-out-for" id="toc-what-was-leaving-it-out-for" class="nav-link" data-scroll-target="#what-was-leaving-it-out-for">What was leaving it out for?</a></li>
@@ -242,6 +243,7 @@ window.Quarto = {
   <li><a href="#missing-by-construction" id="toc-missing-by-construction" class="nav-link" data-scroll-target="#missing-by-construction">Missing by construction</a></li>
   </ul></li>
   <li><a href="#filling-in" id="toc-filling-in" class="nav-link" data-scroll-target="#filling-in">Filling in</a></li>
+  <li><a href="#three-choices-one-table" id="toc-three-choices-one-table" class="nav-link" data-scroll-target="#three-choices-one-table">Three choices, one table</a></li>
   <li><a href="#lenses" id="toc-lenses" class="nav-link" data-scroll-target="#lenses">Lenses</a></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a>
   <ul class="collapse">
@@ -282,7 +284,7 @@ window.Quarto = {
 <p><strong>Important note:</strong> part of this week is about whether a model should use a sensitive attribute such as sex or ethnicity. The arithmetic below is not contested. Which causal graph describes a real case, and what the law or fairness requires, are contested, and my view is one view. A well-argued position I think is wrong can still get full marks.</p>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Every dataset has a rule for who gets into it: who was born small, who was hired, who answered the survey, who was released on bail. When that rule depends on two things at once, looking only at the people it let in creates an association between those two things that is not there in the population. When it depends on the outcome, the people you have are a biased sample of the people you wanted. The first is conditioning on a <em>collider</em>; the second is data <em>missing not at random</em>. A model that leaves out a sensitive attribute in order to be fair can become less accurate in both groups and more unequal between them, because the score it uses is a collider. The usual fixes for missing data each make an assumption about the values nobody observed. Writing that assumption down does not make it true, but it gives it an owner.</p>
+<p>Every dataset has a rule for who gets into it: who was born small, who was hired, who answered the survey, who was released on bail. When that rule depends on two things at once, looking only at the people it let in creates an association between those two things that is not there in the population. When it depends on the outcome itself, even after accounting for what was recorded, the people you have are a biased sample of the people you wanted. The first is conditioning on a <em>collider</em>; the second is data <em>missing not at random</em>. Every analysis also has a rule for which columns it uses, and a column is absent for reasons that run from the law to a cleaning step nobody recorded. A model that leaves a column out can become less accurate in both groups and more unequal between them, because the score it keeps is a collider, and it is the same model whatever the reason the column went. A column with holes forces one of three choices, drop the column, drop the rows, or fill the holes, and each makes an assumption about the values nobody observed. Writing that assumption down does not make it true, but it gives it an owner.</p>
 </section>
 <section id="what-you-brought" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-brought">What you brought</h2>
@@ -307,12 +309,12 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="notes_files/figure-html/dag_birthweight-1.png" class="img-fluid figure-img" alt="A causal graph in boxes: smoking and U (birth defects and other causes) both point into low birth weight, which is shaded gray; smoking, low birth weight and U all point into infant death; a dashed gold line joins smoking and U." width="576"></p>
+<p><img src="notes_files/figure-html/dag_birthweight-1.png" class="img-fluid figure-img" alt="Two causal graphs in boxes. Left, all babies: smoking and U (birth defects and other causes) both point into low birth weight, shaded gray; smoking, low birth weight and U all point into infant death. Right, babies born small: low birth weight is gone, smoking and U point into infant death, and a dashed gold line joins smoking and U." width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Restricting attention to low-birth-weight babies, the gray box, is conditioning on low birth weight. Among babies who were born small, a smoker’s baby is more likely to be small because of the smoking, and therefore less likely to be small because of something worse. Smoking and <span class="math inline">\(U\)</span> are unrelated among all babies and negatively related among the babies in the box, the dashed line. Since <span class="math inline">\(U\)</span> kills, the smokers’ low-birth-weight babies die less often, in a world where smoking only ever harms. The abstract of Hernández-Díaz and colleagues makes this argument with causal diagrams, and concludes that adjusting for birth weight is not warranted when the question is the overall effect of something that happens before birth.</p>
+<p>Restricting attention to low-birth-weight babies, the gray box on the left, is conditioning on low birth weight. On the right, every baby in the picture was born small, so birth weight is no longer a variable and drops out of the graph. Among babies who were born small, a smoker’s baby is more likely to be small because of the smoking, and therefore less likely to be small because of something worse. Smoking and <span class="math inline">\(U\)</span> are unrelated among all babies and negatively related among the babies born small, the dashed line. Since <span class="math inline">\(U\)</span> kills, the smokers’ low-birth-weight babies die less often, in a world where smoking only ever harms. The abstract of Hernández-Díaz and colleagues makes this argument with causal diagrams, and concludes that adjusting for birth weight is not warranted when the question is the overall effect of something that happens before birth.</p>
 </section>
 <section id="colliders" class="level3">
 <h3 class="anchored" data-anchor-id="colliders">Colliders</h3>
@@ -326,26 +328,40 @@ window.Quarto = {
 \operatorname{Cov}(Y, A \mid C) = \operatorname{Cov}(Y,\, C - Y \mid C) = -\operatorname{Var}(Y \mid C).
 \]</span> Once the total is fixed, a high value of one cause means a low value of the other. No distribution was assumed.</p>
 <p>Now add noise and let the arrows have any strength: <span class="math display">\[
-C = \alpha Y + bA + \varepsilon ,
+C = \beta_Y Y + \beta_A A + \varepsilon ,
 \]</span> with <span class="math inline">\(\varepsilon\)</span> independent of <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>. Take out of <span class="math inline">\(Y\)</span> and out of <span class="math inline">\(A\)</span> the part that is linearly predictable from <span class="math inline">\(C\)</span>, using the simple regression slopes <span class="math inline">\(\gamma_Y = \operatorname{Cov}(Y, C)/\operatorname{Var}(C)\)</span> and <span class="math inline">\(\gamma_A = \operatorname{Cov}(A, C)/\operatorname{Var}(C)\)</span>, and ask how what is left covaries. By bilinearity, <span class="math display">\[
 \begin{aligned}
 \operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C)
 &amp;= \operatorname{Cov}(Y, A) - \gamma_A \operatorname{Cov}(Y, C) - \gamma_Y \operatorname{Cov}(C, A) + \gamma_Y \gamma_A \operatorname{Var}(C) \\
 &amp;= \operatorname{Cov}(Y, A) - \frac{\operatorname{Cov}(Y, C)\,\operatorname{Cov}(A, C)}{\operatorname{Var}(C)} .
 \end{aligned}
-\]</span> Here <span class="math inline">\(\operatorname{Cov}(Y, A) = 0\)</span>, <span class="math inline">\(\operatorname{Cov}(Y, C) = \alpha \operatorname{Var}(Y)\)</span> and <span class="math inline">\(\operatorname{Cov}(A, C) = b \operatorname{Var}(A)\)</span>, so <span class="math display">\[
-\boxed{\;\operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) = -\,\frac{\alpha\, b\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}\;}
+\]</span> Here <span class="math inline">\(\operatorname{Cov}(Y, A) = 0\)</span>, <span class="math inline">\(\operatorname{Cov}(Y, C) = \beta_Y \operatorname{Var}(Y)\)</span> and <span class="math inline">\(\operatorname{Cov}(A, C) = \beta_A \operatorname{Var}(A)\)</span>, so <span class="math display">\[
+\boxed{\;\operatorname{Cov}(Y - \gamma_Y C,\; A - \gamma_A C) = -\,\frac{\beta_Y\, \beta_A\, \operatorname{Var}(Y)\operatorname{Var}(A)}{\operatorname{Var}(C)}\;}
 \qquad
-\operatorname{Var}(C) = \alpha^2 \operatorname{Var}(Y) + b^2 \operatorname{Var}(A) + \operatorname{Var}(\varepsilon).
-\]</span> In this model the association has the sign opposite to <span class="math inline">\(\alpha b\)</span>: if both causes push the collider the same way, then holding the collider fixed makes them look like substitutes. It shrinks as the noise grows, because a noisy collider says less about its causes. When the variables are jointly normal, the left side is also <span class="math inline">\(\operatorname{Cov}(Y, A \mid C)\)</span>; when <span class="math inline">\(A\)</span> is binary, as in the next section, it is not, but the sign is the same in the examples here.</p>
+\operatorname{Var}(C) = \beta_Y^2 \operatorname{Var}(Y) + \beta_A^2 \operatorname{Var}(A) + \operatorname{Var}(\varepsilon).
+\]</span> In this model the association has the sign opposite to <span class="math inline">\(\beta_Y \beta_A\)</span>: if both causes push the collider the same way, then holding the collider fixed makes them look like substitutes. It shrinks as the noise grows, because a noisy collider says less about its causes. When the variables are jointly normal, the left side is also <span class="math inline">\(\operatorname{Cov}(Y, A \mid C)\)</span>; when <span class="math inline">\(A\)</span> is binary, as in the next section, it is not, but the sign is the same in the examples here.</p>
 <p>What this leaves out: outside the linear model, the size and even the sign of the association depend on how the causes combine, and cannot be read off the graph. Elwert and Winship (2014, page 2.7 of their copy) say that the sign and magnitude “cannot generally be predicted without additional assumptions.” The graph says an association appears; the model says which way.</p>
 </section>
 </section>
-<section id="leaving-the-attribute-out" class="level2">
-<h2 class="anchored" data-anchor-id="leaving-the-attribute-out">Leaving the attribute out</h2>
+<section id="leaving-a-column-out" class="level2">
+<h2 class="anchored" data-anchor-id="leaving-a-column-out">Leaving a column out</h2>
+<section id="rows-and-columns" class="level3">
+<h3 class="anchored" data-anchor-id="rows-and-columns">Rows and columns</h3>
+<p>Part 1 was about rows: which people a dataset contains. Datasets also follow rules for what is recorded about those people, and columns go missing for reasons as different as the rows do. The law may forbid using one (a protected characteristic in a hiring model). Nobody may have collected one. Or a column was recorded for some people and not for others, and whoever cleaned the data dropped it, because half of it was empty and the software would otherwise have dropped the rows.</p>
+<p>A column with holes, then, forces one of three choices, drawn below, and the rest of these notes takes them in turn: drop the column (this part), drop the rows that have holes (the complete-case analysis of the next part), or fill the holes in (the part after). The model that results from dropping a column is the same model whatever the reason the column went, so the arithmetic below applies to a column left out on principle and to one left out by default alike. What differs between the two is only whether anyone can say why.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="notes_files/figure-html/rows_columns-1.png" class="img-fluid figure-img" alt="Four small grids of three columns, X, A and Y, and six rows. The first has two holes in column A. The second has column A grayed out: drop the column. The third has the two rows with holes grayed out: drop the rows. The fourth has the two holes filled in gold with question marks: fill the holes." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 <section id="an-unaware-model" class="level3">
 <h3 class="anchored" data-anchor-id="an-unaware-model">An unaware model</h3>
-<p>Here is a process in which a sensitive attribute <span class="math inline">\(A\)</span> has no effect on the outcome <span class="math inline">\(Y\)</span>, but does affect a predictor <span class="math inline">\(X\)</span>.</p>
+<p>Here is a process in which an attribute <span class="math inline">\(A\)</span> has no effect on the outcome <span class="math inline">\(Y\)</span>, but does affect a predictor <span class="math inline">\(X\)</span>. Take <span class="math inline">\(A\)</span> to be a sensitive attribute first; the other reasons for leaving it out come back at the end of this part.</p>
 <ul>
 <li><span class="math inline">\(Y\)</span> is how well someone would do a job, standardized, <span class="math inline">\(Y \sim N(0, 1)\)</span>. Larger is better.</li>
 <li><span class="math inline">\(A \in \{0, 1\}\)</span> marks a group, half the population each, independent of <span class="math inline">\(Y\)</span>.</li>
@@ -360,7 +376,7 @@ C = \alpha Y + bA + \varepsilon ,
 </div>
 </div>
 </div>
-<p><span class="math inline">\(X\)</span> is a collider between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>. Fit two models for <span class="math inline">\(Y\)</span>: one that uses <span class="math inline">\(X\)</span> only, as someone might because using <span class="math inline">\(A\)</span> feels like discrimination (sometimes called an <em>unaware</em> model), and one that uses <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>. The setting is a coursework problem from this course in 2024, with the numbers of its worked solution.</p>
+<p><span class="math inline">\(X\)</span> is a collider between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>. Fit two models for <span class="math inline">\(Y\)</span>: one that uses <span class="math inline">\(X\)</span> only, as someone might because using <span class="math inline">\(A\)</span> feels like discrimination, or because <span class="math inline">\(A\)</span> was recorded for some applicants only and the column was dropped (the first is sometimes called an <em>unaware</em> model), and one that uses <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>. The setting is a coursework problem from this course in 2024, with the numbers of its worked solution.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>generate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">500</span>, <span class="at">betaY =</span> <span class="dv">1</span>, <span class="at">betaA =</span> <span class="dv">2</span>) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
@@ -368,19 +384,19 @@ C = \alpha Y + bA + \varepsilon ,
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> betaY <span class="sc">*</span> Y <span class="sc">+</span> betaA <span class="sc">*</span> A <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">A =</span> <span class="fu">factor</span>(A))</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="fl">1e5</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="fl">1e5</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="dv">5000</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="dv">5000</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>unaware <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X, <span class="at">data =</span> train)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> A, <span class="at">data =</span> train)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(unaware), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           X 
-      -0.33        0.33 </code></pre>
+      -0.34        0.33 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(full), <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           X          A1 
-       0.01        0.50       -1.00 </code></pre>
+       0.00        0.49       -0.99 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>test <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_unaware =</span> <span class="fu">predict</span>(unaware, <span class="at">newdata =</span> test),</span>
@@ -396,8 +412,8 @@ C = \alpha Y + bA + \varepsilon ,
 <pre><code># A tibble: 2 x 6
   A     mean_Y mean_pred_unaware mean_pred_full mse_unaware mse_full
   &lt;fct&gt;  &lt;dbl&gt;             &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;
-1 0       0                -0.33           0.01        0.66      0.5
-2 1       0.01              0.34           0           0.67      0.5</code></pre>
+1 0          0             -0.34           0           0.66     0.48
+2 1          0              0.31          -0.01        0.64     0.49</code></pre>
 </div>
 </div>
 <p>(R prints the coefficient on <span class="math inline">\(A\)</span> as <code>A1</code>: <span class="math inline">\(A\)</span> is stored as a factor.) The two groups have the same distribution of <span class="math inline">\(Y\)</span>. The model on <span class="math inline">\(X\)</span> alone predicts a gap of about two thirds of a standard deviation between them and is less accurate in both groups. The model on <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span> predicts no gap and is more accurate in both.</p>
@@ -419,14 +435,15 @@ C = \alpha Y + bA + \varepsilon ,
 <p><em><span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span>.</em> Within group <span class="math inline">\(a\)</span>, <span class="math inline">\(X - 2a = Y + \varepsilon\)</span>, so the model is two simple regressions with the same slope, <span class="math inline">\(\operatorname{Var}(Y)/(\operatorname{Var}(Y) + \operatorname{Var}(\varepsilon)) = 1/2\)</span>: <span class="math display">\[
 \hat Y = \tfrac12 (X - 2A) = \tfrac12 X - A .
 \]</span> The mean prediction is <span class="math inline">\(0\)</span> in each group, and the mean squared error is <span class="math inline">\(1 - 1/2 = 1/2\)</span> in each group.</p>
-<p>The coefficient on <span class="math inline">\(A\)</span> is <span class="math inline">\(-1\)</span>. That is the collider. In the formula of the previous section, with <span class="math inline">\(\alpha = 1\)</span>, <span class="math inline">\(b = 2\)</span>, <span class="math inline">\(\operatorname{Var}(Y) = 1\)</span>, <span class="math inline">\(\operatorname{Var}(A) = 1/4\)</span> and <span class="math inline">\(\operatorname{Var}(X) = 3\)</span>, the covariance of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span> left over after removing what <span class="math inline">\(X\)</span> predicts is <span class="math inline">\(-(2 \cdot \tfrac14)/3 = -1/6\)</span>: once you know someone’s score, being in group 1 is evidence of lower <span class="math inline">\(Y\)</span>. What is left of the variance of <span class="math inline">\(A\)</span> after removing what <span class="math inline">\(X\)</span> predicts is <span class="math inline">\(\tfrac14 - (\tfrac12)^2/3 = \tfrac16\)</span>, and the coefficient on <span class="math inline">\(A\)</span> in a regression on <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span> is the ratio of the two, <span class="math inline">\((-\tfrac16)/\tfrac16 = -1\)</span> (stated here, not proved; it is the usual way a second variable’s coefficient in a regression is computed).</p>
-<p>With a coaching effect <span class="math inline">\(b\)</span> in place of 2, the same steps give <span class="math inline">\(\operatorname{Var}(X) = 2 + b^2/4\)</span>, a gap of <span class="math inline">\(b/(2 + b^2/4)\)</span> between the groups’ mean predictions from <span class="math inline">\(X\)</span> alone, and a mean squared error of <span class="math inline">\(1 - 1/(2 + b^2/4)\)</span> against <span class="math inline">\(1/2\)</span>.</p>
+<p>The coefficient on <span class="math inline">\(A\)</span> is <span class="math inline">\(-1\)</span>. That is the collider. In the formula of the previous section, with <span class="math inline">\(\beta_Y = 1\)</span>, <span class="math inline">\(\beta_A = 2\)</span>, <span class="math inline">\(\operatorname{Var}(Y) = 1\)</span>, <span class="math inline">\(\operatorname{Var}(A) = 1/4\)</span> and <span class="math inline">\(\operatorname{Var}(X) = 3\)</span>, the covariance of <span class="math inline">\(Y\)</span> and <span class="math inline">\(A\)</span> left over after removing what <span class="math inline">\(X\)</span> predicts is <span class="math inline">\(-(2 \cdot \tfrac14)/3 = -1/6\)</span>: once you know someone’s score, being in group 1 is evidence of lower <span class="math inline">\(Y\)</span>. What is left of the variance of <span class="math inline">\(A\)</span> after removing what <span class="math inline">\(X\)</span> predicts is <span class="math inline">\(\tfrac14 - (\tfrac12)^2/3 = \tfrac16\)</span>, and the coefficient on <span class="math inline">\(A\)</span> in a regression on <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span> is the ratio of the two, <span class="math inline">\((-\tfrac16)/\tfrac16 = -1\)</span> (stated here, not proved; it is the usual way a second variable’s coefficient in a regression is computed).</p>
+<p>With a coaching effect <span class="math inline">\(\beta_A\)</span> in place of 2, the same steps give <span class="math inline">\(\operatorname{Var}(X) = 2 + \beta_A^2/4\)</span>, a gap of <span class="math inline">\(\beta_A/(2 + \beta_A^2/4)\)</span> between the groups’ mean predictions from <span class="math inline">\(X\)</span> alone, and a mean squared error of <span class="math inline">\(1 - 1/(2 + \beta_A^2/4)\)</span> against <span class="math inline">\(1/2\)</span>.</p>
 </section>
 <section id="what-was-leaving-it-out-for" class="level3">
 <h3 class="anchored" data-anchor-id="what-was-leaving-it-out-for">What was leaving it out for?</h3>
 <p>Leaving <span class="math inline">\(A\)</span> out of a model is a common response to the worry that a model will discriminate, and it has an obvious appeal: a model that does not look at the attribute cannot treat anyone differently because of it, it seems. In this example, leaving <span class="math inline">\(A\)</span> out made the model less accurate in both groups and produced a gap between the groups that is not in the outcome.</p>
 <p>UK law separates two things here. Direct discrimination (Equality Act 2010, section 13) is treating someone less favorably <em>because of</em> a protected characteristic. The model that uses <span class="math inline">\(A\)</span> does use it: at the same score it gives a member of group 1 a lower prediction than a member of group 0. Indirect discrimination (section 19) is a provision, criterion or practice applied whatever the characteristic, which puts people who share that characteristic, the person complaining among them, at a particular disadvantage, unless it can be shown to be a proportionate means of achieving a legitimate aim. The model on <span class="math inline">\(X\)</span> alone applies one rule whatever the group and puts group 0 at a disadvantage. Which of these, if either, would be unlawful in a given setting depends on facts, and for indirect discrimination on whether the rule is a proportionate means to a legitimate aim, which I am not going to adjudicate, and the arithmetic does not answer it. What the arithmetic does answer is whether “the model does not use <span class="math inline">\(A\)</span>” and “the model does not treat the groups differently” are the same claim. They are not.</p>
 <p>Nor does it follow that using <span class="math inline">\(A\)</span> is better. Change the graph so that <span class="math inline">\(A\)</span> affects the recorded outcome itself, for instance because past decisions about group 1 lowered its measured performance, and a model that uses <span class="math inline">\(A\)</span> will learn that and repeat it. Which graph you are in is not settled by the data. It is a claim you make, and including or excluding <span class="math inline">\(A\)</span> follows from it. You have to choose.</p>
+<p>Now drop the word “sensitive”. Suppose <span class="math inline">\(A\)</span> is a column that was recorded for half the applicants, and the person who prepared the data dropped it rather than lose the rows. The model is the one on <span class="math inline">\(X\)</span> alone, with the same error in both groups and the same gap between them. Nothing in the table above used the reason <span class="math inline">\(A\)</span> was absent. The difference between the two cases is that leaving out a protected characteristic is a choice someone made for a reason that can be argued with, in court if necessary, and dropping a half-empty column is a default that nobody argued for and that the next person to open the file will not know was made. The model cannot tell the two apart. The analyst can, and that is the point of asking why a column is missing before deciding what to do about it.</p>
 </section>
 <section id="adjusting-for-a-collider" class="level3">
 <h3 class="anchored" data-anchor-id="adjusting-for-a-collider">Adjusting for a collider</h3>
@@ -469,7 +486,7 @@ C = \alpha Y + bA + \varepsilon ,
 <h3 class="anchored" data-anchor-id="when-the-complete-cases-are-enough">When the complete cases are enough</h3>
 <p>For a regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> the story is different. Under MAR, <span class="math inline">\(C\)</span> is independent of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>, so <span class="math display">\[
 E[Y \mid X = x, C = 1] = E[Y \mid X = x] .
-\]</span> Among the complete cases the average of <span class="math inline">\(Y\)</span> at each <span class="math inline">\(x\)</span> is what it is in the population. The complete cases have a different mix of <span class="math inline">\(x\)</span> values, but if the regression line is right at every <span class="math inline">\(x\)</span>, a different mix of <span class="math inline">\(x\)</span> values does not move it. So complete-case regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> is unbiased when missingness depends on <span class="math inline">\(X\)</span> only, even though the complete-case mean of <span class="math inline">\(Y\)</span> is biased. Van Buuren’s section 2.7 states the general version: when the probability of being missing does not depend on <span class="math inline">\(Y\)</span>, and the model for <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is correct, the complete-case regression coefficients are “free of bias.” Two warnings. If the line is only an approximation, changing the mix of <span class="math inline">\(x\)</span> changes which line fits best. And if missingness depends on <span class="math inline">\(Y\)</span> itself, removing points changes the average of <span class="math inline">\(Y\)</span> at each <span class="math inline">\(x\)</span>, and the line moves.</p>
+\]</span> Among the complete cases the average of <span class="math inline">\(Y\)</span> at each <span class="math inline">\(x\)</span> is what it is in the population. The complete cases have a different mix of <span class="math inline">\(x\)</span> values, but if the regression line is right at every <span class="math inline">\(x\)</span>, a different mix of <span class="math inline">\(x\)</span> values does not move it. So complete-case regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> is unbiased when missingness depends on <span class="math inline">\(X\)</span> only, even though the complete-case mean of <span class="math inline">\(Y\)</span> is biased. Van Buuren’s section 2.7 states the general version: when the probability of being missing does not depend on <span class="math inline">\(Y\)</span>, and the model for <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is correct, the complete-case regression coefficients are “free of bias.” Two warnings. If the line is only an approximation, changing the mix of <span class="math inline">\(x\)</span> changes which line fits best. And if missingness depends on <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>, removing points can change the average of <span class="math inline">\(Y\)</span> at each <span class="math inline">\(x\)</span>, and then the line moves. It need not: dropping points symmetrically in the residual, far above and far below the line alike, leaves the average at each <span class="math inline">\(x\)</span> where it was. In the simulation below the high <span class="math inline">\(Y\)</span> go missing, and the line flattens.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -492,7 +509,7 @@ E\left[\frac{C\,Y}{e(X)}\right]
 </section>
 <section id="missing-by-construction" class="level3">
 <h3 class="anchored" data-anchor-id="missing-by-construction">Missing by construction</h3>
-<p>Some data are missing because of the decision the data are meant to evaluate. In a bail hearing, a judge decides whether to release a defendant. Whether a released defendant returns for their court appearance without committing a crime is recorded. For a defendant who is detained, what would have happened on release is not observed. Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan (2017) call this the <em>selective labels</em> problem: “the observed outcomes are themselves a consequence of the existing choices of the human decision-makers.” Suppose you want to check whether an algorithm would make better release decisions than the judges. The labels exist only where judges released people. Suppose judges decided using information the algorithm does not have, such as what they saw in the courtroom, and that information predicts the outcome. Then among defendants with the same recorded features, the ones a judge detained are the ones the judge expected to do worst. That is MNAR, by construction: the rule that decides who has a label is a prediction of the label. (A judge who used only the recorded features would give MAR, with no labels at all for the features nobody is released on.) Lakkaraju and colleagues make the first supposition explicit, and their paper proposes a way to compare an algorithm with the judges anyway: some judges release more defendants than others, and when cases are assigned to judges at random, the strictest judge’s released pool is a subset of what a lenient judge would have released.</p>
+<p>Some data are missing because of the decision the data are meant to evaluate. In a bail hearing, a judge decides whether to release a defendant. Whether a released defendant returns for their court appearance without committing a crime is recorded. For a defendant who is detained, what would have happened on release is not observed. Lakkaraju, Kleinberg, Leskovec, Ludwig and Mullainathan (2017) call this the <em>selective labels</em> problem: “the observed outcomes are themselves a consequence of the existing choices of the human decision-makers.” Suppose you want to check whether an algorithm would make better release decisions than the judges. The labels exist only where judges released people. Suppose judges decided using information the algorithm does not have, such as what they saw in the courtroom, and that information predicts the outcome. Then among defendants with the same recorded features, the ones a judge detained are the ones the judge expected to do worst. That is MNAR, by construction: the rule that decides who has a label is a prediction of the label. (A judge who used only the recorded features would give MAR, with no labels at all for the features nobody is released on.) Lakkaraju and colleagues make the first supposition explicit, and their paper proposes a way to compare an algorithm with the judges anyway. Some judges release more defendants than others, and cases are assigned to judges as if at random. Take the most lenient judge’s released defendants, whose outcomes are all recorded; let the algorithm detain the ones it ranks worst until the release rate matches a stricter judge’s; and compare the failure rate of that contracted pool with the stricter judge’s own. Both pools come from comparable cases at the same release rate, so the comparison needs no label for anyone the lenient judge detained.</p>
 <p>The file drawer was MNAR in the same way: whether a study was published depended on its own <span class="math inline">\(z\)</span>-value, so the missing studies were missing in a known direction. So was the top of a feed: whether a post reached you depended on how extreme it was.</p>
 </section>
 </section>
@@ -509,10 +526,71 @@ E\left[\frac{C\,Y}{e(X)}\right]
 \]</span> where <em>within</em> is the average over the <span class="math inline">\(m\)</span> completions of the estimate’s squared standard error, and <em>between</em> is the variance of the <span class="math inline">\(m\)</span> estimates across completions. This is Rubin’s rule for combining them (van Buuren, section 2.3.2). The second part is the variance a single fill-in threw away: how much the answer changes depending on which plausible values were filled in. The class runs this with the R package <code>mice</code>.</p>
 <p>What multiple imputation does not do is escape the choice. The model the completions are drawn from is an assumption about values nobody observed, usually MAR given the variables put into it. It cannot be checked against the missing values, because they are missing. Writing the model down is better than letting <code>na.omit()</code> make an unstated assumption, because a written assumption can be argued with. But it is still an assumption. Imputing is not observing.</p>
 </section>
+<section id="three-choices-one-table" class="level2">
+<h2 class="anchored" data-anchor-id="three-choices-one-table">Three choices, one table</h2>
+<p>Back to the coursework data, with the column <span class="math inline">\(A\)</span> now recorded for half the rows, chosen at random, and missing for the other half. Take the three choices in turn and ask, for each, how well it predicts <span class="math inline">\(Y\)</span> on rows where <span class="math inline">\(A\)</span> is recorded, how well on rows where it is missing, and how big a gap it predicts between the groups. The gap is the mean prediction for group 1 minus the mean for group 0, and the truth is <span class="math inline">\(0\)</span>.</p>
+<ul>
+<li><em>Drop the column.</em> Fit <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> alone, using every row. This is the unaware model: mean squared error <span class="math inline">\(2/3\)</span> and a gap of <span class="math inline">\(2/3\)</span>, for every row.</li>
+<li><em>Drop the rows.</em> Fit <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span> using the rows that have <span class="math inline">\(A\)</span>, which is what <code>lm()</code> does by itself. The holes are at random, so the fit is right: slope <span class="math inline">\(1/2\)</span>, coefficient <span class="math inline">\(-1\)</span> on <span class="math inline">\(A\)</span>. The model predicts well, and with no gap, wherever <span class="math inline">\(A\)</span> is recorded, and not at all where it is not.</li>
+<li><em>Fill in.</em> Impute <span class="math inline">\(A\)</span> from <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> on the training rows: 20 completions, each drawn from a logistic regression of <span class="math inline">\(A\)</span> on <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> refitted to a bootstrap sample of the rows that have <span class="math inline">\(A\)</span>, so that the imputation model’s parameters vary from one completion to the next as well as the draws (the bootstrap route of van Buuren’s section 3.1.3; <code>mice</code> does the same with more care), and fit <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> and <span class="math inline">\(A\)</span> to each completed dataset, averaging the fits. The fit is again right, now using every row. For a new row with <span class="math inline">\(A\)</span> recorded, the prediction is the full model’s. For a new row without <span class="math inline">\(A\)</span>, the model has to average its prediction over what <span class="math inline">\(A\)</span> could be given <span class="math inline">\(X\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>5,000 training and 5,000 test rows; A recorded for half of each, at random.</caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 19%">
+<col style="width: 20%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">MSE, A recorded</th>
+<th style="text-align: left;">MSE, A missing</th>
+<th style="text-align: left;">gap, A recorded</th>
+<th style="text-align: left;">gap, A missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">drop the column</td>
+<td style="text-align: left;">0.65</td>
+<td style="text-align: left;">0.68</td>
+<td style="text-align: left;">0.66</td>
+<td style="text-align: left;">0.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">drop the rows</td>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">no prediction</td>
+<td style="text-align: left;">0.02</td>
+<td style="text-align: left;">no prediction</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fill in</td>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">0.68</td>
+<td style="text-align: left;">0.03</td>
+<td style="text-align: left;">0.65</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Read the table by column. Where <span class="math inline">\(A\)</span> is recorded, the two methods that use it predict equally well and with no gap; filling in has bought nothing there that dropping the rows did not already have, except that the fit used all the rows. Where <span class="math inline">\(A\)</span> is missing, nothing does better than <span class="math inline">\(X\)</span> alone, and the gap is back at <span class="math inline">\(0.65\)</span>. Filling in recovered the fit, not the missing information: for a row whose <span class="math inline">\(A\)</span> was never recorded, an imputed <span class="math inline">\(A\)</span> is a function of that row’s <span class="math inline">\(X\)</span>, and the prediction is a prediction from <span class="math inline">\(X\)</span>.</p>
+<p>The “no prediction” entries are a choice of pipeline, not a law. The complete-case fit could be given the same prediction-time step as filling in, averaging its prediction over <span class="math inline">\(P(A \mid X)\)</span> for a row without <span class="math inline">\(A\)</span>, and its row would then match the fill-in row. With the holes at random the two fits are the same fit; what separates the second and third rows is what each does at prediction time, and neither can do better than <span class="math inline">\(X\)</span> alone where <span class="math inline">\(A\)</span> was never recorded.</p>
+<p>The last column has a closed form. For a row without <span class="math inline">\(A\)</span>, the best prediction from <span class="math inline">\(X\)</span> alone is <span class="math inline">\(E[Y \mid X] = E[E[Y \mid X, A] \mid X]
+= X/2 - P(A = 1 \mid X)\)</span>. Given <span class="math inline">\(A = a\)</span>, <span class="math inline">\(X\)</span> is <span class="math inline">\(N(2a, 2)\)</span>, so the log odds of <span class="math inline">\(A = 1\)</span> given <span class="math inline">\(X = x\)</span> are <span class="math inline">\(\big(x^2 - (x - 2)^2\big)/4 = x - 1\)</span>, and <span class="math inline">\(p(x) = P(A = 1 \mid X = x) = 1/(1 + e^{1 - x})\)</span>. The mean squared error of this prediction is <span class="math inline">\(E[\operatorname{Var}(Y \mid X)] = \tfrac12 + E[p(X)(1 - p(X))]
+\approx 0.66\)</span>, against the linear unaware model’s <span class="math inline">\(2/3\)</span>: the straight line was giving away almost nothing. The gap it predicts is <span class="math inline">\(1 - \big(E[p(X) \mid A = 1] - E[p(X) \mid A = 0]\big) \approx 0.65\)</span>, not <span class="math inline">\(0\)</span>, because <span class="math inline">\(X\)</span> holds only part of the information about <span class="math inline">\(A\)</span>.</p>
+<p>One more thing the table says. Filling <span class="math inline">\(A\)</span> in from <span class="math inline">\(X\)</span> so that the model can use it is using a proxy for <span class="math inline">\(A\)</span>. If the reason <span class="math inline">\(A\)</span> was left out was the law, the proxy raises the same question the law asked, which is week 8’s subject.</p>
+</section>
 <section id="lenses" class="level2">
 <h2 class="anchored" data-anchor-id="lenses">Lenses</h2>
-<p>Who is in the data? The babies who were born small. The people offered a place. The complete cases. The defendants a judge released. The studies that were published and the posts that reached a feed. In each, the rule that let people in depended on something connected to the outcome, and restricting to the people it let in changed what the numbers mean.</p>
-<p>You have to choose, so choose, and defend it. Whether to include the sensitive attribute depends on which causal graph you believe, and the data do not settle it. Whether the missing are like the observed once you account for what was recorded, MAR or MNAR, is not settled by the data either. Every analysis of incomplete data makes one of these assumptions; what varies is whether it is made on purpose.</p>
+<p>Who is in the data? The babies who were born small. The people offered a place. The complete cases. The defendants a judge released. The studies that were published and the posts that reached a feed. In each, the rule that let people in depended on something connected to the outcome, and restricting to the people it let in changed what the numbers mean. And what is in the data about them: the column that was dropped, on principle or by default, changed what the model could see.</p>
+<p>You have to choose, so choose, and defend it. A column with holes forces a choice between dropping it, dropping the rows and filling in, and each depends on something the data do not settle: which causal graph <span class="math inline">\(A\)</span> is in, and whether the missing are like the observed once you account for what was recorded, MAR or MNAR. Every analysis of incomplete data makes one of these assumptions; what varies is whether it is made on purpose, and whether anyone can later say why.</p>
 <p>What can be changed, and how? What things are considered “controlled for” or “held fixed,” and is that realistic? The coefficient on <span class="math inline">\(A\)</span> holds the score fixed while the group changes, which is not something that happens to anyone. A comparison among low-birth-weight babies holds birth weight fixed while asking about smoking, which is one of the things that set it.</p>
 <p>And why? Dropping incomplete rows is the default because it is what the software does without asking, and a default nobody chose is one nobody has to defend.</p>
 </section>

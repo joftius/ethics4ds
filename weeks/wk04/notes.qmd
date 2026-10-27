@@ -37,8 +37,8 @@ people being measured. A health system's risk score measured next year's
 medical cost and was taken to stand for how ill a patient was; at the
 same cost, Black patients were sicker, so the score flagged fewer of
 them for extra care, and the ones it did flag were sicker than the
-White patients it flagged. In a model with an offset $b$ for one group, selecting above a
-threshold $t$ on the measure is selecting above $t - b$ on the thing
+White patients it flagged. In a model with an offset $\beta_A$ for one group, selecting above a
+threshold $t$ on the measure is selecting above $t - \beta_A$ on the thing
 measured, for that group only.
 
 Once a score is rewarded, the people and systems it is applied to act
@@ -236,8 +236,8 @@ in turn.
    unrelated to anything else. A noisy measure is still right on
    average, but a slope on it is flattened toward zero.
 2. **An offset that differs between groups.**
-   $Y = Y^\star + bA$, with $A$ a group and $b \ne 0$. The measure is
-   right on average for one group and off by $b$ for the other, and
+   $Y = Y^\star + \beta_A A$, with $A$ a group and $\beta_A \ne 0$. The measure is
+   right on average for one group and off by $\beta_A$ for the other, and
    selecting on it selects the groups differently.
 3. **A response to being measured.** Once $Y$ is rewarded, the people
    and systems it is applied to act on $Y$ itself. The equation for
@@ -333,12 +333,12 @@ the paper that teaches it. Read the body.
 Take need $Y^\star$ to have the same distribution in both groups (an assumption, not a finding: see below), and
 let $A = 1$ for one group and $0$ for the other. The measure is
 $$
-Y = Y^\star + bA ,
+Y = Y^\star + \beta_A A ,
 $$
 and the program selects everyone with $Y > t$. For group $0$ that is
-$Y^\star > t$. For group $1$ it is $Y^\star + b > t$, or
-$Y^\star > t - b$. **An offset of $b$ in the measure is a threshold
-moved by $-b$ for that group.** With $b < 0$, as in the paper, group
+$Y^\star > t$. For group $1$ it is $Y^\star + \beta_A > t$, or
+$Y^\star > t - \beta_A$. **An offset of $\beta_A$ in the measure is a threshold
+moved by $-\beta_A$ for that group.** With $\beta_A < 0$, as in the paper, group
 $1$ has to be iller to be selected.
 
 ```{r offset_densities, echo=FALSE, fig.height=2.4, fig.width=6, fig.alt="Two normal curves of the measure Y, the group-1 curve shifted left by half a standard deviation, with the threshold t drawn as a dashed line and the two tails above it shaded."}
@@ -352,7 +352,7 @@ ggplot(dens, aes(y, d, color = group)) +
   geom_vline(xintercept = t97, linetype = "dashed", color = cgray) +
   annotate("text", x = t97 + 0.1, y = 0.37, label = "t", hjust = 0, size = 4.5, fontface = "italic") +
   scale_color_manual(values = two, name = NULL) + scale_fill_manual(values = two, name = NULL) +
-  labs(x = "the measure Y", y = NULL, caption = "b = -0.5 standard deviations of need") +
+  labs(x = "the measure Y", y = NULL, caption = expression(paste(beta[A], " = -0.5 standard deviations of need"))) +
   theme(axis.text.y = element_blank(), panel.grid = element_blank(), legend.position = "top",
         plot.caption = element_text(color = cgray))
 ```
@@ -360,7 +360,7 @@ ggplot(dens, aes(y, d, color = group)) +
 Two things follow, and both are in the paper's data.
 
 **Who is selected.** Group $1$ is selected with probability
-$P(Y^\star > t - b)$ and group $0$ with probability $P(Y^\star > t)$.
+$P(Y^\star > t - \beta_A)$ and group $0$ with probability $P(Y^\star > t)$.
 With $Y^\star \sim N(0, 1)$ and $t$ the 97th percentile, $t = 1.88$:
 
 ```{r sel_table, echo=FALSE, results="asis"}
@@ -370,7 +370,7 @@ sel <- function(b) {
   data.frame(b = b, share0 = s0, share1 = s1, ratio = s1 / s0, need0 = dnorm(z0) / s0, need1 = dnorm(z1) / s1)
 }
 tab <- bind_rows(sel(0), sel(-0.5), sel(-1))
-cat("| offset $b$ | selected, group 0 | selected, group 1 | ratio | mean need of selected in group 0 | mean need of selected in group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
+cat("| offset $\\beta_A$ | selected, group 0 | selected, group 1 | ratio | mean need of selected in group 0 | mean need of selected in group 1 |\n|:---|:---|:---|:---|:---|:---|\n")
 for (i in seq_len(nrow(tab))) with(tab[i, ], cat(sprintf("| %s | %.1f%% | %.1f%% | %.2f | %.2f | %.2f |\n",
   format(b, nsmall = 1), 100 * share0, 100 * share1, ratio, need0, need1)))
 ```
@@ -390,7 +390,7 @@ $$
 the inverse Mills ratio from week 1, where it gave the expected size of
 an estimate that survived the significance filter. Here it gives the
 mean need of the selected in each group: $z = t$ for group $0$ and
-$z = t - b$ for group $1$. Since the ratio increases in $z$, the
+$z = t - \beta_A$ for group $1$. Since the ratio increases in $z$, the
 selected members of group $1$ are iller on average than the selected
 members of group $0$, by about half a standard deviation in the second
 row of the table.
@@ -398,7 +398,7 @@ row of the table.
 The paper's Figure 1A compares a different quantity: need at a given
 score, not above a threshold. In this model that comparison is
 simpler. Two patients with the same measure $Y = y$ have needs $y$ and
-$y - b$, so at every score group $1$ is iller by $-b$, and the gap does
+$y - \beta_A$, so at every score group $1$ is iller by $-\beta_A$, and the gap does
 not depend on where the threshold is. The table's comparison, among
 the selected, adds the tail effect on top: group $1$'s selected members
 are drawn from further out in the need distribution.
