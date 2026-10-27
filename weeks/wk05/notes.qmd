@@ -873,6 +873,15 @@ And why? Dropping incomplete rows is the default because it is what the
 software does without asking, and a default nobody chose is one nobody
 has to defend.
 
+## Political economy of data
+
+Creating data takes resources. Someone pays to count, to record and to
+keep, and so the data that exist are the data someone found worth
+paying for. The lecture ends on the question of what that means for
+which data get created and which do not, and leaves it open. The class
+asks a version of it: name one dataset that should exist and does not,
+say who would have had to collect it, and why they have not.
+
 ## Readings
 
 ### Required

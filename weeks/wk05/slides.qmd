@@ -23,7 +23,7 @@ st313:
   week: 05
   session: lecture
   register: 1
-  segments:                        # sums to 80: 74 of material and 6 of slack; production 30 (38%)
+  segments:                        # sums to 80: 76 of material and 4 of slack; production 32 (40%)
     # opener: 4
     - {label: "what you brought: the 4 -> 5 task on the shared document; what decided who got in, and does it depend on the outcome", minutes: 4, mode: production, retrieves: [S3]}
     # part 1, selection on a common effect: 17
@@ -51,12 +51,13 @@ st313:
     # part 4, filling in: 7
     - {label: "ways to fill a hole, named for the class: mean, regression, LOCF, multiple imputation (mice), the indicator method; the imputation model as an assumption", minutes: 4, mode: exposition, introduces: [CC-18]}
     - {label: "three choices, one table: the coursework data with A half missing; drop the column, drop the rows, fill in; filling in recovers the fit, not the information", minutes: 3, mode: exposition, results: [R31, R34]}
-    # close: 8
+    # close: 10
     - {label: "admitted students, answered individually", minutes: 4, mode: production, item: W05-I1}
     - {label: "lenses B, E, F", minutes: 1, mode: exposition}
     - {label: "the question that splits the room: hands on including A; the task for next time", minutes: 3, mode: production, retrieves: [S6]}
-    # slack: 6
-    - {label: "slack: questions and overrun", minutes: 6, mode: exposition}
+    - {label: "political economy of data: creating data takes resources, so what gets created and what does not (convenor, 27 October); the standing question", minutes: 2, mode: production}
+    # slack: 4
+    - {label: "slack: questions and overrun", minutes: 4, mode: exposition}
   history: []
   complications:
     - {of: CC-09, introduced_week: 3, minutes_after_introduction: 2_weeks}
@@ -176,11 +177,11 @@ generate_data <- function(n = 500, betaY = 1, betaA = 2) {
 ## {.inverse}
 
 ::: {.notes}
-Compress: the four parts. Plan 74 in the 80: opener 4, selection on a common effect 17, leaving a column out 19, who is missing 19, filling in and the three choices 7, close 8; then 6 of slack, and the dark complete-cases slide is 2 more if needed. Dark = rush or skip, except the two dark slides the room talks over: the coursework table (go quickly, the population values follow) and the pairs question.
+Compress: the four parts. Plan 76 in the 80: opener 4, selection on a common effect 17, leaving a column out 19, who is missing 19, filling in and the three choices 7, close 10; then 4 of slack, and the dark complete-cases slide is 2 more if needed. Dark = rush or skip, except the two dark slides the room talks over: the coursework table (go quickly, the population values follow) and the pairs question.
 
 Cut order: (1) when the complete cases are enough; (2) filling in to its names and last sentence; (3) the weighting derivation to its formula. Do not cut the rows-and-columns map, the graph the room draws, the prediction before the coursework table, the pairs question, the income computation, the three-choices table or the admitted-students item.
 
-Pace: 0:04 Part 1; 0:21 Part 2; 0:40 Part 3; 0:59 Part 4; 1:03 three choices; 1:06 admitted students; 1:14 end.
+Pace: 0:04 Part 1; 0:21 Part 2; 0:40 Part 3; 0:59 Part 4; 1:03 three choices; 1:06 admitted students; 1:14 political economy; 1:16 end.
 :::
 
 ### Week 5
@@ -688,7 +689,7 @@ Draw the graph and mark what the records condition on. Among admitted students, 
 ## Lenses this week
 
 ::: {.notes}
-Each lens, what it referred to this week. Then the question on the last slide.
+Each lens, what it referred to this week. Then the question that splits the room, and the last slide.
 :::
 
 - **Who is in the data?** Babies born small; the complete cases; defendants a judge released; people offered a place. And what is recorded about them: the column that was dropped.
@@ -708,3 +709,15 @@ In the test-score example, would you leave the group out of the model, or use it
 :::
 
 For next time: bring one rule or score that sorts people into two groups (admit or reject, flag or clear, treat or not), with the two ways it can be wrong and who pays for each.
+
+## Political economy of data {minutes="2"}
+
+::: {.notes}
+Two minutes, and the last word. Counting costs money, so someone decides what is worth counting, and the people who are not counted are rarely the ones deciding. Two answers from the room, then stop; the class picks it up (a dataset that should exist and does not).
+:::
+
+Creating data takes resources. Someone pays to count, to record, and to keep.
+
+::: {.ask}
+What does that mean about which data get created, and which do not?
+:::
