@@ -10,4 +10,4 @@ A score measures one thing and is taken to stand for another. A hospital's risk 
 
 **Lecture:** [notes](weeks/wk04/notes.html) · [slides](weeks/wk04/slides.html)
 
-**Class:** [class sheet](weeks/wk04/class.html) ([.qmd](https://ethics4ds.com/weeks/wk04/class.qmd){download="class.qmd"})
+**Class:** [class sheet](weeks/wk04/class.html) ([.qmd](https://ethics4ds.com/weeks/wk04/class.qmd){download="class.qmd"}) · [class sheet with solutions](https://ethics4ds.com/solutions/wk04/class_solutions.html)
