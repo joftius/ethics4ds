@@ -670,11 +670,12 @@ pool(with(imp, lm(Y ~ 1)))$pooled[, c("estimate", "ubar", "b", "t", "m")]
 1. MCAR: right, with more variance. MAR: too low, because the rows
    with high $X$, which have high $Y$, go missing more often. MNAR:
    too low, because the high $Y$ themselves go missing.
-2. and 3. Read across (coding 1 showed why the single fill-ins'
-   standard errors are too small; here it shows in the `se` column). Under MCAR every estimate is right; mean
-   imputation and regression imputation report standard errors about
-   half the right size, because they count $n$ values where there were
-   $n/2$ and the filled-in values have less spread than real ones.
+2. and 3. Read across (coding 1 showed why a single fill-in's
+   standard error is too small; here it shows in the `se` column).
+   Under MCAR every estimate is right; mean imputation and regression
+   imputation report standard errors about half the right size,
+   because they count $n$ values where there were $n/2$ and the
+   filled-in values have less spread than real ones.
    Under MAR the complete-case mean and mean imputation are far too
    low (mean imputation puts the complete-case mean into every hole, so
    it cannot move the mean); regression imputation gets the mean right,
