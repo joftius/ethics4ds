@@ -196,6 +196,13 @@
     "text": "In the test-score example, would you leave the group out of the model, or use it? What graph does your answer assume?\n\nFor next time: bring one rule or score that sorts people into two groups (admit or reject, flag or clear, treat or not), with the two ways it can be wrong and who pays for each."
   },
   {
+    "objectID": "weeks/wk05/slides.html#political-economy-of-data",
+    "href": "weeks/wk05/slides.html#political-economy-of-data",
+    "title": "Who counts as a case",
+    "section": "Political economy of data",
+    "text": "Political economy of data\nCreating data takes resources. Someone pays to count, to record, and to keep.\n\nWhat does that mean about which data get created, and which do not?"
+  },
+  {
     "objectID": "weeks/wk05/class.html",
     "href": "weeks/wk05/class.html",
     "title": "Who counts as a case",
@@ -1734,6 +1741,13 @@
     "title": "Who counts as a case",
     "section": "Lenses",
     "text": "Lenses\nWho is in the data? The babies who were born small. The people offered a place. The complete cases. The defendants a judge released. The studies that were published and the posts that reached a feed. In each, the rule that let people in depended on something connected to the outcome, and restricting to the people it let in changed what the numbers mean. And what is in the data about them: the column that was dropped, on principle or by default, changed what the model could see.\nYou have to choose, so choose, and defend it. A column with holes forces a choice between dropping it, dropping the rows and filling in, and each depends on something the data do not settle: which causal graph \\(A\\) is in, and whether the missing are like the observed once you account for what was recorded, MAR or MNAR. Every analysis of incomplete data makes one of these assumptions; what varies is whether it is made on purpose, and whether anyone can later say why.\nWhat can be changed, and how? What things are considered “controlled for” or “held fixed,” and is that realistic? The coefficient on \\(A\\) holds the score fixed while the group changes, which is not something that happens to anyone. A comparison among low-birth-weight babies holds birth weight fixed while asking about smoking, which is one of the things that set it.\nAnd why? Dropping incomplete rows is the default because it is what the software does without asking, and a default nobody chose is one nobody has to defend."
+  },
+  {
+    "objectID": "weeks/wk05/notes.html#political-economy-of-data",
+    "href": "weeks/wk05/notes.html#political-economy-of-data",
+    "title": "Who counts as a case",
+    "section": "Political economy of data",
+    "text": "Political economy of data\nCreating data takes resources. Someone pays to count, to record and to keep, and so the data that exist are the data someone found worth paying for. The lecture ends on the question of what that means for which data get created and which do not, and leaves it open. The class asks a version of it: name one dataset that should exist and does not, say who would have had to collect it, and why they have not."
   },
   {
     "objectID": "weeks/wk05/notes.html#readings",
