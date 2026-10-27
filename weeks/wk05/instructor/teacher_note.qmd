@@ -13,19 +13,21 @@ In class order. Planned total 75 of the 80 minutes.
 
 | Item | Min | | If short |
 |---|---:|---|---|
-| Discussion 1: the dataset each student brought; who is missing, which way, by which mechanism; a dataset that should exist | 10 | Rush; cut first | Questions 1 and 2 from three groups; drop question 3 |
+| Discussion 1: the dataset each student brought; who is missing, which way, by which mechanism; a dataset that should exist | 8 | Rush; cut first | Questions 1 and 2 from three groups; drop question 3 |
 | Problem 1: why is it missing, and which way; the salary survey, with feedback | 14 | Keep | (a) and (b); say (c): weight each respondent by one over their grade's response rate, and the mean is 50 again |
-| Discussion 2: why leave out $A$; the same column half empty | 10 | Rush | Question 1 in pairs, then question 2 with hands: drop the column, drop the rows, or fill in |
-| Coding: the mean of $Y$ four ways under three mechanisms, with feedback | 22 | Keep | Steps 1 to 3; show step 4's `pool()` output from the complete sheet; ask step 5 to the room in one minute |
+| Discussion 2: why leave out $A$; the same column half empty | 8 | Rush | Question 1 in pairs, then question 2 with hands: drop the column, drop the rows, or fill in |
+| Coding 1: the picture of a single fill-in; sd, correlation, slope and 90th percentile against the truth | 8 | Keep | Show the picture and the table from the complete sheet; ask where the gold points sit and which column of the table is wrong; step 4 with hands |
+| Coding 2: the mean of $Y$ four ways under three mechanisms, with feedback | 18 | Keep | Steps 1 to 3; show step 4's `pool()` output from the complete sheet; ask step 5 to the room in one minute |
 | Problem 2: selection on a collider with numbers, with feedback | 12 | Keep | (a) and (c); say (d): a higher bar for the feeder school flips the sign, so the graph gives the association and the rule gives its direction |
 | Discussion 3: the bank's new credit model, evaluated on the approved | 6 | Rush; cut second | Question 1 with hands, then question 3 |
 | The task for next time | 1 | Keep | Read the task aloud |
 
 : {tbl-colwidths="[32,6,16,46]"}
 
-Minimum class, about 50 minutes: problems 1 and 2, the coding's steps
-1 to 3, discussion 2's question 2 with hands, and the task for next
-time. With more time, add discussion 3 back first, then discussion 1.
+Minimum class, about 50 minutes: problems 1 and 2, coding 1's picture
+shown rather than run, coding 2's steps 1 to 3, discussion 2's
+question 2 with hands, and the task for next time. With more time, add
+discussion 3 back first, then discussion 1.
 
 ## If you read on
 
@@ -40,15 +42,21 @@ How it runs
   the end of week 4's class, and on the course page, to bring a dataset
   where some people who should be in it are not; discussion 1 gives a
   list for anyone who did not.
-- Discussion 2 is the break between problem 1 and the coding. The
-  coding needs one laptop with R per pair and the `mice` package; the
-  starter code runs in about two seconds, the `mice()` calls included.
-  If `mice` will not install for a pair, they do steps 1 to 3 without
-  the last row of the table and read the row from a neighbor.
+- Discussion 2 is the break between problem 1 and the two coding
+  blocks. The coding needs one laptop with R per pair and, for coding
+  2, the `mice` package; each starter block runs in about two seconds,
+  the `mice()` calls included. If `mice` will not install for a pair,
+  they do coding 2's steps 1 to 3 without the last row of the table
+  and read the row from a neighbor. Coding 1 is where students write
+  the regression-imputation line; coding 2's starter has it filled in.
 - Notation as in the lecture: $C = 1$ means the row is observed (the
   lecture explains why the collider's letter is reused), $e(X) =
   P(C = 1 \mid X)$, and the collider's coefficients are $\beta_Y$ and
-  $\beta_A$.
+  $\beta_A$. In the sheet's solutions a subscript on an expectation
+  names what it averages over, $E_X\big[E_Y[Y \mid X]\big]$; the
+  indicators in the code are plain 0/1, which `ifelse()` and `sum()`
+  accept, and the one place a logical is needed, subsetting, writes
+  `C == 1`.
 - Every item ends with a question about who the mistake falls on, who
   gains from it going unnoticed, or who the choice could be justified
   to. Those questions are the point of the week, not a coda. A group
@@ -58,8 +66,16 @@ How it runs
 
 What the class adds to the lecture
 
-- The lecture named five ways to fill a hole and explained none. The
-  coding is where multiple imputation is taught: what a completion is
+- Coding 1 is the picture the lecture did not draw: a single fill-in
+  puts every missing row on a line, so the spread of $Y$ shrinks, and
+  with it anything computed from the spread. Mean imputation also
+  flattens the slope and the correlation (the filled half has no
+  relation to $X$); regression imputation keeps the slope and inflates
+  the correlation (the filled half is perfectly predictable). The
+  missingness is MCAR on purpose, so that the damage is seen to come
+  from the fill-in and not from the mechanism.
+- The lecture named five ways to fill a hole and explained none.
+  Coding 2 is where multiple imputation is taught: what a completion is
   (a draw, not a prediction), why a single fill-in's standard error is
   too small, Rubin's rule as `ubar`, `b` and `t` from `pool()`, and
   the limitation, that under MNAR every method in the table is wrong,
@@ -79,7 +95,7 @@ What the class adds to the lecture
   and whether it is justified; the point to land is that the two costs
   are not symmetric, one visible and on the bank, one invisible and on
   the people wrongly rejected.
-- The coding's step 5 (who should choose the imputation model when the
+- Coding 2's step 5 (who should choose the imputation model when the
   survey sets benefit levels) is the lecture's closing line, that an
   imputation model is an assumption about the unseen, asked about
   people who will feel the answer.
@@ -89,7 +105,15 @@ What students should see
 - Problem 1(b): true mean 50, respondents' mean 40,
   $\operatorname{Cov}(Y, C) = -6$, $P(C = 1) = 0.6$. (c): 45 juniors
   at weight $1/0.9$ and 15 seniors at $1/0.3$, weighted mean 50.
-- Coding: with $n = 2000$, about half recorded under each mechanism.
+- Coding 1, population values (students' samples vary; $n = 500$):
+  truth sd $1.41$, correlation $0.71$, slope $1$, 90th percentile
+  $2.81$; mean imputation $1.0$, $0.5$, $0.5$, $2.2$; regression
+  imputation $1.22$, $0.82$, $1$, $2.5$. Complete cases match the
+  truth up to sampling variation. The complete sheet's own run: all
+  the data $1.47$, $0.73$, $1.10$, $2.57$; mean imputation $1.10$,
+  $0.56$, $0.63$, $2.04$; regression imputation $1.35$, $0.85$,
+  $1.17$, $2.46$.
+- Coding 2: with $n = 2000$, about half recorded under each mechanism.
   Under MCAR all four estimates within about $0.05$ of this sample's
   full mean; mean and regression imputation report standard errors
   near $0.02$ against $0.04$ for complete cases and multiple
@@ -111,12 +135,15 @@ Where they get stuck
 - Problem 1(b): averaging the two response rates and the two means
   separately instead of weighting the means by the rates
   ($E[YC]$ is a sum of salary times response probability).
-- Coding step 2: fitting the regression on the filled-in data instead
-  of the recorded rows; `lm()` on `d` does the right thing because the
-  missing $Y$ are `NA`.
-- Coding step 3: concluding that regression imputation is "fine under
+- Coding 1 step 1: fitting the regression on the filled-in data
+  instead of the recorded rows; `lm()` on `d` does the right thing
+  because the missing $Y$ are `NA`.
+- Coding 1 step 3: calling the higher correlation under regression
+  imputation an improvement. Ask what the filled points' correlation
+  with $X$ is (exactly 1) and whether that is a fact about anyone.
+- Coding 2 step 3: concluding that regression imputation is "fine under
   MAR" from its estimate alone. Its standard error is the point.
-- Coding step 3: concluding that multiple imputation handles MNAR
+- Coding 2 step 3: concluding that multiple imputation handles MNAR
   because its estimate moved toward $1$ (it moved from $0.1$ to $0.4$).
   It moved because $X$ carries some information about $Y$; it is still
   wrong by $0.6$.

@@ -40,7 +40,11 @@ justified to. The arithmetic is how you earn an answer to that
 question; it is not the answer.
 
 Notation as in the lecture: $C = 1$ if a person's $Y$ is recorded and
-$C = 0$ if it is missing; $e(X) = P(C = 1 \mid X)$; $A$ is a group.
+$C = 0$ if it is missing; $e(X) = P(C = 1 \mid X)$; $A$ is a group. A
+subscript on an expectation names the random variables it averages
+over: $E_X\big[E_Y[Y \mid X]\big]$ averages $Y$ among the people with
+each value of $X$, then averages those means over $X$. An expectation
+with no subscript averages over everything random inside it.
 
 ## Exercises
 
@@ -144,12 +148,13 @@ defend to the people who did not answer, and what would it take to
 check either?
 
 ::: {.callout-tip collapse="true" title="Hint 1"}
-Condition on $X$ first: $E[CY/e(X)] = E\big[E[CY \mid X]/e(X)\big]$.
+Condition on $X$ first:
+$E[CY/e(X)] = E_X\big[E_{C,Y}[CY \mid X]/e(X)\big]$.
 :::
 
 ::: {.callout-tip collapse="true" title="Hint 2"}
 Under MAR, $C$ and $Y$ are independent given $X$, so
-$E[CY \mid X] = E[C \mid X]\,E[Y \mid X]$.
+$E_{C,Y}[CY \mid X] = E_C[C \mid X]\,E_Y[Y \mid X]$.
 :::
 
 ## In class
@@ -230,29 +235,72 @@ groups whose $Y$ has the same distribution.
    the rows that lack it, or fill it in? Who would you have to justify
    the choice to, and could you?
 
-### Coding: filling in, four ways
+### Coding 1: what a single fill-in does
 
-One laptop between two. You need `ggplot2`, `dplyr` and `mice`
-(`install.packages("mice")` once). $Y$ depends on $X$, and we remove
-values of $Y$ in three ways, then estimate the mean of $Y$ four ways.
+You need `ggplot2` and, for coding 2, `mice` (`install.packages("mice")`
+once). $Y$ depends on $X$. Half the values of $Y$ are removed
+completely at random, so the complete cases are right about
+everything, and then each hole is filled once: with the recorded mean,
+and with the prediction from $X$.
+
+```{r fillin_picture_starter, eval=FALSE}
+library(ggplot2)
+n <- 500
+X <- rnorm(n)
+Y <- 1 + X + rnorm(n)                  # the truth: slope 1, sd(Y) = sqrt(2), cor(X, Y) = 1/sqrt(2)
+C <- rbinom(n, 1, 0.5)                 # 1 if Y is recorded, 0 if it is missing: MCAR
+d <- data.frame(X = X, Y = ifelse(C, Y, NA))
+mean_imp <- ifelse(C, Y, mean(d$Y, na.rm = TRUE))     # every hole gets the recorded mean
+reg_imp  <- # ...                                      # every hole gets the prediction from X
+pic <- rbind(data.frame(X, Y = Y,        how = "all the data",          missing = C == 0),
+             data.frame(X, Y = mean_imp, how = "mean imputation",       missing = C == 0),
+             data.frame(X, Y = reg_imp,  how = "regression imputation", missing = C == 0))
+ggplot(pic, aes(X, Y, color = missing)) + geom_point(alpha = 0.6) + facet_wrap(~ how) +
+  scale_color_manual(values = c("gray50", "#BCAF6F"), labels = c("recorded", "missing"), name = NULL)
+summaries <- function(y, x = X) c(sd = sd(y), cor = cor(x, y),
+                                  slope = unname(coef(lm(y ~ x))[2]), q90 = unname(quantile(y, 0.9)))
+round(rbind(`all the data` = summaries(Y), `complete cases` = summaries(Y[C == 1], X[C == 1]),
+            `mean imputation` = summaries(mean_imp), `regression imputation` = summaries(reg_imp)), 2)
+```
+
+1. Complete the regression-imputation line: fit `lm(Y ~ X, data = d)`,
+   which uses the rows that have $Y$, and give each hole its fitted
+   value. Run everything. In each panel the gold points are the rows
+   whose $Y$ went missing: on the left where they really are, in the
+   other two where the fill-in put them. Say where they sit.
+2. Read the table against the truth: $\operatorname{sd}(Y) = \sqrt2
+   \approx 1.41$, correlation $1/\sqrt2 \approx 0.71$, slope $1$, 90th
+   percentile about $2.81$. Which quantities does each fill-in get
+   wrong, and which way? The missingness is completely at random, so
+   what does filling in add here?
+3. Regression imputation gets the slope right and the correlation
+   wrong. Say why, one sentence each.
+4. The filled-in rows are people who were not asked, drawn as if they
+   had answered exactly as predicted. Who is better off when a dataset
+   looks more certain than it is, and who finds out?
+
+### Coding 2: filling in, four ways
+
+$Y$ depends on $X$ as in coding 1, and now values of $Y$ are removed
+in three ways; the mean of $Y$ is then estimated four ways. The
+regression-imputation line is the one you wrote in coding 1.
 
 ```{r filling_starter, eval=FALSE}
 library(mice)
 n <- 2000
 X <- rnorm(n)
 Y <- 1 + X + rnorm(n)                       # the truth: E[Y] = 1, slope 1
-logistic <- function(v) 1 / (1 + exp(-v))
-C_mcar <- rbinom(n, 1, 0.5) == 1            # recorded with probability 1/2, whoever you are
-C_mar  <- rbinom(n, 1, logistic(-1.5 * X)) == 1        # recorded less often when X is high
-C_mnar <- rbinom(n, 1, logistic(-1.5 * (Y - 1))) == 1  # recorded less often when Y is high
+C_mcar <- rbinom(n, 1, 0.5)                 # 1 if Y is recorded: with probability 1/2, whoever you are
+C_mar  <- rbinom(n, 1, plogis(-1.5 * X))         # recorded less often when X is high (plogis is the logistic function)
+C_mnar <- rbinom(n, 1, plogis(-1.5 * (Y - 1)))   # recorded less often when Y is high
 c(mean(C_mcar), mean(C_mar), mean(C_mnar))
 
 estimate <- function(C) {
   d <- data.frame(X = X, Y = ifelse(C, Y, NA))            # Y is NA where it is missing
   cc <- c(mean(d$Y, na.rm = TRUE), sd(d$Y, na.rm = TRUE) / sqrt(sum(C)))
-  mean_imp <- ifelse(C, Y, mean(Y[C]))                     # fill the holes with the recorded mean
+  mean_imp <- ifelse(C, Y, mean(d$Y, na.rm = TRUE))        # fill the holes with the recorded mean
   mi <- c(mean(mean_imp), sd(mean_imp) / sqrt(n))
-  reg_imp <- # ...                                         # fill the holes with the prediction from X
+  reg_imp <- ifelse(C, Y, predict(lm(Y ~ X, data = d), newdata = d))   # fill the holes with the prediction from X
   ri <- c(mean(reg_imp), sd(reg_imp) / sqrt(n))
   imp <- mice(d, m = 20, method = "norm", printFlag = FALSE)   # 20 completions
   pooled <- summary(pool(with(imp, lm(Y ~ 1))))                # the mean of Y in each, pooled
@@ -268,12 +316,10 @@ estimate <- function(C) {
    Before you estimate anything, write down for each of the three
    indicators whether you expect the complete-case mean to be too
    high, too low, or right, and why.
-2. Complete the regression-imputation line: fit `lm(Y ~ X, data = d)`
-   on the rows that have $Y$ (which is what `lm()` does with `NA`) and
-   fill each hole with its prediction. Then run `estimate()` on each
-   indicator and put the three tables side by side. The truth is $1$;
-   the standard error of the mean of all $n$ values of $Y$ would be
-   about $\sqrt{2/n} = 0.032$, and of half of them about $0.045$.
+2. Run `estimate()` on each indicator and put the three tables side
+   by side. The truth is $1$; the standard error of the mean of all
+   $n$ values of $Y$ would be about $\sqrt{2/n} = 0.032$, and of half
+   of them about $0.045$.
 3. Read the tables by row. Which methods are biased under which
    mechanism? Which standard errors are too small, and what makes them
    too small? What does multiple imputation fix that regression

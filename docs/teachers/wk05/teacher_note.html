@@ -2353,7 +2353,7 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>Discussion 1: the dataset each student brought; who is missing, which way, by which mechanism; a dataset that should exist</td>
-<td style="text-align: right;">10</td>
+<td style="text-align: right;">8</td>
 <td>Rush; cut first</td>
 <td>Questions 1 and 2 from three groups; drop question 3</td>
 </tr>
@@ -2365,29 +2365,35 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Discussion 2: why leave out <span class="math inline">\(A\)</span>; the same column half empty</td>
-<td style="text-align: right;">10</td>
+<td style="text-align: right;">8</td>
 <td>Rush</td>
 <td>Question 1 in pairs, then question 2 with hands: drop the column, drop the rows, or fill in</td>
 </tr>
 <tr class="even">
-<td>Coding: the mean of <span class="math inline">\(Y\)</span> four ways under three mechanisms, with feedback</td>
-<td style="text-align: right;">22</td>
+<td>Coding 1: the picture of a single fill-in; sd, correlation, slope and 90th percentile against the truth</td>
+<td style="text-align: right;">8</td>
+<td>Keep</td>
+<td>Show the picture and the table from the complete sheet; ask where the gold points sit and which column of the table is wrong; step 4 with hands</td>
+</tr>
+<tr class="odd">
+<td>Coding 2: the mean of <span class="math inline">\(Y\)</span> four ways under three mechanisms, with feedback</td>
+<td style="text-align: right;">18</td>
 <td>Keep</td>
 <td>Steps 1 to 3; show step 4’s <code>pool()</code> output from the complete sheet; ask step 5 to the room in one minute</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Problem 2: selection on a collider with numbers, with feedback</td>
 <td style="text-align: right;">12</td>
 <td>Keep</td>
 <td>(a) and (c); say (d): a higher bar for the feeder school flips the sign, so the graph gives the association and the rule gives its direction</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Discussion 3: the bank’s new credit model, evaluated on the approved</td>
 <td style="text-align: right;">6</td>
 <td>Rush; cut second</td>
 <td>Question 1 with hands, then question 3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>The task for next time</td>
 <td style="text-align: right;">1</td>
 <td>Keep</td>
@@ -2395,38 +2401,41 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>Minimum class, about 50 minutes: problems 1 and 2, the coding’s steps 1 to 3, discussion 2’s question 2 with hands, and the task for next time. With more time, add discussion 3 back first, then discussion 1.</p>
+<p>Minimum class, about 50 minutes: problems 1 and 2, coding 1’s picture shown rather than run, coding 2’s steps 1 to 3, discussion 2’s question 2 with hands, and the task for next time. With more time, add discussion 3 back first, then discussion 1.</p>
 </section>
 <section id="if-you-read-on" class="level2">
 <h2 class="anchored" data-anchor-id="if-you-read-on">If you read on</h2>
 <p>How it runs</p>
 <ul>
 <li>The exercises at the top of the sheet rederive or apply the lecture’s results; students do them on their own time and the class does not work them. Open the <a href="https://ethics4ds.com/teachers/wk05/class_complete.html">complete class sheet</a> on screen: green boxes are hints, opened in order after a few minutes; blue boxes are answers and example answers. Students were asked at the end of week 4’s class, and on the course page, to bring a dataset where some people who should be in it are not; discussion 1 gives a list for anyone who did not.</li>
-<li>Discussion 2 is the break between problem 1 and the coding. The coding needs one laptop with R per pair and the <code>mice</code> package; the starter code runs in about two seconds, the <code>mice()</code> calls included. If <code>mice</code> will not install for a pair, they do steps 1 to 3 without the last row of the table and read the row from a neighbor.</li>
+<li>Discussion 2 is the break between problem 1 and the two coding blocks. The coding needs one laptop with R per pair and, for coding 2, the <code>mice</code> package; each starter block runs in about two seconds, the <code>mice()</code> calls included. If <code>mice</code> will not install for a pair, they do coding 2’s steps 1 to 3 without the last row of the table and read the row from a neighbor. Coding 1 is where students write the regression-imputation line; coding 2’s starter has it filled in.</li>
 <li>Notation as in the lecture: <span class="math inline">\(C = 1\)</span> means the row is observed (the lecture explains why the collider’s letter is reused), <span class="math inline">\(e(X) =
-P(C = 1 \mid X)\)</span>, and the collider’s coefficients are <span class="math inline">\(\beta_Y\)</span> and <span class="math inline">\(\beta_A\)</span>.</li>
+P(C = 1 \mid X)\)</span>, and the collider’s coefficients are <span class="math inline">\(\beta_Y\)</span> and <span class="math inline">\(\beta_A\)</span>. In the sheet’s solutions a subscript on an expectation names what it averages over, <span class="math inline">\(E_X\big[E_Y[Y \mid X]\big]\)</span>; the indicators in the code are plain 0/1, which <code>ifelse()</code> and <code>sum()</code> accept, and the one place a logical is needed, subsetting, writes <code>C == 1</code>.</li>
 <li>Every item ends with a question about who the mistake falls on, who gains from it going unnoticed, or who the choice could be justified to. Those questions are the point of the week, not a coda. A group that has the number and skips the question has not finished; ask it. The answers in the sheet are directions, and the room may have better ones.</li>
 </ul>
 <p>What the class adds to the lecture</p>
 <ul>
-<li>The lecture named five ways to fill a hole and explained none. The coding is where multiple imputation is taught: what a completion is (a draw, not a prediction), why a single fill-in’s standard error is too small, Rubin’s rule as <code>ubar</code>, <code>b</code> and <code>t</code> from <code>pool()</code>, and the limitation, that under MNAR every method in the table is wrong, multiple imputation included, because all of them use the recorded <span class="math inline">\(X\)</span> to say what the missing <span class="math inline">\(Y\)</span> are like. Mean imputation is in the table as the thing people do; regression imputation is there to show that getting the mean right is not the same as getting its uncertainty right.</li>
+<li>Coding 1 is the picture the lecture did not draw: a single fill-in puts every missing row on a line, so the spread of <span class="math inline">\(Y\)</span> shrinks, and with it anything computed from the spread. Mean imputation also flattens the slope and the correlation (the filled half has no relation to <span class="math inline">\(X\)</span>); regression imputation keeps the slope and inflates the correlation (the filled half is perfectly predictable). The missingness is MCAR on purpose, so that the damage is seen to come from the fill-in and not from the mechanism.</li>
+<li>The lecture named five ways to fill a hole and explained none. Coding 2 is where multiple imputation is taught: what a completion is (a draw, not a prediction), why a single fill-in’s standard error is too small, Rubin’s rule as <code>ubar</code>, <code>b</code> and <code>t</code> from <code>pool()</code>, and the limitation, that under MNAR every method in the table is wrong, multiple imputation included, because all of them use the recorded <span class="math inline">\(X\)</span> to say what the missing <span class="math inline">\(Y\)</span> are like. Mean imputation is in the table as the thing people do; regression imputation is there to show that getting the mean right is not the same as getting its uncertainty right.</li>
 <li>Problem 2 adds the point the lecture’s notes make after the noisy collider: the graph says an association appears among the admitted, and the admission rule says which way. Part (d) asks for a rule that flips it.</li>
 <li>Discussion 3 is the lecture’s selective-labels slide on a case without judges: a bank with one policy has no lenient decision-maker to compare with, and the honest fix, approving some rejected applicants at random, costs money. Question 3 asks who pays for it and whether it is justified; the point to land is that the two costs are not symmetric, one visible and on the bank, one invisible and on the people wrongly rejected.</li>
-<li>The coding’s step 5 (who should choose the imputation model when the survey sets benefit levels) is the lecture’s closing line, that an imputation model is an assumption about the unseen, asked about people who will feel the answer.</li>
+<li>Coding 2’s step 5 (who should choose the imputation model when the survey sets benefit levels) is the lecture’s closing line, that an imputation model is an assumption about the unseen, asked about people who will feel the answer.</li>
 </ul>
 <p>What students should see</p>
 <ul>
 <li>Problem 1(b): true mean 50, respondents’ mean 40, <span class="math inline">\(\operatorname{Cov}(Y, C) = -6\)</span>, <span class="math inline">\(P(C = 1) = 0.6\)</span>. (c): 45 juniors at weight <span class="math inline">\(1/0.9\)</span> and 15 seniors at <span class="math inline">\(1/0.3\)</span>, weighted mean 50.</li>
-<li>Coding: with <span class="math inline">\(n = 2000\)</span>, about half recorded under each mechanism. Under MCAR all four estimates within about <span class="math inline">\(0.05\)</span> of this sample’s full mean; mean and regression imputation report standard errors near <span class="math inline">\(0.02\)</span> against <span class="math inline">\(0.04\)</span> for complete cases and multiple imputation. Under MAR, complete cases and mean imputation near <span class="math inline">\(0.45\)</span> (the truth is <span class="math inline">\(1\)</span>); regression imputation and multiple imputation near <span class="math inline">\(0.9\)</span> to <span class="math inline">\(1\)</span>, the first with a standard error near <span class="math inline">\(0.026\)</span>, the second near <span class="math inline">\(0.04\)</span>. Under MNAR, complete cases and mean imputation near <span class="math inline">\(0.1\)</span>, regression and multiple imputation near <span class="math inline">\(0.4\)</span>. In step 4, <code>t</code> equals <code>ubar + 1.05 b</code> to rounding.</li>
+<li>Coding 1, population values (students’ samples vary; <span class="math inline">\(n = 500\)</span>): truth sd <span class="math inline">\(1.41\)</span>, correlation <span class="math inline">\(0.71\)</span>, slope <span class="math inline">\(1\)</span>, 90th percentile <span class="math inline">\(2.81\)</span>; mean imputation <span class="math inline">\(1.0\)</span>, <span class="math inline">\(0.5\)</span>, <span class="math inline">\(0.5\)</span>, <span class="math inline">\(2.2\)</span>; regression imputation <span class="math inline">\(1.22\)</span>, <span class="math inline">\(0.82\)</span>, <span class="math inline">\(1\)</span>, <span class="math inline">\(2.5\)</span>. Complete cases match the truth up to sampling variation. The complete sheet’s own run: all the data <span class="math inline">\(1.47\)</span>, <span class="math inline">\(0.73\)</span>, <span class="math inline">\(1.10\)</span>, <span class="math inline">\(2.57\)</span>; mean imputation <span class="math inline">\(1.10\)</span>, <span class="math inline">\(0.56\)</span>, <span class="math inline">\(0.63\)</span>, <span class="math inline">\(2.04\)</span>; regression imputation <span class="math inline">\(1.35\)</span>, <span class="math inline">\(0.85\)</span>, <span class="math inline">\(1.17\)</span>, <span class="math inline">\(2.46\)</span>.</li>
+<li>Coding 2: with <span class="math inline">\(n = 2000\)</span>, about half recorded under each mechanism. Under MCAR all four estimates within about <span class="math inline">\(0.05\)</span> of this sample’s full mean; mean and regression imputation report standard errors near <span class="math inline">\(0.02\)</span> against <span class="math inline">\(0.04\)</span> for complete cases and multiple imputation. Under MAR, complete cases and mean imputation near <span class="math inline">\(0.45\)</span> (the truth is <span class="math inline">\(1\)</span>); regression imputation and multiple imputation near <span class="math inline">\(0.9\)</span> to <span class="math inline">\(1\)</span>, the first with a standard error near <span class="math inline">\(0.026\)</span>, the second near <span class="math inline">\(0.04\)</span>. Under MNAR, complete cases and mean imputation near <span class="math inline">\(0.1\)</span>, regression and multiple imputation near <span class="math inline">\(0.4\)</span>. In step 4, <code>t</code> equals <code>ubar + 1.05 b</code> to rounding.</li>
 <li>Problem 2(a): <span class="math inline">\(7.5\)</span> and <span class="math inline">\(8.5\)</span>; among applicants, <span class="math inline">\(5.5\)</span> in both groups. (d): any rule with the higher bar for the feeder school, for instance <span class="math inline">\(9\)</span> against <span class="math inline">\(7\)</span>, giving <span class="math inline">\(9.5\)</span> against <span class="math inline">\(8.5\)</span>.</li>
 </ul>
 <p>Where they get stuck</p>
 <ul>
 <li>Problem 1(a): calling the lost scripts MAR because “the post is unrelated to marks.” That is MCAR; MAR is when missingness depends on something recorded.</li>
 <li>Problem 1(b): averaging the two response rates and the two means separately instead of weighting the means by the rates (<span class="math inline">\(E[YC]\)</span> is a sum of salary times response probability).</li>
-<li>Coding step 2: fitting the regression on the filled-in data instead of the recorded rows; <code>lm()</code> on <code>d</code> does the right thing because the missing <span class="math inline">\(Y\)</span> are <code>NA</code>.</li>
-<li>Coding step 3: concluding that regression imputation is “fine under MAR” from its estimate alone. Its standard error is the point.</li>
-<li>Coding step 3: concluding that multiple imputation handles MNAR because its estimate moved toward <span class="math inline">\(1\)</span> (it moved from <span class="math inline">\(0.1\)</span> to <span class="math inline">\(0.4\)</span>). It moved because <span class="math inline">\(X\)</span> carries some information about <span class="math inline">\(Y\)</span>; it is still wrong by <span class="math inline">\(0.6\)</span>.</li>
+<li>Coding 1 step 1: fitting the regression on the filled-in data instead of the recorded rows; <code>lm()</code> on <code>d</code> does the right thing because the missing <span class="math inline">\(Y\)</span> are <code>NA</code>.</li>
+<li>Coding 1 step 3: calling the higher correlation under regression imputation an improvement. Ask what the filled points’ correlation with <span class="math inline">\(X\)</span> is (exactly 1) and whether that is a fact about anyone.</li>
+<li>Coding 2 step 3: concluding that regression imputation is “fine under MAR” from its estimate alone. Its standard error is the point.</li>
+<li>Coding 2 step 3: concluding that multiple imputation handles MNAR because its estimate moved toward <span class="math inline">\(1\)</span> (it moved from <span class="math inline">\(0.1\)</span> to <span class="math inline">\(0.4\)</span>). It moved because <span class="math inline">\(X\)</span> carries some information about <span class="math inline">\(Y\)</span>; it is still wrong by <span class="math inline">\(0.6\)</span>.</li>
 <li>Problem 2(c): saying “selection bias” and stopping. Ask them to state what the means are among applicants (<span class="math inline">\(5.5\)</span> in both groups) and what the rule did.</li>
 <li>Discussion 3: treating “evaluate on the data you have” as neutral. Ask whose outcomes the data have.</li>
 <li>The “who pays” questions: answering “society” or “everyone.” Ask for people who could be named: the next feeder-school applicant, the staff in the region that answered less, the applicant the old model rejected who would have repaid.</li>
