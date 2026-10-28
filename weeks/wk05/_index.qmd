@@ -9,3 +9,5 @@ Every dataset has a rule for who gets into it: who was born small, who was hired
 **Bring to the class:** one dataset or study where some people who should be in it are not, with who is missing and in which direction their absence pushes the result.
 
 **Lecture:** [notes](weeks/wk05/notes.html) · [slides](weeks/wk05/slides.html)
+
+**Class:** [class sheet](weeks/wk05/class.html) ([.qmd](https://ethics4ds.com/weeks/wk05/class.qmd){download="class.qmd"})
