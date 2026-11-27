@@ -1,0 +1,145 @@
+---
+title: "Values, utility and probability"
+---
+
+## Reading
+
+### Intrinsic and instrumental value
+
+Something has **instrumental value** when it is valued for what it brings about, and **intrinsic value** when it is valued for its own sake. Money is the usual example of the first: few people want it except for what it can be exchanged for. Happiness, health and a person's dignity are usual examples of the second. One thing can be both: health is wanted for itself and for what it lets a person do.
+
+Much of data science works with things whose value is instrumental. Accuracy is valued because accurate predictions lead to better decisions, a benchmark score because it is supposed to indicate capability, engagement because it is supposed to show that users find a service worth their time. A hospital's risk score built to predict health-care costs was used to find patients with the greatest need (Obermeyer et al., 2019): cost was valued as a sign of need. When an instrumental value is pursued as if it were the end, it can come apart from what it was for. Goodhart's law is one form of this: a measure that becomes a target can stop measuring what it was chosen to measure.
+
+People disagree about which values are intrinsic. Privacy can be valued for itself, or as protection against what others could do with information about us. Equality can be valued for itself, or for its effects on welfare, trust or power. The disagreement changes what counts as a loss. If privacy is only instrumental, a breach that harms nobody costs nothing.
+
+**Summary:** An instrumental value is valued for what it brings about, and much of data science measures and optimizes such values; trouble starts when one is treated as an end in itself, and people disagree about which values are ends.
+
+### Monism and pluralism
+
+Value **monism** holds that there is one ultimate value, which every other value serves or is part of. Value **pluralism** holds that there are several, none reducible to another or to a single higher value (Mason, 2023). The clearest monists are utilitarians who take well-being, pleasure or happiness to be the only thing good in itself. A pluralist might list well-being, knowledge, fairness, freedom and friendship, each good in its own right. A monist can agree that people value many different things, provided each is explained by the one ultimate value; a pluralist about the foundations denies that any such explanation exists.
+
+One argument for pluralism that Mason sets out is regret that remains after a choice that was correct. Suppose a hospital gives its last bed to the patient who will benefit most, and turns away a patient who has waited longest. If that was the right decision, a monist may say that the only loss was a smaller amount of the one good. Many people feel instead that something of a different kind was given up: a claim of fairness, set against a claim of benefit. Monists reply that such regret can be explained without plural values, for instance by who bears the loss, or by diminishing returns (Mason, 2023, section 3).
+
+A single loss function is monist in form: every consideration is converted into one number. Fairness constraints, budget limits and requirements of consent are plural in form: they keep some values out of the trade.
+
+**Summary:** Monism says there is one ultimate value and pluralism says there are several; regret after a correct choice is one argument that some values cannot be converted into others.
+
+### Incommensurable and incomparable values
+
+Pluralism raises the question of how to choose when values conflict. Mason (2023, section 4) separates two claims. Two values are **incommensurable** if there is no common unit in which to measure them exactly. Two options are **incomparable** if none of "better than", "worse than" and "equally good" holds between them. The first does not imply the second. Two job offers, one better paid and the other more interesting, have no common unit, and a person can still judge that one of them is better.
+
+The difference shows in what a number assumes. If one option is at least as good as another on every value, it dominates the other; if it is better on one value and worse on another, dominance says nothing. A score that adds two values with weights, $s = w_1 v_1 + w_2 v_2$, ranks every pair, including the pairs dominance leaves open, and its weights are an exchange rate: one unit of the first value is worth $w_1 / w_2$ units of the second. A ranking of every pair needs every pair to be comparable. A weighted score needs more, a common unit, and whoever chose the weights chose the unit.
+
+**Summary:** Values with no common unit can still be compared; a weighted score assumes more, a rate of exchange between values, and someone chose that rate.
+
+### Choosing among plural values (optional section)
+
+Mason (2023, section 4) describes four responses. One appeals to practical wisdom: a person of good judgment sees which option is better without a scale, though this can make the choice look mysterious. A second looks for a higher-level value that covers the conflicting ones without being a single supervalue, such as what an option contributes to a good life. A third holds that when reasons run out, a person may choose among the options that reason leaves open, which looks arbitrary in moral cases. A fourth accepts that some conflicts have no rational resolution, and that expecting one is a mistake.
+
+A decision system has to output something, so whoever builds one adopts one of these responses, stated or not. Maximizing one objective subject to constraints is one way to write pluralism into a system: the constraints hold some values fixed and the objective trades the rest. Someone chose which values became constraints, which entered the objective, and where the constraints were set.
+
+**Summary:** Pluralists choose by judgment, by a covering value, by preference once reasons run out, or by accepting that some conflicts have no rational answer; a system that must output a decision takes one of these routes whether or not anyone says which.
+
+### Expected utility
+
+Choices under uncertainty are usually modeled by **expected utility**. An option $a$ leads to the outcome $o(a, \omega)$ in the state of the world $\omega$, and options are ranked by
+$$
+E_P\big[u(o(a, \omega))\big] = \sum_{\omega \in \Omega} P(\omega)\, u\big(o(a, \omega)\big),
+$$
+a sum when there are finitely many states and an integral in general. The formula needs three things:
+
+- a **sample space** $\Omega$ of states, exhaustive and mutually exclusive, with an outcome for each option in each state;
+- a **probability measure** $P$ on it, satisfying the axioms: $P(E) \ge 0$ for every event $E$, $P(\Omega) = 1$, and $P(E_1 \cup E_2 \cup \cdots) = P(E_1) + P(E_2) + \cdots$ for disjoint events;
+- a **utility** $u$ on outcomes, on a scale where differences mean something, since the formula adds utilities weighted by probabilities.
+
+Where does such a scale come from? In von Neumann and Morgenstern's theory, as Briggs (2023, section 2.2) presents it, a person ranks lotteries, gambles whose probabilities are given. If the ranking satisfies the theory's axioms, there is a utility $u$ such that lotteries are ranked by their expected utility, and $u$ is unique up to $a u + c$ with $a > 0$. The scale is defined by the probabilities: an outcome $B$ lies halfway in utility between $A$ and $C$ when the person is indifferent between $B$ for sure and an even chance of $A$ or $C$. A ranking of sure outcomes alone gives only an order, and any increasing function of a utility that represents it represents it equally well.
+
+So expected utility uses probability twice: to weight the states, and, through the lotteries, to define the utility scale itself. And any utility that represents a ranking requires the ranking to be complete, so that any two options compare, because any two numbers do. A pluralist who holds that some options are incomparable rejects completeness for values. The same assumption can fail for beliefs.
+
+**Summary:** Expected utility needs a sample space, a probability measure and a utility on a scale where differences mean something, and in the standard theory that scale is itself defined through probabilities.
+
+### Missing probabilities
+
+Knight (1921, part III, chapter VIII, paragraph 1) separated "the measurable uncertainty and an unmeasurable one", calling the first risk and the second uncertainty. Games of chance and randomized trials are on the measurable side: the measure comes from the symmetry of a die, or from the coin that assigned each person's treatment. Elsewhere an application of expected utility can lack what it needs in three different ways (the labels are this course's, not Knight's).
+
+1. **No sample space.** The possible outcomes cannot be listed in advance, so there is nothing for $P(\Omega) = 1$ to refer to.
+2. **A sample space but no grounded measure (optional reading).** Numbers that satisfy the axioms can be written down, but nothing ties them to frequencies, a design or a symmetry. In an example due to Ellsberg (1961), as Briggs (2023, section 3.2) presents it, an urn holds 30 red balls and 60 balls that are white or yellow in unknown proportion. Many people would rather bet on red than on white, and on white-or-yellow than on red-or-yellow. For someone maximizing expected utility, the first preference means $P(\text{red}) > P(\text{white})$, and the second means $P(\text{white}) + P(\text{yellow}) > P(\text{red}) + P(\text{yellow})$, so $P(\text{white}) > P(\text{red})$. No single probability measure fits both preferences.
+3. **A measure but no expectation.** A game that pays $2^k$ pounds with probability $2^{-k}$, for $k = 1, 2, \ldots$, has expected payoff $\sum_k 2^{-k} \, 2^k = 1 + 1 + \cdots$, which is infinite. More often an expectation exists but is decided by a tiny probability multiplied by an enormous value.
+
+**Summary:** Probabilities are well grounded for games of chance and randomized designs; elsewhere there may be no list of outcomes, no grounds for the numbers, or an expectation decided by a tail nobody can check.
+
+### Longtermism
+
+Greaves and MacAskill (2021, section 2) defend **axiological strong longtermism**: in the most important decisions facing agents today, every option that is near-best overall is near-best for the far future. Their argument is an expected-value calculation. Their main estimate of the expected number of future beings is $10^{24}$, with a low estimate of $10^{18}$ and a restricted one of $10^{14}$ (section 3). On the restricted estimate, they write, reducing the near-term risk of human extinction by one millionth of one percentage point is worth as much as saving a million lives (section 4.2): $10^{14} \times 10^{-8} = 10^{6}$. One of their main examples is artificial intelligence: they suggest that \$1 billion spent on the safety of artificial superintelligence would reduce existential risk by at least 0.001 percentage points, which on their main estimate is worth a trillion lives for every \$100 spent (section 4.3).
+
+The three ways a calculation can lack what it needs can each be asked of this one. What is the sample space: histories of the next billion years, listed how? What grounds a probability of $10^{-5}$ for the effect of a billion dollars, when no frequencies or designs bear on it? And the answer is decided by the size of the future multiplied by that probability, the least grounded number in the calculation.
+
+The authors discuss these objections themselves, as cluelessness, imprecise probabilities, ambiguity aversion and fanaticism, and argue that their conclusion survives each. They argue, for instance, that their case needs only a lower bound on the benefits (section 7.2), and that avoiding fanaticism "might come at too high a price" (section 8). A Bayesian has a general reply: declining to state a probability does not avoid a choice, and whatever is chosen can be read as if some probabilities had been used.
+
+Longtermism is meant only as one illustrative example. It is not singled out here as a particularly weak utilitarian argument. Any application of expected utility theory rests on a probability model, and that model is often left under-specified and untested, with no attempt to falsify it, and it may be unfalsifiable. In data science and related fields, utilitarianism is the dominant ideology, and it is practiced without appropriate epistemic humility, often without recognizing that other stakeholders may have different values.
+
+**Summary:** A leading argument for longtermism multiplies an estimate of up to $10^{24}$ future beings by small changes in probability, including from spending on AI safety; it is one example of a general point, that every application of expected utility rests on a probability model that is seldom specified, tested or open to falsification.
+
+## Supplemental: principles of distribution
+
+Standard positions on how benefits and burdens should be distributed among people, for reference.
+
+### Welfare-based principles
+
+Welfare-based principles, of which utilitarianism is the best known, take welfare to be the primary value: other goods, such as income, resources or liberty, matter only through their effects on welfare (Lamont and Favor, 2017, section 5). A utilitarian prefers the distribution with the largest total. Two objections are standard. Rawls argued that adding welfare across people ignores the distinctness of persons: one person can accept a sacrifice now for their own later gain, but a society contains no single person who gains when some lose for others. And interpersonal comparisons of welfare may be impossible even in principle.
+
+### Priority to the worse off
+
+**Prioritarianism** holds that a benefit counts for more the worse off the person who receives it (Axelsen, 2025, section 6.1). It differs from valuing equality itself. Making the better off worse off, with no gain to anyone, reduces inequality, so someone who values equality for its own sake must count it as an improvement in one respect; a prioritarian need not, since it benefits nobody.
+
+### Enough for everyone
+
+**Sufficientarianism** holds that what justice requires is that everyone has enough (Axelsen, 2025, section 6.2). Its critics object to its claim that inequalities above the threshold of enough do not matter to justice, and find it hard to locate a threshold that would justify absolute priority below it and no concern above it.
+
+### The difference principle
+
+Rawls's second principle permits inequalities of income and wealth only if they are attached to positions open to all under fair equality of opportunity, and only if they work to the greatest benefit of the least advantaged (Lamont and Favor, 2017, section 3). If strict equality would leave the least advantaged best off, the principle requires equality; if some inequality, through its incentives, would raise their position further, it permits that inequality.
+
+Rawls argued for his principles by asking what people would choose behind a veil of ignorance, not knowing which position in society they would occupy. Freeman (2023, section 6.2) sets out the dispute with Harsanyi. Harsanyi argued that, with no other information, the parties should give themselves an equal chance of being anyone, and would then choose to maximize average utility. Rawls held that the parties have no basis, or only a very insecure one, for estimating such probabilities, and that the choice is grave and cannot be repeated; then it is rational to choose as if by maximin, making the worst position as good as possible. The disagreement is over where the probabilities come from.
+
+### Luck egalitarianism
+
+Luck egalitarians hold that inequalities are just only when they result from people's choices, or from things they can reasonably be held responsible for. One influential version separates what follows from people's ambitions, which they should bear, from what follows from their endowments, such as inheritance or unforeseeable misfortune, for which they should be compensated (Lamont and Favor, 2017, section 4). This is the distinction between option luck and brute luck (Lippert-Rasmussen, 2023, section 7).
+
+### Desert
+
+Desert-based principles hold that people deserve economic benefits for what they have done. Their proponents name three bases: the value of a person's contribution to what is produced, the effort they put into their work, and the costs they bore in doing it (Lamont and Favor, 2017, section 6). Desert looks backward: a payment is deserved because of work already done, where an incentive payment looks forward, to the work it will bring about. The main objection, which Rawls pressed, is that each basis depends partly on things people do not control, productivity above all. A second is practical: in a complex economy it is hard to say what counts as a contribution, an effort or a cost, and harder still to measure it.
+
+### Merit
+
+Sen (2000) separates merit from desert. On the view of merit most common in economics, which he calls the incentive view, an action has merit because of the good it does, judged against what a society is trying to achieve (p. 8). Rewarding merit is then forward-looking and instrumental, and says nothing about what anyone deserves: a blackmailer may have to be paid to hand over documents without deserving the money (p. 13). A score used to hire or admit people is usually defended as a measure of merit. If Sen is right, what it measures has instrumental value: it is worth rewarding only through an objective that someone chose.
+
+## References
+
+Axelsen, D. (2025). Egalitarianism. *The Stanford Encyclopedia of Philosophy*, first published 12 March 2025. <https://plato.stanford.edu/entries/egalitarianism/>
+
+Briggs, R. A. (2023). Normative theories of rational choice: Expected utility. *The Stanford Encyclopedia of Philosophy*, first published 8 August 2014, substantive revision 18 September 2023. <https://plato.stanford.edu/entries/rationality-normative-utility/>
+
+Ellsberg, D. (1961). Risk, ambiguity, and the Savage axioms. *The Quarterly Journal of Economics*, 75(4), 643--669. <https://doi.org/10.2307/1884324>
+
+Freeman, S. (2023). Original position. *The Stanford Encyclopedia of Philosophy*, first published 20 December 2008, substantive revision 24 October 2023. <https://plato.stanford.edu/entries/original-position/>
+
+Greaves, H., and MacAskill, W. (2021). The case for strong longtermism (GPI Working Paper No. 5-2021). Global Priorities Institute, University of Oxford. <https://globalprioritiesinstitute.org/wp-content/uploads/The-Case-for-Strong-Longtermism-GPI-Working-Paper-June-2021-2-2.pdf>
+
+Harsanyi, J. C. (1975). Can the maximin principle serve as a basis for morality? A critique of John Rawls's theory. *American Political Science Review*, 69(2), 594--606. <https://doi.org/10.2307/1959090>
+
+Knight, F. H. (1921). *Risk, Uncertainty, and Profit*. Houghton Mifflin. <https://www.econlib.org/library/Knight/knRUP.html>
+
+Lamont, J., and Favor, C. (2017). Distributive justice. *The Stanford Encyclopedia of Philosophy*, first published 22 September 1996, substantive revision 26 September 2017. <https://plato.stanford.edu/entries/justice-distributive/>
+
+Lippert-Rasmussen, K. (2023). Justice and bad luck. *The Stanford Encyclopedia of Philosophy*, first published 20 June 2005, substantive revision 2 February 2023. <https://plato.stanford.edu/entries/justice-bad-luck/>
+
+Mason, E. (2023). Value pluralism. *The Stanford Encyclopedia of Philosophy*, first published 20 June 2006, substantive revision 4 June 2023. <https://plato.stanford.edu/entries/value-pluralism/>
+
+Obermeyer, Z., Powers, B., Vogeli, C., and Mullainathan, S. (2019). Dissecting racial bias in an algorithm used to manage the health of populations. *Science*, 366(6464), 447--453. <https://doi.org/10.1126/science.aax2342>
+
+Rawls, J. (1971). *A Theory of Justice*. Harvard University Press.
+
+Sen, A. (2000). Merit and justice. In K. Arrow, S. Bowles and S. Durlauf (Eds.), *Meritocracy and Economic Inequality* (pp. 5--16). Princeton University Press.
+
+von Neumann, J., and Morgenstern, O. (1947). *Theory of Games and Economic Behavior* (2nd ed.). Princeton University Press.

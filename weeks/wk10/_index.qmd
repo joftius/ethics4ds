@@ -1,0 +1,7 @@
+## Week 10: Value pluralism, utility, and justice
+
+Scores, rankings and decision rules turn several values into one number, and expected utility turns uncertain outcomes into one number. The reading covers the difference between intrinsic and instrumental value, the view that there are several values that cannot be reduced to one, what expected utility needs and what happens when its probabilities have nothing behind them, and, for reference, principles for distributing benefits and burdens.
+
+**Required reading:** [Values, utility and probability](weeks/wk10/reading.html), the first part, "Reading" (about 2,200 words; two parts of it are marked optional). The second part, "Supplemental", sets out principles of distribution, for reference.
+
+**Bring to the lecture:** one case where something scarce went to some people and not others by a rule, a score or a queue, with what it ranked people on and who you think it ranked wrongly.
